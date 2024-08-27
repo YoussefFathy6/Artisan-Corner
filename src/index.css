@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Rosario:ital,wght@0,300..700;1,300..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap");
+
+.containerr {
+  @apply bg-primary p-10 lg:grid lg:grid-cols-4 gap-6;
+}
+.container2 {
+  width: 70%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.section-styling {
+  @apply mt-6 pb-6 border border-b-2 border-t-0 border-e-0 border-s-0;
+}
+.circle {
+  border: 2px #913b10 solid;
+  border-radius: 100%;
+  padding: 2px 6px;
+  font-size: x-small;
+  color: #0c2b63;
+  font-weight: bold;
+}
+.circle2 {
+  border: 2px #9ca3b6 solid;
+  border-radius: 100%;
+  padding: 2px 7px;
+  font-size: x-small;
+  color: #0c2b63;
+  font-weight: bold;
+}
+
+body {
+  font-family: "Rosario", sans-serif;
+  background-color: #f9f2e6;
+}
+@layer utilities {
+  .w-2\/4 {
+    @apply w-[100%];
+  }
+}
+
+@layer components {
+  .btn {
+    @apply bg-indigo-600 py-2 px-7 text-white rounded-lg;
+  }
+}
+.head {
+  background: rgba(130, 59, 16, 1);
+  width: 90vw !important;
+  height: 60vh;
+}
+/* img {
+  border: 10px solid #f9f2e6;
+}
+body {
+  background: #f9f2e6;
+} */
+.he {
+  color: #f9f2e6;
+}
+.ty {
+  color: rgba(130, 59, 16, 1);
+}
+.bot {
+  background: rgba(130, 59, 16, 1);
+  width: 8vw;
+  height: 7vh;
+}
+.car {
+  width: 25vw;
+}
+.car:hover {
+  background: rgba(130, 59, 16, 1);
+  color: #f9f2e6 !important;
+}
+.bot2 {
+  background: rgba(130, 59, 16, 1) !important;
+}
+/* a:hover {
+  color: #f9f2e6 !important ;
+} */

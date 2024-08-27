@@ -1,0 +1,57 @@
+.btn-xs {
+  font-size: 1.4rem;
+  height: 1.75rem;
+  width: 1.75rem;
+}
+
+.btn-icon {
+  align-items: center;
+  display: inline-flex;
+  flex-shrink: 0;
+  font-weight: 400;
+  height: 2.5rem;
+  justify-content: center;
+  padding: 0;
+  position: relative;
+  width: 2.5rem;
+}
+
+.btn-social {
+  color: #0a0a0a;
+  border: #0a0a0a 1px solid;
+  border-radius: 0.5rem;
+}
+
+.btn-social-facebook:hover {
+  background-color: #3b579d;
+  border: 1px solid #3b579d;
+  color: white;
+}
+
+.btn-social-Insta:hover {
+  background: linear-gradient(
+    45deg,
+    #f09433 0%,
+    #e6683c 25%,
+    #dc2743 50%,
+    #cc2366 75%,
+    #bc1888 100%
+  );
+  border: 1px solid #bc1888;
+  color: white;
+}
+
+.btn-social-youtube:hover {
+  background:  linear-gradient(45deg, #c22a2a 0%, #c22a2a 50%, #c22a2a 50%, #c22a2a 100%);;
+  border: 1px solid #c22a2a;
+  color: rgb(0, 0, 0);
+  font-weight: 700;
+  color: white;
+}
+
+.btn-social-x:hover {
+  background: #1e1f23;
+  border: 1px solid #1e1f23;
+  color: rgb(255, 252, 252);
+  font-weight: 700;
+}

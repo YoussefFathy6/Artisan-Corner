@@ -1,0 +1,39 @@
+#root {
+  width: 100%;
+  height: 100%;
+}
+.head {
+  background: rgba(130, 59, 16, 1);
+  width: 90vw !important;
+  height: 60vh;
+}
+img {
+  border: 10px solid #f9f2e6;
+}
+body {
+  background: #f9f2e6;
+}
+.he {
+  color: #f9f2e6;
+}
+.ty {
+  color: rgba(130, 59, 16, 1);
+}
+.bot {
+  background: rgba(130, 59, 16, 1);
+  width: 8vw;
+  height: 7vh;
+}
+.car {
+  width: 25vw;
+}
+.car:hover {
+  background: rgba(130, 59, 16, 1);
+  color: #f9f2e6 !important;
+}
+.bot2 {
+  background: rgba(130, 59, 16, 1) !important;
+}
+a:hover {
+  color: #f9f2e6 !important ;
+}
