@@ -14,6 +14,7 @@ import Order from "./components/Order/Cart";
 import Ticket from "./components/Ticket/Ticket";
 import Profile from "./Pages/Profile/Profile";
 import Event from "./Pages/Events/Event";
+import RegisterPage from "./Pages/RegisterPage/RegisterPage";
 // import Login from "./components/Auth/Login";
 // import Sign from "./components/Auth/Sign";
 // import ResetPassword from "./components/Auth/Resetpassword";
@@ -28,6 +29,7 @@ function App() {
         <Route path="earnings" element={<EarningsPage />} />
         <Route path="shipping" element={<ShippingPage />} />
         <Route path="payment" element={<PaymentPage />} />
+        <Route path="register" element={<RegisterPage />} />
         {/* samir //////////////////////////////////////////*/}
         <Route path="/details" element={<Details />} />
         <Route path="/bag" element={<ProductBag />} />
