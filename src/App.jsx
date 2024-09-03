@@ -14,6 +14,7 @@ import Order from "./components/Order/Cart";
 import Ticket from "./components/Ticket/Ticket";
 import Profile from "./Pages/Profile/Profile";
 import Event from "./Pages/Events/Event";
+import TicketConfirmation from "./components/Ticket/TicketConfirmation";
 // import Login from "./components/Auth/Login";
 // import Sign from "./components/Auth/Sign";
 // import ResetPassword from "./components/Auth/Resetpassword";
@@ -34,6 +35,8 @@ function App() {
         {/* hanaa //////////////////////////////////////////*/}
         <Route path="order" element={<Order />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/ticket" element={<Ticket />} />
+        <Route path="/TicketConfirmation" element={<TicketConfirmation />} />
         {/* wafaa //////////////////////////////////////////*/}
         <Route path="/Ticket" element={<Ticket />} />
         {/* wafaa //////////////////////////////////////////*/}
