@@ -4,7 +4,7 @@ import React from "react";
 function Description() {
   return (
     <>
-      <div className="description grid grid-cols-2 gap-5 Md:grid-cols-1">
+      <div className="description grid grid-cols-2 gap-5 Md:grid-cols-1 w-[85%] mx-auto">
         <div className="desc-about  space-y-5">
           <h1 className="font-bold">ABOUT PRODUCT</h1>
           <p className="text-[#3F3F3F]">

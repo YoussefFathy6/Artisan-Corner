@@ -18,7 +18,7 @@ function ProductBag() {
   const navigate = useNavigate();
   const [bags, setBags] = useState([]);
   const [openModal, setOpenModal] = useState(true);
-
+  
   useEffect(() => {
     let arr;
     onSnapshot(collection(db, "Bag"), (snapshot) => {
@@ -40,37 +40,61 @@ function ProductBag() {
     navigate("/");
   }
 
+  function handleQuantityChange(id, newQuantity) {
+    
+    const docRef = doc(db, "Bag", id);
+    updateDoc(docRef, {
+      quantity: newQuantity,
+     
+
+    });
+  }
+
+
   return (
     <>
-      <div>
+      <div className=" ">
         {bags.map((item) => (
           <div
             key={item.id}
-            className="grid grid-cols-2 gap-x-11  my-6 shadow-2Xl p-9 rounded-Xl "
+            className="flex items-center justify-between space-x-6 my-6 shadow-2Xl p-9 rounded-Xl "
           >
-            <img
-              src={item.mainImage}
-              alt=""
-              className="w-[100%] rounded-xl Md:col-span-2"
-            />
-            <div className="Md:col-span-2">
-              <p className="leading-9	">
-                {" "}
+            <div className="w-[200px] ">
+              <img src={item.mainImage} alt="" className=" rounded-xl" />
+            </div>
+            <div className="  w-[80%]">
+              {/* <p className="leading-9	">
                 <strong>Desc :</strong> {item.description}
-              </p>
-              <h3 className="my-5">
-                {" "}
+              </p> */}
+
+              <h3 className="my-5 ">
                 <strong> Quantity :</strong> {item.quantity}
+                <select
+                  className="mx-9 border-none rounded-lg"
+                  value={item.quantity}
+                  onChange={(e) =>
+                    handleQuantityChange(item.id, e.target.value )
+                  }
+                >
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                </select>
               </h3>
               <h2>
-                {" "}
                 <strong>Total price :</strong> {item.priceTotal} $
               </h2>
               <button
-                className="btn bg-red-600 my-10"
+                className="btn bg-red-600 mt-5"
                 onClick={() => handleDelete(item.id)}
               >
-                Remove From Bag
+                Remove
               </button>
             </div>
           </div>
