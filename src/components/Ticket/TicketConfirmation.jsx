@@ -19,17 +19,18 @@ function TicketConfirmation() {
 
   const handleDownload = () => {
     if (imageUrl) {
-      // Create a new link element
-      const link = document.createElement("a");
-      link.href = imageUrl;
-      link.download = "ticket-image.jpg"; // Specify the file name
-
-      // Append the link to the body
-      document.body.appendChild(link);
-      link.click();
-      
-      // Remove the link from the body
-      document.body.removeChild(link);
+      fetch(imageUrl)
+        .then(response => response.blob())
+        .then(blob => {
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = "image.jpg"; // Ensure the filename matches the image type
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+        })
+        .catch(error => console.error("Error downloading the image: ", error));
     } else {
       console.log("No image URL available for download.");
     }
@@ -44,6 +45,7 @@ function TicketConfirmation() {
 
       <div className="text-center mb-6">
         <p className="text-lg text-gray-600 mb-4">Your ticket has been successfully booked.</p>
+        <p className="text-lg text-gray-600">Please check your email for further details.</p>
       </div>
 
       {/* Download Button */}

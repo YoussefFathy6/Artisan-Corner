@@ -13,9 +13,9 @@ import ProductBag from "./components/ProductBag/ProductBag";
 import Order from "./components/Order/Cart";
 import Ticket from "./components/Ticket/Ticket";
 import Profile from "./Pages/Profile/Profile";
-import Event from "./Pages/Events/Event";
 import TicketConfirmation from "./components/Ticket/TicketConfirmation";
 import RegisterPage from "./Pages/RegisterPage/RegisterPage";
+import AllEvent from "./Pages/Events/AllEvent";
 // import Login from "./components/Auth/Login";
 // import Sign from "./components/Auth/Sign";
 // import ResetPassword from "./components/Auth/Resetpassword";
@@ -43,7 +43,7 @@ function App() {
         <Route path="/Ticket" element={<Ticket />} />
         {/* wafaa //////////////////////////////////////////*/}
         <Route path="/profile" element={<Profile />} />
-        <Route path="/event" element={<Event />} />
+        <Route path="/event" element={<AllEvent />} />
 
         {/* <Route path="/Sign" element={<Sign />} />
 
