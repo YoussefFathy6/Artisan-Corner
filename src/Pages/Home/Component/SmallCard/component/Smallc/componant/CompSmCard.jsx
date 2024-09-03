@@ -1,17 +1,24 @@
+/* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
 import React from "react";
 import { Card } from "flowbite-react";
 // import Smallcard1 from "../../../../../../../assets/imges/Smallcard1.png";
 import heart from "../../../../../../../assets/ico/heart.svg";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../../../../../../../Config/firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleFlag } from "../../../../../../../Redux/Slices/homeSlice";
 
 // eslint-disable-next-line react/prop-types
 function Comp_SmCard({ url }) {
   const nav = useNavigate();
+  const dispatch = useDispatch();
+  const flag = useSelector((state) => state.homeReducer.flag);
+
   return (
     <Card
       onClick={() => {
-        nav("/details");
+        auth.currentUser ? nav("/details") : dispatch(toggleFlag());
       }}
       className=" max-w-[17rem] bg-transparent relative m-0 p-0 gap-0 cursor-pointer"
       imgAlt="Meaningful alt text for an image that is not purely decorative"

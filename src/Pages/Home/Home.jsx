@@ -9,10 +9,12 @@ import BigCard from "./Component/BigCard/BigCard";
 import CollectionCard from "./Component/CollectionCard/CollectionCard";
 import Gallery from "./Component/Gallery/Gallery";
 import Testimonials from "./Component/Testimonials/Testimonials";
+import Login from "./Component/LoginModal/Login";
 
 function MainContent() {
   return (
     <>
+      <Login />
       <Slider />
       <RoundedCard />
       <ImgCard />
@@ -21,7 +23,7 @@ function MainContent() {
       <BigCard />
       <CollectionCard />
       <Gallery />
-      <Testimonials/>
+      <Testimonials />
     </>
   );
 }
