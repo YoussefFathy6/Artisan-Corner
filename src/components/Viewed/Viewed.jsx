@@ -9,7 +9,7 @@ import footImage5 from "../../assets/imges/foot images/5.png";
 function Viewed() {
   return (
     <>
-      <div className="footer-images mt-32">
+      <div className="footer-images mt-32 w-[80%] mx-auto">
         <h1 className="font-bold text-2xl mb-5">Products</h1>
         <div className="items grid grid-cols-autoFill gap-6">
           <div className="item ">

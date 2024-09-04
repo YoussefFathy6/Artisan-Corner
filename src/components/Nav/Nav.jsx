@@ -6,7 +6,7 @@ function Nav() {
   const [showDesc, setShowDEsc] = useState(true);
   return (
     <>
-      <nav className="mt-20">
+      <nav className="mt-20 ">
         <div className="text-center space-x-10">
           <button
             onClick={() => setShowDEsc(true)}
