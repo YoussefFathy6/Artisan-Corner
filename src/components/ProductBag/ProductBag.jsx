@@ -15,7 +15,7 @@ import { Button, Modal } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import SweetAlert2 from "react-sweetalert2";
 import Swal from "sweetalert2";
-
+import ReactImageZoom from 'react-image-zoom';
 function ProductBag() {
   const navigate = useNavigate();
   const [bags, setBags] = useState([]);
@@ -77,6 +77,9 @@ function ProductBag() {
     });
   }
 
+
+
+
   return (
     <>
       <div className=" ">
@@ -86,7 +89,19 @@ function ProductBag() {
             className="flex  justify-between space-x-6 my-6 shadow-2Xl p-9 rounded-Xl "
           >
             <div className="w-[200px] ">
-              <img src={item.mainImage} alt="" className=" rounded-xl" />
+              {/* <img src={item.mainImage} alt="" className=" rounded-xl" /> */} 
+
+              <ReactImageZoom
+           
+                img={item.mainImage}  // رابط الصورة
+                zoomWidth={500}       // عرض نافذة التكبير
+                height={300}          // ارتفاع الصورة
+                width={200}           // عرض الصورة
+                offset={{ vertical: 0, horizontal: 300 }}  // موقع نافذة التكبير
+              />
+
+
+
             </div>
             <div className="  w-[80%]">
               {/* <p className="leading-9	">
