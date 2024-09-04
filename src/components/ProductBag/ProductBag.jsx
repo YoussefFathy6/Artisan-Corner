@@ -13,11 +13,14 @@ import db from "./../../Config/firebase";
 import { useNavigate } from "react-router-dom";
 import { Button, Modal } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import SweetAlert2 from "react-sweetalert2";
+import Swal from "sweetalert2";
 
 function ProductBag() {
   const navigate = useNavigate();
   const [bags, setBags] = useState([]);
   const [openModal, setOpenModal] = useState(true);
+  const [swalProps, setSwalProps] = useState({});
 
   useEffect(() => {
     let arr;
@@ -31,21 +34,43 @@ function ProductBag() {
   }, []);
 
   function handleDelete(id) {
-    let docref = doc(db, "Bag", id);
-    deleteDoc(docref);
+    // alert("Are You Sure");
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+          background: '#1E293B',
+        color:"white"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        background: '#1E293B',
+        color:"white"
+        });
+        let docref = doc(db, "Bag", id);
+        deleteDoc(docref);
+      }
+    });
   }
 
   function backToDetails() {
     setOpenModal(false);
-    navigate("/");
+    navigate("/details");
   }
 
   function handleQuantityChange(id, newQuantity) {
     const docRef = doc(db, "Bag", id);
     // const updatedQuantity = parseInt(newQuantity);
+    const item = bags.find((item) => item.id === id);
+    const newTotalPrice = item.price * newQuantity;
 
-     const item = bags.find((item) => item.id === id);
-     const newTotalPrice = item.price * newQuantity;
     updateDoc(docRef, {
       quantity: newQuantity,
       priceTotal: newTotalPrice,
@@ -71,16 +96,19 @@ function ProductBag() {
               <h3 className="my-5 ">
                 <strong> Quantity :</strong> {item.quantity}
                 <input
-                  className="mx-9 border-none rounded-lg"
+                  className="mx-9 rounded-lg "
                   type="number"
                   value={item.quantity}
                   onChange={(e) =>
                     handleQuantityChange(item.id, e.target.value)
                   }
                   min="1"
-                  max="99" 
+                  max="99"
                 />
-                {item.quantity == 0 && alert("At least one product must be present to complete the purchase.")}
+                {item.quantity == 0 &&
+                  alert(
+                    "At least one product must be present to complete the purchase."
+                  )}
               </h3>
               <h2>
                 <strong>Total price :</strong> {item.priceTotal} $
@@ -119,6 +147,7 @@ function ProductBag() {
       ) : (
         ""
       )}
+      <SweetAlert2 {...swalProps} />
     </>
   );
 }

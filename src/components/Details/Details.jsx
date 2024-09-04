@@ -20,7 +20,6 @@ import {
 import db from "./../../Config/firebase";
 
 import { Toast } from "flowbite-react";
-import { HiCheck, HiExclamation, HiX } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -44,7 +43,8 @@ function Details() {
 
     setFlag(true);
    toast.success ("Product added. Now go to your bag" , {
-    position:"top-right"
+    position:"top-right", 
+    
    })
     // alert("Product added to Firestore!");
   }
@@ -133,7 +133,7 @@ function Details() {
             </div>
 
             <div className="box-price">
-              <p>Price Total</p>
+              <p>Total Price</p>
               <p className="font-bold"> {count * price} $</p>
             </div>
           </div>
