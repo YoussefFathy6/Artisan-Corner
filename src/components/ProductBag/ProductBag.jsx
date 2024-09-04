@@ -18,7 +18,7 @@ function ProductBag() {
   const navigate = useNavigate();
   const [bags, setBags] = useState([]);
   const [openModal, setOpenModal] = useState(true);
-  
+
   useEffect(() => {
     let arr;
     onSnapshot(collection(db, "Bag"), (snapshot) => {
@@ -41,15 +41,16 @@ function ProductBag() {
   }
 
   function handleQuantityChange(id, newQuantity) {
-    
     const docRef = doc(db, "Bag", id);
+    // const updatedQuantity = parseInt(newQuantity);
+
+     const item = bags.find((item) => item.id === id);
+     const newTotalPrice = item.price * newQuantity;
     updateDoc(docRef, {
       quantity: newQuantity,
-     
-
+      priceTotal: newTotalPrice,
     });
   }
-
 
   return (
     <>
@@ -57,7 +58,7 @@ function ProductBag() {
         {bags.map((item) => (
           <div
             key={item.id}
-            className="flex items-center justify-between space-x-6 my-6 shadow-2Xl p-9 rounded-Xl "
+            className="flex  justify-between space-x-6 my-6 shadow-2Xl p-9 rounded-Xl "
           >
             <div className="w-[200px] ">
               <img src={item.mainImage} alt="" className=" rounded-xl" />
@@ -69,23 +70,17 @@ function ProductBag() {
 
               <h3 className="my-5 ">
                 <strong> Quantity :</strong> {item.quantity}
-                <select
+                <input
                   className="mx-9 border-none rounded-lg"
+                  type="number"
                   value={item.quantity}
                   onChange={(e) =>
-                    handleQuantityChange(item.id, e.target.value )
+                    handleQuantityChange(item.id, e.target.value)
                   }
-                >
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                </select>
+                  min="1"
+                  max="99" 
+                />
+                {item.quantity == 0 && alert("At least one product must be present to complete the purchase.")}
               </h3>
               <h2>
                 <strong>Total price :</strong> {item.priceTotal} $

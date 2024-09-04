@@ -37,6 +37,7 @@ function Details() {
       mainImage: selectedImage,
       quantity: count,
       priceTotal: count * price,
+      price : price,
       description:
         "A Master piece indeed. The convex wall mirror with rosewood frame is intricately hand carved, over days by our expert artisan, who has honed the skill for generations. The dark lustre of rosewood carved with floral motifs revives the royalty that once was in the princely town of ‘Mysore’, the birthplace of the craft.",
     });
