@@ -15,12 +15,9 @@ import Ticket from "./components/Ticket/Ticket";
 import Profile from "./Pages/Profile/Profile";
 import RegisterPage from "./Pages/RegisterPage/RegisterPage";
 import AllEvent from "./Pages/Events/AllEvent";
-<<<<<<< HEAD
 import TicketConfirmation from "./components/Ticket/TicketConfirmation";
-=======
 import { ToastContainer, toast } from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
->>>>>>> 2bb1b513f999206924b6f8b162174e2f48736316
+import 'react-toastify/dist/ReactToastify.css';
 // import Login from "./components/Auth/Login";
 // import Sign from "./components/Auth/Sign";
 // import ResetPassword from "./components/Auth/Resetpassword";
@@ -59,7 +56,7 @@ function App() {
       </Routes>
 
       <Footer />
-      <ToastContainer />
+      <ToastContainer/>
     </React.Fragment>
   );
 }
