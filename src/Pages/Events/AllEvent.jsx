@@ -19,13 +19,13 @@ function AllEvent() {
     onSnapshot(collection(db, "add event"), (snapshot) => {
       arr = snapshot.docs.map(async (doc) => {
         const data = doc.data();
-        const imageRef = ref(storage, `eventimg/${data.imagePath}`); // Assuming 'imagePath' is stored in Firestore
+        const imageRef = ref(storage, `eventimg/${data.imagePath}`); 
         try {
           const imageUrl = await getDownloadURL(imageRef);
-          return { ...data, id: doc.id, imageUrl }; // Include the image URL in the event data
+          return { ...data, id: doc.id, imageUrl }; 
         } catch (error) {
           console.error("Error fetching image URL:", error);
-          return { ...data, id: doc.id, imageUrl: null }; // Handle cases where image URL is not available
+          return { ...data, id: doc.id, imageUrl: null }; 
         }
       });
       Promise.all(arr).then((eventsWithImages) => setevents(eventsWithImages));
@@ -41,7 +41,7 @@ function AllEvent() {
   }, [filter, events]);
 
   const handleTicketClick = (event) => {
-    navigate("/Ticket", { state: { event } }); // Navigate to Ticket page with event data
+    navigate("/Ticket", { state: { event } }); 
   };
 
   return (
