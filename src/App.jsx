@@ -16,6 +16,7 @@ import Profile from "./Pages/Profile/Profile";
 import Event from "./Pages/Events/Event";
 import TicketConfirmation from "./components/Ticket/TicketConfirmation";
 import RegisterPage from "./Pages/RegisterPage/RegisterPage";
+import Eventuser from "./Pages/Profile/Eventuser";
 // import Login from "./components/Auth/Login";
 // import Sign from "./components/Auth/Sign";
 // import ResetPassword from "./components/Auth/Resetpassword";
@@ -41,9 +42,9 @@ function App() {
         <Route path="/TicketConfirmation" element={<TicketConfirmation />} />
         {/* wafaa //////////////////////////////////////////*/}
         <Route path="/Ticket" element={<Ticket />} />
-        {/* wafaa //////////////////////////////////////////*/}
+        {/* hayat //////////////////////////////////////////*/}
         <Route path="/profile" element={<Profile />} />
-        <Route path="/event" element={<Event />} />
+        <Route path="/event" element={<Eventuser />} />
 
         {/* <Route path="/Sign" element={<Sign />} />
 

@@ -10,12 +10,12 @@ function Side() {
       <Sidebar.Items className="   m-0 pt-20  ">
         <Sidebar.ItemGroup className="  ">
           <Sidebar.Item>
-            <NavLink to="/">
+            <NavLink to="/Profile">
               <IoHomeOutline size={30} color="rgba(130, 59, 16, 1)" />
             </NavLink>
           </Sidebar.Item>
           <Sidebar.Item>
-            <NavLink to="/Event">
+            <NavLink to="/event">
               <AiOutlineProduct size={30} color="rgba(130, 59, 16, 1)" />
             </NavLink>
           </Sidebar.Item>

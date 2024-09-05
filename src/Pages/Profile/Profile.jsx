@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-
 import React from "react";
 import { CiFacebook } from "react-icons/ci";
 import { FaInstagram } from "react-icons/fa6";
@@ -12,6 +11,7 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import AddDeitalsprofile from "./AddDeitalsprofile";
 import { useSelector } from "react-redux";
+import Side from "./Side";
 function Profile() {
   let [products, setproducts] = useState([]);
   let [details, setdetails] = useState([]);
@@ -20,9 +20,9 @@ function Profile() {
     let arr;
     onSnapshot(collection(db, "add product"), (snapshot) => {
       arr = snapshot.docs.map((doc) => {
-        return { ...doc.data() };
+        return { ...doc.data(), id:doc.id };
       });
-      setproducts([...arr]);
+      setproducts([...arr]); 
     });
 
     console.log(profileId);
@@ -49,8 +49,10 @@ function Profile() {
 
   return (
     <>
+    <div className="flex justify-around">
+    <Side/>
       <div className="  ml-7 mr-4">
-        <div className="head w-full mt-28 flex  justify-around he rounded-xl">
+        <div className="head  mt-28 flex  justify-around he rounded-xl">
           <div className=" mt-24 w-1/2 ml-20">
             <h1 className="text-7xl mb-2">{details.name}</h1>
             <h4 className="text-3xl">{details.department}</h4>
@@ -99,7 +101,7 @@ function Profile() {
           <h1 className="text-8xl ty ">Product</h1>
           <Addproduct />
         </div>
-        <div className="mt-20 px-32 flex flex-wrap">
+        <div className="mt-20 px-32 flex flex-wrap mb-36">
           {products.length && (
             <div className="flex flex-wrap  gap-6">
               {products.map((item, index) => {
@@ -108,6 +110,7 @@ function Profile() {
             </div>
           )}
         </div>
+      </div>
       </div>
     </>
   );
