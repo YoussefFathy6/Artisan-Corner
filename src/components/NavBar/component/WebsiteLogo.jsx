@@ -50,16 +50,16 @@ function BodyNav() {
             />
           </div>
         </div> */}
+       
 
         {/* <!-- Website LOGO --> */}
-        <div className="ps-5 md:ps-0 pe-5 sm:pe-0">
+        <div className="ps-5 md:ps-0 pe-5 sm:pe-0 ">
           <a href="/">
             <img src={Logo} alt="Logo" />
           </a>
         </div>
 
         {/* =================== */}
-
         <div>
           {/* <!-- User Greeting or Register/Login --> */}
           {localStorage.getItem("id") && userData ? (

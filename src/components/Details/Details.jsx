@@ -20,8 +20,8 @@ import {
 import db from "./../../Config/firebase";
 
 import { Toast } from "flowbite-react";
-import { HiCheck, HiExclamation, HiX } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
 
 function Details() {
   const [selectedImage, setSelectedImage] = useState(mainImage);
@@ -36,11 +36,16 @@ function Details() {
       mainImage: selectedImage,
       quantity: count,
       priceTotal: count * price,
+      price : price,
       description:
         "A Master piece indeed. The convex wall mirror with rosewood frame is intricately hand carved, over days by our expert artisan, who has honed the skill for generations. The dark lustre of rosewood carved with floral motifs revives the royalty that once was in the princely town of ‘Mysore’, the birthplace of the craft.",
     });
 
     setFlag(true);
+   toast.success ("Product added. Now go to your bag" , {
+    position:"top-right", 
+    
+   })
     // alert("Product added to Firestore!");
   }
 
@@ -56,7 +61,7 @@ function Details() {
 
   return (
     <>
-      <div className="details  flex justify-between Md:flex-col">
+      <div className="details  flex justify-between Md:flex-col w-[80%] mx-auto mt-9">
         <div className="detail-images w-[45%] Md:w-[100%]">
           <img src={selectedImage} alt="detailsImage" className="rounded-lg" />
           <div className="slide-images grid grid-cols-4 gap-2 mt-5 w-100">
@@ -98,7 +103,7 @@ function Details() {
           <div className="details-text">
             <h1 className="text-3Xl">Handmade Sabai Grass</h1>
             <h2 className="text-3Xl">Roti Box</h2>
-            <p className="my-4">
+            <p className="my-4 text-start">
               A Master piece indeed. The convex wall mirror with rosewood frame
               is intricately hand carved, over days by our expert artisan, who
               has honed the skill for generations. The dark lustre of rosewood
@@ -128,12 +133,12 @@ function Details() {
             </div>
 
             <div className="box-price">
-              <p>Price Total</p>
+              <p>Total Price</p>
               <p className="font-bold"> {count * price} $</p>
             </div>
           </div>
 
-          {flag && (
+          {/* {flag && (
             <Toast className="mx-auto mt-5 bg-green-900">
               <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
                 <HiCheck className="h-5 w-5" />
@@ -143,7 +148,7 @@ function Details() {
               </div>
               <Toast.Toggle />
             </Toast>
-          )}
+          )} */}
           <div className="btns my-8  flex flex-col justify-evenly">
             <button
               className="bg-slate-900 text-white py-3 px-10 rounded-lg"

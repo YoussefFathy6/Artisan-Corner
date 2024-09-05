@@ -1,63 +1,65 @@
 import { useState, useEffect } from "react";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "./../../Config/firebase";
+import { useParams } from "react-router-dom";
+import emailjs from 'emailjs-com'; 
 
 function TicketConfirmation() {
-  const [imageUrl, setImageUrl] = useState("");
+  const { eventId } = useParams();
+  const [ticketImageUrl, setTicketImageUrl] = useState("");
+  const [emailSent, setEmailSent] = useState(false);
 
   useEffect(() => {
-    const imageRef = ref(storage, 'eventimg/images (3).jpg');
-
-    getDownloadURL(imageRef)
-      .then((url) => {
-        setImageUrl(url);
-      })
-      .catch((error) => {
-        console.error("Error fetching image URL: ", error);
-      });
-  }, []);
-
-  const handleDownload = () => {
-    if (imageUrl) {
-      // Create a new link element
-      const link = document.createElement("a");
-      link.href = imageUrl;
-      link.download = "ticket-image.jpg"; // Specify the file name
-
-      // Append the link to the body
-      document.body.appendChild(link);
-      link.click();
-      
-      // Remove the link from the body
-      document.body.removeChild(link);
+    console.log('Fetching image URL for event:', eventId);
+    if (eventId) {
+      const ticketImageRef = ref(storage, `ticketimg/${eventId}.jpg`);
+      console.log('Image Reference Path:', ticketImageRef.fullPath); 
+      getDownloadURL(ticketImageRef)
+        .then((url) => {
+          console.log('Ticket Image URL:', url);
+          setTicketImageUrl(url);
+        })
+        .catch((error) => {
+          console.error("Error fetching ticket image URL: ", error);
+        });
     } else {
-      console.log("No image URL available for download.");
+      console.error('No event ID provided.');
+    }
+  }, [eventId]);
+
+  const sendTicketByEmail = () => {
+    if (ticketImageUrl) {
+      emailjs.send('service_0j6gsa6', 'template_fjy76b1', {
+        event_id: eventId,
+        ticket_image_url: ticketImageUrl,
+      }, 'oHU2f0mLFm9mvleo5')
+      .then((response) => {
+        console.log('Email successfully sent!', response.status, response.text);
+        setEmailSent(true);
+      }, (error) => {
+        console.error('Failed to send email:', error);
+      });
+    } else {
+      console.log('No ticket image URL available.');
     }
   };
 
   return (
-    <div className="container mx-auto p-8 max-w-lg bg-white rounded-lg border border-gray-200 mt-7">
-      <div className="text-center mb-6">
-        <h1 className="text-4xl font-extrabold text-gray-800 mb-2">🎫 Your Ticket</h1>
-        <p className="text-lg text-gray-600">Thank you for your purchase!</p>
-      </div>
-
-      <div className="text-center mb-6">
-        <p className="text-lg text-gray-600 mb-4">Your ticket has been successfully booked.</p>
-      </div>
-
-      {/* Download Button */}
-      {imageUrl ? (
-        <div className="flex justify-center">
-          <button
-            className="bg-blue-500 text-white py-3 px-6 rounded-lg shadow-md hover:bg-blue-600 transition duration-300"
-            onClick={handleDownload}
+    <div>
+      <h1>Your Ticket</h1>
+      {ticketImageUrl ? (
+        <>
+          <img src={ticketImageUrl} alt="Ticket" />
+          <button 
+            onClick={sendTicketByEmail}
+            className="mt-4 p-2 bg-blue-500 text-white rounded"
           >
-            Download Ticket
+            Send Ticket to Email
           </button>
-        </div>
+          {emailSent && <p className="mt-2 text-green-500">Ticket has been sent to your email!</p>}
+        </>
       ) : (
-        <div className="text-center text-gray-600">Loading...</div>
+        <p>No ticket image available.</p>
       )}
     </div>
   );

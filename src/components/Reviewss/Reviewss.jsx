@@ -95,7 +95,7 @@ function Reviewss() {
 
   return (
     <>
-      <div className="review   mx-auto space-y-4">
+      <div className="review   mx-auto space-y-4 w-[80%] ">
         <h1 className="text-[#344054] font-bold">Customer Feedback</h1>
         <div className="rate grid  zeroToTo768:grid-cols-1 from768:grid-cols-3 gap-5  m-auto">
           <div className="product-rate bg-white p-5 rounded-lg flex justify-center items-center flex-col">
