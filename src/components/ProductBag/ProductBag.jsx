@@ -93,11 +93,10 @@ function ProductBag() {
 
               <ReactImageZoom
            
-                img={item.mainImage}  // رابط الصورة
-                zoomWidth={500}       // عرض نافذة التكبير
-                height={300}          // ارتفاع الصورة
-                width={200}           // عرض الصورة
-                offset={{ vertical: 0, horizontal: 300 }}  // موقع نافذة التكبير
+                img={item.mainImage}  
+                zoomWidth={500}       
+                height={300}         
+                offset={{ vertical: 0, horizontal: 300 }}  
               />
 
 
