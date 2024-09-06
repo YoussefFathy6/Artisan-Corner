@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
 import React from "react";
 import NavBar from "./components/NavBar/NavBar";
@@ -16,14 +17,12 @@ import Profile from "./Pages/Profile/Profile";
 import RegisterPage from "./Pages/RegisterPage/RegisterPage";
 import AllEvent from "./Pages/Events/AllEvent";
 import TicketConfirmation from "./components/Ticket/TicketConfirmation";
-import RegisterPage from "./Pages/RegisterPage/RegisterPage";
 import Eventuser from "./Pages/Profile/Eventuser";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // import Login from "./components/Auth/Login";
 // import Sign from "./components/Auth/Sign";
 // import ResetPassword from "./components/Auth/Resetpassword";
-
 
 function App() {
   return (
@@ -45,11 +44,13 @@ function App() {
         <Route path="*" element={<NotFound />} />
         <Route path="/ticket" element={<Ticket />} />
         <Route path="/event" element={<AllEvent />} />
-        <Route path="/TicketConfirmation/:eventId" element={<TicketConfirmation />} />
-                {/* wafaa //////////////////////////////////////////*/}
+        <Route
+          path="/TicketConfirmation/:eventId"
+          element={<TicketConfirmation />}
+        />
+        {/* wafaa //////////////////////////////////////////*/}
         <Route path="/profile" element={<Profile />} />
         <Route path="/event" element={<Eventuser />} />
-    
 
         {/* <Route path="/Sign" element={<Sign />} />
 
@@ -59,7 +60,7 @@ function App() {
       </Routes>
 
       <Footer />
-      <ToastContainer/>
+      <ToastContainer />
     </React.Fragment>
   );
 }
