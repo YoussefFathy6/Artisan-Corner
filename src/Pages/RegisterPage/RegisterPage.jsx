@@ -4,11 +4,14 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Button } from "flowbite-react";
 import db, { auth } from "../../Config/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import RegistraionInput from "./RegistraionInput";
-import { addDoc, collection, Firestore } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
@@ -33,10 +36,10 @@ const RegisterPage = () => {
       .required("Email is required"),
     pass: Yup.string()
       .min(7, "Password must be more than 7 characters")
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-        "Password must contain at least one uppercase letter, one lowercase letter, and one number"
-      )
+      // .matches(
+      //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+      //   "Password must contain at least one uppercase letter, one lowercase letter, and one number"
+      // )
       .required("Password is required"),
     confirm: Yup.string()
       .oneOf([Yup.ref("pass"), null], "Passwords must match")
@@ -54,23 +57,38 @@ const RegisterPage = () => {
     },
     validationSchema,
     onSubmit: (values) => {
-      console.log("Formik values:", values);
       registerUser(values);
     },
   });
 
-  // Register user function
-  function registerUser(values) {
-    console.log("Registering user with values:", values);
+  // Register user function with email verification
+  async function registerUser(values) {
+    try {
+      // Create user with email and password
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        values.email,
+        values.pass
+      );
+      const user = userCredential.user;
 
-    createUserWithEmailAndPassword(auth, values.email, values.pass)
-      .then((userCredential) => {
-        console.log("User registered:", userCredential.user.uid);
-        localStorage.setItem("id", userCredential.user.uid);
-      })
-      .catch((error) => {
-        console.error("Error creating user:", error.message); // Outputs the exact error message
+      // Send verification email
+      await sendEmailVerification(user);
+      console.log("Verification email sent!");
+
+      // Add user to Firestore
+      await addDoc(usersCollection, {
+        firstname: values.firstname,
+        lastname: values.lastname,
+        email: values.email,
+        id: user.uid,
       });
+
+      localStorage.setItem("id", user.uid);
+      auth.currentUser.emailVerified ? nav("/") : nav("/verify"); // Redirect after successful registration
+    } catch (error) {
+      console.error("Error creating user:", error.message);
+    }
   }
 
   return (
@@ -85,7 +103,7 @@ const RegisterPage = () => {
               alt="Google"
               className="w-1/4"
             />
-            Login with Google{" "}
+            Login with Google
           </div>
         </button>
         <button className="flex-1 py-2 ml-2 bg-secondary text-white border border-gray-300 rounded-md flex items-center justify-center">
@@ -155,29 +173,13 @@ const RegisterPage = () => {
           </label>
         </div>
         <Button
-          onClick={() => {
-            createUserWithEmailAndPassword(
-              auth,
-              formik.values.email,
-              formik.values.pass
-            )
-              .then((userCredential) => {
-                console.log("User registered:", userCredential.user.uid);
-                localStorage.setItem("id", userCredential.user.uid);
-                const docRef = addDoc(usersCollection, {
-                  firstname: formik.values.firstname,
-                  lastname: formik.values.lastname,
-                  email: formik.values.email,
-                  id: auth.currentUser.uid,
-                });
-                nav("/");
-              })
-              .catch((error) => {
-                console.error("Error creating user:", error.message); // Outputs the exact error message
-              });
-          }}
-          // Changed to type="submit" to correctly handle form submission
           className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          // onClick={(e) => {
+          //   e.preventDefault();
+          //   console.log("hi");
+          //   registerUser();
+          // }}
+          type="submit"
         >
           Signup
         </Button>
