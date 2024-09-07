@@ -10,6 +10,7 @@ import CollectionCard from "./Component/CollectionCard/CollectionCard";
 import Gallery from "./Component/Gallery/Gallery";
 import Testimonials from "./Component/Testimonials/Testimonials";
 import Login from "./Component/LoginModal/Login";
+import FloatingActionButton from "./FloatActionButton/FloatActionButton";
 
 function MainContent() {
   return (
@@ -24,6 +25,7 @@ function MainContent() {
       <CollectionCard />
       <Gallery />
       <Testimonials />
+      <FloatingActionButton />
     </>
   );
 }
