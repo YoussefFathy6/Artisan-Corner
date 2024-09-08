@@ -15,7 +15,7 @@ function Side() {
             </NavLink>
           </Sidebar.Item>
           <Sidebar.Item>
-            <NavLink to="/event">
+            <NavLink to="/eventuser">
               <AiOutlineProduct size={30} color="rgba(130, 59, 16, 1)" />
             </NavLink>
           </Sidebar.Item>

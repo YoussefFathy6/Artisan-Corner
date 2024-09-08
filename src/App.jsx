@@ -16,7 +16,6 @@ import Profile from "./Pages/Profile/Profile";
 import RegisterPage from "./Pages/RegisterPage/RegisterPage";
 import AllEvent from "./Pages/Events/AllEvent";
 import TicketConfirmation from "./components/Ticket/TicketConfirmation";
-import RegisterPage from "./Pages/RegisterPage/RegisterPage";
 import Eventuser from "./Pages/Profile/Eventuser";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -46,9 +45,9 @@ function App() {
         <Route path="/ticket" element={<Ticket />} />
         <Route path="/event" element={<AllEvent />} />
         <Route path="/TicketConfirmation/:eventId" element={<TicketConfirmation />} />
-                {/* wafaa //////////////////////////////////////////*/}
+                {/* hayat //////////////////////////////////////////*/}
         <Route path="/profile" element={<Profile />} />
-        <Route path="/event" element={<Eventuser />} />
+        <Route path="/eventuser" element={<Eventuser />} />
     
 
         {/* <Route path="/Sign" element={<Sign />} />

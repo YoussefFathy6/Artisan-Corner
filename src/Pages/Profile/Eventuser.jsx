@@ -3,7 +3,7 @@ import React from "react";
 import Cards from "./Cards";
 import Addevent from "./Addevent";
 import db from "../../Config/firebase";
-import { collection, onSnapshot, doc } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { Spinner } from "flowbite-react";
 import Side from "./Side";
@@ -22,7 +22,7 @@ function Eventuser() {
   return (
     <>
      <div className="flex justify-between m-4">
-      <div className="w-[10%] ">
+      <div className="w-[10%]">
      <Side/>
      </div>
       <div className=" ml-7 mr-4 w-[90%] ">

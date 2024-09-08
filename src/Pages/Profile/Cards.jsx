@@ -23,7 +23,7 @@ function Cards({ data }) {
   };
   return (
     <Card
-className=" max-w-[20rem] bg-transparent relative m-0 p-0 gap-0 cursor-pointer "
+className=" max-w-[25rem] bg-transparent relative m-0 p-0 gap-0 cursor-pointer "
 imgAlt="Meaningful alt text for an image that is not purely decorative"
 imgSrc={data.eventImg}
 >
