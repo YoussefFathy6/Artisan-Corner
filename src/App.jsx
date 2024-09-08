@@ -20,6 +20,7 @@ import TicketConfirmation from "./components/Ticket/TicketConfirmation";
 import Eventuser from "./Pages/Profile/Eventuser";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+// import Online from "./Pages/Events/onlin";
 // import Login from "./components/Auth/Login";
 // import Sign from "./components/Auth/Sign";
 // import ResetPassword from "./components/Auth/Resetpassword";
@@ -48,6 +49,8 @@ function App() {
           path="/TicketConfirmation/:eventId"
           element={<TicketConfirmation />}
         />
+                {/* <Route path="onlin" element={<Online/>} /> */}
+
         {/* wafaa //////////////////////////////////////////*/}
         <Route path="/profile" element={<Profile />} />
         <Route path="/event" element={<Eventuser />} />
