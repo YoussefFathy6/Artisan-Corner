@@ -2,7 +2,7 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Button } from "flowbite-react";
+import { Button, Label, Radio } from "flowbite-react";
 import db, { auth } from "../../Config/firebase";
 import {
   createUserWithEmailAndPassword,
@@ -36,14 +36,11 @@ const RegisterPage = () => {
       .required("Email is required"),
     pass: Yup.string()
       .min(7, "Password must be more than 7 characters")
-      // .matches(
-      //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-      //   "Password must contain at least one uppercase letter, one lowercase letter, and one number"
-      // )
       .required("Password is required"),
     confirm: Yup.string()
       .oneOf([Yup.ref("pass"), null], "Passwords must match")
       .required("Confirm Password is required"),
+    accountType: Yup.string().required("Please choose an account type"),
   });
 
   // Formik setup
@@ -54,6 +51,7 @@ const RegisterPage = () => {
       email: "",
       pass: "",
       confirm: "",
+      accountType: "", // Add this field for account type
     },
     validationSchema,
     onSubmit: (values) => {
@@ -64,7 +62,6 @@ const RegisterPage = () => {
   // Register user function with email verification
   async function registerUser(values) {
     try {
-      // Create user with email and password
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         values.email,
@@ -72,20 +69,19 @@ const RegisterPage = () => {
       );
       const user = userCredential.user;
 
-      // Send verification email
       await sendEmailVerification(user);
       console.log("Verification email sent!");
 
-      // Add user to Firestore
       await addDoc(usersCollection, {
         firstname: values.firstname,
         lastname: values.lastname,
         email: values.email,
         id: user.uid,
+        accountType: values.accountType, // Add account type to Firestore
       });
 
       localStorage.setItem("id", user.uid);
-      auth.currentUser.emailVerified ? nav("/") : nav("/verify"); // Redirect after successful registration
+      auth.currentUser.emailVerified ? nav("/") : nav("/verify");
     } catch (error) {
       console.error("Error creating user:", error.message);
     }
@@ -161,24 +157,36 @@ const RegisterPage = () => {
           value={formik.values.confirm}
           error={formik.errors.confirm}
         />
-        <div className="flex justify-between items-center mb-4">
-          <label className="flex items-center text-sm">
-            <input
-              type="checkbox"
-              className="mr-2"
-              name="terms"
+        <fieldset className="flex flex-row max-w-md justify-between my-4">
+          <legend className="mb-4">Choose your Account Type</legend>
+          <div className="flex items-center gap-2">
+            <Radio
+              id="artist"
+              name="accountType"
+              value="artist"
               onChange={formik.handleChange}
+              checked={formik.values.accountType === "artist"}
             />
-            I agree to all terms of this website
-          </label>
-        </div>
+            <Label htmlFor="artist">Artist</Label>
+          </div>
+          <div className="flex items-center gap-2">
+            <Radio
+              id="customer"
+              name="accountType"
+              value="customer"
+              onChange={formik.handleChange}
+              checked={formik.values.accountType === "customer"}
+            />
+            <Label htmlFor="customer">Customer</Label>
+          </div>
+          {formik.errors.accountType && (
+            <div className="text-red-500 text-sm mt-1">
+              {formik.errors.accountType}
+            </div>
+          )}
+        </fieldset>
         <Button
           className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-          // onClick={(e) => {
-          //   e.preventDefault();
-          //   console.log("hi");
-          //   registerUser();
-          // }}
           type="submit"
         >
           Signup
