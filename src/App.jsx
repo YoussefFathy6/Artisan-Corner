@@ -20,7 +20,6 @@ import TicketConfirmation from "./components/Ticket/TicketConfirmation";
 import Eventuser from "./Pages/Profile/Eventuser";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import Online from "./Pages/Events/onlin";
 // import Login from "./components/Auth/Login";
 // import Sign from "./components/Auth/Sign";
 // import ResetPassword from "./components/Auth/Resetpassword";
@@ -37,6 +36,7 @@ function App() {
         <Route path="shipping" element={<ShippingPage />} />
         <Route path="payment" element={<PaymentPage />} />
         <Route path="register" element={<RegisterPage />} />
+        <Route path="verify" element={<VerificationPage />} />
         {/* samir //////////////////////////////////////////*/}
         <Route path="/details" element={<Details />} />
         <Route path="/bag" element={<ProductBag />} />

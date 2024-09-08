@@ -2,13 +2,16 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Button } from "flowbite-react";
+import { Button, Label, Radio } from "flowbite-react";
 import db, { auth } from "../../Config/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import RegistraionInput from "./RegistraionInput";
-import { addDoc, collection, Firestore } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
@@ -33,14 +36,11 @@ const RegisterPage = () => {
       .required("Email is required"),
     pass: Yup.string()
       .min(7, "Password must be more than 7 characters")
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-        "Password must contain at least one uppercase letter, one lowercase letter, and one number"
-      )
       .required("Password is required"),
     confirm: Yup.string()
       .oneOf([Yup.ref("pass"), null], "Passwords must match")
       .required("Confirm Password is required"),
+    accountType: Yup.string().required("Please choose an account type"),
   });
 
   // Formik setup
@@ -51,26 +51,40 @@ const RegisterPage = () => {
       email: "",
       pass: "",
       confirm: "",
+      accountType: "", // Add this field for account type
     },
     validationSchema,
     onSubmit: (values) => {
-      console.log("Formik values:", values);
       registerUser(values);
     },
   });
 
-  // Register user function
-  function registerUser(values) {
-    console.log("Registering user with values:", values);
+  // Register user function with email verification
+  async function registerUser(values) {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        values.email,
+        values.pass
+      );
+      const user = userCredential.user;
 
-    createUserWithEmailAndPassword(auth, values.email, values.pass)
-      .then((userCredential) => {
-        console.log("User registered:", userCredential.user.uid);
-        localStorage.setItem("id", userCredential.user.uid);
-      })
-      .catch((error) => {
-        console.error("Error creating user:", error.message); // Outputs the exact error message
+      await sendEmailVerification(user);
+      console.log("Verification email sent!");
+
+      await addDoc(usersCollection, {
+        firstname: values.firstname,
+        lastname: values.lastname,
+        email: values.email,
+        id: user.uid,
+        accountType: values.accountType, // Add account type to Firestore
       });
+
+      localStorage.setItem("id", user.uid);
+      auth.currentUser.emailVerified ? nav("/") : nav("/verify");
+    } catch (error) {
+      console.error("Error creating user:", error.message);
+    }
   }
 
   return (
@@ -85,7 +99,7 @@ const RegisterPage = () => {
               alt="Google"
               className="w-1/4"
             />
-            Login with Google{" "}
+            Login with Google
           </div>
         </button>
         <button className="flex-1 py-2 ml-2 bg-secondary text-white border border-gray-300 rounded-md flex items-center justify-center">
@@ -143,41 +157,37 @@ const RegisterPage = () => {
           value={formik.values.confirm}
           error={formik.errors.confirm}
         />
-        <div className="flex justify-between items-center mb-4">
-          <label className="flex items-center text-sm">
-            <input
-              type="checkbox"
-              className="mr-2"
-              name="terms"
+        <fieldset className="flex flex-row max-w-md justify-between my-4">
+          <legend className="mb-4">Choose your Account Type</legend>
+          <div className="flex items-center gap-2">
+            <Radio
+              id="artist"
+              name="accountType"
+              value="artist"
               onChange={formik.handleChange}
+              checked={formik.values.accountType === "artist"}
             />
-            I agree to all terms of this website
-          </label>
-        </div>
+            <Label htmlFor="artist">Artist</Label>
+          </div>
+          <div className="flex items-center gap-2">
+            <Radio
+              id="customer"
+              name="accountType"
+              value="customer"
+              onChange={formik.handleChange}
+              checked={formik.values.accountType === "customer"}
+            />
+            <Label htmlFor="customer">Customer</Label>
+          </div>
+          {formik.errors.accountType && (
+            <div className="text-red-500 text-sm mt-1">
+              {formik.errors.accountType}
+            </div>
+          )}
+        </fieldset>
         <Button
-          onClick={() => {
-            createUserWithEmailAndPassword(
-              auth,
-              formik.values.email,
-              formik.values.pass
-            )
-              .then((userCredential) => {
-                console.log("User registered:", userCredential.user.uid);
-                localStorage.setItem("id", userCredential.user.uid);
-                const docRef = addDoc(usersCollection, {
-                  firstname: formik.values.firstname,
-                  lastname: formik.values.lastname,
-                  email: formik.values.email,
-                  id: auth.currentUser.uid,
-                });
-                nav("/");
-              })
-              .catch((error) => {
-                console.error("Error creating user:", error.message); // Outputs the exact error message
-              });
-          }}
-          // Changed to type="submit" to correctly handle form submission
           className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          type="submit"
         >
           Signup
         </Button>
