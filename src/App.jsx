@@ -36,7 +36,7 @@ function App() {
         <Route path="shipping" element={<ShippingPage />} />
         <Route path="payment" element={<PaymentPage />} />
         <Route path="register" element={<RegisterPage />} />
-        <Route path="verify" element={<VerificationPag />} />
+        <Route path="verify" element={<VerificationPage />} />
         {/* samir //////////////////////////////////////////*/}
         <Route path="/details" element={<Details />} />
         <Route path="/bag" element={<ProductBag />} />
