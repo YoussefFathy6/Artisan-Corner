@@ -50,7 +50,6 @@ function BodyNav() {
             />
           </div>
         </div> */}
-       
 
         {/* <!-- Website LOGO --> */}
         <div className="ps-5 md:ps-0 pe-5 sm:pe-0 ">
