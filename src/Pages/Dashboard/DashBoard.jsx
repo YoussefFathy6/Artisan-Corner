@@ -8,11 +8,11 @@ import Artists from "./Artists";
 import Products from "./Products";
 import Events from "./Events";
 import Orders from "./Orders";
+import Login from "../Home/Component/LoginModal/Login";
 
 function DashBoard() {
   const [activeSection, setActiveSection] = useState("customers");
 
-  // Function to render the content based on the active section
   const renderSectionContent = () => {
     switch (activeSection) {
       case "customers":
@@ -33,6 +33,8 @@ function DashBoard() {
   return (
     <>
       <WebsiteLogo></WebsiteLogo>
+      <Login />
+
       <div className="flex h-screen">
         {/* Sidebar */}
         <div className="w-1/4 bg-primary p-4 ">

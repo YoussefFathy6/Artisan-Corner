@@ -3,28 +3,27 @@ import React, { useEffect, useState } from "react";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import db from "../../Config/firebase"; // Make sure this path is correct
 import { IoClose } from "react-icons/io5";
+import { MdOutlineDone } from "react-icons/md";
+import { Button, Card } from "flowbite-react";
 function Products() {
-  const [products, setProducts] = useState([]); // State to store customer data
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    // Reference to the Firestore collection
-    const usersCollectionRef = collection(db, "add product");
+    const usersCollectionRef = collection(db, "tempProducts");
 
-    // Listen for real-time updates using onSnapshot
     const unsubscribe = onSnapshot(
-      collection(db, "add product"),
+      collection(db, "tempProducts"),
       (snapshot) => {
         const productsData = [];
         snapshot.forEach((doc) => {
-          productsData.push({ id: doc.id, ...doc.data() }); // Add document data to array
+          productsData.push({ id: doc.id, ...doc.data() });
         });
-        setProducts(productsData); // Update state with fetched data
+        setProducts(productsData);
       }
     );
 
-    // Clean up the listener on component unmount
     return () => unsubscribe();
-  }, []); // Empty dependency array to run only on mount and unmount
+  }, []);
 
   return (
     <div className="p-4">
@@ -32,23 +31,33 @@ function Products() {
       {products.length > 0 ? (
         <ul className="space-y-4">
           {products.map((product) => (
-            <li key={product.id} className="border p-4 rounded-lg shadow">
-              <div className="flex justify-between gap-7 items-center w-96">
-                <img className=" rounded-full w-24" src={product.img} alt="" />
-                <div>
-                  <h3>{product.title}</h3>
-                  <h3 className=" text-gray-400">{product.description}</h3>
+            <li key={product.id}>
+              <Card
+                className=" max-w-[17rem] bg-transparent relative m-0 p-0 gap-0 cursor-pointer"
+                imgAlt="Meaningful alt text for an image that is not purely decorative"
+                imgSrc={product.img}
+              >
+                <h5 className="text-base text-[#3E402D] font-Rosario font-bold tracking-tight  dark:text-white">
+                  {product.title}
+                </h5>
+                <p className="font-normal text-gray-700  dark:text-gray-400 text-[1rem]">
+                  {product.description}
+                </p>
+                <h5 className=" text-[1.130rem] font-medium ">{`$ ${product.price}`}</h5>
+                <div className="flex  justify-between gap-5">
+                  <Button color={"green"} outline>
+                    <MdOutlineDone />
+                  </Button>{" "}
+                  <Button color={"red"} outline>
+                    <IoClose />
+                  </Button>
                 </div>
-                <button>
-                  <IoClose />
-                </button>
-              </div>
-              {/* Render more customer fields as needed */}
+              </Card>
             </li>
           ))}
         </ul>
       ) : (
-        <p>No customers found.</p>
+        <h1>No customers found</h1>
       )}
     </div>
   );
