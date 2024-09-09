@@ -12,7 +12,6 @@ function TicketConfirmation() {
 
   useEffect(() => {
     if (eventId) {
-      // Fetch ticket image URL
       const ticketDocRef = doc(db, "add event", eventId);
       getDoc(ticketDocRef)
         .then((docSnap) => {
@@ -27,7 +26,6 @@ function TicketConfirmation() {
           console.error("Error fetching ticket image URL: ", error);
         });
 
-      // Fetch user email
       const emailQuery = query(
         collection(db, "sendTicket"),
         where("eventId", "==", eventId)
@@ -49,7 +47,6 @@ function TicketConfirmation() {
 
   useEffect(() => {
     if (ticketImageUrl && userEmail) {
-      // Send the ticket via email when both ticketImageUrl and userEmail are available
       emailjs.send('service_0j6gsa6', 'template_fjy76b1', {
         to_Email: userEmail,
         event_id: eventId,
