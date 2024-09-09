@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import NavBar from "./components/NavBar/NavBar";
 import Home from "./Pages/Home/Home";
 import Footer from "./components/Footer/Footer";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import NotFound from "./Pages/NotFound/NotFound";
 import EarningsPage from "./Pages/EarningsPage/EarningsPage";
 import ShippingPage from "./Pages/ShippingPage/ShippingPage";
@@ -21,43 +21,37 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import VerificationPage from "./Pages/RegisterPage/VerificationPage";
 import DashBoard from "./Pages/Dashboard/DashBoard";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
 import db from "./Config/firebase";
 
 function App() {
-  const [isAdmin, setIsAdmin] = useState(false); // State to track if user is admin
+  const [isAdmin, setIsAdmin] = useState(false);
+  const navigate = useNavigate();
 
-  const searchUsersByAccountType = async (accountType) => {
-    try {
-      // Reference to the Firestore collection
-      const usersCollection = collection(db, "users");
+  const checkUserRole = (accountType) => {
+    const usersCollection = collection(db, "users");
+    const q = query(usersCollection, where("accountType", "==", accountType));
 
-      // Create a query against the collection
-      const q = query(usersCollection, where("accountType", "==", accountType));
+    return onSnapshot(q, (snapshot) => {
+      setIsAdmin(snapshot.docs.length > 0);
+    });
+  };
 
-      // Execute the query
-      const querySnapshot = await getDocs(q);
+  const handleLogin = (accountType) => {
+    checkUserRole(accountType); // Check user role after login
+  };
 
-      // Process the results
-      const results = [];
-      querySnapshot.forEach((doc) => {
-        results.push({ id: doc.id, ...doc.data() });
-      });
-
-      return results;
-    } catch (error) {
-      console.error("Error searching users:", error);
-      return [];
-    }
+  const handleLogout = () => {
+    setIsAdmin(false); // Reset isAdmin state on logout
+    navigate("/"); // Navigate to home or login page after logout
   };
 
   useEffect(() => {
-    const checkAdminStatus = async () => {
-      const results = await searchUsersByAccountType("admin");
-      setIsAdmin(results.length > 0); // Update state based on the result
-    };
+    // Assuming we have a function to check the current user's role on initial load
+    const unsubscribe = checkUserRole("admin");
 
-    checkAdminStatus(); // Call the function to check admin status
+    // Cleanup the onSnapshot listener on component unmount
+    return () => unsubscribe();
   }, []);
 
   return (
@@ -66,21 +60,16 @@ function App() {
         <DashBoard />
       ) : (
         <>
-          <NavBar />
+          <NavBar onLogout={handleLogout} />
           <Routes>
-            {/* amr //////////////////////////////////////////*/}
-            <Route path="/" element={<Home />} />
-            {/* youssef //////////////////////////////////////////*/}
+            <Route path="/" element={<Home onLogin={handleLogin} />} />
             <Route path="earnings" element={<EarningsPage />} />
             <Route path="shipping" element={<ShippingPage />} />
             <Route path="payment" element={<PaymentPage />} />
             <Route path="register" element={<RegisterPage />} />
             <Route path="verify" element={<VerificationPage />} />
-            <Route path="dashboard" element={<DashBoard />} />
-            {/* samir //////////////////////////////////////////*/}
             <Route path="/details" element={<Details />} />
             <Route path="/bag" element={<ProductBag />} />
-            {/* hanaa //////////////////////////////////////////*/}
             <Route path="order" element={<Order />} />
             <Route path="*" element={<NotFound />} />
             <Route path="/ticket" element={<Ticket />} />
@@ -89,7 +78,6 @@ function App() {
               path="/TicketConfirmation/:eventId"
               element={<TicketConfirmation />}
             />
-            {/* wafaa //////////////////////////////////////////*/}
             <Route path="/profile" element={<Profile />} />
             <Route path="/event" element={<Eventuser />} />
           </Routes>

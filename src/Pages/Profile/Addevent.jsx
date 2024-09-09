@@ -15,7 +15,7 @@ function Addevent() {
     address: "",
     description: "",
     time: "",
-    pricetacket:"",
+    pricetacket: "",
   });
   let [imgurl, setimgurl] = useState(null);
   let [imgurl2, setimgurl2] = useState(null);
@@ -34,52 +34,52 @@ function Addevent() {
     setOpenModal(false);
 
     try {
-        // Ensure imgurl and imgurl2 are not null or undefined
-        if (!imgurl || !imgurl2) {
-            throw new Error("Both images must be selected for upload.");
-        }
+      // Ensure imgurl and imgurl2 are not null or undefined
+      if (!imgurl || !imgurl2) {
+        throw new Error("Both images must be selected for upload.");
+      }
 
-        // Create references for both images
-        const eventImgRef = ref(storage, `eventimg/${imgurl.name}`);
-        const ticketImgRef = ref(storage, `ticketimg/${imgurl2.name}`);
+      // Create references for both images
+      const eventImgRef = ref(storage, `eventimg/${imgurl.name}`);
+      const ticketImgRef = ref(storage, `ticketimg/${imgurl2.name}`);
 
-        // Upload both images
-        const uploadTask1 = uploadBytesResumable(eventImgRef, imgurl);
-        const uploadTask2 = uploadBytesResumable(ticketImgRef, imgurl2);
+      // Upload both images
+      const uploadTask1 = uploadBytesResumable(eventImgRef, imgurl);
+      const uploadTask2 = uploadBytesResumable(ticketImgRef, imgurl2);
 
-        const [snapshot1, snapshot2] = await Promise.all([
-            uploadTask1,
-            uploadTask2
-        ]);
+      const [snapshot1, snapshot2] = await Promise.all([
+        uploadTask1,
+        uploadTask2,
+      ]);
 
-        // Get download URLs for both images
-        const downloadURL1 = await getDownloadURL(snapshot1.ref);
-        const downloadURL2 = await getDownloadURL(snapshot2.ref);
+      // Get download URLs for both images
+      const downloadURL1 = await getDownloadURL(snapshot1.ref);
+      const downloadURL2 = await getDownloadURL(snapshot2.ref);
 
-        // Save both download URLs to the Firestore collection
-        const collectionRef = collection(db, "add event");
-        await addDoc(collectionRef, {
-            name: data1.name,
-            date: data1.date,
-            address: data1.address,
-            description: data1.description,
-            eventImg: downloadURL1,
-            ticketImg: downloadURL2,
-            time: data1.time,
-            pricetTcket:data1.pricetacket
-        });
+      // Save both download URLs to the Firestore collection
+      const collectionRef = collection(db, "tempEvents");
+      await addDoc(collectionRef, {
+        name: data1.name,
+        date: data1.date,
+        address: data1.address,
+        description: data1.description,
+        eventImg: downloadURL1,
+        ticketImg: downloadURL2,
+        time: data1.time,
+        pricetTcket: data1.pricetacket,
+        organizer: localStorage.getItem("id"),
+      });
 
-        // Reset state after upload
-        setdate1("");
-        setimgurl("");
-        setimgurl2("");
+      // Reset state after upload
+      setdate1("");
+      setimgurl("");
+      setimgurl2("");
 
-        alert("Event saved successfully!");
-
+      alert("Event saved successfully!");
     } catch (error) {
-        alert("Error: " + error.message);
+      alert("Error: " + error.message);
     }
-}
+  }
 
   return (
     <>
@@ -201,7 +201,11 @@ function Addevent() {
             </div>
             <div>
               <div className="mb-2 block">
-                <Label htmlFor="Price Tacket" value="Price Tacket" className="text-xl" />
+                <Label
+                  htmlFor="Price Tacket"
+                  value="Price Tacket"
+                  className="text-xl"
+                />
               </div>
               <TextInput
                 id="pricetacket"
