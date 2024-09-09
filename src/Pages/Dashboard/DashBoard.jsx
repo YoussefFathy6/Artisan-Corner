@@ -2,6 +2,8 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import db from "../../Config/firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { loginAdmin, logoutAdmin } from "../../Redux/Slices/adminSlice";
 import WebsiteLogo from "../../components/NavBar/component/WebsiteLogo";
 import Customers from "./Customers";
 import Artists from "./Artists";
@@ -12,6 +14,8 @@ import Login from "../Home/Component/LoginModal/Login";
 
 function DashBoard() {
   const [activeSection, setActiveSection] = useState("customers");
+  const dispatch = useDispatch();
+  const isAdmin = useSelector((state) => state.adminReducer.isAdmin);
 
   const renderSectionContent = () => {
     switch (activeSection) {

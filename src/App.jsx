@@ -23,27 +23,27 @@ import VerificationPage from "./Pages/RegisterPage/VerificationPage";
 import DashBoard from "./Pages/Dashboard/DashBoard";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import db from "./Config/firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { loginAdmin, logoutAdmin } from "./Redux/Slices/adminSlice";
 
 function App() {
-  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isAdmin = useSelector((state) => state.adminReducer.isAdmin);
 
   const checkUserRole = (accountType) => {
     const usersCollection = collection(db, "users");
     const q = query(usersCollection, where("accountType", "==", accountType));
 
     return onSnapshot(q, (snapshot) => {
-      setIsAdmin(snapshot.docs.length > 0);
+      if (snapshot.docs.length > 0) {
+        dispatch(loginAdmin());
+      }
     });
   };
 
   const handleLogin = (accountType) => {
     checkUserRole(accountType); // Check user role after login
-  };
-
-  const handleLogout = () => {
-    setIsAdmin(false); // Reset isAdmin state on logout
-    navigate("/"); // Navigate to home or login page after logout
   };
 
   useEffect(() => {
@@ -60,9 +60,9 @@ function App() {
         <DashBoard />
       ) : (
         <>
-          <NavBar onLogout={handleLogout} />
+          <NavBar />
           <Routes>
-            <Route path="/" element={<Home onLogin={handleLogin} />} />
+            <Route path="/" element={<Home />} />
             <Route path="earnings" element={<EarningsPage />} />
             <Route path="shipping" element={<ShippingPage />} />
             <Route path="payment" element={<PaymentPage />} />
