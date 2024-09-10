@@ -9,7 +9,7 @@ import { collection, addDoc } from "firebase/firestore";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 function Addproduct() {
   const [openModal, setOpenModal] = useState(false);
-  let [data1, setdate1] = useState({ title: "", description: "", price: "" });
+  let [data1, setdate1] = useState({ title: "", description: "", price: 0 });
   let [imgurl, setimgurl] = useState(null);
   const [percent, setpercent] = useState(0);
   const getdate = (e) => {
@@ -43,7 +43,7 @@ function Addproduct() {
           const doc = addDoc(collectionref, {
             title: data1.title,
             description: data1.description,
-            price: data1.price,
+            price: Number(data1.price),
             review: "",
             img: downloaduRL,
             ownerID: localStorage.getItem("id"),

@@ -83,7 +83,7 @@ function Main() {
               imgsrc={product.img}
               productType={product.title}
               title={product.description}
-              price={`$ ${product.price}`}
+              price={product.price}
               func={() => clickMe(product)}
             />
           </div>

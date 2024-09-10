@@ -11,25 +11,23 @@ function NavSections() {
     return {
       // color: isActive && "#172554",
       // fontWeight: isActive && "bold",
-        // borderBottom: isActive && "1px solid white",
-        // paddingBottom: isActive && "10px",
-        // marginRight: isActive && "10px",
-        // transition:isActive && "all 0.3s"
+      // borderBottom: isActive && "1px solid white",
+      // paddingBottom: isActive && "10px",
+      // marginRight: isActive && "10px",
+      // transition:isActive && "all 0.3s"
 
-        backgroundColor : isActive && "#fff" , 
-        padding: isActive && "8px",
-        color: isActive && "#913B10",
-        borderRadius : isActive && "10px", 
-        textAlign: isActive && "center" , 
-         transition:isActive && "all 0.2s "
-        
-      
+      backgroundColor: isActive && "#fff",
+      padding: isActive && "8px",
+      color: isActive && "#913B10",
+      borderRadius: isActive && "10px",
+      textAlign: isActive && "center",
+      transition: isActive && "all 0.2s ",
     };
   };
   return (
     <Navbar className="flex gap-x-5 bg-[#913b10] py-4 ">
       <div className=" flex ">
-        <Navbar.Toggle className=""/>
+        <Navbar.Toggle className="" />
       </div>
       <Navbar.Collapse className="container">
         <div>
@@ -44,7 +42,7 @@ function NavSections() {
               </NavLink>
 
               <NavLink
-              style={isActive}
+                style={isActive}
                 to="earnings"
                 className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
               >
@@ -52,7 +50,7 @@ function NavSections() {
               </NavLink>
 
               <NavLink
-              style={isActive}
+                style={isActive}
                 to="/order"
                 className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
               >
@@ -60,7 +58,7 @@ function NavSections() {
               </NavLink>
 
               <NavLink
-              style={isActive}
+                style={isActive}
                 to="/profile"
                 className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
               >
@@ -68,7 +66,7 @@ function NavSections() {
               </NavLink>
 
               <NavLink
-              style={isActive}
+                style={isActive}
                 to="/event"
                 className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
               >
@@ -76,7 +74,7 @@ function NavSections() {
               </NavLink>
 
               <NavLink
-              style={isActive}
+                style={isActive}
                 to="/dd"
                 className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
               >
@@ -95,8 +93,6 @@ function NavSections() {
         </div>
       </Navbar.Collapse>
     </Navbar>
-
- 
   );
 }
 
