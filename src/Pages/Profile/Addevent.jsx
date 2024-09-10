@@ -23,7 +23,7 @@ function Addevent() {
   let [imgurl, setimgurl] = useState(null);
   let [imgurl2, setimgurl2] = useState(null);
   const getdate = (e) => {
-    const { id, name, value, type  } = e.target;
+    const { id, name, value, type } = e.target;
 
     setdate1((data1) => ({
       ...data1,
@@ -31,7 +31,6 @@ function Addevent() {
       [id]: type === "number" ? Number(value) : value,
     }));
     console.log(data1);
-
   };
   function onCloseModal() {
     setOpenModal(false);
@@ -52,25 +51,16 @@ function Addevent() {
       // Create references for both images
       const eventImgRef = ref(storage, `eventimg/${imgurl.name}`);
       const ticketImgRef = ref(storage, `ticketimg/${imgurl2.name}`);
-      // Create references for both images
-      const eventImgRef = ref(storage, `eventimg/${imgurl.name}`);
-      const ticketImgRef = ref(storage, `ticketimg/${imgurl2.name}`);
 
-      // Upload both images
-      const uploadTask1 = uploadBytesResumable(eventImgRef, imgurl);
-      const uploadTask2 = uploadBytesResumable(ticketImgRef, imgurl2);
       // Upload both images
       const uploadTask1 = uploadBytesResumable(eventImgRef, imgurl);
       const uploadTask2 = uploadBytesResumable(ticketImgRef, imgurl2);
 
       const [snapshot1, snapshot2] = await Promise.all([
         uploadTask1,
-        uploadTask2
+        uploadTask2,
       ]);
 
-      // Get download URLs for both images
-      const downloadURL1 = await getDownloadURL(snapshot1.ref);
-      const downloadURL2 = await getDownloadURL(snapshot2.ref);
       // Get download URLs for both images
       const downloadURL1 = await getDownloadURL(snapshot1.ref);
       const downloadURL2 = await getDownloadURL(snapshot2.ref);
@@ -94,12 +84,10 @@ function Addevent() {
       setimgurl2("");
 
       alert("Event saved successfully!");
-
     } catch (error) {
       alert("Error: " + error.message);
       alert("Error: " + error.message);
     }
-  }
   }
 
   return (
@@ -135,7 +123,11 @@ function Addevent() {
                 />
 
                 <div className="mb-2 block">
-                  <Label htmlFor="Event Date" value="Event Date" className="text-xl" />
+                  <Label
+                    htmlFor="Event Date"
+                    value="Event Date"
+                    className="text-xl"
+                  />
                 </div>
                 <TextInput
                   id="date"
@@ -145,7 +137,11 @@ function Addevent() {
                 />
 
                 <div className="mb-2 block">
-                  <Label htmlFor="Event Time" value="Event Time" className="text-xl" />
+                  <Label
+                    htmlFor="Event Time"
+                    value="Event Time"
+                    className="text-xl"
+                  />
                 </div>
                 <TextInput
                   id="time"
@@ -155,7 +151,11 @@ function Addevent() {
                 />
 
                 <div className="mb-2 block">
-                  <Label htmlFor="Event Address" value="Event Address" className="text-xl" />
+                  <Label
+                    htmlFor="Event Address"
+                    value="Event Address"
+                    className="text-xl"
+                  />
                 </div>
                 <TextInput
                   id="address"
@@ -182,7 +182,11 @@ function Addevent() {
               {/* Second Column */}
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="Event Type" value="Event Type" className="text-xl" />
+                  <Label
+                    htmlFor="Event Type"
+                    value="Event Type"
+                    className="text-xl"
+                  />
                 </div>
                 <div className="flex gap-4 ">
                   <div className="flex items-center">
@@ -192,10 +196,13 @@ function Addevent() {
                       name="eventtype"
                       value="online"
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-                      checked={data1.eventtype === 'online'}
+                      checked={data1.eventtype === "online"}
                       onChange={getdate}
                     />
-                    <label htmlFor="online" className="ml-2 text-lg font-medium text-gray-900">
+                    <label
+                      htmlFor="online"
+                      className="ml-2 text-lg font-medium text-gray-900"
+                    >
                       Online
                     </label>
                   </div>
@@ -206,10 +213,13 @@ function Addevent() {
                       name="eventtype"
                       value="offline"
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-                      checked={data1.eventtype === 'offline'}
+                      checked={data1.eventtype === "offline"}
                       onChange={getdate}
                     />
-                    <label htmlFor="offline" className="ml-2 text-lg font-medium text-gray-900">
+                    <label
+                      htmlFor="offline"
+                      className="ml-2 text-lg font-medium text-gray-900"
+                    >
                       Offline
                     </label>
                   </div>
@@ -246,7 +256,11 @@ function Addevent() {
                 </div>
 
                 <div className="mb-2 block">
-                  <Label htmlFor="Price Ticket" value="Price Tacket" className="text-xl" />
+                  <Label
+                    htmlFor="Price Ticket"
+                    value="Price Tacket"
+                    className="text-xl"
+                  />
                 </div>
                 <TextInput
                   id="pricetacket"
@@ -256,7 +270,11 @@ function Addevent() {
                   onChange={getdate}
                 />
                 <div className="mb-2 block">
-                  <Label htmlFor="Ticket Quantity" value="Ticket Quantity" className="text-xl" />
+                  <Label
+                    htmlFor="Ticket Quantity"
+                    value="Ticket Quantity"
+                    className="text-xl"
+                  />
                 </div>
                 <TextInput
                   id="ticketquantity"
@@ -278,8 +296,8 @@ function Addevent() {
           </div>
         </Modal.Body>
       </Modal>
-
     </>
   );
 }
+
 export default Addevent;
