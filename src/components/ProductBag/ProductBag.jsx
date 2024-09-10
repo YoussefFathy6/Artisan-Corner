@@ -15,7 +15,7 @@ import { Button, Modal } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import SweetAlert2 from "react-sweetalert2";
 import Swal from "sweetalert2";
-import ReactImageZoom from "react-image-zoom";
+
 function ProductBag() {
   const navigate = useNavigate();
   const [bags, setBags] = useState([]);
@@ -73,37 +73,30 @@ function ProductBag() {
     updateDoc(docRef, {
       quantity: newQuantity,
       price: newTotalPrice,
-    
     });
-
-
   }
 
   return (
     <>
-      <div className=" ">
+      <div className="grid grid-cols-2 Md:grid-cols-1 ">
         {bags.map((item) => (
           <div
             key={item.id}
-            className="flex  justify-between space-x-6 my-6 shadow-2Xl p-9 rounded-Xl "
+            className=" zeroToTo768:flex-col flex items-center  justify-between space-x-6 my-6 shadow-2Xl p-9 rounded-Xl "
           >
-            <div className="w-[200px] ">
-              <ReactImageZoom
-                img={item.imgsrc}
-                zoomWidth={500}
-                height={300}
-                offset={{ vertical: 0, horizontal: 300 }}
+            <div className="zeroToTo768:w-[300px]  w-[500]">
+              <img
+                src={item.imgsrc}
+                alt="images"
+                className="rounded-lg max-w-[300px] shadow-xl"
               />
+            
             </div>
-            <div className="  w-[80%]">
-              {/* <p className="leading-9	">
-                <strong>Desc :</strong> {item.description}
-              </p> */}
-
-              <h3 className="my-5 ">
-                <strong> Quantity :</strong> {item.quantity}
+            <div className="w-[80%]">
+              <div className="my-5 flex justify-between items-center">
+                Quantity : {item.quantity}
                 <input
-                  className="mx-9 rounded-lg "
+                  className="mx-9 rounded-lg w-[70px]"
                   type="number"
                   value={item.quantity}
                   onChange={(e) =>
@@ -116,10 +109,16 @@ function ProductBag() {
                   alert(
                     "At least one product must be present to complete the purchase."
                   )}
-              </h3>
+              </div>
               <h2>
                 <strong>Total price :</strong> {item.price} $
               </h2>
+              <button
+                className="btn bg-[#f2ba36] mt-5"
+                onClick={() => navigate("/payment")}
+              >
+                Checkout
+              </button>
               <button
                 className="btn bg-red-600 mt-5"
                 onClick={() => handleDelete(item.id)}

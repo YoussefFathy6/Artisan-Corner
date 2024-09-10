@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
 import { useLocation } from "react-router-dom";
+import ReactImageZoom from "react-image-zoom";
 
 function Details() {
   const location = useLocation();
@@ -34,7 +35,7 @@ function Details() {
       quantity: count,
       price: price * count,
       description: desc,
-      basePrice : price
+      basePrice: price,
     });
 
     setFlag(true);
@@ -50,8 +51,19 @@ function Details() {
   return (
     <>
       <div className="details  flex justify-between Md:flex-col w-[80%] mx-auto mt-9">
-        <div className="detail-images w-[45%] Md:w-[100%]">
-          <img src={imgsrc} alt="detailsImage" className="rounded-lg" />
+        <div className="detail-images w-[45%] Md:w-[100%] rounded-lg shadow-xl">
+          {/* <ReactImageZoom
+           
+            img={imgsrc}
+            zoomWidth={500}
+            height={400}
+            offset={{ vertical: 0, horizontal: 0 }}
+          /> */}
+          <img
+            src={imgsrc}
+            alt="detailsImage"
+            className="rounded-lg shadow-xl w-[100%] h-[100%]"
+          />
         </div>
 
         <div className="details-content w-[50%] mt-20 text-center Md:w-[100%]">
@@ -64,7 +76,7 @@ function Details() {
           </div>
           <div className="details-text">
             <h2 className="text-3Xl">{productType}</h2>
-            <p className="my-4  text-center">{desc}</p>
+            <p className="my-4  text-start">{desc}</p>
           </div>
 
           <div className="quantity flex justify-evenly items-center mt-10">
