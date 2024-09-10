@@ -61,10 +61,10 @@ function Main() {
       <div className="flex justify-between items-center">
         {products.length} Items Found
         <div className="flex gap-3 mb-6">
-          <button className="text-fourth">{<FaThList />}</button>
+          {/* <button className="text-fourth">{<FaThList />}</button>
           <button className="text-fourth">
             <FaTableCellsLarge />
-          </button>
+          </button> */}
           <Dropdown label="Sort By" color="light" dismissOnClick={true}>
             <Dropdown.Item onClick={sortItemsHighest}>
               From Highest to Lowest

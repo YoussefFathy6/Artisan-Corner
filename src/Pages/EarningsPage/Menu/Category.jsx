@@ -1,34 +1,39 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from "react";
 import Chbx from "./Chbx";
 import MiniMenu from "./MiniMenu";
 import db from "../../../Config/firebase.js";
-import { onSnapshot, collection, addDoc } from "firebase/firestore";
+import { onSnapshot, collection } from "firebase/firestore";
+
 function Category() {
   const [products, setProducts] = useState([]);
-  const [tempproducts, setTemp] = useState([]);
   const [categories, setCategories] = useState([]);
-  useEffect(() => {
-    let arr;
-    onSnapshot(collection(db, "add product"), (snapshot) => {
-      arr = snapshot.docs.map((doc) => {
-        return { ...doc.data(), id: doc.id };
-      });
-      console.log(snapshot.docs[0].data().typeproduct);
 
-      setProducts([...arr]);
-      setTemp([...arr]);
-    });
-    getCategory();
-    let x = new Set();
-    products.forEach((product) => {
-      x.add(product.typeproduct);
-    });
-    setCategories([...x]);
+  useEffect(() => {
+    // Fetch products from Firestore
+    const unsubscribe = onSnapshot(
+      collection(db, "add product"),
+      (snapshot) => {
+        const fetchedProducts = snapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+
+        setProducts(fetchedProducts);
+
+        // Calculate unique categories after fetching products
+        const uniqueCategories = new Set(
+          fetchedProducts.map((product) => product.typeproduct)
+        );
+        setCategories([...uniqueCategories]);
+      }
+    );
+
+    // Cleanup on unmount
+    return () => unsubscribe();
   }, []);
-  function getCategory() {}
+
   return (
     <div className="section-styling">
       <section className="hidden lg:block">
@@ -41,9 +46,13 @@ function Category() {
           </section>
         </section>
       </section>
+
+      {/* Render MiniMenu Component */}
       <MiniMenu maintitle="Category" />
-      {categories.map((category) => (
-        <Chbx key={category.id} label={category} id="chbx5" />
+
+      {/* Render Checkbox Components for Each Category */}
+      {categories.map((category, index) => (
+        <Chbx key={index} label={category} id={`chbx${index}`} />
       ))}
     </div>
   );
