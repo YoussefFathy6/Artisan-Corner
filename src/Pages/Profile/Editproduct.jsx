@@ -44,13 +44,12 @@ function Editproduct({ data }) {
     };
     return (
         <>
-            <button
-                type="button"
+         <Button  type="button"
                 onClick={() => OpenModal(true)}
-                className="bot2 "
-            >
-                  Edit Product
-            </button>
+                className="bot2 mr-3 " >
+         Edit Product
+              </Button>
+
             <Modal show={openModal} size="lg" onClose={onCloseModal} popup>
                 <Modal.Header />
                 <Modal.Body>
@@ -113,7 +112,7 @@ function Editproduct({ data }) {
                         </div>
                         <div id="fileUpload" className="max-w-md">
                             <div className="mb-2 block">
-                                <Label htmlFor="file" value="Upload New Image" className="text-xl" />
+                                <Label htmlFor="file" value=" New Image" className="text-xl" />
                             </div>
                             <FileInput
                                 id="file"
