@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Cards from "./Cards";
-import Addevent from "./Addevent";
 import db from "../../Config/firebase";
 import { collection, onSnapshot } from "firebase/firestore";
 import { Spinner } from "flowbite-react";
@@ -36,7 +35,7 @@ function AllEvent() {
     if (filter === "All") {
       setFilteredEvents(events);
     } else {
-      setFilteredEvents(events.filter(event => event.category === filter));
+      setFilteredEvents(events.filter(event => event.eventtype === filter));
     }
   }, [filter, events]);
 
@@ -54,10 +53,10 @@ function AllEvent() {
             <li className={`cursor-pointer ${filter === "All" ? "font-bold" : ""}`} onClick={() => setFilter("All")}>
               All
             </li>
-            <li className={`cursor-pointer ${filter === "Online" ? "font-bold" : ""}`} onClick={() => setFilter("Online")}>
+            <li className={`cursor-pointer ${filter === "online" ? "font-bold" : ""}`} onClick={() => setFilter("online")}>
               Online
             </li>
-            <li className={`cursor-pointer ${filter === "Offline" ? "font-bold" : ""}`} onClick={() => setFilter("Offline")}>
+            <li className={`cursor-pointer ${filter === "offline" ? "font-bold" : ""}`} onClick={() => setFilter("offline")}>
               Offline
             </li>
           </ul>
@@ -65,10 +64,7 @@ function AllEvent() {
 
         {/* Main Content */}
         <div className="ml-7 w-3/4">
-          <div className="mt-28 flex justify-between items-center">
-            <h1 className="text-8xl font-cursive text-green-800">Event</h1>
-            <Addevent />
-          </div>
+        
           <div className="mt-20 px-32">
             {filteredEvents.length ? (
               <div className="flex flex-wrap gap-8">

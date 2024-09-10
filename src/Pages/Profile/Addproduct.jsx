@@ -43,7 +43,7 @@ function Addproduct() {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloaduRL) => {
-          const collectionref = collection(db, "add product");
+          const collectionref = collection(db, "tempProduct");
           const doc = addDoc(collectionref, {
             title: data1.title,
             description: data1.description,
@@ -52,6 +52,7 @@ function Addproduct() {
             img: downloaduRL,
             productquantity:data1.productquantity,
             typeproduct:data1.typeproduct,
+            ownerID: localStorage.getItem("id"),
           });
         });
       }

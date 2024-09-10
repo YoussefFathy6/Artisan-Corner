@@ -44,11 +44,21 @@ function Addevent() {
       if (!imgurl || !imgurl2) {
         throw new Error("Both images must be selected for upload.");
       }
+      // Ensure imgurl and imgurl2 are not null or undefined
+      if (!imgurl || !imgurl2) {
+        throw new Error("Both images must be selected for upload.");
+      }
 
       // Create references for both images
       const eventImgRef = ref(storage, `eventimg/${imgurl.name}`);
       const ticketImgRef = ref(storage, `ticketimg/${imgurl2.name}`);
+      // Create references for both images
+      const eventImgRef = ref(storage, `eventimg/${imgurl.name}`);
+      const ticketImgRef = ref(storage, `ticketimg/${imgurl2.name}`);
 
+      // Upload both images
+      const uploadTask1 = uploadBytesResumable(eventImgRef, imgurl);
+      const uploadTask2 = uploadBytesResumable(ticketImgRef, imgurl2);
       // Upload both images
       const uploadTask1 = uploadBytesResumable(eventImgRef, imgurl);
       const uploadTask2 = uploadBytesResumable(ticketImgRef, imgurl2);
@@ -58,6 +68,9 @@ function Addevent() {
         uploadTask2
       ]);
 
+      // Get download URLs for both images
+      const downloadURL1 = await getDownloadURL(snapshot1.ref);
+      const downloadURL2 = await getDownloadURL(snapshot2.ref);
       // Get download URLs for both images
       const downloadURL1 = await getDownloadURL(snapshot1.ref);
       const downloadURL2 = await getDownloadURL(snapshot2.ref);
@@ -84,7 +97,9 @@ function Addevent() {
 
     } catch (error) {
       alert("Error: " + error.message);
+      alert("Error: " + error.message);
     }
+  }
   }
 
   return (

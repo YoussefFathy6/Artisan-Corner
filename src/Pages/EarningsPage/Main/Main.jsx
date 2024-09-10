@@ -17,7 +17,7 @@ function Main() {
 
   useEffect(() => {
     let arr;
-    onSnapshot(collection(db, "product"), (snapshot) => {
+    onSnapshot(collection(db, "add product"), (snapshot) => {
       arr = snapshot.docs.map((doc) => {
         return { ...doc.data(), id: doc.id };
       });
@@ -27,10 +27,10 @@ function Main() {
   }, []);
   async function clickMe(product) {
     const doc = await addDoc(collection(db, "cart"), {
-      name: product.name,
+      name: product.title,
+      img: product.img,
       description: product.description,
       price: product.price,
-      isFav: true,
     });
   }
   const sortItemsHighest = () => {
@@ -80,8 +80,8 @@ function Main() {
         {products.map((product) => (
           <div className="m-5" key={product.id}>
             <Card
-              imgsrc={img1}
-              productType={product.name}
+              imgsrc={product.img}
+              productType={product.title}
               title={product.description}
               price={`$ ${product.price}`}
               func={() => clickMe(product)}

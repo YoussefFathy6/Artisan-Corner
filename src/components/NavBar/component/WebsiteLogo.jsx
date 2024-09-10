@@ -6,6 +6,7 @@ import Logo from "../../../assets/Logo/Logo.png";
 import { BsSearch } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleFlag } from "../../../Redux/Slices/homeSlice";
+import { loginAdmin, logoutAdmin } from "../../../Redux/Slices/adminSlice";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import db, { auth } from "../../../Config/firebase";
 import { collection, doc, getDoc, onSnapshot } from "firebase/firestore";
@@ -16,6 +17,7 @@ function BodyNav() {
   const dispatch = useDispatch();
   const [userData, setUserData] = useState(null);
   const flag = useSelector((state) => state.homeReducer.flag);
+  const isAdmin = useSelector((state) => state.adminReducer.isAdmin);
   const nav = useNavigate();
   useEffect(() => {
     const fetchUserData = async () => {
@@ -50,7 +52,6 @@ function BodyNav() {
             />
           </div>
         </div> */}
-       
 
         {/* <!-- Website LOGO --> */}
         <div className="ps-5 md:ps-0 pe-5 sm:pe-0 ">
@@ -98,6 +99,9 @@ function BodyNav() {
                   onClick={() => {
                     localStorage.removeItem("id");
                     auth.signOut();
+                    if (isAdmin) {
+                      dispatch(logoutAdmin());
+                    }
                     nav("/");
                   }}
                   icon={HiLogout}
