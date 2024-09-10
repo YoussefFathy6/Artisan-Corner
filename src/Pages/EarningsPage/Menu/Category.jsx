@@ -22,14 +22,13 @@ function Category() {
       setTemp([...arr]);
     });
     getCategory();
-  }, []);
-  async function getCategory() {
     let x = new Set();
     products.forEach((product) => {
       x.add(product.typeproduct);
     });
     setCategories([...x]);
-  }
+  }, []);
+  function getCategory() {}
   return (
     <div className="section-styling">
       <section className="hidden lg:block">

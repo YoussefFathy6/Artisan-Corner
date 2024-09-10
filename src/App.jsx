@@ -31,14 +31,20 @@ function App() {
   const dispatch = useDispatch();
   const isAdmin = useSelector((state) => state.adminReducer.isAdmin);
 
-  const checkUserRole = (accountType) => {
+  const checkUserRole = () => {
     const usersCollection = collection(db, "users");
-    const q = query(usersCollection, where("accountType", "==", accountType));
+    const q = query(
+      usersCollection,
+      where("id", "==", localStorage.getItem("id"))
+    );
 
     return onSnapshot(q, (snapshot) => {
-      if (snapshot.docs.length > 0) {
+      if (
+        snapshot.docs.length > 0 &&
+        snapshot.docs[0].data().accountType == "admin"
+      ) {
         dispatch(loginAdmin());
-      }
+      } else dispatch(logoutAdmin());
     });
   };
 
