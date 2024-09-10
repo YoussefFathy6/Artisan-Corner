@@ -1,9 +1,35 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line no-unused-vars
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Chbx from "./Chbx";
 import MiniMenu from "./MiniMenu";
+import db from "../../../Config/firebase.js";
+import { onSnapshot, collection, addDoc } from "firebase/firestore";
 function Category() {
+  const [products, setProducts] = useState([]);
+  const [tempproducts, setTemp] = useState([]);
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    let arr;
+    onSnapshot(collection(db, "add product"), (snapshot) => {
+      arr = snapshot.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id };
+      });
+      console.log(snapshot.docs[0].data().typeproduct);
+
+      setProducts([...arr]);
+      setTemp([...arr]);
+    });
+    getCategory();
+  }, []);
+  async function getCategory() {
+    let x = new Set();
+    products.forEach((product) => {
+      x.add(product.typeproduct);
+    });
+    setCategories([...x]);
+  }
   return (
     <div className="section-styling">
       <section className="hidden lg:block">
@@ -16,12 +42,10 @@ function Category() {
           </section>
         </section>
       </section>
-      <MiniMenu maintitle="Category"></MiniMenu>
-      <Chbx label="Sneakers & Sports Shoes (607)" id="chbx1" />
-      <Chbx label="Tshirts (322)" id="chbx2" />
-      <Chbx label="Shorts & 3/4ths (116)" id="chbx3" />
-      <Chbx label="Flip Flop & Slippers (112)" id="chbx4" />
-      <Chbx label="Track Pants (109)" id="chbx5" />
+      <MiniMenu maintitle="Category" />
+      {categories.map((category) => (
+        <Chbx key={category.id} label={category} id="chbx5" />
+      ))}
     </div>
   );
 }

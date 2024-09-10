@@ -51,8 +51,12 @@ function Products() {
       await addDoc(collection(db, "add product"), {
         title: product.title,
         description: product.description,
-        price: product.price,
+        price: Number(product.price),
+        review: "",
         img: product.img,
+        productquantity: product.productquantity,
+        typeproduct: product.typeproduct,
+        ownerID: product.ownerID,
       });
 
       console.log(`Product with ID ${product.id} moved to addProduct.`);
