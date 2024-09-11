@@ -4,18 +4,32 @@ import { CiFacebook } from "react-icons/ci";
 import { FaInstagram } from "react-icons/fa6";
 import { FaXTwitter } from "react-icons/fa6";
 import { CiLinkedin } from "react-icons/ci";
+import { Link } from "react-router-dom";
 import Cards2 from "./Cards2";
 import Addproduct from "./Addproduct";
 import db from "../../Config/firebase";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { collection, onSnapshot,doc, getDoc } from "firebase/firestore";
 import { useState, useEffect } from "react";
-import AddDeitalsprofile from "./AddDeitalsprofile";
-import { useSelector } from "react-redux";
 import Side from "./Side";
 function Profile() {
   let [products, setproducts] = useState([]);
-  let [details, setdetails] = useState([]);
-  const profileId = useSelector((state) => state.profileReducer.id);
+  let [deitals,setdeitals]=useState(null);
+  const fetchProduct = async () => {
+    try {
+      const docRef = doc(db, "profiledeitals", "documentId"); 
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        console.log("Document Data:", docSnap.data());
+      } else {
+        console.log("No such document!");
+      }
+    } catch (error) {
+      console.error("Error fetching document: ", error);
+    }
+  };
+
+
   useEffect(() => {
     let arr;
     onSnapshot(collection(db, "add product"), (snapshot) => {
@@ -24,27 +38,7 @@ function Profile() {
       });
       setproducts([...arr]); 
     });
-
-    console.log(profileId);
-
-    const q = query(
-      collection(db, "profiledetails"),
-      where("id", "===", profileId) // استخدام `where` للبحث عن المستند بناءً على الـ id
-    );
-    console.log(q);
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map((doc) => ({
-        id: doc.id, // معرّف المستند
-        ...doc.data(), // بيانات المستند
-      }));
-      setdetails(data);
-      console.log(data);
-
-      console.log([details]);
-    });
-
-    // تنظيف المستمع عند فك التركيب
-    return () => unsubscribe();
+    fetchProduct();
   }, []);
 
   return (
@@ -54,17 +48,23 @@ function Profile() {
       <div className="  ml-7 mr-4">
         <div className="head  mt-28 flex  justify-around he rounded-xl">
           <div className=" mt-24 w-1/2 ml-20">
-            <h1 className="text-7xl mb-2">{details.name}</h1>
-            <h4 className="text-3xl">{details.department}</h4>
+            <h1 className="text-7xl mb-2"></h1>
+            <h4 className="text-3xl"></h4>
             <div className="mt-8">
-              <h6 className="text-2xl mb-1">About me</h6>
-              <p>{details.about}</p>
+              <p></p>
             </div>
-            <AddDeitalsprofile />
+            <Link to="/adddeitalsprofile">
+            <button
+        type="button"
+        className="bot mr-20 mt-14 text-orange-100 border-2 border-neutral-200"
+      >
+        Add Details
+      </button>
+      </Link>
           </div>
           <div className=" mt-20  w-1/2 ">
             <img
-              src="public/images.jpg"
+              src=""
               className="w-96 h-80 rounded-full object-cover ml-80 "
             />
             <div className="flex justify-around w-1/3 ml-96 mt-8 ">

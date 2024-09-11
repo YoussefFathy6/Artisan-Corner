@@ -1,20 +1,23 @@
-
 import { FileInput } from "flowbite-react";
 import { useState } from "react";
-import { Button ,Textarea, Label, Modal, TextInput } from "flowbite-react";
+import { Button, Textarea, Label, Modal, TextInput } from "flowbite-react";
 import db from "../../Config/firebase";
 import { doc, updateDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
 function Editproduct({ data }) {
     const [openModal, setOpenModal] = useState(false);
     const [editedData, setEditedData] = useState(data);
+
     const OpenModal = () => {
         setEditedData(data);
         setOpenModal(true);
     };
+
     function onCloseModal() {
         setOpenModal(false);
     }
+
     const handleFileUpload = async (file) => {
         const storage = getStorage();
         const storageRef = ref(storage, `productimg/${file.name}`);
@@ -22,6 +25,7 @@ function Editproduct({ data }) {
         const downloadURL = await getDownloadURL(storageRef);
         return downloadURL;
     };
+
     const handleUpdate = async () => {
         setOpenModal(false);
         try {
@@ -35,6 +39,8 @@ function Editproduct({ data }) {
                 description: editedData.description,
                 price: editedData.price,
                 img: editedData.img,
+                productquantity: editedData.productquantity,
+                typeproduct: editedData.typeproduct,
             });
             console.log("Item updated successfully!");
             onCloseModal();
@@ -42,89 +48,119 @@ function Editproduct({ data }) {
             console.error("Error updating item: ", error);
         }
     };
+
     return (
         <>
-         <Button  type="button"
+            <Button
+                type="button"
                 onClick={() => OpenModal(true)}
-                className="bot2 mr-3 " >
-         Edit Product
-              </Button>
+                className="bot2 mr-3"
+            >
+                Edit Product
+            </Button>
 
-            <Modal show={openModal} size="lg" onClose={onCloseModal} popup>
+            <Modal show={openModal} size="5xl" onClose={onCloseModal} popup>
                 <Modal.Header />
                 <Modal.Body>
                     <div className="space-y-6">
                         <h3 className="text-4xl font-medium text-gray-900 dark:text-white">
-                            Add Product
+                            Edit Product
                         </h3>
-                        <div>
-                            <div className="mb-2 block">
-                                <Label htmlFor="title" value="Title" className="text-xl" />
-                            </div>
-                            <TextInput
-                                id="title"
-                                placeholder=""
-                                required
-                                type="text"
-                                value={editedData.title}
-                                onChange={(e) =>
-                                    setEditedData({ ...editedData, title: e.target.value })
-                                }
-                            />
-                        </div>
-                        <div>
-                            <div className="mb-2 block">
-                                <Label htmlFor="description" value="Description" className="text-xl" />
-                            </div>
-                            <Textarea
-                                id="description"
-                                placeholder=""
-                                required
-                                rows={4}
-                                value={editedData.description}
-                                onChange={(e) =>
-                                    setEditedData({ ...editedData, description: e.target.value })
-                                }
-                            />
-                        </div>
-                        <div>
-                            <div className="mb-2 block">
-                                <Label htmlFor="price" value="Price" className="text-xl" />
-                            </div>
-                            <TextInput
-                                id="price"
-                                type="text"
-                                required
-                                value={editedData.price}
-                                onChange={(e) =>
-                                    setEditedData({ ...editedData, price: e.target.value })
-                                }
-                            />
-                        </div>
-                        <div>
-                            <Label htmlFor="img" value="Image URL" />
-                            <TextInput
-                                id="img"
-                                type="text"
-                                value={editedData.img} 
-                                readOnly 
-                            />
-                        </div>
-                        <div id="fileUpload" className="max-w-md">
-                            <div className="mb-2 block">
-                                <Label htmlFor="file" value=" New Image" className="text-xl" />
-                            </div>
-                            <FileInput
-                                id="file"
-                                helperText="Upload a new image if you want to change the existing one."
-                                onChange={(e) => {
-                                    const file = e.target.files[0];
-                                    if (file) {
-                                        setEditedData({ ...editedData, img: file }); 
+
+                        {/* Container for Two Columns */}
+                        <div className="grid grid-cols-2 gap-6">
+                            {/* First Column */}
+                            <div>
+                                <Label htmlFor="title" value="Title" className="text-xl mb-2 block" />
+                                <TextInput
+                                    id="title"
+                                    placeholder=""
+                                    required
+                                    type="text"
+                                    value={editedData.title}
+                                    onChange={(e) =>
+                                        setEditedData({ ...editedData, title: e.target.value })
                                     }
-                                }}
-                            />
+                                />
+
+                                <Label htmlFor="price" value="Price" className="text-xl mb-2 block" />
+                                <TextInput
+                                    id="price"
+                                    type="text"
+                                    required
+                                    value={editedData.price}
+                                    onChange={(e) =>
+                                        setEditedData({ ...editedData, price: e.target.value })
+                                    }
+                                />
+
+                                <Label htmlFor="productquantity" value="Product Quantity" className="text-xl mb-2 block" />
+                                <TextInput
+                                    id="productquantity"
+                                    type="number"
+                                    value={editedData.productquantity}
+                                    onChange={(e) =>
+                                        setEditedData({
+                                            ...editedData,
+                                            productquantity: Number(e.target.value)
+                                        })
+                                    }
+                                    required
+                                />
+                                   <Label htmlFor="description" value="Description" className="text-xl mb-2 block" />
+                                <Textarea
+                                    id="description"
+                                    placeholder=""
+                                    required
+                                    rows={4}
+                                    value={editedData.description}
+                                    onChange={(e) =>
+                                        setEditedData({ ...editedData, description: e.target.value })
+                                    }
+                                />
+                            </div>
+
+                            {/* Second Column */}
+                            <div>
+                                <Label htmlFor="typeproduct" value="Type Product" className="text-xl mb-2 block" />
+                                <select
+                                    id="typeproduct"
+                                    required
+                                    value={editedData.typeproduct}
+                                    onChange={(e) =>
+                                        setEditedData({ ...editedData, typeproduct: e.target.value })
+                                    }
+                                    className="block w-full px-3 py-2 border border-gray-300 bg-white text-gray-900 text-lg rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                >
+                                    <option value="" disabled>Select</option>
+                                    <option value="Macramé">Macramé</option>
+                                    <option value="Painting">Painting</option>
+                                    <option value="Wood carving">Wood carving</option>
+                                    <option value="Pottery">Pottery</option>
+                                </select>
+
+                                <Label htmlFor="img" value="Image URL" className="text-xl mb-2 block" />
+                                <TextInput
+                                    id="img"
+                                    type="text"
+                                    value={editedData.img}
+                                    readOnly
+                                />
+
+                                <Label htmlFor="file" value="New Image" className="text-xl mb-2 block" />
+                                <FileInput
+                                    id="file"
+                                   
+                                    onChange={(e) => {
+                                        const file = e.target.files[0];
+                                        if (file) {
+                                            setEditedData({ ...editedData, img: file });
+                                        }
+                                    }}
+                                />
+                            </div>
                         </div>
+
                         <div className="w-1/2 flex justify-around ml-52">
                             <Button className="bot2" onClick={handleUpdate}>
                                 Done
@@ -137,6 +173,7 @@ function Editproduct({ data }) {
                 </Modal.Body>
             </Modal>
         </>
-    )
+    );
 }
-export default Editproduct
+
+export default Editproduct;

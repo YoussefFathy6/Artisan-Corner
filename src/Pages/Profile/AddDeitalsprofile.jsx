@@ -1,26 +1,32 @@
-/* eslint-disable no-unused-vars */
 import React from "react";
 import {
   Button,
   Textarea,
   Label,
-  Modal,
   TextInput,
   FileInput,
 } from "flowbite-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import db from "../../Config/firebase";
 import { addDoc, collection } from "firebase/firestore";
-import { setId } from "../../Redux/Slices/profileid";
-import { useDispatch } from "react-redux";
-function AddDeitalsprofile() {
-  const [openModal, setOpenModal] = useState(false);
-  let [data, setdata] = useState({ name: "", department: "", about: "" });
+import { storage } from "../../Config/firebase";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 
-  const dis = useDispatch();
-  function onCloseModal() {
-    setOpenModal(false);
-  }
+function AddDeitalsprofile() {
+  let [data, setdata] = useState({ name: "", department: "", aboutyou: "" });
+  const [storedValue, setStoredValue] = useState("");
+  const [imgurl, setimgurl] = useState(null);
+  const [percent, setpercent] = useState(0);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const value = localStorage.getItem("id");
+    if (value) {
+      setStoredValue(value);
+    }
+  }, []);
+
   const getdata = (e) => {
     const { id, value } = e.target;
     setdata((data) => ({
@@ -28,99 +34,99 @@ function AddDeitalsprofile() {
       [id]: value,
     }));
   };
-  async function save() {
-    setOpenModal(false);
-    const collectionref = collection(db, "profiledetails");
-    const doc = await addDoc(collectionref, {
-      Name: data.name,
-      Department: data.department,
-      About: data.about,
-    });
-    dis(setId(doc.id));
 
-    //  setid(doc.id);
-    //  console.log(id);
-    setdata("");
+  async function save() {
+    const storageRef = ref(storage, `profileimg/${imgurl.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, imgurl);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const bits = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setpercent(bits);
+      },
+      (error) => {
+        alert(error);
+      },
+      async () => {
+        const downloaduRL = await getDownloadURL(uploadTask.snapshot.ref);
+        const collectionref = collection(db, "profiledeitals");
+
+        const docRef = await addDoc(collectionref, {
+          Name: data.name,
+          Department: data.department,
+          About: data.aboutyou,
+          id: storedValue,
+          img: downloaduRL,
+        });
+
+        const docId = docRef.id; 
+
+        navigate(`/profile/${docId}`);
+      }
+    );
+
+    setdata({
+      name: "",
+      department: "",
+      aboutyou: "",
+    });
+    setimgurl(null);
   }
+
   return (
     <>
-      <button
-        type="button"
-        className="bot mr-20 mt-14 text-orange-100 border-2 border-neutral-200"
-        onClick={() => setOpenModal(true)}
-      >
-        Add Details
-      </button>
-      <Modal show={openModal} size="lg" onClose={onCloseModal} popup>
-        <Modal.Header />
-        <Modal.Body>
-          <div className="space-y-6">
-            <h3 className="text-4xl font-medium text-gray-900 dark:text-white">
-              Add Details
-            </h3>
+      <div className="m-20">
+        <h1 className="text-6xl mb-20">profile</h1>
+        <div className="flex justify-around gap-7">
+          <div className=" w-1/3">
             <div>
               <div className="mb-2 block">
-                <Label htmlFor="" value="Name" className="text-xl" />
+                <Label htmlFor="small" value="Name" />
               </div>
-              <TextInput
-                id="name"
-                placeholder=""
-                required
-                type="text"
+              <TextInput id="name" type="text" sizing="sm"
                 value={data.name}
                 onChange={getdata}
               />
             </div>
             <div>
               <div className="mb-2 block">
-                <Label
-                  htmlFor="Event Description"
-                  value="Department"
-                  className="text-xl"
-                />
+                <Label htmlFor="small" value="Department" />
               </div>
-              <TextInput
-                id="department"
-                type="text"
+              <TextInput id="department" type="text" sizing="sm"
                 value={data.department}
                 onChange={getdata}
-                required
               />
             </div>
             <div>
               <div className="mb-2 block">
-                <Label
-                  htmlFor="About him"
-                  value="About him"
-                  className="text-xl"
-                />
+                <Label htmlFor="small" value="About you" />
               </div>
-              <Textarea
-                id="about"
-                type="text"
-                value={data.about}
+              <Textarea id="aboutyou" placeholder="" required rows={4}
+                value={data.aboutyou}
                 onChange={getdata}
-                required
-                rows={4}
               />
             </div>
-            <FileInput
-              id="file"
-              helperText="A profile picture is useful to confirm your are logged into your account"
-            />
-
-            <div className="w-1/2 flex justify-around ml-52">
-              <Button className="bot2" onClick={save}>
-                Done
-              </Button>
-              <Button className="bot2" onClick={onCloseModal} ve>
-                Cansel
-              </Button>
+          </div>
+          <div className=" w-1/3">
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="small" value="Profile Img" />
+              </div>
+              <FileInput id="profileimg"
+                onChange={(e) => setimgurl(e.target.files[0])}
+              />
             </div>
           </div>
-        </Modal.Body>
-      </Modal>
+        </div>
+        <Button className="bot2" onClick={save}>
+          DONE
+        </Button>
+      </div>
     </>
   );
 }
+
 export default AddDeitalsprofile;

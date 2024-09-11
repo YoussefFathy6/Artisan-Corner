@@ -25,6 +25,7 @@ import { collection, query, where, onSnapshot } from "firebase/firestore";
 import db from "./Config/firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { loginAdmin, logoutAdmin } from "./Redux/Slices/adminSlice";
+import AddDeitalsprofile from "./Pages/Profile/AddDeitalsprofile";
 
 function App() {
   const navigate = useNavigate();
@@ -79,7 +80,8 @@ function App() {
               element={<TicketConfirmation />}
             />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/event" element={<Eventuser />} />
+            <Route path="/eventuser" element={<Eventuser />} />
+            <Route path="/adddeitalsprofile" element={<AddDeitalsprofile />} />
           </Routes>
           <Footer />
           <ToastContainer />
