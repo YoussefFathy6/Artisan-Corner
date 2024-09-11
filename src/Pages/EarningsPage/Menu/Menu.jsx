@@ -3,14 +3,11 @@
 import React, { useState } from "react";
 import Category from "./Category.jsx";
 import Price from "./Price.jsx";
-// import Brand from "./Brand.jsx";
-// import Color from "./Color.jsx";
-// import Size from "./Size.jsx";
 import Canvas from "./Canvas.jsx";
 import { Button } from "flowbite-react";
 import { FaBars } from "react-icons/fa";
 
-function Menu({ onFilterChange }) {
+function Menu({ onFilterChange, onPriceChange }) {
   let [flag, setFlag] = useState(false);
 
   const handleClose = () => setFlag(false);
@@ -19,10 +16,7 @@ function Menu({ onFilterChange }) {
     <div className="block col-span-1">
       <div className="sm:hidden md:block">
         <Category onFilterChange={onFilterChange} />
-        <Price />
-        {/* <Brand />
-        <Color />
-        <Size /> */}
+        <Price onPriceChange={onPriceChange} />
       </div>
     </div>
   );

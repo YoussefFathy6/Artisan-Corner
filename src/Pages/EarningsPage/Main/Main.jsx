@@ -8,8 +8,9 @@ import Menu from "../Menu/Menu";
 
 function Main() {
   const [products, setProducts] = useState([]);
-  const [tempproducts, setTemp] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [priceRange, setPriceRange] = useState({ min: "", max: "" });
 
   useEffect(() => {
     let arr;
@@ -18,17 +19,18 @@ function Main() {
         return { ...doc.data(), id: doc.id };
       });
       setProducts([...arr]);
-      setTemp([...arr]);
       setFilteredProducts([...arr]); // Initialize with all products
     });
   }, []);
 
   async function clickMe(product) {
-    const doc = await addDoc(collection(db, "cart"), {
+    await addDoc(collection(db, "Bag"), {
       name: product.title,
-      img: product.img,
+      imgsrc: product.img,
       description: product.description,
       price: product.price,
+      basePrice: product.price,
+      quantity: 1,
     });
   }
 
@@ -49,22 +51,49 @@ function Main() {
     setFilteredProducts(sortedItems);
   };
 
-  const handleFilterChange = (selectedCategories) => {
-    if (selectedCategories.length === 0) {
-      setFilteredProducts(products);
-    } else {
-      const filtered = products.filter((product) =>
-        selectedCategories.includes(product.typeproduct)
+  const handleFilterChange = (categories) => {
+    setSelectedCategories(categories);
+    filterProducts(categories, priceRange);
+  };
+
+  const handlePriceChange = (min, max) => {
+    setPriceRange({ min, max });
+    filterProducts(selectedCategories, { min, max });
+  };
+
+  const filterProducts = (categories, price) => {
+    let filtered = products;
+
+    // Filter by category
+    if (categories.length > 0) {
+      filtered = filtered.filter((product) =>
+        categories.includes(product.typeproduct)
       );
-      setFilteredProducts(filtered);
     }
+
+    // Filter by price range
+    if (price.min !== "" || price.max !== "") {
+      filtered = filtered.filter((product) => {
+        const minPrice = price.min ? parseFloat(price.min) : 0;
+        const maxPrice = price.max ? parseFloat(price.max) : Infinity;
+        return product.price >= minPrice && product.price <= maxPrice;
+      });
+    }
+
+    setFilteredProducts(filtered);
   };
 
   return (
     <div className="containerr grid grid-cols-4 gap-4">
+      {/* Categories Section */}
       <div className="col-span-1">
-        <Menu onFilterChange={handleFilterChange} />
+        <Menu
+          onFilterChange={handleFilterChange}
+          onPriceChange={handlePriceChange}
+        />
       </div>
+
+      {/* Products Section */}
       <main className="col-span-3">
         <div className="flex justify-between items-center mb-6">
           {filteredProducts.length} Items Found
