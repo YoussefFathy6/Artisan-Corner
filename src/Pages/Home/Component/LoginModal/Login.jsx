@@ -8,8 +8,12 @@ import {
   TextInput,
 } from "flowbite-react";
 import React, { useEffect, useState } from "react";
-import { auth } from "../../../../Config/firebase";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { auth, provider } from "../../../../Config/firebase";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
 import LoginModal from "./LoginModal";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleFlag } from "../../../../Redux/Slices/homeSlice";
@@ -39,15 +43,27 @@ function Login() {
           resolve(res.user.uid);
           console.log("done");
           localStorage.setItem("id", auth.currentUser.uid);
+          dispatch(toggleFlag());
         })
         .catch((err) => {
           reject(err);
         });
     });
-    function logoutAcc() {
-      auth.signOut();
-      localStorage.removeItem("id");
-    }
+  }
+  function logoutAcc() {
+    auth.signOut();
+    localStorage.removeItem("id");
+  }
+  function loginWithGoolge() {
+    signInWithPopup(auth, provider).then((data) => {
+      localStorage.setItem("id", data.user.uid);
+      console.log(localStorage.getItem("id"));
+      console.log(data.user.uid);
+      console.log(data.user.displayName);
+      dispatch(toggleFlag());
+      // console.log(data.user.email);
+      // console.log(data.user.metadata);
+    });
   } //functions
   useEffect(() => {
     localStorage.getItem("id") ? console.log("login") : console.log("Not");
@@ -61,25 +77,18 @@ function Login() {
           <h2 className="text-2xl font-semibold mb-6 text-center">
             Welcome back
           </h2>
-          <div className="flex justify-between mb-4">
-            <button className="flex-1 py-2 mr-2 bg-white border border-gray-300 rounded-md flex items-center justify-center">
-              <div className="flex justify-between items-center py-2 pe-2">
+          <div className="flex justify-center mb-4 ">
+            <button
+              onClick={loginWithGoolge}
+              className="flex-1 py-2 mr-2 bg-white border border-gray-300 rounded-md flex items-center justify-center"
+            >
+              <div className="flex justify-between items-center py-2 pe-2 w-1/2">
                 <img
                   src="https://cdn.dribbble.com/users/904380/screenshots/2230701/attachments/415076/google-logo-revised.png"
                   alt="Google"
                   className="w-1/4"
                 />
-                Login with Google{" "}
-              </div>
-            </button>
-            <button className="flex-1 py-2 ml-2 bg-secondary text-white border border-gray-300 rounded-md flex items-center justify-center">
-              <div className="flex justify-between items-center p-2">
-                <img
-                  src="https://pngimg.com/d/apple_logo_PNG19666.png"
-                  alt="Apple"
-                  className="w-1/6"
-                />
-                Login with Apple
+                Login with Google
               </div>
             </button>
           </div>
