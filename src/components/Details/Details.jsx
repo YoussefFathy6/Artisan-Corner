@@ -20,10 +20,11 @@ import { ToastContainer, toast } from "react-toastify";
 
 import { useLocation } from "react-router-dom";
 import ReactImageZoom from "react-image-zoom";
+import ReactStars from "react-rating-stars-component";
 
 function Details() {
   const location = useLocation();
-  const { imgsrc, productType, desc, price } = location.state;
+  const { imgsrc, productType, desc, price, rating } = location.state;
   const [count, setCount] = useState(1);
   const [flag, setFlag] = useState(false);
   const navigate = useNavigate();
@@ -51,7 +52,7 @@ function Details() {
   return (
     <>
       <div className="details  flex justify-between Md:flex-col w-[80%] mx-auto mt-9">
-        <div className="detail-images w-[45%] Md:w-[100%] rounded-lg shadow-xl">
+        <div className="detail-images w-[45%] Md:w-[100%]  rounded-lg shadow-xl">
           {/* <ReactImageZoom
            
             img={imgsrc}
@@ -67,12 +68,19 @@ function Details() {
         </div>
 
         <div className="details-content w-[50%] mt-20 text-center Md:w-[100%]">
-          <div className="stars">
+          <div className="stars  w-[fit-content] mx-auto">
+            {/* <i className="fa-solid fa-star text-yellow-400"></i>
             <i className="fa-solid fa-star text-yellow-400"></i>
             <i className="fa-solid fa-star text-yellow-400"></i>
             <i className="fa-solid fa-star text-yellow-400"></i>
-            <i className="fa-solid fa-star text-yellow-400"></i>
-            <i className="fa-regular fa-star text-yellow-400"></i>
+            <i className="fa-regular fa-star text-yellow-400"></i> */}
+            <ReactStars
+              count={5}
+              size={30}
+              value={rating}
+              edit={false}
+              activeColor="#ffd700"
+            />
           </div>
           <div className="details-text">
             <h2 className="text-3Xl">{productType}</h2>

@@ -61,10 +61,10 @@ function Main() {
       <div className="flex justify-between items-center">
         {products.length} Items Found
         <div className="flex gap-3 mb-6">
-          <button className="text-fourth">{<FaThList />}</button>
+          {/* <button className="text-fourth">{<FaThList />}</button>
           <button className="text-fourth">
             <FaTableCellsLarge />
-          </button>
+          </button> */}
           <Dropdown label="Sort By" color="light" dismissOnClick={true}>
             <Dropdown.Item onClick={sortItemsHighest}>
               From Highest to Lowest
@@ -76,7 +76,7 @@ function Main() {
           </Dropdown>
         </div>
       </div>
-      <section className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+      <section className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
         {products.map((product) => (
           <div className="m-5" key={product.id}>
             <Card
