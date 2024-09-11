@@ -58,7 +58,11 @@ function ProductCard(props) {
         </button>
 
         {/* Price Section */}
+<<<<<<< HEAD
         <h5 className="text-[1rem] font-medium mt-2">{props.price} $</h5>
+=======
+        <h5 className="text-[1rem] font-medium mt-2">{`$ ${props.price}`}</h5>
+>>>>>>> fadd9e5d3349cd947498415a0926ec073af11277
       </div>
 
       {/* Add to Cart Button at the Bottom */}
