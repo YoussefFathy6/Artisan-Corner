@@ -24,7 +24,7 @@ function ProductCard(props) {
           },
         });
       }}
-      className="border rounded-lg shadow cursor-pointer flex flex-col justify-between"
+      className="border rounded-lg shadow cursor-pointer flex flex-col "
       style={{ height: "550px" }} // Ensuring card height is consistent
     >
       {/* Image and Title Section */}
@@ -35,7 +35,7 @@ function ProductCard(props) {
       />
 
       <div className="m-3">
-        <h5 className="text-base text-[#3E402D] font-Rosario font-bold tracking-tight dark:text-white">
+        <h5 className=" text-base text-[#3E402D] font-Rosario font-bold tracking-tight dark:text-white">
           {props.productType}
         </h5>
         <p
@@ -58,26 +58,24 @@ function ProductCard(props) {
         </button>
 
         {/* Price Section */}
-<<<<<<< HEAD
-        <h5 className="text-[1rem] font-medium mt-2">{props.price} $</h5>
-=======
-        <h5 className="text-[1rem] font-medium mt-2">{`$ ${props.price}`}</h5>
->>>>>>> fadd9e5d3349cd947498415a0926ec073af11277
-      </div>
 
-      {/* Add to Cart Button at the Bottom */}
-      <div className="mt-auto p-3 flex justify-center">
-        <Button
-          color={"light"}
-          className="w-full"
-          onClick={(e) => {
-            e.stopPropagation(); // Prevent event propagation to the parent div
-            props.func();
-          }}
-        >
-          Add To Cart
-        </Button>
+        <h5 className="text-[1rem] font-medium mt-2">{props.price} $</h5>
+
+        {/* Add to Cart Button at the Bottom */}
+       
       </div>
+      <div className="mt-auto p-3 flex justify-center">
+          <Button
+            color={"light"}
+            className="w-full"
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent event propagation to the parent div
+              props.func();
+            }}
+          >
+            Add To Cart
+          </Button>
+        </div>
     </div>
   );
 }
