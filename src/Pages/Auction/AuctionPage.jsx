@@ -1,12 +1,19 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { Dropdown } from "flowbite-react";
-import db from "../../../Config/firebase";
-import { onSnapshot, collection, addDoc } from "firebase/firestore";
-import Card from "./Card";
-import Menu from "../Menu/Menu";
+import db from "../../Config/firebase";
+import {
+  onSnapshot,
+  collection,
+  addDoc,
+  doc,
+  updateDoc,
+  arrayUnion,
+} from "firebase/firestore";
+import Card from "./components/Card";
+import Menu from "../EarningsPage/Menu/Menu";
 
-function Main() {
+function AuctionPage() {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -14,7 +21,7 @@ function Main() {
 
   useEffect(() => {
     let arr;
-    onSnapshot(collection(db, "add product"), (snapshot) => {
+    onSnapshot(collection(db, "auctionProduct"), (snapshot) => {
       arr = snapshot.docs.map((doc) => {
         return { ...doc.data(), id: doc.id };
       });
@@ -82,7 +89,16 @@ function Main() {
 
     setFilteredProducts(filtered);
   };
+  async function addMember(documentId, newItem) {
+    const docRef = doc(db, "auctionProduct", documentId); // Replace with your collection and document ID
 
+    // Update the array field
+    await updateDoc(docRef, {
+      members: arrayUnion(newItem), // Replace `yourArrayField` with the name of your array field
+    });
+
+    console.log("Item added successfully to the array!");
+  }
   return (
     <div className="containerr grid grid-cols-4 gap-4">
       {/* Categories Section */}
@@ -116,9 +132,8 @@ function Main() {
                 imgsrc={product.img}
                 productType={product.title}
                 title={product.description}
-                price={product.price}
-                productID={product.id}
-                func={() => clickMe(product)}
+                price={product.initPrice}
+                func={() => addMember(product.id, localStorage.getItem("id"))}
               />
             </div>
           ))}
@@ -128,4 +143,4 @@ function Main() {
   );
 }
 
-export default Main;
+export default AuctionPage;

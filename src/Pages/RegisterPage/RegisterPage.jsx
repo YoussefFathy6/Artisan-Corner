@@ -3,10 +3,11 @@ import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Button, Label, Radio } from "flowbite-react";
-import db, { auth } from "../../Config/firebase";
+import db, { auth, provider } from "../../Config/firebase";
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  signInWithPopup,
 } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -77,7 +78,8 @@ const RegisterPage = () => {
         lastname: values.lastname,
         email: values.email,
         id: user.uid,
-        accountType: values.accountType, // Add account type to Firestore
+        accountType: values.accountType,
+        profilePic: "", // Add account type to Firestore
       });
 
       localStorage.setItem("id", user.uid);
@@ -86,30 +88,42 @@ const RegisterPage = () => {
       console.error("Error creating user:", error.message);
     }
   }
-
+  function loginWithGoolge() {
+    signInWithPopup(auth, provider).then(async (data) => {
+      let fullname = data.user.displayName.split(" ");
+      await addDoc(usersCollection, {
+        firstname: fullname[0],
+        lastname: fullname[1],
+        email: data.user.email,
+        id: data.user.uid,
+        accountType: "Customer",
+        profilePic: "", // Add account type to Firestore
+      });
+      localStorage.setItem("id", data.user.uid);
+      nav("/");
+      console.log(localStorage.getItem("id"));
+      console.log(data.user.uid);
+      console.log(data.user.displayName);
+      // console.log(data.user.email);
+      // console.log(data.user.metadata);
+    });
+  } //functio
   return (
     <div className="max-w-md mx-auto p-3 bg-primary shadow-md rounded-lg my-4">
       <h2 className="text-2xl font-semibold mb-6 text-center">Register</h2>
       <div className="flex justify-between mb-4">
         {/* Social login buttons */}
-        <button className="flex-1 py-2 mr-2 bg-white border border-gray-300 rounded-md flex items-center justify-center">
-          <div className="flex justify-between items-center py-2 pe-2">
+        <button
+          onClick={loginWithGoolge}
+          className="w-1/2 flex-1 py-2 mr-2 bg-white border border-gray-300 rounded-md flex items-center justify-center"
+        >
+          <div className="flex justify-center items-center  pe-2">
             <img
               src="https://cdn.dribbble.com/users/904380/screenshots/2230701/attachments/415076/google-logo-revised.png"
               alt="Google"
               className="w-1/4"
             />
             Login with Google
-          </div>
-        </button>
-        <button className="flex-1 py-2 ml-2 bg-secondary text-white border border-gray-300 rounded-md flex items-center justify-center">
-          <div className="flex justify-between items-center p-2">
-            <img
-              src="https://pngimg.com/d/apple_logo_PNG19666.png"
-              alt="Apple"
-              className="w-1/6"
-            />
-            Login with Apple
           </div>
         </button>
       </div>

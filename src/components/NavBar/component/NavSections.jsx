@@ -59,10 +59,10 @@ function NavSections() {
 
               <NavLink
                 style={isActive}
-                to="/profile"
+                to="/auction"
                 className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
               >
-                Profile
+                Auctions
               </NavLink>
 
               <NavLink

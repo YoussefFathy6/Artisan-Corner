@@ -27,6 +27,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginAdmin, logoutAdmin } from "./Redux/Slices/adminSlice";
 import AuctionPage from "./Pages/Auction/AuctionPage";
 
+import AddDeitalsprofile from "./Pages/Profile/AddDeitalsprofile";
+import { RatingsProvider } from "./Context/RatingsContext";
+import { ReviewsProvider } from "./Context/ReviewsContext";
+
 function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -63,36 +67,44 @@ function App() {
 
   return (
     <>
-      {isAdmin ? (
-        <DashBoard />
-      ) : (
-        <>
-          <NavBar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="earnings" element={<EarningsPage />} />
-            <Route path="shipping" element={<ShippingPage />} />
-            <Route path="payment" element={<PaymentPage />} />
-            <Route path="register" element={<RegisterPage />} />
-            <Route path="auction" element={<AuctionPage />} />
-            <Route path="verify" element={<VerificationPage />} />
-            <Route path="/details" element={<Details />} />
-            <Route path="/bag" element={<ProductBag />} />
-            <Route path="order" element={<Order />} />
-            <Route path="*" element={<NotFound />} />
-            <Route path="/ticket" element={<Ticket />} />
-            <Route path="/event" element={<AllEvent />} />
-            <Route
-              path="/TicketConfirmation/:eventId"
-              element={<TicketConfirmation />}
-            />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/event" element={<Eventuser />} />
-          </Routes>
-          <Footer />
-          <ToastContainer />
-        </>
-      )}
+      <ReviewsProvider>
+        <RatingsProvider>
+          {isAdmin ? (
+            <DashBoard />
+          ) : (
+            <>
+              <NavBar />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="earnings" element={<EarningsPage />} />
+                <Route path="shipping" element={<ShippingPage />} />
+                <Route path="payment" element={<PaymentPage />} />
+                <Route path="register" element={<RegisterPage />} />
+                <Route path="auction" element={<AuctionPage />} />
+                <Route path="verify" element={<VerificationPage />} />
+                <Route path="/details" element={<Details />} />
+                <Route path="/bag" element={<ProductBag />} />
+                <Route path="order" element={<Order />} />
+                <Route path="*" element={<NotFound />} />
+                <Route path="/ticket" element={<Ticket />} />
+                <Route path="/event" element={<AllEvent />} />
+                <Route
+                  path="/TicketConfirmation/:eventId"
+                  element={<TicketConfirmation />}
+                />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/eventuser" element={<Eventuser />} />
+                <Route
+                  path="/adddeitalsprofile"
+                  element={<AddDeitalsprofile />}
+                />
+              </Routes>
+              <Footer />
+              <ToastContainer />
+            </>
+          )}
+        </RatingsProvider>
+      </ReviewsProvider>
     </>
   );
 }

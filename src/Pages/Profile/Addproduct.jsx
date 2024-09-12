@@ -1,40 +1,36 @@
-/* eslint-disable no-unused-vars */
 import React from "react";
 import { Button, Textarea, Label, Modal, TextInput } from "flowbite-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FileInput } from "flowbite-react";
 import db from "../../Config/firebase";
 import { storage } from "../../Config/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+
 function Addproduct() {
   const [openModal, setOpenModal] = useState(false);
-
-  // let [data1, setdate1] = useState({ title: "", description: "", price: 0 });
-
-  let [data1, setdate1] = useState({
+  const [data1, setdate1] = useState({
     title: "",
     description: "",
     price: "",
     typeproduct: "",
     productquantity: 0,
   });
-  // >>>>>>> c9846784e70bf42694439466fe80f9b56f38274c
-  let [imgurl, setimgurl] = useState(null);
+  const [imgurl, setimgurl] = useState(null);
   const [percent, setpercent] = useState(0);
+
   const getdate = (e) => {
     const { id, name, value, type } = e.target;
-
-    setdate1((data1) => ({
-      ...data1,
-      [name ? name : id]: value,
-      [id]: type === "number" ? Number(value) : value,
+    setdate1((prevData) => ({
+      ...prevData,
+      [name ? name : id]: type === "number" ? Number(value) : value,
     }));
-    console.log(data1);
   };
+
   function onCloseModal() {
     setOpenModal(false);
   }
+
   function save() {
     setOpenModal(false);
     const storageRef = ref(storage, `productimg/${imgurl.name}`);
@@ -47,13 +43,13 @@ function Addproduct() {
         );
         setpercent(bits);
       },
-      (erorr) => {
-        alert(erorr);
+      (error) => {
+        alert(error);
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloaduRL) => {
-          const collectionref = collection(db, "tempProduct");
-          const doc = addDoc(collectionref, {
+          const collectionref = collection(db, "add product");
+          addDoc(collectionref, {
             title: data1.title,
             description: data1.description,
             price: Number(data1.price),
@@ -66,18 +62,26 @@ function Addproduct() {
         });
       }
     );
-    setdate1("");
-    setimgurl("");
+    setdate1({
+      title: "",
+      description: "",
+      price: "",
+      typeproduct: "",
+      productquantity: 0,
+    });
+    setimgurl(null);
   }
+
   return (
     <>
       <button
         type="button"
-        className="bot mr-20 mt-14 text-orange-100 "
+        className="bot mr-20 mt-14 text-orange-100"
         onClick={() => setOpenModal(true)}
       >
         Add Product
       </button>
+
       <Modal show={openModal} size="5xl" onClose={onCloseModal} popup>
         <Modal.Header />
         <Modal.Body>
@@ -86,13 +90,11 @@ function Addproduct() {
               Add Product
             </h3>
 
-            {/* تقسيم إلى عمودين */}
-            <div className="grid grid-cols-2 gap-10">
-              {/* العمود الأول */}
+            {/* Container for the form with two columns */}
+            <div className="grid grid-cols-2 gap-6">
+              {/* First Column */}
               <div>
-                <div className="mb-2 block">
-                  <Label htmlFor="title" value="Title" className="text-xl" />
-                </div>
+                <Label htmlFor="title" value="Title" className="text-xl mb-2" />
                 <TextInput
                   id="title"
                   placeholder=""
@@ -104,13 +106,11 @@ function Addproduct() {
               </div>
 
               <div>
-                <div className="mb-2 block">
-                  <Label
-                    htmlFor="Event Description"
-                    value="Event Description"
-                    className="text-xl"
-                  />
-                </div>
+                <Label
+                  htmlFor="description"
+                  value="Description"
+                  className="text-xl mb-2"
+                />
                 <Textarea
                   id="description"
                   placeholder=""
@@ -121,11 +121,9 @@ function Addproduct() {
                 />
               </div>
 
-              {/* العمود الثاني */}
+              {/* Second Column */}
               <div>
-                <div className="block">
-                  <Label htmlFor="Price" value="Price" className="text-xl" />
-                </div>
+                <Label htmlFor="price" value="Price" className="text-xl mb-2" />
                 <TextInput
                   id="price"
                   type="text"
@@ -135,10 +133,12 @@ function Addproduct() {
                 />
               </div>
 
-              <div className="w-1/2">
-                <div className="mb-2 block">
-                  <Label value="Type Product" className="text-xl" />
-                </div>
+              <div>
+                <Label
+                  htmlFor="typeproduct"
+                  value="Type Product"
+                  className="text-xl mb-2"
+                />
                 <select
                   id="typeproduct"
                   required
@@ -156,15 +156,13 @@ function Addproduct() {
                 </select>
               </div>
 
-              {/* العمود الثالث */}
-              <div className="w-1/2">
-                <div className="mb-2 block">
-                  <Label
-                    htmlFor="Product Quantity"
-                    value="Product Quantity"
-                    className="text-xl"
-                  />
-                </div>
+              {/* Third Column */}
+              <div>
+                <Label
+                  htmlFor="productquantity"
+                  value="Product Quantity"
+                  className="text-xl mb-2"
+                />
                 <TextInput
                   id="productquantity"
                   type="number"
@@ -174,23 +172,17 @@ function Addproduct() {
                 />
               </div>
 
-              <div className="w-1/2">
-                <div className="mb-2 block">
-                  <Label
-                    htmlFor="Event Img"
-                    value="Event Img"
-                    className="text-xl"
-                  />
-                </div>
+              <div>
+                <Label htmlFor="file" value="Product Image" className="text-xl mb-2" />
                 <FileInput
                   id="file"
-                  helperText="A profile picture is useful to confirm you are logged into your account"
+                  helperText="Upload a product image."
                   onChange={(e) => setimgurl(e.target.files[0])}
                 />
               </div>
             </div>
 
-            <div className="w-full flex justify-center space-x-4">
+            <div className="flex justify-center space-x-4">
               <Button className="bot2" onClick={save}>
                 Done
               </Button>
@@ -204,4 +196,5 @@ function Addproduct() {
     </>
   );
 }
+
 export default Addproduct;
