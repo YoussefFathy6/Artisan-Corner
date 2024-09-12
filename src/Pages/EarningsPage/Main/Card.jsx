@@ -5,14 +5,15 @@ import { Button, Textarea } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineRateReview } from "react-icons/md";
 
-import { Label, Modal, TextInput } from "flowbite-react";
+import { Modal } from "flowbite-react";
 import ReactStars from "react-rating-stars-component";
 import { RatingsContext } from "../../../Context/RatingsContext";
-import Reviewss from "../../../components/Reviewss/Reviewss";
-import ReviewsContext from "../../../Context/ReviewsContext";
 
+import ReviewsContext from "../../../Context/ReviewsContext";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import db from "../../../Config/firebase";
+import { ToastContainer, toast } from "react-toastify";
 function ProductCard(props) {
-  // console.log(props)
 
   const [openModal, setOpenModal] = useState(false);
   const [rating, setRating] = useState(0);
@@ -24,16 +25,46 @@ function ProductCard(props) {
   };
 
 
+    // ========= user Data ==========// 
+    const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    getUserData()
+  }, [])
+  
+  async function getUserData() {
+    const userCollection = collection(db, "users");
+    const q = query(
+      userCollection,
+      where("id", "==", localStorage.getItem("id"))
+    );
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+      const userData = doc.data();
+      setUsername(`${userData.firstname} ${userData.lastname}`);
+    });
+  }
+
+
+
   
 
   const handleSave = () => {
-    saveRating(props.productID, rating, review);
-    setOpenModal(false);
-    setProductType(props.productID)
-    // console.log("Saving rating for productId: ", props.productID);
-    // console.log("Saving rating for rating: ", rating);
-    // console.log("Saving rating for review: ", review);
-    console.log(productType)
+    if(review == "") {
+      toast.error("Please Fill Review Input", {
+        position: "top-center",
+      });
+    } else {
+      
+      saveRating(props.productID, rating, review , username);
+      setOpenModal(false);
+      setProductType(props.productID); 
+      toast.success("Your Reviews Saved , Thank you", {
+        position: "top-right",
+      });
+    }
+
   };
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -46,12 +77,16 @@ function ProductCard(props) {
     setOpenModal(false);
   }
 
+
+
   return (
     <>
+     
       <div
         className="border rounded-lg shadow  flex flex-col "
         style={{ height: "550px" }} // Ensuring card height is consistent
       >
+     
         {/* Image and Title Section */}
         <img
           onClick={() => {
@@ -61,7 +96,7 @@ function ProductCard(props) {
                 productType: props.productType,
                 desc: props.title,
                 price: props.price,
-                rating: rating,
+                // rating: rating,
                 bobId: props.productID
               },
             });
@@ -123,6 +158,7 @@ function ProductCard(props) {
       <Modal show={openModal} size="md" onClose={onCloseModal} popup>
         <Modal.Header />
         <Modal.Body className="p-5">
+        
           <div>
             <h3>Rating...</h3>
             <ReactStars

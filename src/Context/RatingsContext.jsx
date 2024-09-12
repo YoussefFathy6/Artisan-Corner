@@ -20,13 +20,14 @@ export const RatingsProvider = ({ children }) => {
   }, []);
 
 
-  const saveRating = async (productId, rating, review) => {
+  const saveRating = async (productId, rating, review , userNameEmail) => {
    
     const reviewsRef = collection(db, "reviews");
     await addDoc(reviewsRef, {
       productId,
       rating,
       review,
+      userNameEmail
     });
   };
 

@@ -20,75 +20,55 @@ import {
   where,
   updateDoc,
 } from "firebase/firestore";
-import { HiInformationCircle } from "react-icons/hi";
+
 import ReviewsContext from "../../Context/ReviewsContext";
 import ReactStars from "react-rating-stars-component";
+
 function Reviewss({ bobId }) {
   const { productType } = useContext(ReviewsContext);
-  const productId = productType;
+  const productId = productType || bobId; 
   const [reviewList, setReviewList] = useState([]);
 
-  const [username, setUsername] = useState("");
-  const [productRating, setProductRating] = useState(null);
-  const [ProductReview, setProductReview] = useState("");
+  // const [username, setUsername] = useState("");
+
+ 
 
   useEffect(() => {
-    // console.log(bobId);
-
-    getUserData();
+   
     showReviews();
-    // console.log(productId)
+  }, [productId]);
 
-    // const productId = productType;
-    // showReviews(productId);
-  }, []);
-
-  async function getUserData() {
-    const userCollection = collection(db, "users");
-    const q = query(
-      userCollection,
-      where("id", "==", localStorage.getItem("id"))
-    );
-    const querySnapshot = await getDocs(q);
-
-    querySnapshot.forEach((doc) => {
-      const userData = doc.data();
-      setUsername(`${userData.firstname} ${userData.lastname}`);
-    });
-  }
 
   // ============ Show Reviews From Database  =================//
   async function showReviews() {
     const q = query(
       collection(db, "reviews"),
-      // where("productId", "==", productId)
-      where("productId", "==", bobId)
+      where("productId", "==", productId) 
     );
-    console.log(productId);
+
     const querySnapshot = await getDocs(q);
+    const reviews = [];
+    
     querySnapshot.forEach((doc) => {
       const productData = doc.data();
-      // console.log(productData.rating);
-      // console.log(productData.review);
-      setProductRating(productData.rating); 
-      setProductReview(productData.review)
+     
+      reviews.push({
+        id: doc.id,
+        // username: productData.username,
+        rating: productData.rating,
+        review: productData.review,
+        userName : productData.userNameEmail
+      });
+    
     });
-    // console.log(q)
-    // onSnapshot(q, (snapshot) => {
-    //   let reviews = snapshot.docs.map((doc) => {
-    //     return { ...doc.data(), id: doc.id };
-    //   });
-    //   setReviewList(reviews);
-    //   console.log(reviewList);
-    // });
-  }
 
-  // ============ Delete Reviews From Database  =================//
+    setReviewList(reviews); 
+  }
 
   return (
     <>
       <div className="review mx-auto space-y-4 w-[80%]">
-        <h1 className="text-[#344054] font-bold">Customer Feedback</h1>
+        {/* <h1 className="text-[#344054] font-bold">Customer Feedback</h1>
         <div className="rate grid zeroToTo768:grid-cols-1 from768:grid-cols-3 gap-5 m-auto">
           <div className="product-rate bg-white p-5 rounded-lg flex justify-center items-center flex-col">
             <h1 className="text-bold text-7xl text-[#164C96]">4.8</h1>
@@ -125,27 +105,26 @@ function Reviewss({ bobId }) {
               />
             </div>
           </div>
-        </div>
+        </div> */}
 
         <h1 className="text-[#344054] font-bold">Reviews</h1>
-      
-        <h3>{username}</h3>
-        {/* <h3>{productRating}</h3> */}
-        <ReactStars
-            count={5}
-            size={30}
-            value={productRating}
-            activeColor="#ffd700"
-            edit={false}
-            
-          />
 
-        <p>{ProductReview}</p>
-        {/* Display Reviews */}
+  
         <div className="reviews-list mt-4">
-          {reviewList.map((item) => {
-            <p>ddddddddddd</p>;
-          })}
+          {reviewList.map((review) => (
+            <div key={review.id} className="bg-white p-5 rounded-lg my-3">
+              {/* <h3 className="text-lg font-bold">{review.username}</h3> */}
+              <h3 className="text-lg font-bold">{review.userName}</h3>
+              <ReactStars
+                count={5}
+                size={30}
+                value={review.rating}
+                activeColor="#ffd700"
+                edit={false} 
+              />
+              <p>{review.review}</p>
+            </div>
+          ))}
         </div>
       </div>
     </>

@@ -27,12 +27,14 @@ function Details() {
   
   const { saveRating } = useContext(RatingsContext);
   const {  productType ,  setProductType } = useContext(ReviewsContext);
+ 
   useEffect(() => {
     setProductType(productType);
+ 
   },  [productType, setProductType]);
 
   const location = useLocation();
-  const { imgsrc, desc, price, rating , bobId } = location.state;
+  const { imgsrc, desc, price, bobId } = location.state;
   const [count, setCount] = useState(1);
   const [flag, setFlag] = useState(false);
   const navigate = useNavigate();
@@ -65,6 +67,10 @@ function Details() {
     await saveRating(productId, rating, review);
   };
 
+  // =========== Show Rating =========== // 
+
+ 
+
   return (
     <>
       <div className="details  flex justify-between Md:flex-col w-[80%] mx-auto mt-9">
@@ -90,14 +96,14 @@ function Details() {
             <i className="fa-solid fa-star text-yellow-400"></i>
             <i className="fa-solid fa-star text-yellow-400"></i>
             <i className="fa-regular fa-star text-yellow-400"></i> */}
-            <ReactStars
+            {/* <ReactStars
               count={5}
               size={30}
-              value={rating}
+              value={0}
               onChange={handleRatingChange}
               edit={false}
               activeColor="#ffd700"
-            />
+            /> */}
           </div>
           <div className="details-text">
             <h2 className="text-3Xl">{productType}</h2>
@@ -149,10 +155,10 @@ function Details() {
           </div>
         </div>
       </div>
-      <Nav bobId={bobId}/>
+      <Nav bobId={bobId} desc={desc}/>
       <Viewed />
     </>
   );
-}
+} 
 
 export default Details;

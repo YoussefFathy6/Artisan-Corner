@@ -1,18 +1,19 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
+import { useLocation } from "react-router-dom";
 
 function Description() {
+  const Location = useLocation() ; 
+  const {desc} = Location.state
   return (
     <>
       <div className="description grid grid-cols-2 gap-5 Md:grid-cols-1 w-[85%] mx-auto">
         <div className="desc-about  space-y-5">
           <h1 className="font-bold">ABOUT PRODUCT</h1>
           <p className="text-[#3F3F3F]">
-            Cool off this summer in the Mini Ruffle Smocked Tank Top from our
-            very own LA Hearts. This tank features a smocked body, adjustable
-            straps, scoop neckline, ruffled hems, and a cropped fit.
+            {desc}
           </p>
-          <div className="desc-ul  grid grid-cols-2">
+          {/* <div className="desc-ul  grid grid-cols-2">
             <div className="desc-ul-1">
               <h3 className="font-bold mb-2">ADVANTAGES</h3>
               <ul className=" text-[#3F3F3F]">
@@ -33,7 +34,7 @@ function Description() {
                 <li>Scoop neckline</li>
               </ul>
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div className="desc-shipping  space-y-4">
