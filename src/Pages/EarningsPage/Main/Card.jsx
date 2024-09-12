@@ -1,70 +1,112 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
-import { Button } from "flowbite-react";
+import React, { useContext, useEffect, useState } from "react";
+import { Button, Textarea } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
+import { MdOutlineRateReview } from "react-icons/md";
+
+import { Label, Modal, TextInput } from "flowbite-react";
+import ReactStars from "react-rating-stars-component";
+import { RatingsContext } from "../../../Context/RatingsContext";
+import Reviewss from "../../../components/Reviewss/Reviewss";
+import ReviewsContext from "../../../Context/ReviewsContext";
 
 function ProductCard(props) {
-  const [isExpanded, setIsExpanded] = useState(false);
+  // console.log(props)
 
+  const [openModal, setOpenModal] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [review, setReview] = useState("");
+  const { saveRating } = useContext(RatingsContext);
+  const {productType , setProductType} = useContext(ReviewsContext)
+  const ratingChanged = async (newRating) => {
+    setRating(newRating);
+  };
+
+
+  
+
+  const handleSave = () => {
+    saveRating(props.productID, rating, review);
+    setOpenModal(false);
+    setProductType(props.productID)
+    // console.log("Saving rating for productId: ", props.productID);
+    // console.log("Saving rating for rating: ", rating);
+    // console.log("Saving rating for review: ", review);
+    console.log(productType)
+  };
+
+  const [isExpanded, setIsExpanded] = useState(false);
   const nav = useNavigate();
   const toggleDescription = () => {
     setIsExpanded(!isExpanded);
   };
 
+  function onCloseModal() {
+    setOpenModal(false);
+  }
+
   return (
-    <div
-      onClick={() => {
-        nav("/details", {
-          state: {
-            imgsrc: props.imgsrc,
-            productType: props.productType,
-            desc: props.title,
-            price: props.price,
-          },
-        });
-      }}
-      className="border rounded-lg shadow cursor-pointer flex flex-col "
-      style={{ height: "550px" }} // Ensuring card height is consistent
-    >
-      {/* Image and Title Section */}
-      <img
-        className="w-full h-56 rounded-t-lg"
-        src={props.imgsrc}
-        alt={props.productType}
-      />
-
-      <div className="m-3">
-        <h5 className=" text-base text-[#3E402D] font-Rosario font-bold tracking-tight dark:text-white">
-          {props.productType}
-        </h5>
-        <p
-          className={`font-normal text-gray-500 dark:text-gray-400 text-[1rem] ${
-            isExpanded ? "line-clamp-none" : "line-clamp-2"
-          } overflow-hidden`}
-        >
-          {props.title}
-        </p>
-
-        {/* Show More/Show Less Button */}
-        <button
-          onClick={(e) => {
-            e.stopPropagation(); // Prevent event propagation to the parent div
-            toggleDescription();
+    <>
+      <div
+        className="border rounded-lg shadow  flex flex-col "
+        style={{ height: "550px" }} // Ensuring card height is consistent
+      >
+        {/* Image and Title Section */}
+        <img
+          onClick={() => {
+            nav("/details", {
+              state: {
+                imgsrc: props.imgsrc,
+                productType: props.productType,
+                desc: props.title,
+                price: props.price,
+                rating: rating,
+                bobId: props.productID
+              },
+            });
           }}
-          className="mt-2 text-blue-500 hover:text-blue-700 focus:outline-none"
-        >
-          {isExpanded ? "Show Less" : "Show More"}
-        </button>
+          className="w-full h-56 rounded-t-lg cursor-pointer"
+          src={props.imgsrc}
+          alt={props.productType}
+        />
 
-        {/* Price Section */}
+        <div className="m-3">
+          <h5 className=" text-base text-[#3E402D] font-Rosario font-bold tracking-tight dark:text-white">
+            {props.productType}
+          </h5>
+          <p
+            className={`font-normal text-gray-500 dark:text-gray-400 text-[1rem] ${
+              isExpanded ? "line-clamp-none" : "line-clamp-2"
+            } overflow-hidden`}
+          >
+            {props.title}
+          </p>
 
-        <h5 className="text-[1rem] font-medium mt-2">{props.price} $</h5>
+          {/* Show More/Show Less Button */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent event propagation to the parent div
+              toggleDescription();
+            }}
+            className="mt-2 text-blue-500 hover:text-blue-700 focus:outline-none"
+          >
+            {isExpanded ? "Show Less" : "Show More"}
+          </button>
 
-        {/* Add to Cart Button at the Bottom */}
-       
-      </div>
-      <div className="mt-auto p-3 flex justify-center">
+          {/* Price Section */}
+
+          <div className="flex justify-between items-center">
+            <h5 className="text-[1rem] font-medium mt-2">{props.price} $</h5>
+            <MdOutlineRateReview
+              size={20}
+              className="cursor-pointer"
+              onClick={() => setOpenModal(true)}
+            />
+          </div>
+          {/* Add to Cart Button at the Bottom */}
+        </div>
+        <div className="mt-auto p-3 flex justify-center">
           <Button
             color={"light"}
             className="w-full"
@@ -76,7 +118,42 @@ function ProductCard(props) {
             Add To Cart
           </Button>
         </div>
-    </div>
+      </div>
+      {/* =========> Modal <========= */}
+      <Modal show={openModal} size="md" onClose={onCloseModal} popup>
+        <Modal.Header />
+        <Modal.Body className="p-5">
+          <div>
+            <h3>Rating...</h3>
+            <ReactStars
+              count={5}
+              onChange={ratingChanged}
+              size={30}
+              value={rating}
+              activeColor="#ffd700"
+            />
+          </div>
+
+          <h3 className="text-xl font-medium text-gray-900 mb-5">
+            Add Your Reviews For This Product
+          </h3>
+          <div>
+            <div>
+              <Textarea
+                placeholder="Your Review....."
+                value={review}
+                onChange={(e) => setReview(e.target.value)}
+              />
+            </div>
+            <button className="btn my-5" onClick={handleSave}>
+              Save
+            </button>
+          </div>
+        </Modal.Body>
+      </Modal>
+
+      {/* =========> Modal <========= */}
+    </>
   );
 }
 

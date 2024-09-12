@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 import Nav from "../Nav/Nav";
@@ -21,10 +21,18 @@ import { ToastContainer, toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
 import ReactImageZoom from "react-image-zoom";
 import ReactStars from "react-rating-stars-component";
-
+import { RatingsContext } from "../../Context/RatingsContext";
+import ReviewsContext from "../../Context/ReviewsContext";
 function Details() {
+  
+  const { saveRating } = useContext(RatingsContext);
+  const {  productType ,  setProductType } = useContext(ReviewsContext);
+  useEffect(() => {
+    setProductType(productType);
+  },  [productType, setProductType]);
+
   const location = useLocation();
-  const { imgsrc, productType, desc, price, rating } = location.state;
+  const { imgsrc, desc, price, rating , bobId } = location.state;
   const [count, setCount] = useState(1);
   const [flag, setFlag] = useState(false);
   const navigate = useNavigate();
@@ -48,6 +56,14 @@ function Details() {
   function goToBag() {
     navigate("/bag");
   }
+
+  const handleRatingChange = (newRating) => {
+    setRating(newRating);
+  };
+
+  const handleSaveRating = async () => {
+    await saveRating(productId, rating, review);
+  };
 
   return (
     <>
@@ -78,6 +94,7 @@ function Details() {
               count={5}
               size={30}
               value={rating}
+              onChange={handleRatingChange}
               edit={false}
               activeColor="#ffd700"
             />
@@ -132,7 +149,7 @@ function Details() {
           </div>
         </div>
       </div>
-      <Nav />
+      <Nav bobId={bobId}/>
       <Viewed />
     </>
   );

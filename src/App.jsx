@@ -25,6 +25,7 @@ import { collection, query, where, onSnapshot } from "firebase/firestore";
 import db from "./Config/firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { loginAdmin, logoutAdmin } from "./Redux/Slices/adminSlice";
+import AuctionPage from "./Pages/Auction/AuctionPage";
 
 function App() {
   const navigate = useNavigate();
@@ -73,6 +74,7 @@ function App() {
             <Route path="shipping" element={<ShippingPage />} />
             <Route path="payment" element={<PaymentPage />} />
             <Route path="register" element={<RegisterPage />} />
+            <Route path="auction" element={<AuctionPage />} />
             <Route path="verify" element={<VerificationPage />} />
             <Route path="/details" element={<Details />} />
             <Route path="/bag" element={<ProductBag />} />
