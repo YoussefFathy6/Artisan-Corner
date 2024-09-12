@@ -22,6 +22,7 @@ function Addevent() {
 
   const getdate = (e) => {
     const { id, name, value, type } = e.target;
+    const { id, name, value, type } = e.target;
 
     setdate1((prevData) => ({
       ...prevData,
@@ -51,6 +52,10 @@ function Addevent() {
       const uploadTask2 = uploadBytesResumable(ticketImgRef, imgurl2);
 
       const [snapshot1, snapshot2] = await Promise.all([uploadTask1, uploadTask2]);
+      const [snapshot1, snapshot2] = await Promise.all([
+        uploadTask1,
+        uploadTask2,
+      ]);
 
       // Get download URLs for both images
       const downloadURL1 = await getDownloadURL(snapshot1.ref);
@@ -79,9 +84,10 @@ function Addevent() {
       setimgurl2(null);
 
       alert("Event saved successfully!");
-
     } catch (error) {
       alert("Error: " + error.message);
+      alert("Error: " + error.message);
+    }
     }
   }
 
@@ -126,6 +132,15 @@ function Addevent() {
                 <Label htmlFor="eventtype" value="Event Type" className="text-xl mb-2 block" />
                 <div className="flex gap-4">
                   <label className="flex items-center">
+                <div className="mb-2 block">
+                  <Label
+                    htmlFor="Event Type"
+                    value="Event Type"
+                    className="text-xl"
+                  />
+                </div>
+                <div className="flex gap-4 ">
+                  <div className="flex items-center">
                     <input
                       type="radio"
                       name="eventtype"
@@ -179,5 +194,6 @@ function Addevent() {
     </>
   );
 }
+
 
 export default Addevent;

@@ -59,23 +59,24 @@ function ProductCard(props) {
 
         {/* Price Section */}
 
-        <h5 className="text-[1rem] font-medium mt-2">{props.price} $</h5>
+        <h5 className="text-[1rem] font-medium mt-2">
+          Auction Initial Price : {props.price} $
+        </h5>
 
         {/* Add to Cart Button at the Bottom */}
-       
       </div>
       <div className="mt-auto p-3 flex justify-center">
-          <Button
-            color={"light"}
-            className="w-full"
-            onClick={(e) => {
-              e.stopPropagation(); // Prevent event propagation to the parent div
-              props.func();
-            }}
-          >
-            Add To Cart
-          </Button>
-        </div>
+        <Button
+          color={"light"}
+          className="w-full"
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent event propagation to the parent div
+            props.func();
+          }}
+        >
+          Join Auction
+        </Button>
+      </div>
     </div>
   );
 }
