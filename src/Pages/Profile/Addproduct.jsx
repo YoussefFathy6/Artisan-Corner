@@ -57,8 +57,6 @@ function Addproduct() {
             img: downloaduRL,
             productquantity: data1.productquantity,
             typeproduct: data1.typeproduct,
-            productquantity: data1.productquantity,
-            typeproduct: data1.typeproduct,
             ownerID: localStorage.getItem("id"),
           });
         });
@@ -85,12 +83,6 @@ function Addproduct() {
       </button>
 
       <Modal show={openModal} size="5xl" onClose={onCloseModal} popup>
-        <Modal.Header />
-        <Modal.Body>
-          <div className="space-y-6">
-            <h3 className="text-4xl font-medium text-gray-900 dark:text-white">
-              Add Product
-            </h3>
         <Modal.Header />
         <Modal.Body>
           <div className="space-y-6">

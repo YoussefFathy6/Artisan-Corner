@@ -22,7 +22,6 @@ function Addevent() {
 
   const getdate = (e) => {
     const { id, name, value, type } = e.target;
-    const { id, name, value, type } = e.target;
 
     setdate1((prevData) => ({
       ...prevData,
@@ -38,30 +37,21 @@ function Addevent() {
     setOpenModal(false);
 
     try {
-      // Ensure both images are selected for upload
       if (!imgurl || !imgurl2) {
         throw new Error("Both event and ticket images must be selected for upload.");
       }
 
-      // Create storage references for both images
       const eventImgRef = ref(storage, `eventimg/${imgurl.name}`);
       const ticketImgRef = ref(storage, `ticketimg/${imgurl2.name}`);
 
-      // Upload images
       const uploadTask1 = uploadBytesResumable(eventImgRef, imgurl);
       const uploadTask2 = uploadBytesResumable(ticketImgRef, imgurl2);
 
       const [snapshot1, snapshot2] = await Promise.all([uploadTask1, uploadTask2]);
-      const [snapshot1, snapshot2] = await Promise.all([
-        uploadTask1,
-        uploadTask2,
-      ]);
 
-      // Get download URLs for both images
       const downloadURL1 = await getDownloadURL(snapshot1.ref);
       const downloadURL2 = await getDownloadURL(snapshot2.ref);
 
-      // Save event data to Firestore
       const collectionRef = collection(db, "add event");
       await addDoc(collectionRef, {
         ...data1,
@@ -69,7 +59,6 @@ function Addevent() {
         ticketImg: downloadURL2,
       });
 
-      // Reset form data
       setdate1({
         name: "",
         date: "",
@@ -86,8 +75,6 @@ function Addevent() {
       alert("Event saved successfully!");
     } catch (error) {
       alert("Error: " + error.message);
-      alert("Error: " + error.message);
-    }
     }
   }
 
@@ -107,7 +94,6 @@ function Addevent() {
           <div className="space-y-6">
             <h3 className="text-4xl font-medium text-gray-900 dark:text-white">Add Event</h3>
 
-            {/* Container for Two Columns */}
             <div className="grid grid-cols-2 gap-6">
               {/* First Column */}
               <div>
@@ -132,15 +118,6 @@ function Addevent() {
                 <Label htmlFor="eventtype" value="Event Type" className="text-xl mb-2 block" />
                 <div className="flex gap-4">
                   <label className="flex items-center">
-                <div className="mb-2 block">
-                  <Label
-                    htmlFor="Event Type"
-                    value="Event Type"
-                    className="text-xl"
-                  />
-                </div>
-                <div className="flex gap-4 ">
-                  <div className="flex items-center">
                     <input
                       type="radio"
                       name="eventtype"
@@ -194,6 +171,5 @@ function Addevent() {
     </>
   );
 }
-
 
 export default Addevent;
