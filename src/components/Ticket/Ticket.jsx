@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Modal, TextInput } from "flowbite-react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { Carousel } from "flowbite-react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { getFirestore, collection, addDoc } from "firebase/firestore"; 
+import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
 
 function Ticket() {
   const location = useLocation();
@@ -14,9 +14,23 @@ function Ticket() {
   const [showModal, setShowModal] = useState(false);
   const [email, setEmail] = useState(""); 
   const [emailError, setEmailError] = useState("");
+  const [otherEvents, setOtherEvents] = useState([]);
   const navigate = useNavigate();
-
   const db = getFirestore(); 
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "add event"));
+        const events = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setOtherEvents(events);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
+
+    fetchEvents();
+  }, [db]);
 
   const increaseCount = () => {
     setCount(count + 1);
@@ -122,106 +136,110 @@ function Ticket() {
 
       {/* Modal */}
       <Modal show={showModal} onClose={() => setShowModal(false)}>
-  <Modal.Header>Payment</Modal.Header>
-  <Modal.Body>
-    <form onSubmit={handlePayment}>
-      <div className="mb-4">
-        <label className="block mb-2 text-sm font-medium">Name on Card</label>
-        <TextInput
-          id="cardName"
-          type="text"
-          placeholder="Enter name on card"
-          required={true}
-        />
-      </div>
-      
-      <div className="mb-4">
-        <label className="block mb-2 text-sm font-medium">Card Number</label>
-        <TextInput
-          id="cardNumber"
-          type="text"
-          placeholder="Enter card number"
-          required={true}
-        />
-      </div>
+        <Modal.Header>Payment</Modal.Header>
+        <Modal.Body>
+          <form onSubmit={handlePayment}>
+            <div className="mb-4">
+              <label className="block mb-2 text-sm font-medium">Name on Card</label>
+              <TextInput
+                id="cardName"
+                type="text"
+                placeholder="Enter name on card"
+                required={true}
+              />
+            </div>
+            
+            <div className="mb-4">
+              <label className="block mb-2 text-sm font-medium">Card Number</label>
+              <TextInput
+                id="cardNumber"
+                type="text"
+                placeholder="Enter card number"
+                required={true}
+              />
+            </div>
 
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        <div>
-          <label className="block mb-2 text-sm font-medium">Expiration Date</label>
-          <TextInput
-            id="expDate"
-            type="text"
-            placeholder="MM/YY"
-            required={true}
-          />
-        </div>
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              <div>
+                <label className="block mb-2 text-sm font-medium">Expiration Date</label>
+                <TextInput
+                  id="expDate"
+                  type="text"
+                  placeholder="MM/YY"
+                  required={true}
+                />
+              </div>
 
-        <div>
-          <label className="block mb-2 text-sm font-medium">CVV</label>
-          <TextInput
-            id="cvv"
-            type="password"
-            placeholder="CVV"
-            required={true}
-          />
-        </div>
-      </div>
+              <div>
+                <label className="block mb-2 text-sm font-medium">CVV</label>
+                <TextInput
+                  id="cvv"
+                  type="password"
+                  placeholder="CVV"
+                  required={true}
+                />
+              </div>
+            </div>
 
-      <Button type="submit" className="bg-blue-500 text-white w-full">
-        Pay {total} EGP
-      </Button>
-    </form>
-    <hr className="my-4" />
-    <PayPalScriptProvider
-      options={{
-        "client-id": "YOUR_CLIENT_ID",
-        currency: "EGP",
-      }}
-    >
-      <PayPalButtons
-        style={{ layout: "vertical" }}
-        amount={Number(total).toFixed(2)}
-        onApprove={async (data, actions) => {
-          try {
-            await actions.order.capture();
-            console.log("Payment approved and captured");
-            handleEmailSubmission(); // Save email after payment success
-            navigate(`/TicketConfirmation/${event.id}`);
-          } catch (error) {
-            console.error("Error capturing payment:", error);
-          }
-        }}
-        onError={(err) => {
-          console.error("PayPal Error:", err);
-        }}
-      />
-    </PayPalScriptProvider>
+            <Button type="submit" className="bg-blue-500 text-white w-full">
+              Pay {total} EGP
+            </Button>
+          </form>
+          <hr className="my-4" />
+          <PayPalScriptProvider
+            options={{
+              "client-id": "YOUR_CLIENT_ID",
+              currency: "EGP",
+            }}
+          >
+            <PayPalButtons
+              style={{ layout: "vertical" }}
+              amount={Number(total).toFixed(2)}
+              onApprove={async (data, actions) => {
+                try {
+                  await actions.order.capture();
+                  console.log("Payment approved and captured");
+                  
+                  const platformFee = total * 0.10;
+                  const userAmount = total - platformFee;
+                  console.log("User Amount after platform fee:", userAmount);
+                  
+                  handleEmailSubmission();
+                  
+                  navigate(`/TicketConfirmation/${event.id}`);
+                } catch (error) {
+                  console.error("Error capturing payment or calculating fees:", error);
+                  alert("There was an issue processing your payment. Please try again later.");
+                }
+              }}
+            />
+          </PayPalScriptProvider>
 
-    <Button
-      className="capitalize w-full font-bold text-white bg-blue-500 border-none mt-5 rounded-md"
-      onClick={() => {
-        handleEmailSubmission();
-        navigate(`/TicketConfirmation/${event.id}`);
-      }}
-    >
-      Proceed without Payment
-    </Button>
-  </Modal.Body>
-</Modal>
-
+          <Button
+            className="capitalize w-full font-bold text-white bg-blue-500 border-none mt-5 rounded-md"
+            onClick={() => {
+              handleEmailSubmission();
+              navigate(`/TicketConfirmation/${event.id}`);
+            }}
+          >
+            Proceed without Payment
+          </Button>
+        </Modal.Body>
+      </Modal>
 
       {/* Carousel */}
       <section className="container mt-5 mb-5" id="slid">
         <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
           <Carousel autoPlay infiniteLoop interval={3000}>
-            <div>
-              <img
-                className="w-full"
-                src="/dist/handicraft.jpeg"
-                alt="First slide"
-              />
-            </div>
-            {/* Other carousel images */}
+            {otherEvents.map((ev) => (
+              <div key={ev.id} onClick={() => navigate(`/ticket/${ev.id}`)}>
+                <img
+                  className="w-full cursor-pointer"
+                  src={ev.eventImg}
+                  alt={ev.name}
+                />
+              </div>
+            ))}
           </Carousel>
         </div>
       </section>
