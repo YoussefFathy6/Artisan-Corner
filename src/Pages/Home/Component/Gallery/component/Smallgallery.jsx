@@ -6,7 +6,7 @@ import imgGallry3 from "../../../../../assets/imges/Gallery3.png";
 
 function Smallgallery() {
   return (
-    <div className=" py-6 sm:py-8 lg:py-12">
+    <div className=" py-6 sm:py-8 lg:py-12 w-full">
       <div className="mx-auto max-w-screen-2xl px-4 md:px-8">
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-6 xl:gap-3">
           {/* <!-- image - start --> */}

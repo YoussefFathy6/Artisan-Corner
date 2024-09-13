@@ -6,36 +6,41 @@ import { useNavigate } from "react-router-dom";
 
 function ProductCard(props) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const navigate = useNavigate();
 
-  const nav = useNavigate();
   const toggleDescription = () => {
     setIsExpanded(!isExpanded);
   };
 
+  const handleImageClick = () => {
+    navigate("/proposals", {
+      state: {
+        product: {
+          id: props.ID,
+          imgsrc: props.imgsrc,
+          productType: props.productType,
+          title: props.title,
+          price: props.price,
+        },
+      },
+    });
+  };
+
   return (
     <div
-      onClick={() => {
-        nav("/details", {
-          state: {
-            imgsrc: props.imgsrc,
-            productType: props.productType,
-            desc: props.title,
-            price: props.price,
-          },
-        });
-      }}
-      className="border rounded-lg shadow cursor-pointer flex flex-col "
-      style={{ height: "550px" }} // Ensuring card height is consistent
+      className="border rounded-lg shadow cursor-pointer flex flex-col"
+      style={{ height: "550px" }}
     >
       {/* Image and Title Section */}
       <img
-        className="w-full h-56 rounded-t-lg"
+        className="w-full h-56 rounded-t-lg cursor-pointer"
         src={props.imgsrc}
         alt={props.productType}
+        onClick={handleImageClick}
       />
 
       <div className="m-3">
-        <h5 className=" text-base text-[#3E402D] font-Rosario font-bold tracking-tight dark:text-white">
+        <h5 className="text-base text-[#3E402D] font-Rosario font-bold tracking-tight dark:text-white">
           {props.productType}
         </h5>
         <p
@@ -58,25 +63,26 @@ function ProductCard(props) {
         </button>
 
         {/* Price Section */}
-
         <h5 className="text-[1rem] font-medium mt-2">
-          Auction Initial Price : {props.price} $
+          Auction Initial Price: {props.price} $
         </h5>
+      </div>
 
-        {/* Add to Cart Button at the Bottom */}
-      </div>
-      <div className="mt-auto p-3 flex justify-center">
-        <Button
-          color={"light"}
-          className="w-full"
-          onClick={(e) => {
-            e.stopPropagation(); // Prevent event propagation to the parent div
-            props.func();
-          }}
-        >
-          Join Auction
-        </Button>
-      </div>
+      {/* Conditionally render "Join Auction" button */}
+      {!props.isMember && (
+        <div className="mt-auto p-3 flex justify-center">
+          <Button
+            color={"light"}
+            className="w-full"
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent event propagation to the parent div
+              props.func();
+            }}
+          >
+            Join Auction
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

@@ -25,7 +25,7 @@ function CartSection() {
   useEffect(() => {
     // Subscribe to Firestore collection
     console.log("Subscribing to Firestore collection"); // Debug: Log subscription
-    const unsubscribe = onSnapshot(collection(db, "cart"), (snapshot) => {
+    const unsubscribe = onSnapshot(collection(db, "Bag"), (snapshot) => {
       const arr = snapshot.docs.map((doc) => {
         return { ...doc.data(), id: doc.id };
       });

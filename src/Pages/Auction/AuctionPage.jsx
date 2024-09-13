@@ -12,34 +12,24 @@ import {
 } from "firebase/firestore";
 import Card from "./components/Card";
 import Menu from "../EarningsPage/Menu/Menu";
+import AllAuctions from "./AllAuctions";
+import JoinedAuctions from "./JoinedAuctions";
 
 function AuctionPage() {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const [priceRange, setPriceRange] = useState({ min: "", max: "" });
+  const [activeSection, setActiveSection] = useState("allauctions");
+  const renderSectionContent = () => {
+    switch (activeSection) {
+      case "allauctions":
+        return <AllAuctions />;
+      case "joinedauctions":
+        return <JoinedAuctions />;
 
-  useEffect(() => {
-    let arr;
-    onSnapshot(collection(db, "auctionProduct"), (snapshot) => {
-      arr = snapshot.docs.map((doc) => {
-        return { ...doc.data(), id: doc.id };
-      });
-      setProducts([...arr]);
-      setFilteredProducts([...arr]); // Initialize with all products
-    });
-  }, []);
-
-  async function clickMe(product) {
-    await addDoc(collection(db, "Bag"), {
-      name: product.title,
-      imgsrc: product.img,
-      description: product.description,
-      price: product.price,
-      basePrice: product.price,
-      quantity: 1,
-    });
-  }
+      default:
+        return <AllAuctions />;
+    }
+  };
 
   const sortItemsHighest = () => {
     const sortedItems = [...filteredProducts].sort((a, b) => a.price - b.price);
@@ -58,87 +48,45 @@ function AuctionPage() {
     setFilteredProducts(sortedItems);
   };
 
-  const handleFilterChange = (categories) => {
-    setSelectedCategories(categories);
-    filterProducts(categories, priceRange);
-  };
+  // Filter by category
 
-  const handlePriceChange = (min, max) => {
-    setPriceRange({ min, max });
-    filterProducts(selectedCategories, { min, max });
-  };
-
-  const filterProducts = (categories, price) => {
-    let filtered = products;
-
-    // Filter by category
-    if (categories.length > 0) {
-      filtered = filtered.filter((product) =>
-        categories.includes(product.typeproduct)
-      );
-    }
-
-    // Filter by price range
-    if (price.min !== "" || price.max !== "") {
-      filtered = filtered.filter((product) => {
-        const minPrice = price.min ? parseFloat(price.min) : 0;
-        const maxPrice = price.max ? parseFloat(price.max) : Infinity;
-        return product.price >= minPrice && product.price <= maxPrice;
-      });
-    }
-
-    setFilteredProducts(filtered);
-  };
-  async function addMember(documentId, newItem) {
-    const docRef = doc(db, "auctionProduct", documentId); // Replace with your collection and document ID
-
-    // Update the array field
-    await updateDoc(docRef, {
-      members: arrayUnion(newItem), // Replace `yourArrayField` with the name of your array field
-    });
-
-    console.log("Item added successfully to the array!");
-  }
   return (
-    <div className="containerr grid grid-cols-4 gap-4">
-      {/* Categories Section */}
-      <div className="col-span-1">
-        <Menu
-          onFilterChange={handleFilterChange}
-          onPriceChange={handlePriceChange}
-        />
+    <div className="flex h-screen">
+      {/* Sidebar */}
+      <div className="w-1/4 bg-primary p-4 ">
+        <h2 className="text-xl font-bold mb-4">Dashboard</h2>
+        <ul className="space-y-2">
+          <li>
+            <button
+              className={`w-full py-2 px-4 text-left ${
+                activeSection === "allauctions"
+                  ? "bg-secondary text-white"
+                  : "bg-white text-black"
+              }`}
+              onClick={() => setActiveSection("allauctions")}
+            >
+              All Auctions
+            </button>
+          </li>
+          <li>
+            <button
+              className={`w-full py-2 px-4 text-left ${
+                activeSection === "joinedauctions"
+                  ? "bg-secondary text-white"
+                  : "bg-white text-black"
+              }`}
+              onClick={() => setActiveSection("joinedauctions")}
+            >
+              Joined Auctions
+            </button>
+          </li>
+        </ul>
       </div>
 
-      {/* Products Section */}
-      <main className="col-span-3">
-        <div className="flex justify-between items-center mb-6">
-          {filteredProducts.length} Items Found
-          <div className="flex gap-3">
-            <Dropdown label="Sort By" color="light" dismissOnClick={true}>
-              <Dropdown.Item onClick={sortItemsHighest}>
-                From Highest to Lowest
-              </Dropdown.Item>
-              <Dropdown.Item onClick={sortItemsLowest}>
-                From Lowest to Highest
-              </Dropdown.Item>
-              <Dropdown.Item onClick={sortItemsByName}>By Name</Dropdown.Item>
-            </Dropdown>
-          </div>
-        </div>
-        <section className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
-          {filteredProducts.map((product) => (
-            <div className="m-5" key={product.id}>
-              <Card
-                imgsrc={product.img}
-                productType={product.title}
-                title={product.description}
-                price={product.initPrice}
-                func={() => addMember(product.id, localStorage.getItem("id"))}
-              />
-            </div>
-          ))}
-        </section>
-      </main>
+      {/* Main Content */}
+      <div className="w-3/4 bg-white p-6 overflow-auto flex justify-center">
+        {renderSectionContent()}
+      </div>
     </div>
   );
 }

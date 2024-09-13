@@ -6,7 +6,7 @@ import Smallgallery from "./component/Smallgallery";
 function Gallery() {
   return (
     <section className="bg-[#913B10]">
-      <div className=" container pb-10">
+      <div className=" container flex flex-col pb-10">
         <Title />
         <Smallgallery />
       </div>

@@ -7,8 +7,8 @@ import Title from "./component/Title/Title";
 function SmallCards() {
   return (
     <section>
-      <div className=" container">
-        <Title/>
+      <div className=" container flex flex-col">
+        <Title />
         <SmallC />
       </div>
     </section>

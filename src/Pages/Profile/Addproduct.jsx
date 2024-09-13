@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { Button, Textarea, Label, Modal, TextInput } from "flowbite-react";
 import { useState } from "react";
@@ -48,7 +49,7 @@ function Addproduct() {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloaduRL) => {
-          const collectionref = collection(db, "add product");
+          const collectionref = collection(db, "tempProducts");
           addDoc(collectionref, {
             title: data1.title,
             description: data1.description,
@@ -173,7 +174,11 @@ function Addproduct() {
               </div>
 
               <div>
-                <Label htmlFor="file" value="Product Image" className="text-xl mb-2" />
+                <Label
+                  htmlFor="file"
+                  value="Product Image"
+                  className="text-xl mb-2"
+                />
                 <FileInput
                   id="file"
                   helperText="Upload a product image."
