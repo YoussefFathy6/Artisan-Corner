@@ -1,23 +1,43 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
-import { CiFacebook } from "react-icons/ci";
 import { FaInstagram } from "react-icons/fa6";
-import { FaXTwitter } from "react-icons/fa6";
-import { CiLinkedin } from "react-icons/ci";
-import { Link, useLocation } from "react-router-dom";
+import { FaLinkedinIn } from "react-icons/fa";
+import { Link} from "react-router-dom";
 import { FaUserEdit } from "react-icons/fa";
+import { FaFacebookF } from "react-icons/fa";
+
 import Cards2 from "./Cards2";
 import Addproduct from "./Addproduct";
 import db from "../../Config/firebase";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot , query, where,doc, getDocs} from "firebase/firestore";
 import Side from "./Side";
 
 function Profile() {
   let [products, setproducts] = useState([]);
-  const location = useLocation();
-  const data = location.state?.data;
-console.log(data);
+  const [data, setData] = useState([]);
+  const [userId, setUserId] = useState(null);
+  async function checkUser() {
+    try {
+      const usersCollection = collection(db, "users");
+      const q = query(usersCollection, where("id", "==", localStorage.getItem("id")));
+      const querySnapshot = await getDocs(q);
 
+      if (!querySnapshot.empty) {
+        console.log("User found!");
+        querySnapshot.forEach((doc) => {
+          setData([doc.data()]);
+          setUserId(doc.id);
+          
+        });
+      } else {
+        console.log("No user found!");
+        throw new Error("User not found in the database.");
+      }
+    } catch (error) {
+      console.error("Error: ", error);
+    }
+  }
+      
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "add product"), (snapshot) => {
       const arr = snapshot.docs.map((doc) => {
@@ -25,39 +45,40 @@ console.log(data);
       });
       setproducts([...arr]);
     });
+    checkUser();
 
     return () => unsubscribe();
   }, []);
-
   return (
     <>
-    <Link to="/adddeitalsprofile">
-                  <a>
-                    <FaUserEdit size={50} />
-                  </a>
-                </Link>
       <div className="flex justify-around">
         <Side />
         <div className="ml-7 mr-4">
           {data && data.length > 0 &&data.map((item, index) => (
             <div className="head mt-28 flex justify-around rounded-xl" key={index}>
-              <div className="mt-24 w-1/2 ml-20">
               <Link to="/adddeitalsprofile">
-                  <a>
-                    <FaUserEdit size={50} />
+                <a className="bg-yellow-300">
+                    <FaUserEdit size={50} className="ml-10 mt-3" />
                   </a>
                 </Link>
-                <h1 className="text-7xl mb-2">{item.firstname} {item.lastname}</h1>
+              <div className="mt-24 w-1/2 ml-20">
+                <h1 className="text-7xl mb-10">{item.firstname} {item.lastname}</h1>
+                <h4 className="text-3xl mb-5">About</h4>
                 <h4 className="text-3xl">{item.about}</h4>
                 <div className="mt-8">
                 </div>
               </div>
               <div className="mt-20 w-1/2">
                 <img
-                  src={item.profilePic || "default-image-url.jpg"}
+                  src={item.profilePic || "avatar-1299805_1280.png"}
                   alt="Profile"
                   className="w-96 h-80 rounded-full object-cover ml-80"
                 />
+                       <div className=" flex justify-around w-[30%] mt-8 ml-[50%]">
+                        <a href={item.facebook}> <FaFacebookF size={30} color="whait"/></a>
+                          <a href={item.instgram} ><FaInstagram  size={30}/></a>
+                           <a href={item.linkedin}>  <FaLinkedinIn size={30} /></a>
+                          </div>
               </div>
             </div>
           ))}
