@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import db from './../../Config/firebase';
+import db from '../../Config/firebase';
 import { useParams } from "react-router-dom"; 
 import emailjs from 'emailjs-com'; 
 import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore"; 

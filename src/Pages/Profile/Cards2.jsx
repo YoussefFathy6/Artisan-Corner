@@ -47,3 +47,5 @@ function Cards2({ data, onDelete }) {
 }
 
 export default Cards2;
+
+

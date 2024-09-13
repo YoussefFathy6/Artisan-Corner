@@ -23,6 +23,12 @@ import VerificationPage from "./Pages/RegisterPage/VerificationPage";
 import DashBoard from "./Pages/Dashboard/DashBoard";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import db from "./Config/firebase";
+// import CreateEventRoom from "./Pages/Events/online";
+
+// import CreateRoom from "./Pages/Events/MeetingRoom";
+// import AgoraService from "./Pages/Events/AgoraService";
+// import CreateEventRoom from "./Pages/Events/online";
+import VideoCall from "./Pages/Events/MeetingRoom";
 
 function App() {
   const [isAdmin, setIsAdmin] = useState(false); // State to track if user is admin
@@ -60,11 +66,18 @@ function App() {
     checkAdminStatus(); // Call the function to check admin status
   }, []);
 
+
+  // const { createRoom } = AgoraService();
+
+  // const handleCreateRoom = (roomName) => {
+  //   createRoom(roomName);
+  // };
+
   return (
     <>
-      {isAdmin ? (
+      {/* {isAdmin ? (
         <DashBoard />
-      ) : (
+      ) : ( */}
         <>
           <NavBar />
           <Routes>
@@ -85,18 +98,21 @@ function App() {
             <Route path="*" element={<NotFound />} />
             <Route path="/ticket" element={<Ticket />} />
             <Route path="/event" element={<AllEvent />} />
-            <Route
-              path="/TicketConfirmation/:eventId"
-              element={<TicketConfirmation />}
-            />
+            <Route path="/TicketConfirmation/:eventId" element={<TicketConfirmation />} />
+                        {/* <Route path="/onlineroom" element={<CreateRoom/>} /> */}
+                        {/* <Route path="/onlineroom" element={<AgoraService/>} /> */}
+                        {/* <Route path="/online" element={<CreateEventRoom/>} /> */}
+                        <Route path="/online" element={<VideoCall/>} />
+
+
             {/* wafaa //////////////////////////////////////////*/}
             <Route path="/profile" element={<Profile />} />
-            <Route path="/event" element={<Eventuser />} />
+            <Route path="/eventuser" element={<Eventuser />} />
           </Routes>
           <Footer />
           <ToastContainer />
         </>
-      )}
+      {/* )} */}
     </>
   );
 }
