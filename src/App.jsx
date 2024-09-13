@@ -35,7 +35,7 @@ import { ReviewsProvider } from "./Context/ReviewsContext";
 // import CreateRoom from "./Pages/Events/MeetingRoom";
 // import AgoraService from "./Pages/Events/AgoraService";
 // import CreateEventRoom from "./Pages/Events/online";
-import VideoCall from "./Pages/Events/MeetingRoom";
+// import VideoCall from "./Pages/Events/MeetingRoom";
 
 function App() {
   const navigate = useNavigate();
@@ -72,11 +72,6 @@ function App() {
   }, []);
 
 
-  // const { createRoom } = AgoraService();
-
-  // const handleCreateRoom = (roomName) => {
-  //   createRoom(roomName);
-  // };
 
   return (
     <>
@@ -105,6 +100,8 @@ function App() {
                   path="/TicketConfirmation/:eventId"
                   element={<TicketConfirmation />}
                 />
+                                        {/* <Route path="/online" element={<VideoCall/>} /> */}
+
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/eventuser" element={<Eventuser />} />
                 <Route
@@ -118,44 +115,7 @@ function App() {
           )}
         </RatingsProvider>
       </ReviewsProvider>
-      {/* {isAdmin ? (
-        <DashBoard />
-      ) : ( */}
-        <>
-          <NavBar />
-          <Routes>
-            {/* amr //////////////////////////////////////////*/}
-            <Route path="/" element={<Home />} />
-            {/* youssef //////////////////////////////////////////*/}
-            <Route path="earnings" element={<EarningsPage />} />
-            <Route path="shipping" element={<ShippingPage />} />
-            <Route path="payment" element={<PaymentPage />} />
-            <Route path="register" element={<RegisterPage />} />
-            <Route path="verify" element={<VerificationPage />} />
-            <Route path="dashboard" element={<DashBoard />} />
-            {/* samir //////////////////////////////////////////*/}
-            <Route path="/details" element={<Details />} />
-            <Route path="/bag" element={<ProductBag />} />
-            {/* hanaa //////////////////////////////////////////*/}
-            <Route path="order" element={<Order />} />
-            <Route path="*" element={<NotFound />} />
-            <Route path="/ticket" element={<Ticket />} />
-            <Route path="/event" element={<AllEvent />} />
-            <Route path="/TicketConfirmation/:eventId" element={<TicketConfirmation />} />
-                        {/* <Route path="/onlineroom" element={<CreateRoom/>} /> */}
-                        {/* <Route path="/onlineroom" element={<AgoraService/>} /> */}
-                        {/* <Route path="/online" element={<CreateEventRoom/>} /> */}
-                        <Route path="/online" element={<VideoCall/>} />
-
-
-            {/* wafaa //////////////////////////////////////////*/}
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/eventuser" element={<Eventuser />} />
-          </Routes>
-          <Footer />
-          <ToastContainer />
-        </>
-      {/* )} */}
+    
     </>
   );
 }

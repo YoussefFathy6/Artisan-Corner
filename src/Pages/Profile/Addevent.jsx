@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { Button, Textarea, Label, Modal, TextInput, FileInput } from "flowbite-react";
 import db from "../../Config/firebase";
 import { collection, addDoc } from "firebase/firestore";
