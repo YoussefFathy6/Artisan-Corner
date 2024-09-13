@@ -110,7 +110,7 @@ function Reviewss({ bobId }) {
         <h1 className="text-[#344054] font-bold">Reviews</h1>
 
   
-        <div className="reviews-list mt-4">
+        <div className="reviews-list mt-4  overflow-y-auto max-h-[400px] p-2">
           {reviewList.map((review) => (
             <div key={review.id} className="bg-white p-5 rounded-lg my-3">
               {/* <h3 className="text-lg font-bold">{review.username}</h3> */}

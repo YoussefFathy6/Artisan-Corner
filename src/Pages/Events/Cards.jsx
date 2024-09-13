@@ -1,35 +1,64 @@
-/* eslint-disable react/prop-types */
-import { Card } from "flowbite-react";
+import { useState } from "react";
 
 function Cards({ data, onTicketClick }) {
-  const isOnline = data.eventtype === "online"; 
+  const [isExpanded, setIsExpanded] = useState(false); 
+  const isOnline = data.eventtype === "online";
+  const descriptionMaxLength = 80; 
+
+  const toggleDescription = () => {
+    setIsExpanded(!isExpanded);
+  };
 
   return (
-    <Card className="mb-20 car">
-      <img src={data.eventImg} alt={`${data.name} event`} className="event-img w-full h-64 object-cover mb-4" />
+    <div
+      className="relative overflow-hidden rounded-lg w-80 shadow-lg hover:shadow-2xl transition-transform duration-300 ease-in-out transform hover:scale-105 hover:bg-orange-900 hover:bg-opacity-45"
+      style={{ minHeight: '400px', maxHeight: '450px' }}
+    >
 
-      <h5 className="text-5xl font-bold tracking-tight mb-2">{data.name}</h5>
-
-      <p className="font-normal text-2xl dark:text-gray-400 mb-2">{data.description}</p>
-
-      <h4 className="font-normal text-2xl dark:text-gray-400 mb-2">{data.address}</h4>
-
-      <div className="mb-4">
-        <h5 className="text-2xl font-bold tracking-tight mb-1">
-          <time dateTime={data.date}>{data.date}</time>
-        </h5>
-        <h5 className="text-2xl font-bold tracking-tight">
-          <time>{data.time}</time>
-        </h5>
-      </div>
-
-      <button
-        onClick={onTicketClick}
-        className={`join-button mt-4 ${isOnline ? 'bg-green-600' : 'bg-amber-900'} hover:bg-opacity-80 transition w-full p-3 rounded-xl text-white text-xl font-semibold`}
+      <div
+        className={`absolute top-4 left-4 px-4 py-1 rounded-full text-white ${
+          isOnline ? 'bg-green-600' : 'bg-amber-900'
+        }`}
       >
-        {isOnline ? "Online" : "Join"}
-      </button>
-    </Card>
+        {data.eventtype}
+      </div>
+      <img
+        src={data.eventImg}
+        alt={`${data.name} event`}
+        className="w-full h-44 object-cover"
+        style={{ backgroundPosition: 'center' }}
+      />
+                     <div className="pb-3">
+  <div className="relative">
+          <img
+           src="https://cdn1.vectorstock.com/i/1000x1000/31/95/user-sign-icon-person-symbol-human-avatar-vector-12693195.jpg"
+            alt="profile"
+            className="absolute -top-6 left-6 w-14 h-14 rounded-full border-2 border-gray-700 shadow-lg"
+        />
+        </div> 
+        </div>
+      <div className="p-8">
+        <h2 className="text-xl font-bold mb-2">{data.name}</h2>
+        <p className="text-sm mb-4">{data.address}</p>
+
+        <p className="text-sm mb-4">
+          {isExpanded
+            ? data.description
+            : `${data.description.substring(0, descriptionMaxLength)}...`}
+        </p>
+
+
+
+        <div className="flex justify-between mt-4">
+          <button
+            onClick={onTicketClick}
+            className="bg-red-900 hover:bg-red-800 text-white p-3 w-44 rounded-xl text-sm"
+          >
+            JOIN
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 

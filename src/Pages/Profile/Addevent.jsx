@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { Button, Textarea, Label, Modal, TextInput, FileInput } from "flowbite-react";
 import db from "../../Config/firebase";
 import { collection, addDoc } from "firebase/firestore";
@@ -27,6 +27,8 @@ function Addevent() {
       ...prevData,
       [name || id]: type === "number" ? Number(value) : value,
     }));
+    console.log(data1);
+
   };
 
   function onCloseModal() {
@@ -168,6 +170,7 @@ function Addevent() {
           </div>
         </Modal.Body>
       </Modal>
+
     </>
   );
 }

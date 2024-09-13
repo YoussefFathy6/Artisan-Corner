@@ -97,3 +97,105 @@ console.log(data);
 }
 
 export default Profile;
+
+
+
+
+// import { useState, useEffect } from "react";
+// import { useSelector } from "react-redux";
+// import { collection, onSnapshot, query, where } from "firebase/firestore";
+// import db  from "./../../Config/firebase";
+// import Cards2 from "./Cards2";
+// import Addproduct from "./Addproduct";
+// import AddDeitalsprofile from "./AddDeitalsprofile";
+// import Side from "./Side";
+// import { AiFillStar } from "react-icons/ai";
+
+// function Profile() {
+//   const [products, setProducts] = useState([]);
+//   const [details, setDetails] = useState([]);
+//   const profileId = useSelector((state) => state.profileReducer.id);
+
+//   useEffect(() => {
+//     const unsubscribeProducts = onSnapshot(collection(db, "add product"), (snapshot) => {
+//       const productsData = snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+//       setProducts(productsData);
+//     });
+
+//     const q = query(collection(db, "profiledetails"), where("id", "===", profileId));
+//     const unsubscribeDetails = onSnapshot(q, (snapshot) => {
+//       const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+//       setDetails(data[0]); // Assuming only one document for profile details
+//     });
+
+//     return () => {
+//       unsubscribeProducts();
+//       unsubscribeDetails();
+//     };
+//   }, [profileId]);
+
+//   return (
+//     <>
+//       <div className="profile-container flex justify-around">
+//         <Side />
+//         <div className="profile-content ml-7 mr-4">
+//           <div className="profile-header flex justify-between items-center py-4 px-8 rounded-t-lg shadow-md bg-white">
+//             <div className="profile-info flex items-center">
+//               <img
+//                 src="public/images.jpg"
+//                 alt={details.name}
+//                 className="profile-image rounded-full mr-4 w-20 h-20 object-cover"
+//               />
+//               <div>
+//                 <h1 className="text-3xl font-bold">{details.name}</h1>
+//                 <p className="text-gray-600">{details.department}</p>
+//               </div>
+//             </div>
+//             <div className="social-links flex items-center space-x-4">
+//               <a href="https://www.facebook.com/login.php/" target="_blank" rel="noreferrer">
+//                 <AiFillStar color="#3B5999" size={24} />
+//               </a>
+//               {/* Add links for other social media icons */}
+//             </div>
+//           </div>
+//           <div className="profile-about p-8 rounded-b-lg shadow-md bg-white mt-4">
+//             <h2 className="text-2xl font-semibold mb-2">About Me</h2>
+//             <p className="text-gray-600">{details.about}</p>
+//             <AddDeitalsprofile />
+//           </div>
+//           <div className="profile-stats flex justify-around mt-8">
+//             <div className="stat text-center">
+//               <h2 className="text-4xl font-bold">+20</h2>
+//               <p className="text-gray-600">Events</p>
+//             </div>
+//             <div className="stat text-center">
+//               <h2 className="text-4xl font-bold">+20</h2>
+//               <p className="text-gray-600">Products</p>
+//             </div>
+//             <div className="stat text-center">
+//               <h2 className="text-4xl font-bold">+20</h2>
+//               <p className="text-gray-600">Likes</p>
+//             </div>
+//           </div>
+//           <div className="add-product mt-8 flex justify-between items-center">
+//             <h1 className="text-2xl font-semibold">Products</h1>
+//             <Addproduct />
+//           </div>
+//           <div className="products-grid mt-8 px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+         
+
+// {products.length > 0 && (
+//   <div className="products-grid mt-8 px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+//     {products.map((item, index) => {
+//       return <Cards2 key={index} data={item} />;
+//     })}
+//   </div>
+// )}
+// </div>
+// </div>
+// </div>
+// </>
+// );
+// }
+
+// export default Profile;
