@@ -30,12 +30,8 @@ import AuctionPage from "./Pages/Auction/AuctionPage";
 import AddDeitalsprofile from "./Pages/Profile/AddDeitalsprofile";
 import { RatingsProvider } from "./Context/RatingsContext";
 import { ReviewsProvider } from "./Context/ReviewsContext";
-// import CreateEventRoom from "./Pages/Events/online";
 
-// import CreateRoom from "./Pages/Events/MeetingRoom";
-// import AgoraService from "./Pages/Events/AgoraService";
-// import CreateEventRoom from "./Pages/Events/online";
-// import VideoCall from "./Pages/Events/MeetingRoom";
+import VideoCall from "./Pages/Events/MeetingRoom";
 
 function App() {
   const navigate = useNavigate();
@@ -100,7 +96,8 @@ function App() {
                   path="/TicketConfirmation/:eventId"
                   element={<TicketConfirmation />}
                 />
-                                        {/* <Route path="/online" element={<VideoCall/>} /> */}
+                                        <Route path="/online" element={<VideoCall/>} />
+
 
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/eventuser" element={<Eventuser />} />
