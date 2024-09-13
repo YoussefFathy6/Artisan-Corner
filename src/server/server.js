@@ -144,3 +144,84 @@
 // app.listen(5000, () => {
 //   console.log('Server is running on port 5000');
 // });
+
+
+
+
+
+// const { RtcTokenBuilder, RtcRole } = require('agora-access-token');
+
+// const appID = '40591c10a360450c8158ca34dba081f6';  // ضع الـ appId الخاص بك هنا
+// const appCertificate = '000ab26e241f45a0b97dcb5aa4bf2357';  // ضع الـ appCertificate الخاص بك هنا
+
+// // Function to generate token for a given channel and uid
+// const generateToken = (channelName, uid) => {
+//   const role = RtcRole.PUBLISHER;  // أو RtcRole.SUBSCRIBER
+//   const expireTime = 3600;  // مدة الصلاحية بالثواني (ساعة واحدة)
+
+//   // توليد التوكين
+//   const token = RtcTokenBuilder.buildTokenWithUid(appID, appCertificate, channelName, uid, role, Math.floor(Date.now() / 1000) + expireTime);
+  
+//   return token;
+// };
+
+// // مثال لتوليد توكين
+// const channelName = 'exampleChannel';  // اسم القناة الخاص بالمستخدم
+// const uid = 0;  // UID ديناميكي
+// const token = generateToken(channelName, uid);
+// console.log('Generated Token:', token);
+
+
+const express = require('express');
+const cors = require('cors');
+const { RtcTokenBuilder, RtcRole } = require('agora-access-token');  // تأكد من استيراد الكائنات بشكل صحيح
+
+const app = express();
+const port = 3000;
+
+const appID ='40591c10a360450c8158ca34dba081f6';  // ضع الـ appId الخاص بك هنا
+const appCertificate ='000ab26e241f45a0b97dcb5aa4bf2357';  // ضع الـ appCertificate الخاص بك هنا
+
+// تمكين CORS لجميع الطلبات
+app.use(cors({
+    origin: 'http://localhost:5173' // اسم النطاق الذي تريد السماح له
+  }));
+  
+
+// Function to generate token for a given channel and uid
+const generateToken = (channelName, uid) => {
+      const role = RtcRole.PUBLISHER;  // أو RtcRole.SUBSCRIBER
+      const expireTime = 3600;  // مدة الصلاحية بالثواني (ساعة واحدة)
+    
+      // توليد التوكين
+      const token = RtcTokenBuilder.buildTokenWithUid(appID, appCertificate, channelName, uid, role, Math.floor(Date.now() / 1000) + expireTime);
+      
+      return token;
+    };
+  
+
+
+// نقطة نهاية API لتوليد التوكين
+app.get('/api/generateToken', (req, res) => {
+  const channelName = req.query.channelName;  // اسم القناة المرسل من الواجهة الأمامية
+  const uid = req.query.uid || 0;  // UID ديناميكي، يمكن إرساله عبر طلب HTTP أو تعيينه إلى 0 افتراضيًا
+
+  if (!channelName) {
+    return res.status(400).json({ error: 'Channel name is required' });
+  }
+
+  try {
+    // توليد التوكين
+    const token = generateToken(channelName, uid);
+
+    // إرسال التوكين في الرد
+    res.json({ token });
+  } catch (error) {
+    res.status(500).json({ error: 'Error generating token' });
+  }
+});
+
+// تشغيل السيرفر
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
