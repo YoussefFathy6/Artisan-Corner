@@ -9,7 +9,7 @@ import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
 function Ticket() {
   const location = useLocation();
   const event = location.state?.event || {};
-  const ticketPrice = event.pricetTcket || 1;
+  const ticketPrice = event.pricetacket|| 1;
   const [count, setCount] = useState(1);
   const [total, setTotal] = useState(ticketPrice);
   const [showModal, setShowModal] = useState(false);

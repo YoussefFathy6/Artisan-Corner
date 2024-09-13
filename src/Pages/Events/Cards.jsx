@@ -37,7 +37,7 @@ function Cards({ data, onTicketClick }) {
         />
         </div> 
         </div>
-      <div className="p-6">
+      <div className="p-8">
         <h2 className="text-xl font-bold mb-2">{data.name}</h2>
         <p className="text-sm mb-4">{data.address}</p>
 

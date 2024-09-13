@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import NavBar from "./components/NavBar/NavBar";
 import Home from "./Pages/Home/Home";
 import Footer from "./components/Footer/Footer";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import NotFound from "./Pages/NotFound/NotFound";
 import EarningsPage from "./Pages/EarningsPage/EarningsPage";
 import ShippingPage from "./Pages/ShippingPage/ShippingPage";
@@ -21,8 +21,15 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import VerificationPage from "./Pages/RegisterPage/VerificationPage";
 import DashBoard from "./Pages/Dashboard/DashBoard";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
 import db from "./Config/firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { loginAdmin, logoutAdmin } from "./Redux/Slices/adminSlice";
+import AuctionPage from "./Pages/Auction/AuctionPage";
+
+import AddDeitalsprofile from "./Pages/Profile/AddDeitalsprofile";
+import { RatingsProvider } from "./Context/RatingsContext";
+import { ReviewsProvider } from "./Context/ReviewsContext";
 // import CreateEventRoom from "./Pages/Events/online";
 
 // import CreateRoom from "./Pages/Events/MeetingRoom";
@@ -31,39 +38,37 @@ import db from "./Config/firebase";
 import VideoCall from "./Pages/Events/MeetingRoom";
 
 function App() {
-  const [isAdmin, setIsAdmin] = useState(false); // State to track if user is admin
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isAdmin = useSelector((state) => state.adminReducer.isAdmin);
 
-  const searchUsersByAccountType = async (accountType) => {
-    try {
-      // Reference to the Firestore collection
-      const usersCollection = collection(db, "users");
+  const checkUserRole = () => {
+    const usersCollection = collection(db, "users");
+    const q = query(
+      usersCollection,
+      where("id", "==", localStorage.getItem("id"))
+    );
 
-      // Create a query against the collection
-      const q = query(usersCollection, where("accountType", "==", accountType));
+    return onSnapshot(q, (snapshot) => {
+      if (
+        snapshot.docs.length > 0 &&
+        snapshot.docs[0].data().accountType == "admin"
+      ) {
+        dispatch(loginAdmin());
+      } else dispatch(logoutAdmin());
+    });
+  };
 
-      // Execute the query
-      const querySnapshot = await getDocs(q);
-
-      // Process the results
-      const results = [];
-      querySnapshot.forEach((doc) => {
-        results.push({ id: doc.id, ...doc.data() });
-      });
-
-      return results;
-    } catch (error) {
-      console.error("Error searching users:", error);
-      return [];
-    }
+  const handleLogin = (accountType) => {
+    checkUserRole(accountType); // Check user role after login
   };
 
   useEffect(() => {
-    const checkAdminStatus = async () => {
-      const results = await searchUsersByAccountType("admin");
-      setIsAdmin(results.length > 0); // Update state based on the result
-    };
+    // Assuming we have a function to check the current user's role on initial load
+    const unsubscribe = checkUserRole("admin");
 
-    checkAdminStatus(); // Call the function to check admin status
+    // Cleanup the onSnapshot listener on component unmount
+    return () => unsubscribe();
   }, []);
 
 
@@ -75,6 +80,44 @@ function App() {
 
   return (
     <>
+      <ReviewsProvider>
+        <RatingsProvider>
+          {isAdmin ? (
+            <DashBoard />
+          ) : (
+            <>
+              <NavBar />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="earnings" element={<EarningsPage />} />
+                <Route path="shipping" element={<ShippingPage />} />
+                <Route path="payment" element={<PaymentPage />} />
+                <Route path="register" element={<RegisterPage />} />
+                <Route path="auction" element={<AuctionPage />} />
+                <Route path="verify" element={<VerificationPage />} />
+                <Route path="/details" element={<Details />} />
+                <Route path="/bag" element={<ProductBag />} />
+                <Route path="order" element={<Order />} />
+                <Route path="*" element={<NotFound />} />
+                <Route path="/ticket" element={<Ticket />} />
+                <Route path="/event" element={<AllEvent />} />
+                <Route
+                  path="/TicketConfirmation/:eventId"
+                  element={<TicketConfirmation />}
+                />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/eventuser" element={<Eventuser />} />
+                <Route
+                  path="/adddeitalsprofile"
+                  element={<AddDeitalsprofile />}
+                />
+              </Routes>
+              <Footer />
+              <ToastContainer />
+            </>
+          )}
+        </RatingsProvider>
+      </ReviewsProvider>
       {/* {isAdmin ? (
         <DashBoard />
       ) : ( */}

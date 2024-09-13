@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Description from "./../Description/Description";
 import Reviewss from "./../Reviewss/Reviewss";
-function Nav() {
+function Nav({bobId , desc}) {
   const [showDesc, setShowDEsc] = useState(true);
   return (
     <>
@@ -27,7 +27,7 @@ function Nav() {
         </div>
 
         <div className="mt-20">
-          {showDesc ? <Description></Description> : <Reviewss></Reviewss>}
+          {showDesc ? <Description desc={desc}></Description> : <Reviewss bobId={bobId}></Reviewss>}
         </div>
       </nav>
     </>

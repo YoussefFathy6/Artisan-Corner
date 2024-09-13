@@ -43,6 +43,9 @@ body {
   .w-2\/4 {
     @apply w-[100%];
   }
+  .p-6 {
+    @apply p-[0px]
+  }
 }
 
 @layer components {

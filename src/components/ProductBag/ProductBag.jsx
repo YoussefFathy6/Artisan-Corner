@@ -15,7 +15,7 @@ import { Button, Modal } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import SweetAlert2 from "react-sweetalert2";
 import Swal from "sweetalert2";
-import ReactImageZoom from 'react-image-zoom';
+
 function ProductBag() {
   const navigate = useNavigate();
   const [bags, setBags] = useState([]);
@@ -43,16 +43,16 @@ function ProductBag() {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
-          background: '#1E293B',
-        color:"white"
+      background: "#1E293B",
+      color: "white",
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
           title: "Deleted!",
           text: "Your file has been deleted.",
           icon: "success",
-        background: '#1E293B',
-        color:"white"
+          background: "#1E293B",
+          color: "white",
         });
         let docref = doc(db, "Bag", id);
         deleteDoc(docref);
@@ -62,55 +62,41 @@ function ProductBag() {
 
   function backToDetails() {
     setOpenModal(false);
-    navigate("/details");
+    navigate("/earnings");
   }
 
   function handleQuantityChange(id, newQuantity) {
     const docRef = doc(db, "Bag", id);
-    // const updatedQuantity = parseInt(newQuantity);
     const item = bags.find((item) => item.id === id);
-    const newTotalPrice = item.price * newQuantity;
+    const newTotalPrice = item.basePrice * newQuantity;
 
     updateDoc(docRef, {
       quantity: newQuantity,
-      priceTotal: newTotalPrice,
+      price: newTotalPrice,
     });
   }
 
-
-
-
   return (
     <>
-      <div className=" ">
+      <div className="grid grid-cols-2 Md:grid-cols-1 ">
         {bags.map((item) => (
           <div
             key={item.id}
-            className="flex  justify-between space-x-6 my-6 shadow-2Xl p-9 rounded-Xl "
+            className=" zeroToTo768:flex-col flex items-center  justify-between space-x-6 my-6 shadow-2Xl p-9 rounded-Xl "
           >
-            <div className="w-[200px] ">
-              {/* <img src={item.mainImage} alt="" className=" rounded-xl" /> */} 
-
-              <ReactImageZoom
-           
-                img={item.mainImage}  
-                zoomWidth={500}       
-                height={300}         
-                offset={{ vertical: 0, horizontal: 300 }}  
+            <div className="zeroToTo768:w-[300px]  w-[500]">
+              <img
+                src={item.imgsrc}
+                alt="images"
+                className="rounded-lg max-w-[300px] shadow-xl"
               />
-
-
-
+            
             </div>
-            <div className="  w-[80%]">
-              {/* <p className="leading-9	">
-                <strong>Desc :</strong> {item.description}
-              </p> */}
-
-              <h3 className="my-5 ">
-                <strong> Quantity :</strong> {item.quantity}
+            <div className="w-[80%]">
+              <div className="my-5 flex justify-between items-center">
+                Quantity : {item.quantity}
                 <input
-                  className="mx-9 rounded-lg "
+                  className="mx-9 rounded-lg w-[70px]"
                   type="number"
                   value={item.quantity}
                   onChange={(e) =>
@@ -123,10 +109,16 @@ function ProductBag() {
                   alert(
                     "At least one product must be present to complete the purchase."
                   )}
-              </h3>
+              </div>
               <h2>
-                <strong>Total price :</strong> {item.priceTotal} $
+                <strong>Total price :</strong> {item.price} $
               </h2>
+              <button
+                className="btn bg-[#f2ba36] mt-5"
+                onClick={() => navigate("/payment")}
+              >
+                Checkout
+              </button>
               <button
                 className="btn bg-red-600 mt-5"
                 onClick={() => handleDelete(item.id)}
@@ -145,14 +137,14 @@ function ProductBag() {
             <div className="text-center">
               <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
               <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                Your Bag Is Empty Please Back to Details Page
+                Your Bag Is Empty Please Back to Products
               </h3>
               <div className="flex justify-center gap-4">
                 <Button
                   className="bg-slate-800"
                   onClick={() => backToDetails()}
                 >
-                  {"Back To details"}
+                  {"Back To Products"}
                 </Button>
               </div>
             </div>

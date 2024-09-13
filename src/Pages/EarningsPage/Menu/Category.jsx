@@ -1,9 +1,51 @@
 /* eslint-disable react/prop-types */
-// eslint-disable-next-line no-unused-vars
-import React from "react";
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from "react";
 import Chbx from "./Chbx";
 import MiniMenu from "./MiniMenu";
-function Category() {
+import db from "../../../Config/firebase.js";
+import { onSnapshot, collection } from "firebase/firestore";
+
+function Category({ onFilterChange }) {
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+
+  useEffect(() => {
+    // Fetch products from Firestore
+    const unsubscribe = onSnapshot(
+      collection(db, "add product"),
+      (snapshot) => {
+        const fetchedProducts = snapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+
+        setProducts(fetchedProducts);
+
+        // Calculate unique categories after fetching products
+        const uniqueCategories = new Set(
+          fetchedProducts.map((product) => product.typeproduct)
+        );
+        setCategories([...uniqueCategories]);
+      }
+    );
+
+    // Cleanup on unmount
+    return () => unsubscribe();
+  }, []);
+
+  const handleCheckboxChange = (category) => {
+    let updatedCategories;
+    if (selectedCategories.includes(category)) {
+      updatedCategories = selectedCategories.filter((c) => c !== category);
+    } else {
+      updatedCategories = [...selectedCategories, category];
+    }
+    setSelectedCategories(updatedCategories);
+    onFilterChange(updatedCategories); // Pass selected categories back to parent
+  };
+
   return (
     <div className="section-styling">
       <section className="hidden lg:block">
@@ -16,12 +58,19 @@ function Category() {
           </section>
         </section>
       </section>
-      <MiniMenu maintitle="Category"></MiniMenu>
-      <Chbx label="Sneakers & Sports Shoes (607)" id="chbx1" />
-      <Chbx label="Tshirts (322)" id="chbx2" />
-      <Chbx label="Shorts & 3/4ths (116)" id="chbx3" />
-      <Chbx label="Flip Flop & Slippers (112)" id="chbx4" />
-      <Chbx label="Track Pants (109)" id="chbx5" />
+
+      {/* Render MiniMenu Component */}
+      <MiniMenu maintitle="Category" />
+
+      {/* Render Checkbox Components for Each Category */}
+      {categories.map((category, index) => (
+        <Chbx
+          key={index}
+          label={category}
+          id={`chbx${index}`}
+          handleCheckboxChange={handleCheckboxChange}
+        />
+      ))}
     </div>
   );
 }

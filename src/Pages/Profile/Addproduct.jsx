@@ -1,27 +1,36 @@
-/* eslint-disable no-unused-vars */
 import React from "react";
 import { Button, Textarea, Label, Modal, TextInput } from "flowbite-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FileInput } from "flowbite-react";
 import db from "../../Config/firebase";
 import { storage } from "../../Config/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+
 function Addproduct() {
   const [openModal, setOpenModal] = useState(false);
-  let [data1, setdate1] = useState({ title: "", description: "", price: "" });
-  let [imgurl, setimgurl] = useState(null);
+  const [data1, setdate1] = useState({
+    title: "",
+    description: "",
+    price: "",
+    typeproduct: "",
+    productquantity: 0,
+  });
+  const [imgurl, setimgurl] = useState(null);
   const [percent, setpercent] = useState(0);
+
   const getdate = (e) => {
-    const { id, value } = e.target;
-    setdate1((data1) => ({
-      ...data1,
-      [id]: value,
+    const { id, name, value, type } = e.target;
+    setdate1((prevData) => ({
+      ...prevData,
+      [name ? name : id]: type === "number" ? Number(value) : value,
     }));
   };
+
   function onCloseModal() {
     setOpenModal(false);
   }
+
   function save() {
     setOpenModal(false);
     const storageRef = ref(storage, `productimg/${imgurl.name}`);
@@ -34,98 +43,146 @@ function Addproduct() {
         );
         setpercent(bits);
       },
-      (erorr) => {
-        alert(erorr);
+      (error) => {
+        alert(error);
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloaduRL) => {
           const collectionref = collection(db, "add product");
-          const doc = addDoc(collectionref, {
+          addDoc(collectionref, {
             title: data1.title,
             description: data1.description,
-            price: data1.price,
+            price: Number(data1.price),
             review: "",
             img: downloaduRL,
+            productquantity: data1.productquantity,
+            typeproduct: data1.typeproduct,
+            ownerID: localStorage.getItem("id"),
           });
         });
       }
     );
-    setdate1("");
-    setimgurl("");
+    setdate1({
+      title: "",
+      description: "",
+      price: "",
+      typeproduct: "",
+      productquantity: 0,
+    });
+    setimgurl(null);
   }
+
   return (
     <>
       <button
         type="button"
-        className="bot mr-20 mt-14 text-orange-100 "
+        className="bot mr-20 mt-14 text-orange-100"
         onClick={() => setOpenModal(true)}
       >
         Add Product
       </button>
-      <Modal show={openModal} size="lg" onClose={onCloseModal} popup>
+
+      <Modal show={openModal} size="5xl" onClose={onCloseModal} popup>
         <Modal.Header />
         <Modal.Body>
           <div className="space-y-6">
             <h3 className="text-4xl font-medium text-gray-900 dark:text-white">
               Add Product
             </h3>
-            <div>
-              <div className="mb-2 block">
-                <Label htmlFor="" value=" Title" className="text-xl" />
-              </div>
-              <TextInput
-                id="title"
-                placeholder=""
-                required
-                type="text"
-                value={data1.title}
-                onChange={getdate}
-              />
-            </div>
-            <div>
-              <div className="mb-2 block">
-                <Label
-                  htmlFor="Event Description"
-                  value="Event Description"
-                  className="text-xl"
+
+            {/* Container for the form with two columns */}
+            <div className="grid grid-cols-2 gap-6">
+              {/* First Column */}
+              <div>
+                <Label htmlFor="title" value="Title" className="text-xl mb-2" />
+                <TextInput
+                  id="title"
+                  placeholder=""
+                  required
+                  type="text"
+                  value={data1.title}
+                  onChange={getdate}
                 />
               </div>
-              <Textarea
-                id="description"
-                placeholder=""
-                required
-                rows={4}
-                onChange={getdate}
-                value={data1.description}
-              />
-            </div>
-            <div>
-              <div className="mb-2 block">
-                <Label htmlFor="Price" value="Price" className="text-xl" />
-              </div>
-              <TextInput
-                id="price"
-                type="text"
-                required
-                onChange={getdate}
-                value={data1.price}
-              />
-            </div>
-            <div id="fileUpload" className="max-w-md">
-              <div className="mb-2 block">
+
+              <div>
                 <Label
-                  htmlFor="Event Img"
-                  value="Event Img"
-                  className="text-xl"
+                  htmlFor="description"
+                  value="Description"
+                  className="text-xl mb-2"
+                />
+                <Textarea
+                  id="description"
+                  placeholder=""
+                  required
+                  rows={4}
+                  onChange={getdate}
+                  value={data1.description}
                 />
               </div>
-              <FileInput
-                id="file"
-                helperText="A profile picture is useful to confirm your are logged into your account"
-                onChange={(e) => setimgurl(e.target.files[0])}
-              />
+
+              {/* Second Column */}
+              <div>
+                <Label htmlFor="price" value="Price" className="text-xl mb-2" />
+                <TextInput
+                  id="price"
+                  type="text"
+                  required
+                  onChange={getdate}
+                  value={data1.price}
+                />
+              </div>
+
+              <div>
+                <Label
+                  htmlFor="typeproduct"
+                  value="Type Product"
+                  className="text-xl mb-2"
+                />
+                <select
+                  id="typeproduct"
+                  required
+                  onChange={getdate}
+                  value={data1.typeproduct}
+                  className="block w-full px-3 py-2 border border-gray-300 bg-white text-gray-900 text-lg rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                >
+                  <option value="" disabled>
+                    Select
+                  </option>
+                  <option value="Macramé">Macramé</option>
+                  <option value="Painting">Painting</option>
+                  <option value="Wood carving">Wood carving</option>
+                  <option value="Pottery">Pottery</option>
+                </select>
+              </div>
+
+              {/* Third Column */}
+              <div>
+                <Label
+                  htmlFor="productquantity"
+                  value="Product Quantity"
+                  className="text-xl mb-2"
+                />
+                <TextInput
+                  id="productquantity"
+                  type="number"
+                  required
+                  value={data1.productquantity}
+                  onChange={getdate}
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="file" value="Product Image" className="text-xl mb-2" />
+                <FileInput
+                  id="file"
+                  helperText="Upload a product image."
+                  onChange={(e) => setimgurl(e.target.files[0])}
+                />
+              </div>
             </div>
-            <div className="w-1/2 flex justify-around ml-52">
+
+            <div className="flex justify-center space-x-4">
               <Button className="bot2" onClick={save}>
                 Done
               </Button>
@@ -139,4 +196,5 @@ function Addproduct() {
     </>
   );
 }
+
 export default Addproduct;
