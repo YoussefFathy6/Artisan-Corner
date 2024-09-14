@@ -17,12 +17,12 @@ function PriceFilter({ onPriceChange }) {
   };
 
   return (
-    <div className="p-4 border rounded mb-4">
+    <div className="p-4  rounded mb-4">
       <h4 className="font-bold mb-2">Filter by Price</h4>
       <div className="flex gap-4">
         <input
           type="number"
-          className="border p-2 rounded w-full"
+          className=" p-2 rounded w-full"
           placeholder="Min Price"
           value={minPrice}
           onChange={handleMinPriceChange}

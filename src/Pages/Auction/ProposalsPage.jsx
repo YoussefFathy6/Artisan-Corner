@@ -17,6 +17,7 @@ function ProposalsPage() {
   const [inputValue, setInputValue] = useState(""); // State to hold the input value
   const [proposals, setProposals] = useState([]); // State to hold proposals
   const [users, setUsers] = useState({}); // State to hold user data
+  const [error, setError] = useState(""); // State to hold user data
 
   const { product } = location.state;
 
@@ -58,6 +59,16 @@ function ProposalsPage() {
 
     fetchUsers();
   }, []);
+  async function updatePrice(documentId) {
+    const docRef = doc(db, "auctionProduct", documentId); // Replace with your collection and document ID
+
+    // Update the array field
+    await updateDoc(docRef, {
+      initPrice: +inputValue, // Replace `yourArrayField` with the name of your array field
+    });
+
+    console.log("Item added successfully to the array!");
+  }
 
   async function addProposal(documentId, newItem) {
     const docRef = doc(db, "auctionProduct", documentId);
@@ -71,8 +82,9 @@ function ProposalsPage() {
   }
 
   return (
-    <main className="flex gap-5 p-5 h-full">
-      <div className="w-1/2">
+    <main className="flex gap-5 p-5 h-screen">
+      {/* Left section */}
+      <div className="w-1/2 flex flex-col">
         <h1 className="text-2xl font-bold">{product.productType}</h1>
         <img
           src={product.imgsrc}
@@ -85,16 +97,40 @@ function ProposalsPage() {
         </h2>
         {/* Add more product details here */}
       </div>
-      <div className="col-span-1 flex flex-col  w-1/2">
-        <h2 className="text-xl font-bold">Proposals:</h2>
-        <div className="w-full h-1/3 overflow-y-auto">
+
+      {/* Right section */}
+      <div className="flex flex-col w-1/2">
+        <h2 className="text-xl font-bold mb-3">Proposals:</h2>
+
+        {/* Proposals List */}
+        <div className="w-full flex-1 overflow-y-auto">
           {proposals.length > 0 ? (
             <ul className="list-disc pl-5">
               {proposals.map((proposal, index) => {
                 const user = users[proposal.member] || {};
                 return (
-                  <div key={index} className="p-2 my-2 border  ">
-                    {user.firstName} {user.lastName}: Offer: {proposal.offer} $
+                  <div
+                    key={index}
+                    className=" flex justify-between py-3 px-7  border border-s-0 border-e-0"
+                  >
+                    <div className="w-20 justify-center items-center">
+                      <img
+                        src={
+                          user.profilePic
+                            ? user.profilePic
+                            : "https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png"
+                        }
+                        alt={user.firstName}
+                        className="rounded-full w-full "
+                      />
+                      <div>
+                        {user.firstName} {user.lastName}
+                      </div>
+                    </div>
+                    <div className="flex flex-col justify-between items-end">
+                      <div className="text-bold">Offer</div>
+                      <p className="">{proposal.offer} $</p>
+                    </div>
                   </div>
                 );
               })}
@@ -104,6 +140,7 @@ function ProposalsPage() {
           )}
         </div>
 
+        {/* Input and Button */}
         <div className="flex mt-4">
           <TextInput
             type="number"
@@ -113,17 +150,24 @@ function ProposalsPage() {
           />
           <Button
             onClick={() => {
-              addProposal(product.id, {
-                member: localStorage.getItem("id"),
-                offer: +inputValue,
-              });
-              console.log(users);
+              console.log(product.price);
+
+              if (product.price <= inputValue) {
+                setError("");
+                addProposal(product.id, {
+                  member: localStorage.getItem("id"),
+                  offer: +inputValue,
+                });
+                updatePrice(product.id);
+                console.log(users);
+              } else setError("Your Offer must be higher than current price");
             }}
             className="w-1/4 bg-secondary"
           >
             Add Proposal
           </Button>
         </div>
+        <p className=" text-red-700">{error}</p>
       </div>
     </main>
   );
