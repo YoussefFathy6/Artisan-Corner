@@ -9,7 +9,7 @@ function Title() {
     nav("/earnings");
   }
   return (
-    <div className="flex items-center justify-between pt-16 pb-10">
+    <div className="flex items-center justify-between w-full pt-16 pb-10">
       <div>
         <h5 className="text-2xl">Lorem Ipsum</h5>
         <h5 className="font-lora text-5xl">Lorem Ipsum</h5>

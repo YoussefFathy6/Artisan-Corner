@@ -354,47 +354,47 @@
 
 
 
-// import  { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 
-// const VideoCall = () => {
-//   const [showMeeting, setShowMeeting] = useState(false);  
+const VideoCall = () => {
+  const [showMeeting, setShowMeeting] = useState(false);  
 
-//   useEffect(() => {
-//     if (showMeeting) {
-//       const domain = "meet.jit.si";
-//       const options = {
-//         roomName: "MyCustomRoom",  
-//         width: "100%",
-//         height: "600px",
-//         parentNode: document.getElementById("jitsi-container"),
-//         configOverwrite: { startWithVideoMuted: true },
-//         interfaceConfigOverwrite: { filmStripOnly: false },
-//       };
+  useEffect(() => {
+    if (showMeeting) {
+      const domain = "meet.jit.si";
+      const options = {
+        roomName: "MyCustomRoom",  
+        width: "100%",
+        height: "600px",
+        parentNode: document.getElementById("jitsi-container"),
+        configOverwrite: { startWithVideoMuted: true },
+        interfaceConfigOverwrite: { filmStripOnly: false },
+      };
 
-//       const api = new window.JitsiMeetExternalAPI(domain, options);
+      const api = new window.JitsiMeetExternalAPI(domain, options);
 
-//       return () => {
-//         api.dispose();  
-//       };
-//     }
-//   }, [showMeeting]);
+      return () => {
+        api.dispose();  
+      };
+    }
+  }, [showMeeting]);
 
-//   const handleStartMeeting = () => {
-//     setShowMeeting(true);  
-//   };
+  const handleStartMeeting = () => {
+    setShowMeeting(true);  
+  };
 
-//   return (
-//     <div>
-//       {!showMeeting ? (
-//         <button onClick={handleStartMeeting}>Start Video Call</button>  
-//       ) : (
-//         <div id="jitsi-container" style={{ height: '600px', width: '100%' }} />
-//       )}
-//     </div>
-//   );
-// };
+  return (
+    <div>
+      {!showMeeting ? (
+        <button onClick={handleStartMeeting}>Start Video Call</button>  
+      ) : (
+        <div id="jitsi-container" style={{ height: '600px', width: '100%' }} />
+      )}
+    </div>
+  );
+};
 
-// export default VideoCall;
+export default VideoCall;
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

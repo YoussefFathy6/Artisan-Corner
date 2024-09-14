@@ -84,11 +84,11 @@ function ProductBag() {
             key={item.id}
             className=" zeroToTo768:flex-col flex items-center  justify-between space-x-6 my-6 shadow-2Xl p-9 rounded-Xl "
           >
-            <div className="zeroToTo768:w-[300px]  w-[500]">
+            <div className="zeroToTo768:w-[300px]  w-[500px]  flex justify-center items-center">
               <img
                 src={item.imgsrc}
                 alt="images"
-                className="rounded-lg max-w-[300px] shadow-xl"
+                className="rounded-lg min-h-[300px] max-w-[300px] max-h-[300px] shadow-xl "
               />
             
             </div>
@@ -111,16 +111,16 @@ function ProductBag() {
                   )}
               </div>
               <h2>
-                <strong>Total price :</strong> {item.price} $
+                <strong>Total price :</strong> {parseFloat(item.price).toFixed(2)} $
               </h2>
               <button
-                className="btn bg-[#f2ba36] mt-5"
+                className="btn bg-[#f2ba36] mt-5 p-2 "
                 onClick={() => navigate("/payment")}
               >
                 Checkout
               </button>
               <button
-                className="btn bg-red-600 mt-5"
+                className="btn bg-red-600 mt-5 p-2 ml-3"
                 onClick={() => handleDelete(item.id)}
               >
                 Remove

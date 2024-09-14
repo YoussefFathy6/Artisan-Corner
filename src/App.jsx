@@ -31,7 +31,10 @@ import AddDeitalsprofile from "./Pages/Profile/AddDeitalsprofile";
 import { RatingsProvider } from "./Context/RatingsContext";
 import { ReviewsProvider } from "./Context/ReviewsContext";
 
-// import VideoCall from "./Pages/Events/MeetingRoom";
+import ProposalsPage from "./Pages/Auction/ProposalsPage";
+import CheckoutPage from "./Pages/PaymentPage/CheckoutPage";
+import VideoCall from "./Pages/Events/MeetingRoom";
+import TicketOnline from "./components/Ticket/TicketOnline";
 
 function App() {
   const navigate = useNavigate();
@@ -67,8 +70,6 @@ function App() {
     return () => unsubscribe();
   }, []);
 
-
-
   return (
     <>
       <ReviewsProvider>
@@ -82,9 +83,10 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="earnings" element={<EarningsPage />} />
                 <Route path="shipping" element={<ShippingPage />} />
-                <Route path="payment" element={<PaymentPage />} />
+                <Route path="payment" element={<CheckoutPage />} />
                 <Route path="register" element={<RegisterPage />} />
                 <Route path="auction" element={<AuctionPage />} />
+                <Route path="proposals" element={<ProposalsPage />} />
                 <Route path="verify" element={<VerificationPage />} />
                 <Route path="/details" element={<Details />} />
                 <Route path="/bag" element={<ProductBag />} />
@@ -96,9 +98,9 @@ function App() {
                   path="/TicketConfirmation/:eventId"
                   element={<TicketConfirmation />}
                 />
-                                        {/* <Route path="/online" element={<VideoCall/>} /> */}
+                                        <Route path="/online" element={<VideoCall/>} />
 
-
+                                        <Route path="/TicketOnline/:eventId" element={<TicketOnline/>} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/eventuser" element={<Eventuser />} />
                 <Route
@@ -112,7 +114,6 @@ function App() {
           )}
         </RatingsProvider>
       </ReviewsProvider>
-    
     </>
   );
 }

@@ -4,7 +4,7 @@ import db from "../../Config/firebase";
 import { collection, onSnapshot } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import './Allevent.moduls.css'
+import './Allevent.css'
 function AllEvent() {
   let [events, setevents] = useState([]);
   let [filteredEvents, setFilteredEvents] = useState([]);

@@ -28,8 +28,6 @@ function AddDeitalsprofile() {
       if (!querySnapshot.empty) {
         console.log("User found!");
         querySnapshot.forEach((doc) => {
-          console.log([doc.data()]);
-          
           setData([doc.data()]);
           setUserId(doc.id);
         });
@@ -72,6 +70,9 @@ function AddDeitalsprofile() {
             lastname: data[0].lastname,
             email: data[0].email,
             accountType: data[0].accountType,
+            facebook: data[0].facebook,
+            instgram: data[0].instgram,
+            linkedin: data[0].linkedin,
           });
           console.log(data);
             navigate("/profile", { state: { data } }); 
@@ -84,7 +85,7 @@ function AddDeitalsprofile() {
 
   return (
     <>
-      <div className="flex flex-wrap gap-6">
+      <div>
         <h1 className="text-6xl mb-20">Profile</h1>
         {data.map((item, index) => {
           return (
@@ -109,6 +110,18 @@ function AddDeitalsprofile() {
                     </div>
                     <Textarea id="aboutyou" required rows={4} value={item.about} onChange={(e) => setData([{ ...item, about: e.target.value }])} />
                   </div>
+                  <div className="mt-6">
+                    <div className="mb-2 block">
+                      <Label htmlFor="email" value="FaceBook" />
+                    </div>
+                    <TextInput id="facebook" type="text" sizing="sm" value={item.facebook} onChange={(e) => setData([{ ...item, facebook: e.target.value }])} />
+                  </div>
+                  <div className="mt-6">
+                    <div className="mb-2 block">
+                      <Label htmlFor="email" value="Instgram" />
+                    </div>
+                    <TextInput id="instgram" type="text" sizing="sm" value={item.instgram} onChange={(e) => setData([{ ...item, instgram: e.target.value }])} />
+                  </div>
                 </div>
                 <div className="w-1/3">
                   <div>
@@ -122,6 +135,12 @@ function AddDeitalsprofile() {
                       <Label htmlFor="email" value="Email" />
                     </div>
                     <TextInput id="email" type="text" sizing="sm" value={item.email} onChange={(e) => setData([{ ...item, email: e.target.value }])} />
+                  </div>
+                  <div className="mt-6">
+                    <div className="mb-2 block">
+                      <Label htmlFor="email" value="Linkedin" />
+                    </div>
+                    <TextInput id="linkedin" type="text" sizing="sm" value={item.linkedin} onChange={(e) => setData([{ ...item, linkedin: e.target.value }])} />
                   </div>
                   <div className="mt-5">
                     <Label

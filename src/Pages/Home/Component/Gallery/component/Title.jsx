@@ -3,7 +3,7 @@ import React from "react";
 
 function Title() {
   return (
-    <div className="flex items-center justify-between pt-16 pb-0">
+    <div className="flex items-center justify-between w-full pt-16 pb-0">
       <div>
         <h5 className="text-2xl text-white">Lorem Ipsum</h5>
         <h5 className="font-lora text-5xl text-white">Lorem Ipsum</h5>

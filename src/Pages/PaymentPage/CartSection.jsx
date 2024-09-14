@@ -25,7 +25,7 @@ function CartSection() {
   useEffect(() => {
     // Subscribe to Firestore collection
     console.log("Subscribing to Firestore collection"); // Debug: Log subscription
-    const unsubscribe = onSnapshot(collection(db, "cart"), (snapshot) => {
+    const unsubscribe = onSnapshot(collection(db, "Bag"), (snapshot) => {
       const arr = snapshot.docs.map((doc) => {
         return { ...doc.data(), id: doc.id };
       });
@@ -46,7 +46,7 @@ function CartSection() {
   // Function to delete an item
   function deleteItem(id) {
     console.log("Deleting item with ID:", id); // Debug: Log deletion
-    const itemRef = doc(db, "cart", id); // Get a reference to the item document
+    const itemRef = doc(db, "Bag", id); // Get a reference to the item document
     deleteDoc(itemRef)
       .then(() => {
         console.log("Document successfully deleted!"); // Debug: Log success
@@ -62,25 +62,34 @@ function CartSection() {
   }, [total]);
 
   return (
-    <div className="bg-gray-100 p-6 rounded-md">
+    <div className="bg-gray-100 p-5 rounded-md">
       <h2 className="text-2xl font-bold">Cart</h2>
       <ul className="my-4 space-y-2">
-        {cart.map((product) => (
-          <li key={product.id}>
-            <div className="w-full flex flex-row justify-between items-center border border-gray-400 p-3 shadow-lg rounded-md">
-              <div>
-                <h1>{product.name}</h1>
-                <h1 className="text-gray-400">$ {product.price}</h1>
+        <div className="h-64 overflow-y-scroll">
+          {cart.map((product) => (
+            <li key={product.id} className="mb-4">
+              <div className="w-full flex flex-row justify-between items-center border border-gray-400 p-3 shadow-lg rounded-md">
+                <div className="w-1/4 h-40">
+                  <img
+                    className="w-full h-full rounded-full"
+                    src={product.imgsrc}
+                    alt=""
+                  />
+                </div>
+                <div>
+                  <h1>{product.name}</h1>
+                  <h1 className="text-gray-400">$ {product.price}</h1>
+                </div>
+                <button
+                  className="px-2 py-1 rounded-md"
+                  onClick={() => deleteItem(product.id)}
+                >
+                  <IoClose />
+                </button>
               </div>
-              <button
-                className="px-2 py-1 rounded-md"
-                onClick={() => deleteItem(product.id)}
-              >
-                <IoClose />
-              </button>
-            </div>
-          </li>
-        ))}
+            </li>
+          ))}
+        </div>
       </ul>
       <div className="border-t border-gray-300 pt-4">
         <h3 className="text-xl font-bold">Total: ${total.toFixed(2)}</h3>

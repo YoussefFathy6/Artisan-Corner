@@ -136,7 +136,7 @@ function Cards({ data, onTicketClick }) {
           className="h-full object-cover"
           style={{ width: '220px' ,marginRight:'100%'}}
         />
-        <div style={{backgroundColor:"#F9F2E6"}} className="absolute top-16 right-0   h-32 w-16 rounded-l-full p-7"></div>
+        <div style={{backgroundColor:"#F9F2E6"}} className="absolute top-16 right-0 left-44   h-32 w-16 rounded-l-full p-7"></div>
       </div>
     </div>
   );

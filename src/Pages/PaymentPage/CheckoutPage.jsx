@@ -8,7 +8,7 @@ function CheckoutPage() {
   // const [billingSameAsShipping, setBillingSameAsShipping] = useState(false);
 
   return (
-    <div className="container mx-auto py-12">
+    <div className=" p-5 mx-auto py-12">
       {/* Grid Layout for Customer Info and Cart */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Customer Info Section */}

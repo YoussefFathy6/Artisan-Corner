@@ -4,12 +4,11 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { Carousel } from "flowbite-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
-// import "./../../../src/index.";
 
 function Ticket() {
   const location = useLocation();
   const event = location.state?.event || {};
-  const ticketPrice = event.pricetacket|| 1;
+  const ticketPrice = event.pricetacket || 1;
   const [count, setCount] = useState(1);
   const [total, setTotal] = useState(ticketPrice);
   const [showModal, setShowModal] = useState(false);
@@ -27,13 +26,12 @@ function Ticket() {
           id: doc.id, 
           ...doc.data() 
         }));
-        console.log(events);  // Debugging to check fetched events
         setOtherEvents(events);
       } catch (error) {
         console.error("Error fetching events:", error);
       }
     };
-  
+
     fetchEvents();
   }, [db]);
   
@@ -57,7 +55,7 @@ function Ticket() {
   const handleEmailSubmission = async () => {
     if (!validateEmail(email)) {
       setEmailError("Please enter a valid email.");
-      return;
+      return false;
     }
     try {
       await addDoc(collection(db, "sendTicket"), {
@@ -65,16 +63,44 @@ function Ticket() {
         eventId: event.id,
       });
       console.log("Email saved to Firestore successfully!");
+      return true;
     } catch (error) {
       console.error("Error adding email to Firestore:", error);
+      return false;
     }
   };
 
-  const handlePayment = (event) => {
+  const handlePayment = async (event) => {
     event.preventDefault();
-    handleEmailSubmission();
+    
+    const emailSubmitted = await handleEmailSubmission();
+    if (!emailSubmitted) return;
+
     console.log(`Paying ${total} with Visa`);
     setShowModal(false);
+  };
+
+  const handlePayPalSuccess = async (data, actions) => {
+    try {
+      await actions.order.capture();
+      console.log("Payment approved and captured");
+      
+      const platformFee = total * 0.10;
+      const userAmount = total - platformFee;
+      console.log("User Amount after platform fee:", userAmount);
+      
+      const emailSubmitted = await handleEmailSubmission();
+      if (emailSubmitted) {
+        if (event.eventtype === "online") {
+          navigate(`/TicketOnline/${event.id}`);
+        } else {
+          navigate(`/TicketConfirmation/${event.id}`);
+        }
+      }
+    } catch (error) {
+      console.error("Error capturing payment or calculating fees:", error);
+      alert("There was an issue processing your payment. Please try again later.");
+    }
   };
 
   return (
@@ -83,41 +109,33 @@ function Ticket() {
 
       <section className="flex flex-wrap justify-between">
         <div className="w-full md:w-1/2 p-4">
-          {/* <img
-            src={event.eventImg}
-            alt="Event"
-            className="w-full h-96 object-cover"
-            style={{ objectFit: "cover", objectPosition: "center" }}
-          /> */}
-
           <img src=".\src\assets\download_80.13978326416017.svg" alt="" />
         </div>
 
         <div className="w-full md:w-1/2 p-4">
           <div className="container w-full text-2xl">
-          <div className="pt-6 pl-6">
-
-            <TextInput
-              id="email"
-              type="email"
-              placeholder="Enter your email"
-              required={true}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              color={emailError ? "failure" : ""}
-              helperText={emailError && <span>{emailError}</span>}
-              style={{border:'none' ,width:'50%'}}
-            />
-            <p className="mb-4  break-words text-lg  pt-8">{event.description}</p>
-            <p className="mb-2 text-lg  ">
-              <strong className="text-lg">Date:</strong> {event.date}
-            </p>
-            <p className="mb-6">
-              <strong className="text-lg">Time:</strong> {event.time}
-            </p>
-            <p className="mb-6">
-              <strong className="text-lg">Adress:</strong> {event.address}
-            </p>
+            <div className="pt-6 pl-6">
+              <TextInput
+                id="email"
+                type="email"
+                placeholder="Enter your email"
+                required={true}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                color={emailError ? "failure" : ""}
+                helperText={emailError && <span>{emailError}</span>}
+                style={{border:'none' ,width:'100%' ,backgroundColor:"red"}}
+              />
+              <p className="mb-4 break-words text-lg pt-8">{event.description}</p>
+              <p className="mb-2 text-lg ">
+                <strong className="text-lg">Date:</strong> {event.date}
+              </p>
+              <p className="mb-6">
+                <strong className="text-lg">Time:</strong> {event.time}
+              </p>
+              <p className="mb-6">
+                <strong className="text-lg">Address:</strong> {event.address}
+              </p>
             </div>
             <div className="flex justify-between flex-col">
               <div className="container flex mb-4 justify-between">
@@ -209,31 +227,21 @@ function Ticket() {
             <PayPalButtons
               style={{ layout: "vertical" }}
               amount={Number(total).toFixed(2)}
-              onApprove={async (data, actions) => {
-                try {
-                  await actions.order.capture();
-                  console.log("Payment approved and captured");
-                  
-                  const platformFee = total * 0.10;
-                  const userAmount = total - platformFee;
-                  console.log("User Amount after platform fee:", userAmount);
-                  
-                  handleEmailSubmission();
-                  
-                  navigate(`/TicketConfirmation/${event.id}`);
-                } catch (error) {
-                  console.error("Error capturing payment or calculating fees:", error);
-                  alert("There was an issue processing your payment. Please try again later.");
-                }
-              }}
+              onApprove={handlePayPalSuccess}
             />
           </PayPalScriptProvider>
 
           <Button
             className="capitalize w-full font-bold text-white bg-blue-500 border-none mt-5 rounded-md"
-            onClick={() => {
-              handleEmailSubmission();
-              navigate(`/TicketConfirmation/${event.id}`);
+            onClick={async () => {
+              const emailSubmitted = await handleEmailSubmission();
+              if (emailSubmitted) {
+                if (event.eventtype === "online") {
+                  navigate(`/TicketOnline/${event.id}`);
+                } else {
+                  navigate(`/TicketConfirmation/${event.id}`);
+                }
+              }
             }}
           >
             Proceed without Payment
@@ -243,37 +251,33 @@ function Ticket() {
 
       {/* Carousel */}
       <section className="container mt-20 mb-5" id="slid">
-  <div className="flex overflow-x-auto pb-4">
-    <Carousel autoPlay infiniteLoop interval={3000} showThumbs={false}>
-      {otherEvents.length > 0 ? (
-        otherEvents.map((ev) => (
-          <div
-            key={ev.id}
-            className="relative  h-80 cursor-pointer overflow-hidden carousel-item"
-            onClick={() => navigate("/Ticket", { state: { event: ev } })}
-          >
-            <div className="relative w-full h-full group"> 
-              <img
-                className="w-full h-full object-cover carousel-item__img"
-                src={ev.eventImg}
-                alt={ev.name}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 flex items-center justify-center carousel-item__details">
-                <span className="text-white text-2xl font-semibold carousel-item__details--title">{ev.name}</span>
-              </div>
-            </div>
-          </div>
-        ))
-      ) : (
-        <p>No events available</p>
-      )}
-    </Carousel>
-  </div>
-</section>
-
-
-
-
+        <div className="flex overflow-x-auto pb-4">
+          <Carousel autoPlay infiniteLoop interval={3000} showThumbs={false}>
+            {otherEvents.length > 0 ? (
+              otherEvents.map((ev) => (
+                <div
+                  key={ev.id}
+                  className="relative h-80 cursor-pointer overflow-hidden carousel-item"
+                  onClick={() => navigate("/Ticket", { state: { event: ev } })}
+                >
+                  <div className="relative w-full h-full group"> 
+                    <img
+                      className="w-full h-full object-cover carousel-item__img"
+                      src={ev.eventImg}
+                      alt={ev.eventName}
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <p className="text-white text-lg font-bold">{ev.eventName}</p>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p>No events available</p>
+            )}
+          </Carousel>
+        </div>
+      </section>
     </>
   );
 }

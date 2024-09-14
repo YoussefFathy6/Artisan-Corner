@@ -44,7 +44,7 @@ body {
     @apply w-[100%];
   }
   .p-6 {
-    @apply p-[0px]
+    @apply p-[0px];
   }
 }
 
@@ -89,8 +89,7 @@ body {
   color: #f9f2e6 !important ;
 } */
 
-
-.carousel-item {
+/* .carousel-item {
   width: 200px;
   height: 250px;
   border-radius: 20px;
@@ -145,6 +144,4 @@ body {
   color: #fff;
   margin: 5px 0;
   font-size: 1.25rem;
-}
-
-
+} */

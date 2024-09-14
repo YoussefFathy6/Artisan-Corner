@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
-import { Dropdown } from "flowbite-react";
+import { Dropdown, Button } from "flowbite-react";
 import db from "../../../Config/firebase";
 import { onSnapshot, collection, addDoc } from "firebase/firestore";
 import Card from "./Card";
@@ -11,6 +10,7 @@ function Main() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [priceRange, setPriceRange] = useState({ min: "", max: "" });
+  const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false); // For showing filters dropdown on small screens
 
   useEffect(() => {
     let arr;
@@ -84,9 +84,20 @@ function Main() {
   };
 
   return (
-    <div className="containerr grid grid-cols-4 gap-4">
-      {/* Categories Section */}
-      <div className="col-span-1">
+    <div className="containerr grid grid-cols-1 sm:grid-cols-4 gap-4">
+      {/* Button to show the filters dropdown on small screens */}
+      <div className="sm:hidden">
+        <Button onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}>
+          Filter Options
+        </Button>
+      </div>
+
+      {/* Filters Section */}
+      <div
+        className={`col-span-1 ${
+          isFilterDropdownOpen ? "block" : "hidden"
+        } sm:block`}
+      >
         <Menu
           onFilterChange={handleFilterChange}
           onPriceChange={handlePriceChange}
