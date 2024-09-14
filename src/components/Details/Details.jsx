@@ -28,15 +28,14 @@ import { RatingsContext } from "../../Context/RatingsContext";
 import ReviewsContext from "../../Context/ReviewsContext";
 
 function Details() {
-  
   const { saveRating } = useContext(RatingsContext);
-  const {  productType ,  setProductType } = useContext(ReviewsContext);
-  const [isLoading , setIsLoading] = useState(false)
- 
+  const { productType, setProductType } = useContext(ReviewsContext);
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     setProductType(productType);
-    getUserData()
-  },  [productType, setProductType]);
+    getUserData();
+  }, [productType, setProductType]);
 
   const location = useLocation();
   const { imgsrc, desc, price, bobId } = location.state;
@@ -44,25 +43,24 @@ function Details() {
   const [flag, setFlag] = useState(false);
   const navigate = useNavigate();
 
-      // ========= user Data ==========// 
-      const [UID, setUID ] = useState("");
-      async function getUserData() {
-        const userCollection = collection(db, "users");
-        const q = query(
-          userCollection,
-          where("id", "==", localStorage.getItem("id"))
-        );
-        const querySnapshot = await getDocs(q);
-    
-        querySnapshot.forEach((doc) => {
-          const userData = doc.data();
-          setUID(userData.id)
-        });
-      }
-    
+  // ========= user Data ==========//
+  const [UID, setUID] = useState("");
+  async function getUserData() {
+    const userCollection = collection(db, "users");
+    const q = query(
+      userCollection,
+      where("id", "==", localStorage.getItem("id"))
+    );
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+      const userData = doc.data();
+      setUID(userData.id);
+    });
+  }
 
   async function addToBag() {
-    setIsLoading(true)
+    setIsLoading(true);
     const collectionRef = collection(db, "Bag");
     const doc = await addDoc(collectionRef, {
       imgsrc: imgsrc,
@@ -70,14 +68,14 @@ function Details() {
       price: price * count,
       description: desc,
       basePrice: price,
-      userID:UID
+      userID: UID,
     });
 
     setFlag(true);
     toast.success("Product added. Now go to your bag", {
       position: "top-right",
     });
-    setIsLoading(false)
+    setIsLoading(false);
   }
 
   function goToBag() {
@@ -92,9 +90,7 @@ function Details() {
     await saveRating(productId, rating, review);
   };
 
-  // =========== Show Rating =========== // 
-
- 
+  // =========== Show Rating =========== //
 
   return (
     <>
@@ -166,8 +162,11 @@ function Details() {
               className="bg-slate-900 text-white py-3 px-10 rounded-lg"
               onClick={() => addToBag()}
             >
-            {isLoading ? <i className="fa fa-spinner fa-spin"></i> : "Add To Bag" }  
-            
+              {isLoading ? (
+                <i className="fa fa-spinner fa-spin"></i>
+              ) : (
+                "Add To Bag"
+              )}
             </button>
             {flag && (
               <button
@@ -181,10 +180,10 @@ function Details() {
           </div>
         </div>
       </div>
-      <Nav bobId={bobId} desc={desc}/>
+      <Nav bobId={bobId} desc={desc} />
       <Viewed />
     </>
   );
-} 
+}
 
 export default Details;

@@ -8,6 +8,8 @@ import {
   deleteDoc,
   addDoc,
   writeBatch,
+  query,
+  where,
 } from "firebase/firestore";
 import { IoClose } from "react-icons/io5";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
@@ -26,7 +28,11 @@ function CartSection() {
   };
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "Bag"), (snapshot) => {
+    const q = query(
+      collection(db, "Bag"),
+      where("userID", "==", localStorage.getItem("id"))
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
       const items = snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
       setCart(items);
     });
