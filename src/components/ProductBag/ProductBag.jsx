@@ -78,12 +78,15 @@ function ProductBag() {
 
   return (
     <>
+      <h1 className="text-center mt-5 font-medium"> {bags.length == 1 ?  `${bags.length} Item Found` :`${bags.length} Items Found`}   </h1>
       <div className="grid grid-cols-2 Md:grid-cols-1 ">
         {bags.map((item) => (
+          
           <div
             key={item.id}
             className=" zeroToTo768:flex-col flex items-center  justify-between space-x-6 my-6 shadow-2Xl p-9 rounded-Xl "
           >
+            
             <div className="zeroToTo768:w-[300px]  w-[500px]  flex justify-center items-center">
               <img
                 src={item.imgsrc}
@@ -92,7 +95,9 @@ function ProductBag() {
               />
             
             </div>
+            
             <div className="w-[80%]">
+            
               <div className="my-5 flex justify-between items-center">
                 Quantity : {item.quantity}
                 <input

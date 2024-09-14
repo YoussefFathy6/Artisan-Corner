@@ -13,6 +13,7 @@ import { collection, doc, getDoc, onSnapshot } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { Dropdown } from "flowbite-react";
 import { HiCog, HiCurrencyDollar, HiLogout, HiViewGrid } from "react-icons/hi";
+import { FaShoppingCart } from "react-icons/fa";
 function BodyNav() {
   const dispatch = useDispatch();
   const [userData, setUserData] = useState(null);
@@ -93,6 +94,7 @@ function BodyNav() {
                   View Profile
                 </Dropdown.Item>
                 <Dropdown.Item icon={HiCog}>Settings</Dropdown.Item>
+                <Dropdown.Item icon={FaShoppingCart } onClick={()=>nav("/bag")}>My Bag</Dropdown.Item>
                 <Dropdown.Item icon={HiCurrencyDollar}>Earnings</Dropdown.Item>
                 <Dropdown.Divider />
                 <Dropdown.Item
