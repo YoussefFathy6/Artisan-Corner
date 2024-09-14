@@ -27,6 +27,7 @@ function Details() {
   
   const { saveRating } = useContext(RatingsContext);
   const {  productType ,  setProductType } = useContext(ReviewsContext);
+  const [isLoading , setIsLoading] = useState(false)
  
   useEffect(() => {
     setProductType(productType);
@@ -40,6 +41,7 @@ function Details() {
   const navigate = useNavigate();
 
   async function addToBag() {
+    setIsLoading(true)
     const collectionRef = collection(db, "Bag");
     const doc = await addDoc(collectionRef, {
       imgsrc: imgsrc,
@@ -53,6 +55,7 @@ function Details() {
     toast.success("Product added. Now go to your bag", {
       position: "top-right",
     });
+    setIsLoading(false)
   }
 
   function goToBag() {
@@ -141,7 +144,8 @@ function Details() {
               className="bg-slate-900 text-white py-3 px-10 rounded-lg"
               onClick={() => addToBag()}
             >
-              Add To Bag
+            {isLoading ? <i className="fa fa-spinner fa-spin"></i> : "Add To Bag" }  
+            
             </button>
             {flag && (
               <button
@@ -149,7 +153,7 @@ function Details() {
                 onClick={() => goToBag()}
               >
                 Go To Bag
-                <i className="fa-solid fa-arrow-right animate-pulse mx-3"></i>{" "}
+                <i className="fa-solid fa-arrow-right animate-pulse mx-3"></i>
               </button>
             )}
           </div>
