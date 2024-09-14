@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Dropdown, Button } from "flowbite-react";
 import db from "../../../Config/firebase";
-import { onSnapshot, collection, addDoc } from "firebase/firestore";
+import { onSnapshot, collection, addDoc, query, where, getDocs } from "firebase/firestore";
 import Card from "./Card";
 import Menu from "../Menu/Menu";
 
@@ -21,7 +21,25 @@ function Main() {
       setProducts([...arr]);
       setFilteredProducts([...arr]); // Initialize with all products
     });
+    getUserData();
   }, []);
+
+   // ========= user Data ==========// 
+  const [UID, setUID ] = useState("");
+  async function getUserData() {
+    const userCollection = collection(db, "users");
+    const q = query(
+      userCollection,
+      where("id", "==", localStorage.getItem("id"))
+    );
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+      const userData = doc.data();
+      setUID(userData.id)
+    });
+  }
+
 
   async function clickMe(product) {
     await addDoc(collection(db, "Bag"), {
@@ -31,6 +49,7 @@ function Main() {
       price: product.price,
       basePrice: product.price,
       quantity: 1,
+     userID:UID
     });
   }
 

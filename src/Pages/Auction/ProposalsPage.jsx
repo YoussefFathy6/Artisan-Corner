@@ -79,8 +79,33 @@ function ProposalsPage() {
     });
 
     console.log("Item added successfully to the array!");
+    notifyMembers(documentId, newItem.member);
   }
+  async function notifyMembers(productId, offerMemberId) {
+    const docRef = doc(db, "auctionProduct", productId);
+    const productDoc = await docRef.get();
+    const { members } = productDoc.data();
 
+    members.forEach(async (memberId) => {
+      // Don't send notification to the member who made the offer
+      if (memberId !== offerMemberId) {
+        const userDocRef = doc(db, "users", memberId);
+
+        // Push a notification to this member's notifications array
+        await updateDoc(userDocRef, {
+          notifications: arrayUnion({
+            message: `A new offer has been made on ${
+              productDoc.data().productType
+            }`,
+            timestamp: new Date().toISOString(),
+            read: false,
+          }),
+        });
+
+        console.log(`Notification sent to user ${memberId}`);
+      }
+    });
+  }
   return (
     <main className="flex gap-5 p-5 h-screen">
       {/* Left section */}
