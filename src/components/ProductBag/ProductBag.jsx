@@ -5,9 +5,12 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDocs,
   onSnapshot,
+  query,
   setDoc,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import db from "./../../Config/firebase";
 import { useNavigate } from "react-router-dom";
@@ -16,22 +19,41 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 import SweetAlert2 from "react-sweetalert2";
 import Swal from "sweetalert2";
 
+
 function ProductBag() {
   const navigate = useNavigate();
   const [bags, setBags] = useState([]);
   const [openModal, setOpenModal] = useState(true);
   const [swalProps, setSwalProps] = useState({});
+  const [UID, setUID] = useState(localStorage.getItem("id"));
 
   useEffect(() => {
-    let arr;
-    onSnapshot(collection(db, "Bag"), (snapshot) => {
-      arr = snapshot.docs.map((doc) => {
-        return { ...doc.data(), id: doc.id };
-      });
-      // console.log(arr)
-      setBags([...arr]);
-    });
-  }, []);
+    // let arr;
+    // onSnapshot(collection(db, "Bag"), (snapshot) => {
+    //   arr = snapshot.docs.map((doc) => {
+    //     return { ...doc.data(), id: doc.id };
+    //   });
+    //   // console.log(arr)
+    //   setBags([...arr]);
+    // });
+     if (UID) {
+      showBag(UID); 
+    }
+  }, [UID]);
+
+    // ============ Show Bag From Database  =================//
+    async function showBag(userID) {
+      const q = query(
+        collection(db, "Bag"),
+        where("userID", "==", userID)
+      );
+  
+      const querySnapshot = await getDocs(q);
+      // console.log(querySnapshot)
+      const bagsData = querySnapshot.docs.map((doc) => ({ ...doc.data(),id: doc.id,}));
+      setBags(bagsData);
+    }
+
 
   function handleDelete(id) {
     // alert("Are You Sure");
@@ -56,6 +78,7 @@ function ProductBag() {
         });
         let docref = doc(db, "Bag", id);
         deleteDoc(docref);
+        setBags((prevBags) => prevBags.filter((item) => item.id !== id));
       }
     });
   }

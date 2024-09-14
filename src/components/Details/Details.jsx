@@ -9,9 +9,12 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDocs,
   onSnapshot,
+  query,
   setDoc,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import db from "./../../Config/firebase";
 
@@ -23,6 +26,7 @@ import ReactImageZoom from "react-image-zoom";
 import ReactStars from "react-rating-stars-component";
 import { RatingsContext } from "../../Context/RatingsContext";
 import ReviewsContext from "../../Context/ReviewsContext";
+
 function Details() {
   
   const { saveRating } = useContext(RatingsContext);
@@ -31,7 +35,7 @@ function Details() {
  
   useEffect(() => {
     setProductType(productType);
- 
+    getUserData()
   },  [productType, setProductType]);
 
   const location = useLocation();
@@ -39,6 +43,23 @@ function Details() {
   const [count, setCount] = useState(1);
   const [flag, setFlag] = useState(false);
   const navigate = useNavigate();
+
+      // ========= user Data ==========// 
+      const [UID, setUID ] = useState("");
+      async function getUserData() {
+        const userCollection = collection(db, "users");
+        const q = query(
+          userCollection,
+          where("id", "==", localStorage.getItem("id"))
+        );
+        const querySnapshot = await getDocs(q);
+    
+        querySnapshot.forEach((doc) => {
+          const userData = doc.data();
+          setUID(userData.id)
+        });
+      }
+    
 
   async function addToBag() {
     setIsLoading(true)
@@ -49,6 +70,7 @@ function Details() {
       price: price * count,
       description: desc,
       basePrice: price,
+      userID:UID
     });
 
     setFlag(true);
