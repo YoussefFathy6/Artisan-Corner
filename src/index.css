@@ -44,7 +44,7 @@ body {
     @apply w-[100%];
   }
   .p-6 {
-    @apply p-[0px]
+    @apply p-[0px];
   }
 }
 
@@ -88,7 +88,6 @@ body {
 /* a:hover {
   color: #f9f2e6 !important ;
 } */
-
 
 .carousel-item {
   width: 200px;
@@ -146,5 +145,3 @@ body {
   margin: 5px 0;
   font-size: 1.25rem;
 }
-
-
