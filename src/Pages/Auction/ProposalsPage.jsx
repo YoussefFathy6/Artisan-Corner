@@ -6,6 +6,9 @@ import {
   onSnapshot,
   updateDoc,
   getDocs,
+  getDoc,
+  query,
+  where,
 } from "firebase/firestore";
 import { Button, TextInput } from "flowbite-react";
 import React, { useEffect, useState } from "react";
@@ -81,31 +84,68 @@ function ProposalsPage() {
     console.log("Item added successfully to the array!");
     notifyMembers(documentId, newItem.member);
   }
+
   async function notifyMembers(productId, offerMemberId) {
-    const docRef = doc(db, "auctionProduct", productId);
-    const productDoc = await docRef.get();
-    const { members } = productDoc.data();
+    try {
+      const docRef = doc(db, "auctionProduct", productId);
 
-    members.forEach(async (memberId) => {
-      // Don't send notification to the member who made the offer
-      if (memberId !== offerMemberId) {
-        const userDocRef = doc(db, "users", memberId);
+      // Correct document reference
+      const productDoc = await getDoc(docRef); // Retrieve the document
 
-        // Push a notification to this member's notifications array
-        await updateDoc(userDocRef, {
-          notifications: arrayUnion({
-            message: `A new offer has been made on ${
-              productDoc.data().productType
-            }`,
-            timestamp: new Date().toISOString(),
-            read: false,
-          }),
-        });
-
-        console.log(`Notification sent to user ${memberId}`);
+      // Check if productDoc exists
+      if (!productDoc.exists()) {
+        console.log("Product not found");
+        return;
       }
-    });
+
+      const { members } = productDoc.data();
+
+      // Log members to verify if they are correctly fetched
+      console.log("Members: ", members);
+
+      // Notify each member except the one who made the offer
+      for (const memberId of members) {
+        if (memberId !== offerMemberId) {
+          const userQuery = query(
+            collection(db, "users"),
+            where("id", "==", memberId)
+          );
+
+          // Fetch the query results using getDocs
+          const userDocs = await getDocs(userQuery);
+
+          // If the query returns no results, skip this member
+          if (userDocs.empty) {
+            console.log(`User ${memberId} not found`);
+            continue;
+          }
+
+          // Process the first user document found (since there should only be one)
+          const userDoc = userDocs.docs[0];
+
+          // Log user data to verify it is fetched correctly
+          console.log(`User data for ${memberId}: `, userDoc.data());
+
+          // Push a notification to this member's notifications array
+          const userDocRef = userDoc.ref; // Get document reference
+          await updateDoc(userDocRef, {
+            notifications: arrayUnion({
+              message: `A new offer has been made on ${
+                productDoc.data().title
+              }`,
+              timestamp: new Date().toISOString(),
+              read: false,
+            }),
+          });
+
+          console.log(`Notification sent to user ${memberId}`);
+        }
+      }
+    } catch (error) {
+      console.error("Error notifying members: ", error);
+    }
   }
+
   return (
     <main className="flex gap-5 p-5 h-screen">
       {/* Left section */}
