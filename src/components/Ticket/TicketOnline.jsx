@@ -9,20 +9,23 @@ function TicketOnline() {
   const [eventDetails, setEventDetails] = useState(null);
   const [userEmail, setUserEmail] = useState("");
   const [emailSent, setEmailSent] = useState(false);
+  const [showMeeting, setShowMeeting] = useState(false);
+  const [timeRemaining, setTimeRemaining] = useState(null);
+  const [meetingStartTime, setMeetingStartTime] = useState(null); 
 
   useEffect(() => {
     if (eventId) {
       const fetchEventDetails = async () => {
         try {
-          // Fetch event details
           const eventDoc = await getDoc(doc(db, "add event", eventId));
           if (eventDoc.exists()) {
-            setEventDetails(eventDoc.data());
+            const data = eventDoc.data();
+            setEventDetails(data);
+            setMeetingStartTime(new Date(data.date)); 
           } else {
             console.error("No such event!");
           }
 
-          // Fetch user email
           const emailQuery = query(
             collection(db, "sendTicket"),
             where("eventId", "==", eventId)
@@ -66,8 +69,26 @@ function TicketOnline() {
     }
   }, [eventDetails, userEmail]);
 
+  useEffect(() => {
+    if (meetingStartTime) {
+      const updateRemainingTime = () => {
+        const now = new Date();
+        const timeDiff = meetingStartTime - now;
+        if (timeDiff <= 0) {
+          setTimeRemaining(0);
+          setShowMeeting(true);
+        } else {
+          setTimeRemaining(timeDiff);
+        }
+      };
 
-  const [showMeeting, setShowMeeting] = useState(false);  
+      // Update the remaining time every second
+      const timer = setInterval(updateRemainingTime, 1000);
+
+      // Clean up timer on component unmount
+      return () => clearInterval(timer);
+    }
+  }, [meetingStartTime]);
 
   useEffect(() => {
     if (showMeeting) {
@@ -93,17 +114,33 @@ function TicketOnline() {
     setShowMeeting(true);  
   };
 
-
+  const formatTimeRemaining = (milliseconds) => {
+    const totalSeconds = Math.floor(milliseconds / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}m ${seconds}s`;
+  };
 
   return (
     <div className="container mx-auto p-8 max-w-lg bg-white rounded-lg border border-gray-200 mt-7">
-  <div>
-      {!showMeeting ? (
-        <button onClick={handleStartMeeting}>Start Video Call</button>  
-      ) : (
-        <div id="jitsi-container" style={{ height: '600px', width: '100%' }} />
-      )}
-    </div>
+      <div>
+        {!showMeeting ? (
+          <div>
+            {timeRemaining !== null && (
+              <div className="text-center mb-4">
+                {timeRemaining > 0 ? (
+                  <p className="text-gray-600">Time until meeting starts: {formatTimeRemaining(timeRemaining)}</p>
+                ) : (
+                  <p className="text-gray-600">Starting meeting...</p>
+                )}
+              </div>
+            )}
+            <button onClick={handleStartMeeting} className="btn btn-primary">Start Video Call</button>  
+          </div>
+        ) : (
+          <div id="jitsi-container" style={{ height: '600px', width: '100%' }} />
+        )}
+      </div>
 
       <div className="text-center">
         {emailSent ? (
