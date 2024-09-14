@@ -134,3 +134,27 @@ margin: auto;
     transform: scale3d(1, 1, 1);
   }
 }
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination-btn {
+  background-color: #f3f3f3;
+  border: none;
+  padding: 10px 15px;
+  margin: 0 5px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.pagination-btn.active {
+  background-color: #d9534f;
+  color: white;
+}
+
+.pagination-btn:hover {
+  background-color: #d9534f;
+  color: white;
+}

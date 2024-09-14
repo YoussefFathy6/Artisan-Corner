@@ -345,79 +345,6 @@
 
 
 
-// // import { useEffect, useState } from 'react';
-// // import AgoraRTC from 'agora-rtc-sdk-ng';
-
-// // const appId ='1ffd9eec5ba04953889eee6062c921f6';  // ضع معرف التطبيق الخاص بك هنا
-// // const token = null;           // ضع الرمز هنا إذا كنت تستخدم رموزاً
-// // const channelName = 'test-channel';  // اسم القناة التي تريد الانضمام إليها
-
-// // const VideoCall = () => {
-// //   const [joined, setJoined] = useState(false);
-// //   const [client, setClient] = useState(null);
-
-// //   useEffect(() => {
-// //     const initAgora = async () => {
-// //       const agoraClient = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
-// //       setClient(agoraClient);
-
-// //       agoraClient.on("user-published", async (user, mediaType) => {
-// //         await agoraClient.subscribe(user, mediaType);
-        
-// //         if (mediaType === 'video') {
-// //           const remoteVideoTrack = user.videoTrack;
-// //           const remotePlayerContainer = document.createElement("div");
-// //           remotePlayerContainer.id = user.uid;
-// //           remotePlayerContainer.style.width = "400px";
-// //           remotePlayerContainer.style.height = "300px";
-// //           remotePlayerContainer.style.margin = "10px";
-          
-// //           document.getElementById('remote-videos').appendChild(remotePlayerContainer);
-// //           remoteVideoTrack.play(remotePlayerContainer);
-// //         }
-
-// //         if (mediaType === 'audio') {
-// //           const remoteAudioTrack = user.audioTrack;
-// //           remoteAudioTrack.play();
-// //         }
-// //       });
-
-// //       await agoraClient.join(appId, channelName, token, null);
-
-// //       const localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-// //       const localVideoTrack = await AgoraRTC.createCameraVideoTrack();
-
-// //       await agoraClient.publish([localAudioTrack, localVideoTrack]);
-
-// //       localVideoTrack.play('local-player');
-// //       setJoined(true);
-// //     };
-
-// //     initAgora();
-
-// //     return () => {
-// //       if (client) {
-// //         client.leave();
-// //       }
-// //     };
-// //   }, []);
-
-// //   return (
-// //     <div>
-// //       {joined ? (
-// //         <div>
-// //           <div id="local-player" style={{ width: "400px", height: "300px", border: "1px solid #000" }}></div>
-// //           <div>مكالمة الفيديو بدأت!</div>
-// //           <div id="remote-videos" style={{ display: "flex", flexWrap: "wrap" }}></div>
-// //         </div>
-// //       ) : (
-// //         <div>جاري الانضمام إلى القناة...</div>
-// //       )}
-// //     </div>
-// //   );
-// // };
-
-// // export default VideoCall;
 
 
 
@@ -427,30 +354,51 @@
 
 
 
+// import  { useEffect, useState } from 'react';
 
-import { useEffect } from 'react';
+// const VideoCall = () => {
+//   const [showMeeting, setShowMeeting] = useState(false);  
 
-const VideoCall = () => {
-  useEffect(() => {
-    const domain = "meet.jit.si";
-    const options = {
-        roomName: "MyCustomRoom",
-        width: "100%",
-        height: "600px",
-        parentNode: document.getElementById("jitsi-container"),
-        configOverwrite: { startWithVideoMuted: true },
-        interfaceConfigOverwrite: { filmStripOnly: false },
-      };
-      
+//   useEffect(() => {
+//     if (showMeeting) {
+//       const domain = "meet.jit.si";
+//       const options = {
+//         roomName: "MyCustomRoom",  
+//         width: "100%",
+//         height: "600px",
+//         parentNode: document.getElementById("jitsi-container"),
+//         configOverwrite: { startWithVideoMuted: true },
+//         interfaceConfigOverwrite: { filmStripOnly: false },
+//       };
 
-    const api = new window.JitsiMeetExternalAPI(domain, options);
+//       const api = new window.JitsiMeetExternalAPI(domain, options);
 
-    return () => {
-      api.dispose();  // للتخلص من الجلسة عند إنهاء المكون
-    };
-  }, []);
+//       return () => {
+//         api.dispose();  
+//       };
+//     }
+//   }, [showMeeting]);
 
-  return <div id="jitsi-container" style={{ height: '600px', width: '100%' }} />;
-};
+//   const handleStartMeeting = () => {
+//     setShowMeeting(true);  
+//   };
 
-export default VideoCall;
+//   return (
+//     <div>
+//       {!showMeeting ? (
+//         <button onClick={handleStartMeeting}>Start Video Call</button>  
+//       ) : (
+//         <div id="jitsi-container" style={{ height: '600px', width: '100%' }} />
+//       )}
+//     </div>
+//   );
+// };
+
+// export default VideoCall;
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+{/* ربط كل ايفينت*/ }
+
+

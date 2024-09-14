@@ -4,7 +4,7 @@ import db from "../../Config/firebase";
 import { collection, onSnapshot } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import './Allevent.css'
+import './Allevent.moduls.css'
 function AllEvent() {
   let [events, setevents] = useState([]);
   let [filteredEvents, setFilteredEvents] = useState([]);
@@ -36,7 +36,7 @@ function AllEvent() {
       filtered = filtered.filter(event => event.eventtype === filter);
     }
     if (searchTerm) {
-      filtered = filtered.filter(event => event.name.toLowerCase().includes(searchTerm.toLowerCase())); // البحث
+      filtered = filtered.filter(event => event.name.toLowerCase().includes(searchTerm.toLowerCase()));
     }
     setFilteredEvents(filtered);
   }, [filter, searchTerm, events]);
@@ -201,7 +201,7 @@ function AllEvent() {
 </ul>
 
     </div>
-        <div className="ml-7 w-3/4 justify-center">
+        <div className="ml-24 w-3/4 justify-center align-middle items-center">
         
           <div className="mt-12 justify-center ">
             {filteredEvents.length ? (
