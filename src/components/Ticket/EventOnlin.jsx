@@ -4,7 +4,7 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { Carousel } from "flowbite-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
-import "./TicketStyle.css"
+import "./TicketStyle.modules.css"
 function EventOnline() {
   const location = useLocation();
   const event = location.state?.event || {};

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import emailjs from 'emailjs-com';
 import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 import db from '../../Config/firebase';
-import "./TicketStyle.css"
+import "./TicketStyle.modules.css"
 function TicketOnline() {
   const { eventId } = useParams();
   const [eventDetails, setEventDetails] = useState(null);  

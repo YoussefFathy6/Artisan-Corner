@@ -3,7 +3,7 @@ import db from '../../Config/firebase';
 import { useParams } from "react-router-dom"; 
 import emailjs from 'emailjs-com'; 
 import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore"; 
-import "./TicketStyle.css"
+import "./TicketStyle.modules.css"
 function TicketConfirmation() {
   const { eventId } = useParams();
   const [ticketImageUrl, setTicketImageUrl] = useState("");
@@ -45,26 +45,26 @@ function TicketConfirmation() {
     }
   }, [eventId]);
 
-  // useEffect(() => {
-  //   if (ticketImageUrl && userEmail) {
-  //     emailjs.send('service_0j6gsa6', 'template_fjy76b1', {
-  //       to_Email: userEmail,
-  //       event_id: eventId,
-  //       ticket_image_url: ticketImageUrl,
-  //       from_name: 'HandiCraft',
-  //       from_email: 'hanaamohammed840@gmail.com',
-  //       bcc: '',
-  //       cc: '',
-  //     }, 'oHU2f0mLFm9mvleo5')
-  //     .then((response) => {
-  //       console.log('Email successfully sent!', response.status, response.text);
-  //       setEmailSent(true);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Failed to send email:', error);
-  //     });
-  //   }
-  // }, [ticketImageUrl, userEmail, eventId]);
+  useEffect(() => {
+    if (ticketImageUrl && userEmail) {
+      emailjs.send('service_0j6gsa6', 'template_fjy76b1', {
+        to_Email: userEmail,
+        event_id: eventId,
+        ticket_image_url: ticketImageUrl,
+        from_name: 'HandiCraft',
+        from_email: 'hanaamohammed840@gmail.com',
+        bcc: '',
+        cc: '',
+      }, 'oHU2f0mLFm9mvleo5')
+      .then((response) => {
+        console.log('Email successfully sent!', response.status, response.text);
+        setEmailSent(true);
+      })
+      .catch((error) => {
+        console.error('Failed to send email:', error);
+      });
+    }
+  }, [ticketImageUrl, userEmail, eventId]);
 
   return (
     <div className="justify-center items-center m-auto p-8   rounded-lg   mt-7">
