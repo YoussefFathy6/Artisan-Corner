@@ -78,18 +78,16 @@ function Cards({ data, onTicketClick }) {
   };
 
   return (
-    <div
-      className="justify-center relative overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-transform duration-300 ease-in-out transform hover:scale-105 hover:bg-opacity-45"
-      style={{ width: '900px', minHeight: '200px', display: 'flex' }}
-    >
-      {/* Left Section: Date */}
+    <div className="event-card justify-center lg:flex md:block sm:block mt-8 relative overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-transform duration-300 ease-in-out transform hover:scale-105 hover:bg-opacity-45" style={{ width: '900px', minHeight: '200px' }}>
+
+      {/* Left */}
       <div className="bg-red-900 p-4 flex flex-col justify-center items-center text-center">
-        <div className="text-4xl font-bold mb-1">{new Date(data.date).toLocaleDateString("en-US", { day: 'numeric' })}</div>
-        <div className="text-lg uppercase">{new Date(data.date).toLocaleDateString("en-US", { month: 'short', year: 'numeric' })}</div>
+        <div className=" text-white text-4xl font-bold mb-1">{new Date(data.date).toLocaleDateString("en-US", { day: 'numeric' })}</div>
+        <div className=" text-white text-lg uppercase">{new Date(data.date).toLocaleDateString("en-US", { month: 'short', year: 'numeric' })}</div>
       <div className=" text-white  w-full  mt-2">{new Date(data.date).toLocaleTimeString("en-US", { hour: 'numeric', minute: 'numeric' })}</div>
       </div>
 
-      {/* Center Section: Event Info */}
+      {/* Center  */}
       <div className="flex-1 p-9">
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-bold">{data.name}</h2>
@@ -109,8 +107,8 @@ function Cards({ data, onTicketClick }) {
         </div>
       </div>
 
-      {/* Right Section: Event Image with Cutout */}
-      <div className="relative">
+      {/* Right  */}
+      <div className="relative cutout sm:flex sm:flex-col">
       <div className="absolute top-0 right-48  h-full w-16 flex flex-col justify-between items-center">
           <div style={{backgroundColor:"#F9F2E6"}} className=" w-8 h-8 rounded-full"></div>
           <div style={{backgroundColor:"#F9F2E6"}} className=" w-8 h-8 rounded-full"></div>

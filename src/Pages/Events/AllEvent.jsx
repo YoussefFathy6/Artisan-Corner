@@ -12,6 +12,15 @@ function AllEvent() {
   const navigate = useNavigate();
   const storage = getStorage();
   let [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
+
+  const totalPages = Math.ceil(filteredEvents.length / itemsPerPage);
+
+  const paginatedEvents = filteredEvents.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
   useEffect(() => {
     let arr;
     onSnapshot(collection(db, "add event"), (snapshot) => {
@@ -201,15 +210,34 @@ function AllEvent() {
 </ul>
 
     </div>
-        <div className="ml-24 w-3/4 justify-center align-middle items-center">
+        <div className=" w-3/4 items-center ">
         
-          <div className="mt-12 justify-center ">
-            {filteredEvents.length ? (
-              <div className="flex flex-wrap gap-8">
-                {filteredEvents.map((item, index) => (
-                  <Cards data={item} key={index} onTicketClick={() => handleTicketClick(item)} />
-                ))}
-              </div>
+        <div className="mt-12 ml-44 justify-center  items-center">
+            {paginatedEvents.length ? (
+                <div className="m-9 justify-between">
+                    {paginatedEvents.map((item, index) => (
+                        <Cards data={item} key={index} onTicketClick={() => handleTicketClick(item)} />
+                    ))}
+
+       
+
+<div className="pagination">
+
+        <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
+       Previous
+        </button>
+        {Array.from({ length: totalPages }, (_, index) => index + 1).map((number) => (
+          <button key={number} onClick={() => setCurrentPage(number)}>
+            {number}
+          </button>
+        ))}
+        <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>
+       Next
+        </button>
+    
+        </div></div>
+                
+   
             ) : (
 <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="loader m-auto items-center  ">
   <path pathLength="360" d="M 56.3752 2 H 7.6248 C 7.2797 2 6.9999 2.268 6.9999 2.5985 V 61.4015 C 6.9999 61.7321 7.2797 62 7.6248 62 H 56.3752 C 56.7203 62 57.0001 61.7321 57.0001 61.4015 V 2.5985 C 57.0001 2.268 56.7203 2 56.3752 2 Z"></path>
@@ -229,8 +257,10 @@ function AllEvent() {
   <path pathLength="360" d="M 30.2223 21.2875 C 30.5674 21.2875 30.8471 21.0195 30.8471 20.6889 V 18.92 L 31.9916 18.9675 C 32.3376 18.9833 32.628 18.7259 32.643 18.3956 C 32.658 18.0654 32.3907 17.786 32.0459 17.7717 L 30.2495 17.6969 C 30.077 17.6889 29.9133 17.7497 29.7902 17.8624 C 29.6671 17.9753 29.5976 18.1315 29.5976 18.2948 V 20.6889 C 29.5974 21.0195 29.8772 21.2875 30.2223 21.2875 Z"></path>
 
 </svg>
+
             )}
           </div>
+         
         </div>
       </div>
     </>

@@ -6,26 +6,41 @@ import db from '../../Config/firebase';
 
 function TicketOnline() {
   const { eventId } = useParams();
-  const [eventDetails, setEventDetails] = useState(null);
+  const [eventDetails, setEventDetails] = useState(null);  
+  const [eventImageUrl, seteventImageUrl] = useState("");
+
   const [userEmail, setUserEmail] = useState("");
   const [emailSent, setEmailSent] = useState(false);
   const [showMeeting, setShowMeeting] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(null);
   const [meetingStartTime, setMeetingStartTime] = useState(null); 
 
+
+
+  
   useEffect(() => {
     if (eventId) {
       const fetchEventDetails = async () => {
         try {
+   
           const eventDoc = await getDoc(doc(db, "add event", eventId));
           if (eventDoc.exists()) {
             const data = eventDoc.data();
+
+      const eventImageUrl=eventDoc.data().eventImg;
+      seteventImageUrl(eventImageUrl);
+
             setEventDetails(data);
-            setMeetingStartTime(new Date(data.date)); 
+
+   
+            const eventDateTime = new Date(`${data.date} ${data.time}`);
+            setMeetingStartTime(eventDateTime);  
+
           } else {
             console.error("No such event!");
           }
 
+     
           const emailQuery = query(
             collection(db, "sendTicket"),
             where("eventId", "==", eventId)
@@ -48,13 +63,17 @@ function TicketOnline() {
 
   useEffect(() => {
     if (eventDetails && userEmail) {
-      const { name, eventImg, date } = eventDetails;
+      const { name, eventImg, date ,time } = eventDetails;
 
-      emailjs.send('service_0j6gsa6', 'template_fjy76b1', {
+   
+      emailjs.send('service_0q4y7cx', 'template_8phzq4h', {
         to_Email: userEmail,
         event_name: name,
         event_image: eventImg,
+
+
         event_date: new Date(date).toLocaleString(),
+        event_time:time,
         from_name: 'HandiCraft',
         from_email: 'hanaamohammed840@gmail.com',
         message: 'Please join the event room when the event starts.',
@@ -76,16 +95,14 @@ function TicketOnline() {
         const timeDiff = meetingStartTime - now;
         if (timeDiff <= 0) {
           setTimeRemaining(0);
-          setShowMeeting(true);
+          setShowMeeting(true); 
         } else {
           setTimeRemaining(timeDiff);
         }
       };
 
-      // Update the remaining time every second
       const timer = setInterval(updateRemainingTime, 1000);
 
-      // Clean up timer on component unmount
       return () => clearInterval(timer);
     }
   }, [meetingStartTime]);
@@ -135,7 +152,9 @@ function TicketOnline() {
                 )}
               </div>
             )}
-            <button onClick={handleStartMeeting} className="btn btn-primary">Start Video Call</button>  
+            {timeRemaining === 0 && (  
+              <button onClick={handleStartMeeting} className="btn btn-primary">Start Video Call</button>
+            )}
           </div>
         ) : (
           <div id="jitsi-container" style={{ height: '600px', width: '100%' }} />
