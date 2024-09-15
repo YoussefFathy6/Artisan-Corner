@@ -81,12 +81,19 @@ function Cards({ data, onTicketClick }) {
     <div className="event-card justify-center lg:flex md:block sm:block mt-8 relative overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-transform duration-300 ease-in-out transform hover:scale-105 hover:bg-opacity-45" style={{ width: '900px', minHeight: '200px' }}>
 
       {/* Left */}
+   
       <div className="bg-red-900 p-4 flex flex-col justify-center items-center text-center">
         <div className=" text-white text-4xl font-bold mb-1">{new Date(data.date).toLocaleDateString("en-US", { day: 'numeric' })}</div>
         <div className=" text-white text-lg uppercase">{new Date(data.date).toLocaleDateString("en-US", { month: 'short', year: 'numeric' })}</div>
       <div className=" text-white  w-full  mt-2">{new Date(data.date).toLocaleTimeString("en-US", { hour: 'numeric', minute: 'numeric' })}</div>
-      </div>
+      <div
+  className={`absolute top-4 -left-10 w-36 text-center transform -rotate-45 bg-${isOnline ? 'green-600' : 'amber-900'} text-white   py-1 font-bold`}
+>
+  {data.eventtype}
+</div>
 
+      </div>
+   
       {/* Center  */}
       <div className="flex-1 p-9">
         <div className="flex justify-between items-center">
@@ -97,11 +104,13 @@ function Cards({ data, onTicketClick }) {
         <button onClick={toggleDescription} className="text-blue-500 mt-2">{isExpanded ? 'Show Less' : 'Read More'}</button>
 
         <div className="flex mt-4">
+       
           <button
             onClick={onTicketClick}
-            className="bg-red-900 hover:bg-red-500 text-white py-2 px-6 rounded-md"
+            className="hover:bg-red-500 text-white py-2 px-6 rounded-md bg-red-900"
           >
-            Get Tickets
+        View Details
+          
           </button>
     
         </div>
@@ -141,3 +150,4 @@ function Cards({ data, onTicketClick }) {
 }
 
 export default Cards;
+

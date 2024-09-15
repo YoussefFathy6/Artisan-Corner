@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import db from "../../Config/firebase";
@@ -10,12 +11,13 @@ import {
   writeBatch,
   query,
   where,
+  getDocs,
 } from "firebase/firestore";
 import { IoClose } from "react-icons/io5";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-import { v4 as uuidv4 } from "uuid"; // For generating unique order IDs
+import { v4 as uuidv4 } from "uuid";
 
-function CartSection() {
+function CartSection({ customerInfo }) {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
 
@@ -63,14 +65,21 @@ function CartSection() {
 
   const clearCart = async () => {
     try {
-      const cartCollectionRef = collection(db, "Bag");
-      const snapshot = await onSnapshot(cartCollectionRef);
+      const cartCollectionRef = query(
+        collection(db, "Bag"),
+        where("userID", "==", localStorage.getItem("id"))
+      );
+
+      // Use getDocs to retrieve the documents instead of onSnapshot
+      const snapshot = await getDocs(cartCollectionRef);
       const batch = writeBatch(db);
 
+      // Iterate over the documents and queue them for deletion
       snapshot.docs.forEach((doc) => {
         batch.delete(doc.ref);
       });
 
+      // Commit the batch to apply all deletions
       await batch.commit();
       console.log("Cart cleared successfully");
     } catch (error) {
@@ -79,94 +88,99 @@ function CartSection() {
   };
 
   return (
-    <div className="bg-gray-100 p-5 rounded-md">
-      <h2 className="text-2xl font-bold">Cart</h2>
-      {cart.length === 0 ? (
-        <p>Your cart is empty</p>
-      ) : (
-        <>
-          <ul className="my-4 space-y-2">
-            <div className="h-64 overflow-y-scroll">
-              {cart.map((product) => (
-                <li key={product.id} className="mb-4">
-                  <div className="w-full flex flex-row justify-between items-center border border-gray-400 p-3 shadow-lg rounded-md">
-                    <div className="w-1/4 h-40">
-                      <img
-                        className="w-full h-full rounded-full"
-                        src={product.imgsrc}
-                        alt={product.name}
-                      />
-                    </div>
-                    <div>
-                      <h1>{product.name}</h1>
-                      <h1 className="text-gray-400">$ {product.price}</h1>
-                    </div>
-                    <button
-                      className="px-2 py-1 rounded-md"
-                      onClick={() => deleteItem(product.id)}
-                    >
-                      <IoClose />
-                    </button>
-                  </div>
-                </li>
-              ))}
+    <>
+      <h2 className="mb-3 text-2xl font-bold">Cart</h2>
+      <div className=" p-5 rounded-md flex w-full">
+        {cart.length === 0 ? (
+          <p>Your cart is empty</p>
+        ) : (
+          <>
+            <div className="w-2/3">
+              <ul className="my-4 space-y-2">
+                <div className="h-64 overflow-y-scroll">
+                  <li className="w-full flex flex-row justify-between items-center  p-3 ">
+                    <p>product</p>
+                    <p>product</p>
+                  </li>
+                  {cart.map((product) => (
+                    <li key={product.id} className="mb-4">
+                      <div className="w-full flex flex-row justify-between items-center border border-gray-400 p-3 shadow-lg rounded-md">
+                        <div className="w-1/4 h-40">
+                          <img
+                            className="w-full h-full rounded-full"
+                            src={product.imgsrc}
+                            alt={product.name}
+                          />
+                        </div>
+                        <div>
+                          <h1>{product.name}</h1>
+                          <h1 className="text-gray-400">
+                            $ {product.basePrice}
+                          </h1>
+                          <h1 className="text-gray-400">$ {product.price}</h1>
+                        </div>
+                        <button
+                          className="px-2 py-1 rounded-md"
+                          onClick={() => deleteItem(product.id)}
+                        >
+                          <IoClose />
+                        </button>
+                      </div>
+                    </li>
+                  ))}
+                </div>
+              </ul>
+              <div className="border-t border-gray-300 pt-4"></div>
             </div>
-          </ul>
-          <div className="border-t border-gray-300 pt-4">
-            <h3 className="text-xl font-bold">Total: ${total.toFixed(2)}</h3>
-          </div>
-          {total > 0 && (
-            <PayPalScriptProvider
-              options={{
-                "client-id":
-                  "AcMz3qJ9DrjaDZH_asLE65SFuI7W2qIFLPVEkIqopOtb0YFEfAfW2Ht1cJR1bo0uoeP18SwV-urPXbz0",
-                currency: "CAD",
-              }}
-            >
-              <PayPalButtons
-                style={{ layout: "vertical" }}
-                amount={total.toFixed(2)}
-                onClick={() =>
-                  console.log(
-                    "PayPal Button Clicked with amount:",
-                    total.toFixed(2)
-                  )
-                }
-                onApprove={async (data, actions) => {
-                  try {
-                    await actions.order.capture();
+            <div className="w-1/3">
+              {" "}
+              <h3 className="text-xl font-bold">Total: ${total.toFixed(2)}</h3>
+              {total > 0 && (
+                <PayPalScriptProvider
+                  options={{
+                    "client-id":
+                      "AcMz3qJ9DrjaDZH_asLE65SFuI7W2qIFLPVEkIqopOtb0YFEfAfW2Ht1cJR1bo0uoeP18SwV-urPXbz0",
+                    currency: "CAD",
+                  }}
+                >
+                  <PayPalButtons
+                    style={{ layout: "vertical" }}
+                    createOrder={(data, actions) => {
+                      return actions.order.create({
+                        purchase_units: [
+                          {
+                            amount: {
+                              value: total.toFixed(2),
+                            },
+                          },
+                        ],
+                      });
+                    }}
+                    onApprove={async (data, actions) => {
+                      const details = await actions.order.capture();
+                      const orderID = uuidv4();
 
-                    // Save order details
-                    const userID = localStorage.getItem("id");
-                    const orderData = {
-                      id: data.orderID,
-                      totalAmount: total.toFixed(2),
-                      items: cart,
-                      userID: userID,
-                      createdAt: new Date(),
-                    };
-                    await saveOrder(orderData);
+                      const orderData = {
+                        orderID,
+                        userID: localStorage.getItem("id"),
+                        customerInfo, // Include the customer info in the order
+                        cartItems: cart,
+                        paymentDetails: details,
+                        timestamp: new Date(),
+                      };
 
-                    // Clear cart
-                    await clearCart();
-
-                    console.log("Payment approved and captured");
-                    // Optionally redirect or show a confirmation message
-                    // navigate("/TicketConfirmation");
-                  } catch (error) {
-                    console.error("Error capturing payment:", error);
-                  }
-                }}
-                onError={(err) => console.error("PayPal Error:", err)}
-              />
-            </PayPalScriptProvider>
-          )}
-        </>
-      )}
-    </div>
+                      saveOrder(orderData);
+                      clearCart();
+                    }}
+                  />
+                </PayPalScriptProvider>
+              )}
+            </div>
+          </>
+        )}
+      </div>
+    </>
   );
 }
 
 export default CartSection;
-
-// "AcMz3qJ9DrjaDZH_asLE65SFuI7W2qIFLPVEkIqopOtb0YFEfAfW2Ht1cJR1bo0uoeP18SwV-urPXbz0"

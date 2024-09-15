@@ -51,7 +51,13 @@ function AllEvent() {
   }, [filter, searchTerm, events]);
 
   const handleTicketClick = (event) => {
-    navigate("/Ticket", { state: { event } }); 
+    if (event.eventtype === "online") {
+      navigate("/EventOnline",{ state: { event } });
+  
+    } else {
+      navigate("/Ticket", { state: { event } }); 
+    }
+ 
   };
 
   return (
@@ -212,16 +218,17 @@ function AllEvent() {
     </div>
         <div className=" w-3/4 items-center ">
         
-        <div className="mt-12 ml-44 justify-center  items-center">
+        <div className="mt-12 ml-44 justify-center   items-center">
             {paginatedEvents.length ? (
-                <div className="m-9 justify-between">
+              // flexxxxxxxxxxxxxxxxxxxxxxx
+                <div className="m-9 justify-between "> 
                     {paginatedEvents.map((item, index) => (
                         <Cards data={item} key={index} onTicketClick={() => handleTicketClick(item)} />
                     ))}
 
        
 
-<div className="pagination">
+<div className="pagination ">
 
         <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
        Previous
