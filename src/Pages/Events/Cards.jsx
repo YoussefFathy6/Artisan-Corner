@@ -141,7 +141,7 @@ function Cards({ data, onTicketClick }) {
           src={data.eventImg}
           alt={`${data.name} event`}
           className="h-full object-cover"
-          style={{ width: '220px' ,marginRight:'100%'}}
+          style={{ width: '220px' ,height:'250px',marginRight:'100%'}}
         />
         <div style={{backgroundColor:"#F9F2E6"}} className="absolute top-16 right-0 left-44   h-32 w-16 rounded-l-full p-7"></div>
       </div>
