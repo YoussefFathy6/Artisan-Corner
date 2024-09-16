@@ -1,8 +1,18 @@
 import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function ArtProfile() {
   const location = useLocation();
-  const { user } = location.state || {};
+  const [user, setUser] = useState(location.state?.user || null);
+
+  useEffect(() => {
+    if (!user) {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+    }
+  }, [user]);
 
   return (
     <div>

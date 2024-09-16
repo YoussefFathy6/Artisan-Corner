@@ -5,7 +5,11 @@ import { useNavigate } from "react-router-dom";
 function Cards({ data }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const navigate = useNavigate();
+  const handleClick = () => {
 
+    localStorage.setItem('user', JSON.stringify(data));
+    navigate("/Artprofile");
+  };
   const descriptionMaxLength = 80;
   const aboutText = data.about ? data.about : 'No description available';
 
@@ -40,11 +44,11 @@ function Cards({ data }) {
             </p>
             <div className="justify-center mt-4 mx-16">
             <button
-  onClick={() => navigate("/Artprofile", { state: { user: data } })}
-  className="bg-red-900 hover:bg-red-800 text-white p-3 mb-6 ml-7 w-32 rounded-xl text-sm"
->
-  View Profile
-</button>
+      onClick={handleClick}
+      className="bg-red-900 hover:bg-red-800 text-white p-3 mb-6 ml-7 w-32 rounded-xl text-sm"
+    >
+      View Profile
+    </button>
 
             </div>
           </div>
