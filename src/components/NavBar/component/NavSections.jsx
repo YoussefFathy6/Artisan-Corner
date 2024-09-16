@@ -98,6 +98,13 @@ function NavSections() {
               >
                 BEST SELLER
               </NavLink>
+              <NavLink
+                style={isActive}
+                to="/Users"
+                className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
+              >
+               Users
+              </NavLink>
             </div>
             {/* <div className="flex">
               <a href="#">

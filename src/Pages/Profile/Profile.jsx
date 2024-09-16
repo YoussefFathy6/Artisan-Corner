@@ -5,7 +5,7 @@ import { FaLinkedinIn } from "react-icons/fa";
 import { Link} from "react-router-dom";
 import { FaUserEdit } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
-
+import { useLocation } from "react-router-dom";
 import Cards2 from "./Cards2";
 import Addproduct from "./Addproduct";
 import db from "../../Config/firebase";
@@ -13,6 +13,11 @@ import { collection, onSnapshot , query, where,doc, getDocs} from "firebase/fire
 import Side from "./Side";
 
 function Profile() {
+  const location = useLocation();
+  const { user } = location.state || {}; 
+
+ 
+
   let [products, setproducts] = useState([]);
   const [data, setData] = useState([]);
   const [userId, setUserId] = useState(null);
