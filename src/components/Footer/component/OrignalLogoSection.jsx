@@ -1,11 +1,18 @@
+
+
+
+
 // eslint-disable-next-line no-unused-vars
 import React from "react";
 import Returnicon from "../../../assets/imges/Returnicon.svg";
 import Originalicon from "../../../assets/imges/Originalicon.svg";
 
+
+
+
 function OrignalLogoSection() {
   return (
-    <div className="sm:ms-8 mt-8 2xl:mt-0 pb-9 md:pb-0 ">
+    <div className="sm:ms-8 mt-8 2xl:mt-0 pb-9 md:pb-0 flex">
       <div className="flex">
         <img src={Originalicon} alt="" className="pe-3 w-16" />
         <div>

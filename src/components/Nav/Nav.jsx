@@ -1,9 +1,20 @@
+
+
+
+
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import Description from "./../Description/Description";
 import Reviewss from "./../Reviewss/Reviewss";
+
+
+
 function Nav({bobId , desc}) {
+
+
   const [showDesc, setShowDEsc] = useState(true);
+
+  
   return (
     <>
       <nav className="mt-20 ">

@@ -37,7 +37,8 @@
 
 body {
   font-family: "Rosario", sans-serif;
-  background-color: #f9f2e6;
+  /* background-color: #f9f2e6; */
+  background-color: #ffffff;
 }
 @layer utilities {
   .w-2\/4 {
