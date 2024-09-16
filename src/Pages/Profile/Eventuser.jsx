@@ -25,12 +25,12 @@ function Eventuser() {
       <div className="w-[10%]">
      <Side/>
      </div>
-      <div className=" ml-7 mr-4 w-[90%] ">
+      <div className=" ml-7 mr-4 w-[95%] ">
         <div className="mt-28 ml-7 flex justify-between ">
           <h1 className="text-8xl ty  ">Event</h1>
           <Addevent />
         </div>
-        <div className="mt-20 px-32 mb-36">
+        <div>
           {events.length && (
             <div className="flex flex-wrap  gap-8">
               {events.map((item, index) => {

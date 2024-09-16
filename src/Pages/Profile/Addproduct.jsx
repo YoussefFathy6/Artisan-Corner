@@ -74,18 +74,21 @@ function Addproduct() {
 
   return (
     <>
-      <button
-        type="button"
-        className="bot mr-20 mt-14 text-orange-100"
-        onClick={() => setOpenModal(true)}
-      >
-        Add Product
-      </button>
-
-      <Modal show={openModal} size="5xl" onClose={onCloseModal} popup>
+      <div class="w-auto h-auto">
+        <div className="mr-36 mt-4">
+          <div class=" h-full p-3 bg-orange-950 text-orange-200 shadow rounded-full">
+            <div class="relative ">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor" onClick={() => setOpenModal(true)}>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+      <Modal show={openModal} size="5xl" className="bg-gray-300" onClose={onCloseModal} popup>
         <Modal.Header />
         <Modal.Body>
-          <div className="space-y-6">
+          <div className="space-y-6 m-10 bg-orange-200 p-10">
             <h3 className="text-4xl font-medium text-gray-900 dark:text-white">
               Add Product
             </h3>

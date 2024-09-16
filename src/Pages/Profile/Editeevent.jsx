@@ -1,5 +1,5 @@
 import { FileInput } from "flowbite-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button, Textarea, Label, Modal, TextInput } from "flowbite-react";
 import db from "../../Config/firebase";
 import { doc, updateDoc } from "firebase/firestore";
@@ -19,8 +19,7 @@ function Editeevent({ data }) {
             const imageUrl = await getDownloadURL(imageRef);
             setEditedData((prevData) => ({
                 ...prevData,
-                img: imageUrl, 
-                ticketquantity: parseInt(e.target.value, 10)
+                img: imageUrl, // إعداد الصورة الحالية
             }));
         } catch (error) {
             console.error("Error fetching image:", error);
@@ -75,10 +74,10 @@ function Editeevent({ data }) {
                 Edit Event
             </Button>
 
-            <Modal show={openModal} size="5xl" onClose={onCloseModal} popup>
+            <Modal show={openModal} size="7xl"className="bg-gray-300"onClose={onCloseModal} popup>
                 <Modal.Header />
-                <Modal.Body>
-                    <div className="space-y-6">
+                <Modal.Body >
+                    <div className="space-y-6 m-10 bg-orange-200 p-10">
                         <h3 className="text-4xl font-medium text-gray-900 dark:text-white">
                             Edit Event
                         </h3>
