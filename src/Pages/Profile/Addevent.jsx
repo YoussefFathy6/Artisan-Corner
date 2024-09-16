@@ -1,5 +1,12 @@
-import  { useState } from "react";
-import { Button, Textarea, Label, Modal, TextInput, FileInput } from "flowbite-react";
+import { useState } from "react";
+import {
+  Button,
+  Textarea,
+  Label,
+  Modal,
+  TextInput,
+  FileInput,
+} from "flowbite-react";
 import db from "../../Config/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
@@ -28,7 +35,6 @@ function Addevent() {
       [name || id]: type === "number" ? Number(value) : value,
     }));
     console.log(data1);
-
   };
 
   function onCloseModal() {
@@ -40,7 +46,9 @@ function Addevent() {
 
     try {
       if (!imgurl || !imgurl2) {
-        throw new Error("Both event and ticket images must be selected for upload.");
+        throw new Error(
+          "Both event and ticket images must be selected for upload."
+        );
       }
 
       const eventImgRef = ref(storage, `eventimg/${imgurl.name}`);
@@ -49,16 +57,20 @@ function Addevent() {
       const uploadTask1 = uploadBytesResumable(eventImgRef, imgurl);
       const uploadTask2 = uploadBytesResumable(ticketImgRef, imgurl2);
 
-      const [snapshot1, snapshot2] = await Promise.all([uploadTask1, uploadTask2]);
+      const [snapshot1, snapshot2] = await Promise.all([
+        uploadTask1,
+        uploadTask2,
+      ]);
 
       const downloadURL1 = await getDownloadURL(snapshot1.ref);
       const downloadURL2 = await getDownloadURL(snapshot2.ref);
 
-      const collectionRef = collection(db, "add event");
+      const collectionRef = collection(db, "tempEvents");
       await addDoc(collectionRef, {
         ...data1,
         eventImg: downloadURL1,
         ticketImg: downloadURL2,
+        Organizer: localStorage.getItem("id"),
       });
 
       setdate1({
@@ -94,30 +106,80 @@ function Addevent() {
         <Modal.Header />
         <Modal.Body>
           <div className="space-y-6">
-            <h3 className="text-4xl font-medium text-gray-900 dark:text-white">Add Event</h3>
+            <h3 className="text-4xl font-medium text-gray-900 dark:text-white">
+              Add Event
+            </h3>
 
             <div className="grid grid-cols-2 gap-6">
               {/* First Column */}
               <div>
-                <Label htmlFor="name" value="Event Name" className="text-xl mb-2 block" />
-                <TextInput id="name" value={data1.name} onChange={getdate} required />
+                <Label
+                  htmlFor="name"
+                  value="Event Name"
+                  className="text-xl mb-2 block"
+                />
+                <TextInput
+                  id="name"
+                  value={data1.name}
+                  onChange={getdate}
+                  required
+                />
 
-                <Label htmlFor="date" value="Event Date" className="text-xl mb-2 block" />
-                <TextInput id="date" type="date" value={data1.date} onChange={getdate} />
+                <Label
+                  htmlFor="date"
+                  value="Event Date"
+                  className="text-xl mb-2 block"
+                />
+                <TextInput
+                  id="date"
+                  type="date"
+                  value={data1.date}
+                  onChange={getdate}
+                />
 
-                <Label htmlFor="time" value="Event Time" className="text-xl mb-2 block" />
-                <TextInput id="time" type="time" value={data1.time} onChange={getdate} />
+                <Label
+                  htmlFor="time"
+                  value="Event Time"
+                  className="text-xl mb-2 block"
+                />
+                <TextInput
+                  id="time"
+                  type="time"
+                  value={data1.time}
+                  onChange={getdate}
+                />
 
-                <Label htmlFor="address" value="Event Address" className="text-xl mb-2 block" />
-                <TextInput id="address" value={data1.address} onChange={getdate} />
+                <Label
+                  htmlFor="address"
+                  value="Event Address"
+                  className="text-xl mb-2 block"
+                />
+                <TextInput
+                  id="address"
+                  value={data1.address}
+                  onChange={getdate}
+                />
 
-                <Label htmlFor="description" value="Event Description" className="text-xl mb-2 block" />
-                <Textarea id="description" rows={4} value={data1.description} onChange={getdate} />
+                <Label
+                  htmlFor="description"
+                  value="Event Description"
+                  className="text-xl mb-2 block"
+                />
+                <Textarea
+                  id="description"
+                  rows={4}
+                  value={data1.description}
+                  onChange={getdate}
+                />
               </div>
 
               {/* Second Column */}
               <div>
-                <Label htmlFor="eventtype" value="Event Type" className="text-xl mb-2 block" />
+                <Label
+                  htmlFor="eventtype"
+                  value="Event Type"
+                  className="text-xl mb-2 block"
+                />
                 <div className="flex gap-4">
                   <label className="flex items-center">
                     <input
@@ -143,16 +205,43 @@ function Addevent() {
                   </label>
                 </div>
 
-                <Label htmlFor="file" value="Event Img" className="text-xl mb-2 block" />
-                <FileInput id="file" onChange={(e) => setimgurl(e.target.files[0])} />
+                <Label
+                  htmlFor="file"
+                  value="Event Img"
+                  className="text-xl mb-2 block"
+                />
+                <FileInput
+                  id="file"
+                  onChange={(e) => setimgurl(e.target.files[0])}
+                />
 
-                <Label htmlFor="file2" value="Ticket Img" className="text-xl mb-2 block" />
-                <FileInput id="file2" onChange={(e) => setimgurl2(e.target.files[0])} />
+                <Label
+                  htmlFor="file2"
+                  value="Ticket Img"
+                  className="text-xl mb-2 block"
+                />
+                <FileInput
+                  id="file2"
+                  onChange={(e) => setimgurl2(e.target.files[0])}
+                />
 
-                <Label htmlFor="pricetacket" value="Price Ticket" className="text-xl mb-2 block" />
-                <TextInput id="pricetacket" value={data1.pricetacket} onChange={getdate} required />
+                <Label
+                  htmlFor="pricetacket"
+                  value="Price Ticket"
+                  className="text-xl mb-2 block"
+                />
+                <TextInput
+                  id="pricetacket"
+                  value={data1.pricetacket}
+                  onChange={getdate}
+                  required
+                />
 
-                <Label htmlFor="ticketquantity" value="Ticket Quantity" className="text-xl mb-2 block" />
+                <Label
+                  htmlFor="ticketquantity"
+                  value="Ticket Quantity"
+                  className="text-xl mb-2 block"
+                />
                 <TextInput
                   id="ticketquantity"
                   type="number"
@@ -170,7 +259,6 @@ function Addevent() {
           </div>
         </Modal.Body>
       </Modal>
-
     </>
   );
 }
