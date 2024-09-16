@@ -36,7 +36,8 @@ import CheckoutPage from "./Pages/PaymentPage/CheckoutPage";
 import VideoCall from "./Pages/Events/MeetingRoom";
 import TicketOnline from "./components/Ticket/TicketOnline";
 import EventOnline from "./components/Ticket/EventOnlin";
-import Users from "./components/Auth/Users";
+import Users from "./components/Art/Users";
+import ArtProfile from "./components/Art/ArtProfile";
 
 function App() {
   const navigate = useNavigate();
@@ -99,7 +100,8 @@ function App() {
                 <Route
                   path="/TicketConfirmation/:eventId"
                   element={<TicketConfirmation />}
-                />
+                />                                        <Route path="/Artprofile" element={<ArtProfile/>} />
+
                                         <Route path="/online" element={<VideoCall/>} />
                                         <Route path="/EventOnline" element={<EventOnline/>} />
                                         <Route path="/Users" element={<Users/>} />

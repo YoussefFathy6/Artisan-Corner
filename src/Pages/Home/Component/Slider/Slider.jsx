@@ -30,7 +30,7 @@ function Slider() {
 
 
 
-      <section className=" mb-10 bg-[#025048] relative">
+      <section className=" mb-10 bg-[#8DAAA6] relative">
 
         <div className=" w-[90%] mx-auto flex p-8 justify-between">
 

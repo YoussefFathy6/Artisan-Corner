@@ -42,19 +42,21 @@ export default function Users() {
   return (
     <>
  
-      <div className="my-4">
-        <input 
+      <div className=" text-center  bg-amber-100 p-16">
+       
+         <h1 className='text-5xl text-red-950 text-center font-semibold'>Our Artists</h1>
+         <input 
     
-          type="text" 
-          placeholder="Search users..." 
-          className="p-2 ml-9 border rounded w-56" 
-          value={searchTerm} 
-          onChange={(e) => setSearchTerm(e.target.value)} 
-        />
+    type="text" 
+    placeholder="Search users..." 
+    className="p-2  border rounded-lg w-96 mt-8" 
+    value={searchTerm} 
+    onChange={(e) => setSearchTerm(e.target.value)} 
+  />
+
       </div>
 
- 
-      <div className="flex flex-wrap ">
+      <div className=" grid lg:grid-cols-4 md:grid-cols-2  sm:grid-cols-1 justify-center ml-10 mt-6">
         {filteredUsers.length > 0 ? (
           filteredUsers.map((user) => (
             <Cards key={user.id} data={user} onTicketClick={() => console.log(user.id)} />

@@ -7,7 +7,6 @@ function Cards({ data }) {
   const navigate = useNavigate();
 
   const descriptionMaxLength = 80;
-
   const aboutText = data.about ? data.about : 'No description available';
 
   return (
@@ -17,7 +16,7 @@ function Cards({ data }) {
           <img
             className="card__image"
             src={data.profilePic || "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"}
-            alt="Profile Picture"
+            alt="Profile"
           />
           <div className="card__overlay">
             <div className="card__header">
@@ -40,12 +39,13 @@ function Cards({ data }) {
                 : `${aboutText.substring(0, descriptionMaxLength)}...`}
             </p>
             <div className="justify-center mt-4 mx-16">
-              <button
-                onClick={() => navigate("/profile", { state: { user: data } })}
-                className="bg-red-900 hover:bg-red-800 text-white p-3 m-auto w-32 rounded-xl text-sm"
-              >
-                View Profile
-              </button>
+            <button
+  onClick={() => navigate("/Artprofile", { state: { user: data } })}
+  className="bg-red-900 hover:bg-red-800 text-white p-3 mb-6 ml-7 w-32 rounded-xl text-sm"
+>
+  View Profile
+</button>
+
             </div>
           </div>
         </a>

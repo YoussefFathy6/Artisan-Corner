@@ -13,8 +13,6 @@ import { collection, onSnapshot , query, where,doc, getDocs} from "firebase/fire
 import Side from "./Side";
 
 function Profile() {
-  const location = useLocation();
-  const { user } = location.state || {}; 
 
  
 
