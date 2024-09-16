@@ -16,8 +16,6 @@ import AllAuctions from "./AllAuctions";
 import JoinedAuctions from "./JoinedAuctions";
 
 function AuctionPage() {
-  const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
   const [activeSection, setActiveSection] = useState("allauctions");
   const renderSectionContent = () => {
     switch (activeSection) {
@@ -29,23 +27,6 @@ function AuctionPage() {
       default:
         return <AllAuctions />;
     }
-  };
-
-  const sortItemsHighest = () => {
-    const sortedItems = [...filteredProducts].sort((a, b) => a.price - b.price);
-    setFilteredProducts(sortedItems);
-  };
-
-  const sortItemsLowest = () => {
-    const sortedItems = [...filteredProducts].sort((a, b) => b.price - a.price);
-    setFilteredProducts(sortedItems);
-  };
-
-  const sortItemsByName = () => {
-    const sortedItems = [...filteredProducts].sort((a, b) =>
-      a.name.localeCompare(b.name)
-    );
-    setFilteredProducts(sortedItems);
   };
 
   // Filter by category
@@ -84,7 +65,7 @@ function AuctionPage() {
       </div>
 
       {/* Main Content */}
-      <div className="w-3/4 bg-white p-6 overflow-auto flex justify-center">
+      <div className=" w-3/4 bg-white p-5 overflow-auto flex flex-col">
         {renderSectionContent()}
       </div>
     </div>

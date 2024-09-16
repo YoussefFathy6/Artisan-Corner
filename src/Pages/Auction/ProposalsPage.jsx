@@ -173,6 +173,8 @@ function ProposalsPage() {
             <ul className="list-disc pl-5">
               {proposals.map((proposal, index) => {
                 const user = users[proposal.member] || {};
+                console.log(user);
+
                 return (
                   <div
                     key={index}
@@ -181,15 +183,17 @@ function ProposalsPage() {
                     <div className="w-20 justify-center items-center">
                       <img
                         src={
-                          user.profilePic
-                            ? user.profilePic
+                          user.Profile
+                            ? user.Profile
                             : "https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png"
                         }
                         alt={user.firstName}
                         className="rounded-full w-full "
                       />
-                      <div>
-                        {user.firstName} {user.lastName}
+                      <div className="flex justify-center items-center">
+                        <span className="me-1">{user.firstName}</span>
+                        <span></span>
+                        <span>{user.lastName}</span>
                       </div>
                     </div>
                     <div className="flex flex-col justify-between items-end">
