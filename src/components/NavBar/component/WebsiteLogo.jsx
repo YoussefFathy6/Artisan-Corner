@@ -16,23 +16,11 @@ import { HiCog, HiCurrencyDollar, HiLogout, HiViewGrid } from "react-icons/hi";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaBell } from "react-icons/fa";
 
-
-
 import NavSections from "./NavSections";
 import { Link, NavLink } from "react-router-dom";
 import { Button, Navbar } from "flowbite-react";
 
-
-
-
-
-
-
-
 function BodyNav() {
-
-
-
   const dispatch = useDispatch();
   const [userData, setUserData] = useState(null); // State to hold user data
   const [unreadNotification, setUnread] = useState([]); // State to hold unread notifications
@@ -71,18 +59,23 @@ function BodyNav() {
   // Function to handle notification click
   const handleNotificationClick = async (notification, index) => {
     try {
-      // Update the notification status in Firestore
-      const userRef = doc(db, "users", userData.docId); // Reference to the current user
-      const updatedNotifications = [...userData.notifications]; // Create a copy of notifications
-      updatedNotifications[index].read = true; // Mark the specific notification as read
+      // Reference to the current user in Firestore
+      const userRef = doc(db, "users", userData.docId);
 
-      // Update Firestore document
+      // Find the correct notification in the original array
+      const updatedNotifications = userData.notifications.map((notif) =>
+        notif.id === notification.id // Check if the current notification matches the clicked one
+          ? { ...notif, read: true } // Mark as read if it's the clicked notification
+          : notif
+      );
+
+      // Update Firestore document with modified notifications array
       await updateDoc(userRef, {
         notifications: updatedNotifications,
       });
 
-      // Update the local state
-      setUnread(updatedNotifications.filter((item) => item.read === false));
+      // Update the local state by filtering out unread notifications
+      setUnread(updatedNotifications.filter((notif) => notif.read === false));
 
       // Navigate to the auction page
       nav("/auction");
@@ -90,12 +83,6 @@ function BodyNav() {
       console.error("Error updating notification:", error);
     }
   };
-
-
-
-
-
-
 
   // newww
   const isActive = ({ isActive }) => {
@@ -117,54 +104,63 @@ function BodyNav() {
     };
   };
 
-
-
-
-
   return (
-
     // bg-[#72a398]
     //flowbit navbar
     <>
-
-      <Navbar className="bg-[#025048]" >
-        <Navbar.Brand href="/" >
-          <span style={{ fontFamily: 'cursive' }} className="self-center whitespace-nowrap text-3xl  text-[#ffb6ad] font-bold">Mashrabiya</span>
+      <Navbar className="bg-[#025048]">
+        <Navbar.Brand href="/">
+          <span
+            style={{ fontFamily: "cursive" }}
+            className="self-center whitespace-nowrap text-3xl  text-[#ffb6ad] font-bold"
+          >
+            Mashrabiya
+          </span>
         </Navbar.Brand>
 
-
-
-
         <div className="flex md:order-2 items-center">
-
           <div className="">
             {/* <!-- User Greeting or Register/Login --> */}
             {localStorage.getItem("id") && userData ? (
               <div className="flex items-center justify-between ">
                 {/* Notifications Dropdown */}
                 <Dropdown
-                  renderTrigger={() => <FaBell color="white" />}
                   color={"transparent"}
+                  label={
+                    <div className="relative">
+                      <FaBell color="white" size={24} />{" "}
+                      {/* Notification bell icon */}
+                      {unreadNotification.length > 0 && (
+                        <span className="absolute top-0 right-0 left-2 bottom-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+                          {unreadNotification.length}{" "}
+                          {/* Display the count of unread notifications */}
+                        </span>
+                      )}
+                    </div>
+                  }
                 >
                   <DropdownHeader>
                     <p>Notifications</p>
                   </DropdownHeader>
+
                   {/* Render unread notifications */}
                   {unreadNotification.length > 0 ? (
                     unreadNotification.map((notification, index) => (
                       <DropdownItem
-                        key={index}
+                        key={notification.id || index} // Use notification.id if available
                         onClick={() =>
                           handleNotificationClick(notification, index)
                         }
                       >
-                        {notification.message} {/* Render notification message */}
+                        {notification.message}{" "}
+                        {/* Render notification message */}
                       </DropdownItem>
                     ))
                   ) : (
                     <DropdownItem>No new notifications</DropdownItem> // Fallback for no notifications
                   )}
                 </Dropdown>
+
                 <Dropdown
                   label=""
                   dismissOnClick={true}
@@ -204,7 +200,9 @@ function BodyNav() {
                   >
                     My Bag
                   </Dropdown.Item>
-                  <Dropdown.Item icon={HiCurrencyDollar}>Earnings</Dropdown.Item>
+                  <Dropdown.Item icon={HiCurrencyDollar}>
+                    Earnings
+                  </Dropdown.Item>
                   <Dropdown.Divider />
                   <Dropdown.Item
                     onClick={() => {
@@ -229,9 +227,6 @@ function BodyNav() {
               </div>
             ) : (
               <div className="text-white me-2 sm:pb-0">
-
-
-
                 <button
                   onClick={() => {
                     nav("/register"); // Navigate to register page
@@ -239,15 +234,7 @@ function BodyNav() {
                 >
                   Register
                 </button>{" "}
-
-
-
-
                 /{" "}
-
-
-
-
                 <button
                   onClick={() => {
                     dispatch(toggleFlag()); // Dispatch toggleFlag action for login modal
@@ -255,17 +242,11 @@ function BodyNav() {
                 >
                   Login
                 </button>
-
-
               </div>
             )}
           </div>
           <Navbar.Toggle />
         </div>
-
-
-
-
 
         <Navbar.Collapse>
           <div>
@@ -319,12 +300,12 @@ function BodyNav() {
                   BEST SELLER
                 </NavLink>
                 <NavLink
-                style={isActive}
-                to="/Users"
-                className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
-              >
-               Users
-              </NavLink>
+                  style={isActive}
+                  to="/Users"
+                  className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
+                >
+                  Users
+                </NavLink>
               </div>
               {/* <div className="flex">
                     <a href="#">
@@ -337,26 +318,13 @@ function BodyNav() {
             </div>
           </div>
         </Navbar.Collapse>
-
-
-
-
-
-
       </Navbar>
     </>
 
     //flowbit navbar
 
-
-
-
-
-
     // <section className="bg-[#72a398]">
     //   <div className="container flex flex-wrap justify-center sm:justify-between items-center border-white border-b-[1px] pb-0 py-1">
-
-
 
     //     {/* Search section */}
     //     {/* <div className="flex items-end content-end sm:hidden md:flex pt-5 sm:pt-0">
@@ -372,14 +340,6 @@ function BodyNav() {
     //       </div>
     //     </div> */}
 
-
-
-
-
-
-
-
-
     //     {/* <!-- Website LOGO --> */}
     //     {/* <div className="ps-5 md:ps-0 pe-5 sm:pe-0 "> */}
     //     {/* <a href="/"> */}
@@ -388,19 +348,12 @@ function BodyNav() {
     //     {/* </a> */}
     //     {/* </div> */}
 
-
-
-
-
-
     //     {/* =================== */}
-
 
     //     <Navbar className="flex  bg-[#72a398] py-4 justify-between w-full">
     //       <div>
 
     //         <Navbar.Brand as={Link} href="/">
-
 
     //           <span className=""></span>
     //         </Navbar.Brand>
@@ -408,50 +361,21 @@ function BodyNav() {
 
     //       <div className="   ">
 
-
     //         <Navbar.Toggle className="" />
-
 
     //       </div>
 
-
-
     //       <Navbar.Collapse className="container flex justify-between">
-
-
-
-
-
 
     //       </Navbar.Collapse>
 
-
     //     </Navbar>
 
-
-
-
-
-
-
-
-
-
     //     {/* =================== */}
-
 
     //   </div>
     // </section>
   );
 }
-
-
-
-
-
-
-
-
-
 
 export default BodyNav;
