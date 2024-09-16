@@ -54,7 +54,7 @@ function AuctionPage() {
     <div className="flex h-screen">
       {/* Sidebar */}
       <div className="w-1/4 bg-primary p-4 ">
-        <h2 className="text-xl font-bold mb-4">Dashboard</h2>
+        <h2 className="text-xl font-bold mb-4">Auctions</h2>
         <ul className="space-y-2">
           <li>
             <button
