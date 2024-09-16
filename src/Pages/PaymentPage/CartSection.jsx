@@ -182,6 +182,7 @@ function CartSection({ customerInfo }) {
                       const orderData = {
                         orderID,
                         userID: localStorage.getItem("id"),
+                        total: total,
                         customerInfo, // Include the customer info in the order
                         cartItems: cart,
                         paymentDetails: details,
