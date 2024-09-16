@@ -13,7 +13,7 @@
     width: 20%;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
-    margin: 4rem 5vw;
+    margin: 2rem 2vw;
     padding: 0;
     list-style-type: none;
   }

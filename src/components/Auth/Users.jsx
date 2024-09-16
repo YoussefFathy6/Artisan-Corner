@@ -47,14 +47,14 @@ export default function Users() {
     
           type="text" 
           placeholder="Search users..." 
-          className="p-2 border rounded w-44" 
+          className="p-2 ml-9 border rounded w-56" 
           value={searchTerm} 
           onChange={(e) => setSearchTerm(e.target.value)} 
         />
       </div>
 
  
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap ">
         {filteredUsers.length > 0 ? (
           filteredUsers.map((user) => (
             <Cards key={user.id} data={user} onTicketClick={() => console.log(user.id)} />

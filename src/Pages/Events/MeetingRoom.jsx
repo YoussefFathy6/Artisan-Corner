@@ -354,16 +354,32 @@
 
 
 
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const VideoCall = () => {
-  const [showMeeting, setShowMeeting] = useState(false);  
+  const [showMeeting, setShowMeeting] = useState(false);
+  const [jitsiApi, setJitsiApi] = useState(null);
 
   useEffect(() => {
-    if (showMeeting) {
+    // Dynamically load Jitsi Meet API script
+    const script = document.createElement('script');
+    script.src = 'https://meet.jit.si/external_api.js';
+    script.async = true;
+    script.onload = () => {
+      console.log("Jitsi Meet API script loaded");
+    };
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script); 
+    };
+  }, []);
+
+  useEffect(() => {
+    if (showMeeting && window.JitsiMeetExternalAPI) {
       const domain = "meet.jit.si";
       const options = {
-        roomName: "MyCustomRoom",  
+        roomName: "MyCustomRoom",
         width: "100%",
         height: "600px",
         parentNode: document.getElementById("jitsi-container"),
@@ -372,23 +388,24 @@ const VideoCall = () => {
       };
 
       const api = new window.JitsiMeetExternalAPI(domain, options);
+      setJitsiApi(api);
 
       return () => {
-        api.dispose();  
+        api.dispose(); 
       };
     }
   }, [showMeeting]);
 
   const handleStartMeeting = () => {
-    setShowMeeting(true);  
+    setShowMeeting(true);
   };
 
   return (
     <div>
       {!showMeeting ? (
-        <button onClick={handleStartMeeting}>Start Video Call</button>  
+        <button onClick={handleStartMeeting}>Start Video Call</button>
       ) : (
-        <div id="jitsi-container" style={{ height: '600px', width: '100%' }} />
+        <div id="jitsi-container" style={{ height: '800px', width: '100%' }} />
       )}
     </div>
   );
