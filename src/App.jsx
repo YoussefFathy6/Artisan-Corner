@@ -100,13 +100,15 @@ function App() {
                 <Route
                   path="/TicketConfirmation/:eventId"
                   element={<TicketConfirmation />}
-                />                                        <Route path="/Artprofile" element={<ArtProfile/>} />
-
-                                        <Route path="/online" element={<VideoCall/>} />
-                                        <Route path="/EventOnline" element={<EventOnline/>} />
-                                        <Route path="/Users" element={<Users/>} />
-
-                                        <Route path="/TicketOnline/:eventId" element={<TicketOnline/>} />
+                />{" "}
+                <Route path="/Artprofile" element={<ArtProfile />} />
+                <Route path="/online" element={<VideoCall />} />
+                <Route path="/EventOnline" element={<EventOnline />} />
+                <Route path="/Users" element={<Users />} />
+                <Route
+                  path="/TicketOnline/:eventId"
+                  element={<TicketOnline />}
+                />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/eventuser" element={<Eventuser />} />
                 <Route

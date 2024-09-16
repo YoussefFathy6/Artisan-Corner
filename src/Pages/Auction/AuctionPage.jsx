@@ -16,8 +16,6 @@ import AllAuctions from "./AllAuctions";
 import JoinedAuctions from "./JoinedAuctions";
 
 function AuctionPage() {
-  const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
   const [activeSection, setActiveSection] = useState("allauctions");
   const renderSectionContent = () => {
     switch (activeSection) {
@@ -31,30 +29,13 @@ function AuctionPage() {
     }
   };
 
-  const sortItemsHighest = () => {
-    const sortedItems = [...filteredProducts].sort((a, b) => a.price - b.price);
-    setFilteredProducts(sortedItems);
-  };
-
-  const sortItemsLowest = () => {
-    const sortedItems = [...filteredProducts].sort((a, b) => b.price - a.price);
-    setFilteredProducts(sortedItems);
-  };
-
-  const sortItemsByName = () => {
-    const sortedItems = [...filteredProducts].sort((a, b) =>
-      a.name.localeCompare(b.name)
-    );
-    setFilteredProducts(sortedItems);
-  };
-
   // Filter by category
 
   return (
     <div className="flex h-screen">
       {/* Sidebar */}
       <div className="w-1/4 bg-primary p-4 ">
-        <h2 className="text-xl font-bold mb-4">Dashboard</h2>
+        <h2 className="text-xl font-bold mb-4">Auctions</h2>
         <ul className="space-y-2">
           <li>
             <button
@@ -84,7 +65,7 @@ function AuctionPage() {
       </div>
 
       {/* Main Content */}
-      <div className="w-3/4 bg-white p-6 overflow-auto flex justify-center">
+      <div className=" w-3/4 bg-white p-5 overflow-auto flex flex-col">
         {renderSectionContent()}
       </div>
     </div>
