@@ -6,7 +6,15 @@ import { Navbar } from "flowbite-react";
 import { Button } from "flowbite-react";
 import { Link, NavLink } from "react-router-dom";
 
+
+
+
+
+
 function NavSections() {
+
+
+
   const isActive = ({ isActive }) => {
     return {
       // color: isActive && "#172554",
@@ -24,11 +32,21 @@ function NavSections() {
       transition: isActive && "all 0.2s ",
     };
   };
+
+
+
+
   return (
     <Navbar className="flex gap-x-5 bg-[#913b10] py-4 ">
+
+
+       
       <div className=" flex ">
         <Navbar.Toggle className="" />
       </div>
+
+
+
       <Navbar.Collapse className="container">
         <div>
           <div className="flex justify-between flex-wrap">
@@ -79,6 +97,13 @@ function NavSections() {
                 className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
               >
                 BEST SELLER
+              </NavLink>
+              <NavLink
+                style={isActive}
+                to="/Users"
+                className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
+              >
+               Users
               </NavLink>
             </div>
             {/* <div className="flex">

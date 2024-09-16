@@ -80,6 +80,8 @@ const RegisterPage = () => {
         id: user.uid,
         accountType: values.accountType,
         profilePic: "", // Add account type to Firestore
+        about: "", // Add account type to Firestore
+        notifications: [], // Add account type to Firestore
       });
 
       localStorage.setItem("id", user.uid);

@@ -26,43 +26,38 @@ import ReactStars from "react-rating-stars-component";
 
 function Reviewss({ bobId }) {
   const { productType } = useContext(ReviewsContext);
-  const productId = productType || bobId; 
+  const productId = productType || bobId;
   const [reviewList, setReviewList] = useState([]);
 
   // const [username, setUsername] = useState("");
 
- 
-
   useEffect(() => {
-   
     showReviews();
   }, [productId]);
-
 
   // ============ Show Reviews From Database  =================//
   async function showReviews() {
     const q = query(
       collection(db, "reviews"),
-      where("productId", "==", productId) 
+      where("productId", "==", productId)
     );
 
     const querySnapshot = await getDocs(q);
     const reviews = [];
-    
+
     querySnapshot.forEach((doc) => {
       const productData = doc.data();
-     
+
       reviews.push({
         id: doc.id,
         // username: productData.username,
         rating: productData.rating,
         review: productData.review,
-        userName : productData.userNameEmail
+        userName: productData.userNameEmail,
       });
-    
     });
 
-    setReviewList(reviews); 
+    setReviewList(reviews);
   }
 
   return (
@@ -109,22 +104,27 @@ function Reviewss({ bobId }) {
 
         <h1 className="text-[#344054] font-bold">Reviews</h1>
 
-  
         <div className="reviews-list mt-4  overflow-y-auto max-h-[400px] p-2">
-          {reviewList.map((review) => (
-            <div key={review.id} className="bg-white p-5 rounded-lg my-3">
-              {/* <h3 className="text-lg font-bold">{review.username}</h3> */}
-              <h3 className="text-lg font-bold">{review.userName}</h3>
-              <ReactStars
-                count={5}
-                size={30}
-                value={review.rating}
-                activeColor="#ffd700"
-                edit={false} 
-              />
-              <p>{review.review}</p>
-            </div>
-          ))}
+          {reviewList.length == 0 ? (
+            <h1 className="text-center">
+              No reviews have been added for this product yet. Be the first to
+              share your experience!
+            </h1>
+          ) : (
+            reviewList.map((review) => (
+              <div key={review.id} className="bg-white p-5 rounded-lg my-3">
+                <h3 className="text-lg font-bold">{review.userName}</h3>
+                <ReactStars
+                  count={5}
+                  size={30}
+                  value={review.rating}
+                  activeColor="#ffd700"
+                  edit={false}
+                />
+                <p>{review.review}</p>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </>

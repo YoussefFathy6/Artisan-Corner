@@ -59,6 +59,7 @@ function Addevent() {
         ...data1,
         eventImg: downloadURL1,
         ticketImg: downloadURL2,
+        ownerID: localStorage.getItem("id"),
       });
 
       setdate1({
@@ -70,6 +71,7 @@ function Addevent() {
         pricetacket: "",
         eventtype: "",
         ticketquantity: 0,
+        
       });
       setimgurl(null);
       setimgurl2(null);

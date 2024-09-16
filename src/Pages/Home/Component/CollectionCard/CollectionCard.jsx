@@ -13,7 +13,7 @@ function CollectionCard() {
   }
   return (
     <section>
-      <div className=" container">
+      <div className=" container flex flex-col">
         <Title />
         <SmallC />
         <div className=" flex flex-col items-center py-9">

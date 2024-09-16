@@ -3,7 +3,7 @@ import db from '../../Config/firebase';
 import { useParams } from "react-router-dom"; 
 import emailjs from 'emailjs-com'; 
 import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore"; 
-
+import "./TicketStyle.modules.css"
 function TicketConfirmation() {
   const { eventId } = useParams();
   const [ticketImageUrl, setTicketImageUrl] = useState("");
@@ -67,7 +67,10 @@ function TicketConfirmation() {
   }, [ticketImageUrl, userEmail, eventId]);
 
   return (
-    <div className="container mx-auto p-8 max-w-lg bg-white rounded-lg border border-gray-200 mt-7">
+    <div className="justify-center items-center m-auto p-8   rounded-lg   mt-7">
+      <div className="loader">
+        <img width={"800px"}   src="..\src\assets\Animation - 1726432938139.gif" alt="" />
+      </div>
       <div className="text-center mb-6">
         <h1 className="text-4xl font-extrabold text-gray-800 mb-2">🎫 Your Ticket</h1>
         <p className="text-lg text-gray-600">Thank you for your purchase!</p>

@@ -18,7 +18,7 @@ function Products() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    const usersCollectionRef = collection(db, "tempProduct");
+    const usersCollectionRef = collection(db, "tempProducts");
 
     const unsubscribe = onSnapshot(usersCollectionRef, (snapshot) => {
       const productsData = [];
@@ -34,7 +34,7 @@ function Products() {
   // Function to remove a product from 'tempProducts' collection
   const handleRemoveProduct = async (productId) => {
     try {
-      await deleteDoc(doc(db, "tempProduct", productId));
+      await deleteDoc(doc(db, "tempProducts", productId));
       console.log(`Product with ID ${productId} removed from tempProducts.`);
     } catch (error) {
       console.error("Error removing product: ", error);
@@ -45,7 +45,7 @@ function Products() {
   const handleApproveProduct = async (product) => {
     try {
       // Remove from 'tempProducts'
-      await deleteDoc(doc(db, "tempProduct", product.id));
+      await deleteDoc(doc(db, "tempProducts", product.id));
 
       // Add to 'addProduct'
       await addDoc(collection(db, "add product"), {

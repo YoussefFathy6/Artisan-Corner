@@ -13,7 +13,7 @@ function Menu({ onFilterChange, onPriceChange }) {
   const handleClose = () => setFlag(false);
 
   return (
-    <div className="block col-span-1">
+    <div className="block col-span-1 ">
       <div className="sm:hidden md:block">
         <Category onFilterChange={onFilterChange} />
         <Price onPriceChange={onPriceChange} />

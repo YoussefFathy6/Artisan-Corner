@@ -1,8 +1,15 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
-import { Dropdown } from "flowbite-react";
+import { Dropdown, Button, Pagination } from "flowbite-react";
 import db from "../../../Config/firebase";
-import { onSnapshot, collection, addDoc } from "firebase/firestore";
+import {
+  onSnapshot,
+  collection,
+  addDoc,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import Card from "./Card";
 import Menu from "../Menu/Menu";
 
@@ -11,17 +18,44 @@ function Main() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [priceRange, setPriceRange] = useState({ min: "", max: "" });
+  const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false); // For showing filters dropdown on small screens
+
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage] = useState(9); // Number of products to display per page
 
   useEffect(() => {
     let arr;
-    onSnapshot(collection(db, "add product"), (snapshot) => {
-      arr = snapshot.docs.map((doc) => {
-        return { ...doc.data(), id: doc.id };
-      });
-      setProducts([...arr]);
-      setFilteredProducts([...arr]); // Initialize with all products
-    });
+    const unsubscribe = onSnapshot(
+      collection(db, "add product"),
+      (snapshot) => {
+        arr = snapshot.docs.map((doc) => {
+          return { ...doc.data(), id: doc.id };
+        });
+        setProducts([...arr]);
+        setFilteredProducts([...arr]); // Initialize with all products
+      }
+    );
+    getUserData();
+
+    return () => unsubscribe(); // Clean up subscription on unmount
   }, []);
+
+  // ========= user Data ==========//
+  const [UID, setUID] = useState("");
+  async function getUserData() {
+    const userCollection = collection(db, "users");
+    const q = query(
+      userCollection,
+      where("id", "==", localStorage.getItem("id"))
+    );
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+      const userData = doc.data();
+      setUID(userData.id);
+    });
+  }
 
   async function clickMe(product) {
     await addDoc(collection(db, "Bag"), {
@@ -31,6 +65,7 @@ function Main() {
       price: product.price,
       basePrice: product.price,
       quantity: 1,
+      userID: UID,
     });
   }
 
@@ -83,10 +118,34 @@ function Main() {
     setFilteredProducts(filtered);
   };
 
+  // Pagination logic
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
   return (
-    <div className="containerr grid grid-cols-4 gap-4">
-      {/* Categories Section */}
-      <div className="col-span-1">
+    <div className="containerr grid grid-cols-1 sm:grid-cols-4 gap-4">
+      {/* Button to show the filters dropdown on small screens */}
+      <div className="sm:hidden">
+        <Button
+          className="bg-secondary my-3"
+          onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
+        >
+          Filter Options
+        </Button>
+      </div>
+
+      {/* Filters Section */}
+      <div
+        className={`col-span-1 ${
+          isFilterDropdownOpen ? "block" : "hidden"
+        } sm:block`}
+      >
         <Menu
           onFilterChange={handleFilterChange}
           onPriceChange={handlePriceChange}
@@ -110,7 +169,7 @@ function Main() {
           </div>
         </div>
         <section className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
-          {filteredProducts.map((product) => (
+          {currentProducts.map((product) => (
             <div className="m-5" key={product.id}>
               <Card
                 imgsrc={product.img}
@@ -123,6 +182,15 @@ function Main() {
             </div>
           ))}
         </section>
+
+        {/* Pagination Controls */}
+        <div className="flex justify-center mt-6">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={(page) => setCurrentPage(page)}
+          />
+        </div>
       </main>
     </div>
   );

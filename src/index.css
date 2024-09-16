@@ -37,14 +37,15 @@
 
 body {
   font-family: "Rosario", sans-serif;
-  background-color: #f9f2e6;
+  /* background-color: #f9f2e6; */
+  background-color: #ffffff;
 }
 @layer utilities {
   .w-2\/4 {
     @apply w-[100%];
   }
   .p-6 {
-    @apply p-[0px]
+    @apply p-[0px];
   }
 }
 
@@ -53,6 +54,11 @@ body {
     @apply bg-indigo-600 py-2 px-7 text-white rounded-lg;
   }
 }
+/* .head {
+  background: rgba(130, 59, 16, 1);
+  width: 90vw !important;
+  height: 60vh;
+} */
 .head {
   background: rgba(130, 59, 16, 1);
   width: 90vw !important;
@@ -83,8 +89,7 @@ body {
   color: #f9f2e6 !important ;
 } */
 
-
-.carousel-item {
+/* .carousel-item {
   width: 200px;
   height: 250px;
   border-radius: 20px;
@@ -139,6 +144,4 @@ body {
   color: #fff;
   margin: 5px 0;
   font-size: 1.25rem;
-}
-
-
+} */
