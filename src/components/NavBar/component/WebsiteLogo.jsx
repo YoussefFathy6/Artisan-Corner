@@ -16,7 +16,23 @@ import { HiCog, HiCurrencyDollar, HiLogout, HiViewGrid } from "react-icons/hi";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaBell } from "react-icons/fa";
 
+
+
+import NavSections from "./NavSections";
+import { Link, NavLink } from "react-router-dom";
+import { Button, Navbar } from "flowbite-react";
+
+
+
+
+
+
+
+
 function BodyNav() {
+
+
+
   const dispatch = useDispatch();
   const [userData, setUserData] = useState(null); // State to hold user data
   const [unreadNotification, setUnread] = useState([]); // State to hold unread notifications
@@ -75,144 +91,360 @@ function BodyNav() {
     }
   };
 
+
+
+
+
+
+
+  // newww
+  const isActive = ({ isActive }) => {
+    return {
+      // color: isActive && "#172554",
+      // fontWeight: isActive && "bold",
+      // borderBottom: isActive && "1px solid white",
+      // paddingBottom: isActive && "10px",
+      // marginRight: isActive && "10px",
+      // transition:isActive && "all 0.3s"
+
+      // backgroundColor: isActive && "#fff",
+      // padding: isActive && "8px",
+      // color: isActive && "#913B10",
+      color: isActive && "#ffb6ad",
+      borderRadius: isActive && "10px",
+      textAlign: isActive && "center",
+      transition: isActive && "all 0.2s ",
+    };
+  };
+
+
+
+
+
   return (
-    <section className="bg-[#913b10]">
-      <div className="container flex flex-wrap justify-center sm:justify-between items-center border-white border-b-[1px] pb-0 py-1">
-        {/* Search section */}
-        {/* <div className="flex items-end content-end sm:hidden md:flex pt-5 sm:pt-0">
-          <div>
-            <BsSearch className="text-xl text-white cursor-pointer" />
-          </div>
-          <div>
-            <input
-              type="search"
-              placeholder="Search "
-              className="h-7 ms-2 bg-transparent border-l-0 border-t-0 border-r-0 focus:ring-0 focus:border-black text-white placeholder:text-white placeholder:font-light placeholder:text-sm"
-            />
-          </div>
-        </div> */}
 
-        {/* <!-- Website LOGO --> */}
-        <div className="ps-5 md:ps-0 pe-5 sm:pe-0 ">
-          <a href="/">
-            <img src={Logo} alt="Logo" />
-          </a>
-        </div>
+    // bg-[#72a398]
+    //flowbit navbar
+    <>
 
-        {/* =================== */}
-        <div>
-          {/* <!-- User Greeting or Register/Login --> */}
-          {localStorage.getItem("id") && userData ? (
-            <div className="flex items-center justify-between ">
-              {/* Notifications Dropdown */}
-              <Dropdown
-                renderTrigger={() => <FaBell color="white" />}
-                color={"transparent"}
-              >
-                <DropdownHeader>
-                  <p>Notifications</p>
-                </DropdownHeader>
-                {/* Render unread notifications */}
-                {unreadNotification.length > 0 ? (
-                  unreadNotification.map((notification, index) => (
-                    <DropdownItem
-                      key={index}
-                      onClick={() =>
-                        handleNotificationClick(notification, index)
+      <Navbar className="bg-[#025048]" >
+        <Navbar.Brand href="/" >
+          <span style={{ fontFamily: 'cursive' }} className="self-center whitespace-nowrap text-3xl  text-[#ffb6ad] font-bold">Mashrabiya</span>
+        </Navbar.Brand>
+
+
+
+
+        <div className="flex md:order-2 items-center">
+
+          <div className="">
+            {/* <!-- User Greeting or Register/Login --> */}
+            {localStorage.getItem("id") && userData ? (
+              <div className="flex items-center justify-between ">
+                {/* Notifications Dropdown */}
+                <Dropdown
+                  renderTrigger={() => <FaBell color="white" />}
+                  color={"transparent"}
+                >
+                  <DropdownHeader>
+                    <p>Notifications</p>
+                  </DropdownHeader>
+                  {/* Render unread notifications */}
+                  {unreadNotification.length > 0 ? (
+                    unreadNotification.map((notification, index) => (
+                      <DropdownItem
+                        key={index}
+                        onClick={() =>
+                          handleNotificationClick(notification, index)
+                        }
+                      >
+                        {notification.message} {/* Render notification message */}
+                      </DropdownItem>
+                    ))
+                  ) : (
+                    <DropdownItem>No new notifications</DropdownItem> // Fallback for no notifications
+                  )}
+                </Dropdown>
+                <Dropdown
+                  label=""
+                  dismissOnClick={true}
+                  renderTrigger={() => (
+                    <img
+                      className="rounded-full w-10 mx-4 cursor-pointer"
+                      src={
+                        userData.profilePic
+                          ? userData.profilePic // User's profile picture
+                          : "https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png" // Default profile pic
                       }
-                    >
-                      {notification.message} {/* Render notification message */}
-                    </DropdownItem>
-                  ))
-                ) : (
-                  <DropdownItem>No new notifications</DropdownItem> // Fallback for no notifications
-                )}
-              </Dropdown>
-              <Dropdown
-                label=""
-                dismissOnClick={true}
-                renderTrigger={() => (
-                  <img
-                    className="rounded-full w-16 me-4 cursor-pointer"
-                    src={
-                      userData.profilePic
-                        ? userData.profilePic // User's profile picture
-                        : "https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png" // Default profile pic
-                    }
-                    alt="User Profile"
-                  />
-                )}
-              >
-                <Dropdown.Header>
-                  <span className="block text-sm">
-                    {`${userData.firstname} ${userData.lastname}`}{" "}
-                    {/* User's name */}
-                  </span>
-                  <span className="block truncate text-sm font-medium">
-                    {userData.email} {/* User's email */}
-                  </span>
-                </Dropdown.Header>
-                <Dropdown.Item
-                  onClick={() => {
-                    nav("/profile"); // Navigate to profile
-                  }}
-                  icon={HiViewGrid}
+                      alt="User Profile"
+                    />
+                  )}
                 >
-                  View Profile
-                </Dropdown.Item>
-                <Dropdown.Item icon={HiCog}>Settings</Dropdown.Item>
-                <Dropdown.Item
-                  icon={FaShoppingCart}
-                  onClick={() => nav("/bag")} // Navigate to bag
-                >
-                  My Bag
-                </Dropdown.Item>
-                <Dropdown.Item icon={HiCurrencyDollar}>Earnings</Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Item
-                  onClick={() => {
-                    localStorage.removeItem("id"); // Remove user ID from localStorage
-                    auth.signOut(); // Sign out the user
-                    if (isAdmin) {
-                      dispatch(logoutAdmin()); // Dispatch admin logout action
-                    }
-                    nav("/"); // Navigate to home
-                  }}
-                  icon={HiLogout}
-                >
-                  Sign out
-                </Dropdown.Item>
-              </Dropdown>
+                  <Dropdown.Header>
+                    <span className="block text-sm">
+                      {`${userData.firstname} ${userData.lastname}`}{" "}
+                      {/* User's name */}
+                    </span>
+                    <span className="block truncate text-sm font-medium">
+                      {userData.email} {/* User's email */}
+                    </span>
+                  </Dropdown.Header>
+                  <Dropdown.Item
+                    onClick={() => {
+                      nav("/profile"); // Navigate to profile
+                    }}
+                    icon={HiViewGrid}
+                  >
+                    View Profile
+                  </Dropdown.Item>
+                  <Dropdown.Item icon={HiCog}>Settings</Dropdown.Item>
+                  <Dropdown.Item
+                    icon={FaShoppingCart}
+                    onClick={() => nav("/bag")} // Navigate to bag
+                  >
+                    My Bag
+                  </Dropdown.Item>
+                  <Dropdown.Item icon={HiCurrencyDollar}>Earnings</Dropdown.Item>
+                  <Dropdown.Divider />
+                  <Dropdown.Item
+                    onClick={() => {
+                      localStorage.removeItem("id"); // Remove user ID from localStorage
+                      auth.signOut(); // Sign out the user
+                      if (isAdmin) {
+                        dispatch(logoutAdmin()); // Dispatch admin logout action
+                      }
+                      nav("/"); // Navigate to home
+                    }}
+                    icon={HiLogout}
+                  >
+                    Sign out
+                  </Dropdown.Item>
+                </Dropdown>
 
-              {/* Greeting */}
-              <div className="text-white">
-                Hi, {userData.firstname} {userData.lastname}{" "}
-                {/* Greeting with name */}
+                {/* Greeting */}
+                <div className="text-white">
+                  Hi, {userData.firstname} {userData.lastname}{" "}
+                  {/* Greeting with name */}
+                </div>
               </div>
-            </div>
-          ) : (
-            <div className="text-white pb-5 sm:pb-0">
-              <button
-                onClick={() => {
-                  nav("/register"); // Navigate to register page
-                }}
-              >
-                Register
-              </button>{" "}
-              /{" "}
-              <button
-                onClick={() => {
-                  dispatch(toggleFlag()); // Dispatch toggleFlag action for login modal
-                }}
-              >
-                Login
-              </button>
-            </div>
-          )}
+            ) : (
+              <div className="text-white me-2 sm:pb-0">
+
+
+
+                <button
+                  onClick={() => {
+                    nav("/register"); // Navigate to register page
+                  }}
+                >
+                  Register
+                </button>{" "}
+
+
+
+
+                /{" "}
+
+
+
+
+                <button
+                  onClick={() => {
+                    dispatch(toggleFlag()); // Dispatch toggleFlag action for login modal
+                  }}
+                >
+                  Login
+                </button>
+
+
+              </div>
+            )}
+          </div>
+          <Navbar.Toggle />
         </div>
-      </div>
-    </section>
+
+
+
+
+
+        <Navbar.Collapse>
+          <div>
+            <div className="flex justify-between flex-wrap">
+              <div className="borderYtoX flex flex-col gap-y-4 md:gap-y-0 justify-center p-4 md:p-0 mt-4 font-medium rounded-lg bg-transparent sm:space-x-2 md:space-x-4 xl:space-x-7 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-transparent">
+                <NavLink
+                  style={isActive}
+                  to="/"
+                  className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
+                >
+                  Home
+                </NavLink>
+
+                <NavLink
+                  style={isActive}
+                  to="earnings"
+                  className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
+                >
+                  Products
+                </NavLink>
+
+                <NavLink
+                  style={isActive}
+                  to="/order"
+                  className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
+                >
+                  Order
+                </NavLink>
+
+                <NavLink
+                  style={isActive}
+                  to="/auction"
+                  className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
+                >
+                  Auctions
+                </NavLink>
+
+                <NavLink
+                  style={isActive}
+                  to="/event"
+                  className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
+                >
+                  Event
+                </NavLink>
+
+                <NavLink
+                  style={isActive}
+                  to="/dd"
+                  className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
+                >
+                  BEST SELLER
+                </NavLink>
+              </div>
+              {/* <div className="flex">
+                    <a href="#">
+                    <Button color="success">Sign UP</Button>
+                    </a>
+                    <a href="#">
+                    <Button color="failure">Sign UP</Button>
+                    </a>
+                    </div> */}
+            </div>
+          </div>
+        </Navbar.Collapse>
+
+
+
+
+
+
+      </Navbar>
+    </>
+
+    //flowbit navbar
+
+
+
+
+
+
+    // <section className="bg-[#72a398]">
+    //   <div className="container flex flex-wrap justify-center sm:justify-between items-center border-white border-b-[1px] pb-0 py-1">
+
+
+
+    //     {/* Search section */}
+    //     {/* <div className="flex items-end content-end sm:hidden md:flex pt-5 sm:pt-0">
+    //       <div>
+    //         <BsSearch className="text-xl text-white cursor-pointer" />
+    //       </div>
+    //       <div>
+    //         <input
+    //           type="search"
+    //           placeholder="Search "
+    //           className="h-7 ms-2 bg-transparent border-l-0 border-t-0 border-r-0 focus:ring-0 focus:border-black text-white placeholder:text-white placeholder:font-light placeholder:text-sm"
+    //         />
+    //       </div>
+    //     </div> */}
+
+
+
+
+
+
+
+
+
+    //     {/* <!-- Website LOGO --> */}
+    //     {/* <div className="ps-5 md:ps-0 pe-5 sm:pe-0 "> */}
+    //     {/* <a href="/"> */}
+    //     {/* <img src={Logo} alt="Logo" /> */}
+    //     {/* Mashrabiya */}
+    //     {/* </a> */}
+    //     {/* </div> */}
+
+
+
+
+
+
+    //     {/* =================== */}
+
+
+    //     <Navbar className="flex  bg-[#72a398] py-4 justify-between w-full">
+    //       <div>
+
+    //         <Navbar.Brand as={Link} href="/">
+
+
+    //           <span className=""></span>
+    //         </Navbar.Brand>
+    //       </div>
+
+    //       <div className="   ">
+
+
+    //         <Navbar.Toggle className="" />
+
+
+    //       </div>
+
+
+
+    //       <Navbar.Collapse className="container flex justify-between">
+
+
+
+
+
+
+    //       </Navbar.Collapse>
+
+
+    //     </Navbar>
+
+
+
+
+
+
+
+
+
+
+    //     {/* =================== */}
+
+
+    //   </div>
+    // </section>
   );
 }
+
+
+
+
+
+
+
+
+
 
 export default BodyNav;

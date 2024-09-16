@@ -10,20 +10,20 @@ import Copyrite from "./component/Copyrite";
 
 function Footer() {
   return (
-    <section className="mt-8 bg-[#778C7E] grid grid-cols-1 py-9">
+    <section className="mt-8 bg-[#6A9C89] grid grid-cols-1 py-9">
       <div className="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 mb-9 ">
-        <LinksG1 />
+        {/* <LinksG1 /> */}
         <LinksG2 />
         <LogoSocialMedia />
         <OrignalLogoSection />
-        <EmailInput />
+        {/* <EmailInput /> */}
       </div>
-      <div className="container">
+      {/* <div className="container">
         <ManyLinksSection />
-      </div>
-      <div className="container">
+      </div> */}
+      {/* <div className="container">
         <Copyrite />
-      </div>
+      </div> */}
     </section>
   );
 }
