@@ -119,21 +119,19 @@ function Cards({ data, onTicketClick }) {
       {/* Right  */}
       <div className="relative cutout sm:flex sm:flex-col">
       <div className="absolute top-0 right-48  h-full w-16 flex flex-col justify-between items-center">
-          <div style={{backgroundColor:"#F9F2E6"}} className=" w-8 h-8 rounded-full"></div>
-          <div style={{backgroundColor:"#F9F2E6"}} className=" w-8 h-8 rounded-full"></div>
-          <div style={{backgroundColor:"#F9F2E6"}} className=" w-8 h-8 rounded-full"></div>
-          <div style={{backgroundColor:"#F9F2E6"}} className=" w-8 h-8 rounded-full"></div>
-          <div style={{backgroundColor:"#F9F2E6"}} className=" w-8 h-8 rounded-full"></div>
-          <div style={{backgroundColor:"#F9F2E6"}} className=" w-8 h-8 rounded-full"></div>
+          <div style={{backgroundColor:"#ffff"}} className=" w-8 h-8 rounded-full"></div>
+          <div style={{backgroundColor:"#ffff"}} className=" w-8 h-8 rounded-full"></div>
+          <div style={{backgroundColor:"#ffff"}} className=" w-8 h-8 rounded-full"></div>
+          <div style={{backgroundColor:"#ffff"}} className=" w-8 h-8 rounded-full"></div>
+          <div style={{backgroundColor:"#ffff"}} className=" w-8 h-8 rounded-full"></div>
+          <div style={{backgroundColor:"#ffff"}} className=" w-8 h-8 rounded-full"></div>
 
-          <div style={{backgroundColor:"#F9F2E6"}} className="0 w-8 h-8 rounded-full"></div>
-          <div style={{backgroundColor:"#F9F2E6"}} className="0 w-8 h-8 rounded-full"></div>
-          <div style={{backgroundColor:"#F9F2E6"}} className="0 w-8 h-8 rounded-full"></div>
-          <div style={{backgroundColor:"#F9F2E6"}} className="0 w-8 h-8 rounded-full"></div>
-          <div style={{backgroundColor:"#F9F2E6"}} className="0 w-8 h-8 rounded-full"></div>
-          <div style={{backgroundColor:"#F9F2E6"}} className="0 w-8 h-8 rounded-full"></div>
-          <div style={{backgroundColor:"#F9F2E6"}} className="0 w-8 h-8 rounded-full"></div>
-          <div style={{backgroundColor:"#F9F2E6"}} className="0 w-8 h-8 rounded-full"></div>
+          <div style={{backgroundColor:"#ffff"}} className="0 w-8 h-8 rounded-full"></div>
+          <div style={{backgroundColor:"#ffff"}} className="0 w-8 h-8 rounded-full"></div>
+          <div style={{backgroundColor:"#ffff"}} className="0 w-8 h-8 rounded-full"></div>
+          <div style={{backgroundColor:"#ffff"}} className="0 w-8 h-8 rounded-full"></div>
+          <div style={{backgroundColor:"#ffff"}} className="0 w-8 h-8 rounded-full"></div>
+          <div style={{backgroundColor:"#ffff"}} className="0 w-8 h-8 rounded-full"></div>
 
         </div>
  
