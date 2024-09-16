@@ -16,6 +16,7 @@ import {
 import { IoClose } from "react-icons/io5";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { v4 as uuidv4 } from "uuid";
+import { TiShoppingCart } from "react-icons/ti";
 
 function CartSection({ customerInfo }) {
   const [cart, setCart] = useState([]);
@@ -70,18 +71,27 @@ function CartSection({ customerInfo }) {
         where("userID", "==", localStorage.getItem("id"))
       );
 
-      // Use getDocs to retrieve the documents instead of onSnapshot
+      // Use getDocs to retrieve the documents from the collection
       const snapshot = await getDocs(cartCollectionRef);
+
+      // Check if the cart is empty
+      if (snapshot.empty) {
+        console.log("No items found in cart for this user.");
+        return;
+      }
+
       const batch = writeBatch(db);
 
-      // Iterate over the documents and queue them for deletion
-      snapshot.docs.forEach((doc) => {
-        batch.delete(doc.ref);
+      // Iterate over each document in the snapshot
+      snapshot.docs.forEach((docSnapshot) => {
+        console.log("Deleting document: ", docSnapshot.id);
+        // Correctly reference the document and queue it for deletion
+        batch.delete(doc(db, "Bag", docSnapshot.id));
       });
 
       // Commit the batch to apply all deletions
       await batch.commit();
-      console.log("Cart cleared successfully");
+      console.log("Cart cleared successfully.");
     } catch (error) {
       console.error("Error clearing cart: ", error);
     }
@@ -92,33 +102,40 @@ function CartSection({ customerInfo }) {
       <h2 className="mb-3 text-2xl font-bold">Cart</h2>
       <div className=" p-5 rounded-md flex w-full">
         {cart.length === 0 ? (
-          <p>Your cart is empty</p>
+          <div className="min-h-screen flex flex-col justify-center items-center w-full">
+            <TiShoppingCart size={70} color="grey" />
+
+            <h1 className="text-bold text-2xl">Your cart is empty</h1>
+          </div>
         ) : (
           <>
             <div className="w-2/3">
               <ul className="my-4 space-y-2">
-                <div className="h-64 overflow-y-scroll">
+                <div className="h-96 overflow-y-scroll">
                   <li className="w-full flex flex-row justify-between items-center  p-3 ">
-                    <p>product</p>
-                    <p>product</p>
+                    <p>Product Details</p>
+                    <p>Product Name</p>
+                    <p>Quantity</p>
+                    <p>Price</p>
+                    <p>Total</p>
+                    <p> </p>
                   </li>
                   {cart.map((product) => (
                     <li key={product.id} className="mb-4">
                       <div className="w-full flex flex-row justify-between items-center border border-gray-400 p-3 shadow-lg rounded-md">
-                        <div className="w-1/4 h-40">
+                        <div className="w-1/6 h-40">
                           <img
                             className="w-full h-full rounded-full"
                             src={product.imgsrc}
                             alt={product.name}
                           />
                         </div>
-                        <div>
-                          <h1>{product.name}</h1>
-                          <h1 className="text-gray-400">
-                            $ {product.basePrice}
-                          </h1>
-                          <h1 className="text-gray-400">$ {product.price}</h1>
-                        </div>
+
+                        <h1>{product.name}</h1>
+                        <h1>{product.quantity}</h1>
+                        <h1 className="text-gray-400">$ {product.basePrice}</h1>
+                        <h1 className="text-gray-400">$ {product.price}</h1>
+
                         <button
                           className="px-2 py-1 rounded-md"
                           onClick={() => deleteItem(product.id)}
@@ -134,7 +151,9 @@ function CartSection({ customerInfo }) {
             </div>
             <div className="w-1/3">
               {" "}
-              <h3 className="text-xl font-bold">Total: ${total.toFixed(2)}</h3>
+              <h3 className="text-xl font-bold mb-8">
+                Total: ${total.toFixed(2)}
+              </h3>
               {total > 0 && (
                 <PayPalScriptProvider
                   options={{
