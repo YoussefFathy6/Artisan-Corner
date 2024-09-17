@@ -3,7 +3,7 @@ import { FaTimes, FaFacebookF, FaGooglePlusG } from "react-icons/fa"; // است�
 import { object, string } from "yup";
 import db from "../../Config/firebase";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection} from "firebase/firestore";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
@@ -28,13 +28,15 @@ function Sign() {
   async function addTodb(values) {
     const collectionref = collection(db, "userlogin");
     const doc = await addDoc(collectionref, {
+
       name: values.name,
       password: values.password,
       email: values.email,
     });
-
     // const nav=useNavigation()
     // nav("/#");
+
+
   }
 
   function handleLogin() {
@@ -57,6 +59,8 @@ function Sign() {
         const credential = GoogleAuthProvider.credentialFromError(error);
         // ...
       });
+   
+
   }
 
   return (

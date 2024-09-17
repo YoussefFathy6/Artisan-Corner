@@ -38,6 +38,7 @@ import TicketOnline from "./components/Ticket/TicketOnline";
 import EventOnline from "./components/Ticket/EventOnlin";
 import Users from "./components/Art/Users";
 import ArtProfile from "./components/Art/ArtProfile";
+import Chat from "./components/Chat/Chat";
 
 function App() {
   const navigate = useNavigate();
@@ -83,6 +84,8 @@ function App() {
             <>
               <NavBar />
               <Routes>
+              <Route path="chat" element={<Chat/>} />
+
                 <Route path="/" element={<Home />} />
                 <Route path="earnings" element={<EarningsPage />} />
                 <Route path="shipping" element={<ShippingPage />} />
@@ -100,7 +103,7 @@ function App() {
                 <Route
                   path="/TicketConfirmation/:eventId"
                   element={<TicketConfirmation />}
-                />{" "}
+                />
                 <Route path="/Artprofile" element={<ArtProfile />} />
                 <Route path="/online" element={<VideoCall />} />
                 <Route path="/EventOnline" element={<EventOnline />} />
