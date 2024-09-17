@@ -43,7 +43,6 @@ function BodyNav() {
           // Call getUnread after userData is set
           const unreadNotifications = getUnread(user);
           setUnread(unreadNotifications); // Set the unread notifications
-          console.log(unreadNotifications); // Log unread notifications
         }
       });
     };
