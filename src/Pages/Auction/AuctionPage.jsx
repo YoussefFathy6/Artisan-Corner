@@ -14,22 +14,36 @@ import Card from "./components/Card";
 import Menu from "../EarningsPage/Menu/Menu";
 import AllAuctions from "./AllAuctions";
 import JoinedAuctions from "./JoinedAuctions";
+import Loader from "../../components/Loader"; // Import Loader component
 
 function AuctionPage() {
   const [activeSection, setActiveSection] = useState("allauctions");
+
+  // Loader state
+  const [loading, setLoading] = useState(true);
+
   const renderSectionContent = () => {
     switch (activeSection) {
       case "allauctions":
         return <AllAuctions />;
       case "joinedauctions":
         return <JoinedAuctions />;
-
       default:
         return <AllAuctions />;
     }
   };
 
-  // Filter by category
+  useEffect(() => {
+    // Simulate data fetching delay or actual fetching if needed
+    const fetchData = async () => {
+      // Simulate a delay to show the loader
+      setTimeout(() => {
+        setLoading(false); // Set loading to false after data is fetched
+      }, 2000); // Adjust this timeout as needed for real data
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="flex h-screen">
@@ -65,8 +79,12 @@ function AuctionPage() {
       </div>
 
       {/* Main Content */}
-      <div className=" w-3/4 bg-white p-5 overflow-auto flex flex-col">
-        {renderSectionContent()}
+      <div className="w-3/4 bg-white p-5 overflow-auto flex flex-col">
+        {loading ? (
+          <Loader /> // Show Loader while data is loading
+        ) : (
+          renderSectionContent() // Render content after loading is complete
+        )}
       </div>
     </div>
   );

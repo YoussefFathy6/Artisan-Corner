@@ -34,7 +34,7 @@ const Customers = () => {
         <ul className="space-y-4">
           {customers.map((customer) => (
             <li key={customer.id} className="border p-4 rounded-lg shadow">
-              <div className="flex justify-between gap-7 items-center w-96">
+              <div className="flex justify-between gap-7 items-center w-1/2">
                 <img
                   className=" rounded-full w-24"
                   src="https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png"

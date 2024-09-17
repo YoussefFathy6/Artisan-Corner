@@ -12,6 +12,7 @@ import {
 } from "firebase/firestore";
 import Card from "./Card";
 import Menu from "../Menu/Menu";
+import Loader from "../../../components/Loader";
 
 function Main() {
   const [products, setProducts] = useState([]);
@@ -19,6 +20,9 @@ function Main() {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [priceRange, setPriceRange] = useState({ min: "", max: "" });
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false); // For showing filters dropdown on small screens
+
+  // Loader state
+  const [loading, setLoading] = useState(true);
 
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
@@ -34,6 +38,7 @@ function Main() {
         });
         setProducts([...arr]);
         setFilteredProducts([...arr]); // Initialize with all products
+        setLoading(false); // Set loading to false after fetching data
       }
     );
     getUserData();
@@ -140,58 +145,67 @@ function Main() {
         </Button>
       </div>
 
-      {/* Filters Section */}
-      <div
-        className={`col-span-1 ${
-          isFilterDropdownOpen ? "block" : "hidden"
-        } sm:block`}
-      >
-        <Menu
-          onFilterChange={handleFilterChange}
-          onPriceChange={handlePriceChange}
-        />
-      </div>
-
-      {/* Products Section */}
-      <main className="col-span-3">
-        <div className="flex justify-between items-center mb-6">
-          {filteredProducts.length} Items Found
-          <div className="flex gap-3">
-            <Dropdown label="Sort By" color="light" dismissOnClick={true}>
-              <Dropdown.Item onClick={sortItemsHighest}>
-                From Highest to Lowest
-              </Dropdown.Item>
-              <Dropdown.Item onClick={sortItemsLowest}>
-                From Lowest to Highest
-              </Dropdown.Item>
-              <Dropdown.Item onClick={sortItemsByName}>By Name</Dropdown.Item>
-            </Dropdown>
+      {/* Show Loader while loading */}
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          {/* Filters Section */}
+          <div
+            className={`col-span-1 ${
+              isFilterDropdownOpen ? "block" : "hidden"
+            } sm:block`}
+          >
+            <Menu
+              onFilterChange={handleFilterChange}
+              onPriceChange={handlePriceChange}
+            />
           </div>
-        </div>
-        <section className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
-          {currentProducts.map((product) => (
-            <div className="m-5" key={product.id}>
-              <Card
-                imgsrc={product.img}
-                productType={product.title}
-                title={product.description}
-                price={product.price}
-                productID={product.id}
-                func={() => clickMe(product)}
+
+          {/* Products Section */}
+          <main className="col-span-3">
+            <div className="flex justify-between items-center mb-6">
+              {filteredProducts.length} Items Found
+              <div className="flex gap-3">
+                <Dropdown label="Sort By" color="light" dismissOnClick={true}>
+                  <Dropdown.Item onClick={sortItemsHighest}>
+                    From Highest to Lowest
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={sortItemsLowest}>
+                    From Lowest to Highest
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={sortItemsByName}>
+                    By Name
+                  </Dropdown.Item>
+                </Dropdown>
+              </div>
+            </div>
+            <section className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
+              {currentProducts.map((product) => (
+                <div className="m-5" key={product.id}>
+                  <Card
+                    imgsrc={product.img}
+                    productType={product.title}
+                    title={product.description}
+                    price={product.price}
+                    productID={product.id}
+                    func={() => clickMe(product)}
+                  />
+                </div>
+              ))}
+            </section>
+
+            {/* Pagination Controls */}
+            <div className="flex justify-center mt-6">
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={(page) => setCurrentPage(page)}
               />
             </div>
-          ))}
-        </section>
-
-        {/* Pagination Controls */}
-        <div className="flex justify-center mt-6">
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={(page) => setCurrentPage(page)}
-          />
-        </div>
-      </main>
+          </main>
+        </>
+      )}
     </div>
   );
 }

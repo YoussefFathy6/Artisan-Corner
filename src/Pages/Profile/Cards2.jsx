@@ -18,30 +18,44 @@ function Cards2({ data, onDelete }) {
   const deleteItem = (itemId) => {
     deleteItemFromFirebase(itemId);
     if (onDelete) {
-      onDelete(itemId); 
+      onDelete(itemId);
     }
   };
   return (
     <>
-      <Card
-        className="max-w-[20rem] bg-transparent relative m-0 p-0 gap-0 cursor-pointer"
-        imgAlt="Meaningful alt text for an image that is not purely decorative"
-        imgSrc={data.img}
-      >
-        <h5 className="text-4xl text-[#3E402D] font-Rosario font-bold tracking-tight dark:text-white">
+   <div className="flex justify-center items-center my-20">
+  <div className="max-w-[720px] mx-auto">
+    <div className="relative flex flex-col text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-96 h-[500px] group transition-all duration-300 hover:bg-orange-200">
+      <div className="relative h-56 mx-4 -mt-6 overflow-hidden text-white shadow-lg bg-clip-border rounded-xl bg-blue-gray-500 shadow-blue-gray-500/40">
+        <img
+          src={data.img}
+          alt={data.title}
+          className="w-full h-full object-cover rounded-xl transition-all duration-300 group-hover:rounded-full"
+        />
+      </div>
+
+      <div className="p-4 h-[250px] overflow-hidden">
+        <h5 className="block mb-3 font-sans text-3xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
           {data.title}
         </h5>
-        <p className="font-normal text-gray-700 dark:text-gray-400 text-[1.5rem]">
+        <p className="block  mb-3 font-sans antialiased font-light leading-relaxed text-inherit">
           {data.description}
         </p>
-        <h4 className="text-1xl font-bold dark:text-gray-400">{data.price} LE</h4>
-        <div className="flex justify-end">
-          <Button className="bot2 mr-3" onClick={() => deleteItem(data.id)}>
-            Delete
-          </Button>
-        <Editproduct data={data}/>
-        </div>
-      </Card>
+        <p className="block font-bold text-2xl antialiased  leading-relaxed text-inherit">
+          {data.price} LE
+        </p>
+      </div>
+
+      <div className="flex justify-end pb-4 pt-5">
+        <Button className="bg-white mr-3 bot2 hover:bg-none" onClick={() => deleteItem(data.id)}>
+          Delete
+        </Button>
+        <Editproduct data={data} />
+      </div>
+    </div>
+  </div>
+</div>
+
     </>
   );
 }

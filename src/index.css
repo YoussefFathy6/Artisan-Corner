@@ -54,17 +54,16 @@ body {
     @apply bg-indigo-600 py-2 px-7 text-white rounded-lg;
   }
 }
+/* .head {
+  background: rgba(130, 59, 16, 1);
+  width: 90vw !important;
+  height: 60vh;
+} */
 .head {
   background: rgba(130, 59, 16, 1);
   width: 90vw !important;
   height: 60vh;
 }
-/* img {
-  border: 10px solid #f9f2e6;
-}
-body {
-  background: #f9f2e6;
-} */
 .he {
   color: #f9f2e6;
 }
@@ -146,3 +145,38 @@ body {
   margin: 5px 0;
   font-size: 1.25rem;
 } */
+/* From Uiverse.io by SelfMadeSystem */
+.loader {
+  width: 12em;
+  height: 12em;
+}
+
+.loader path {
+  stroke: #000;
+  stroke-width: 0.6px;
+  animation: dashArray 4s ease-in-out infinite, dashOffset 4s linear infinite;
+}
+
+@keyframes dashArray {
+  0% {
+    stroke-dasharray: 0 1 359 0;
+  }
+
+  50% {
+    stroke-dasharray: 0 359 1 0;
+  }
+
+  100% {
+    stroke-dasharray: 359 1 0 0;
+  }
+}
+
+@keyframes dashOffset {
+  0% {
+    stroke-dashoffset: 365;
+  }
+
+  100% {
+    stroke-dashoffset: 5;
+  }
+}

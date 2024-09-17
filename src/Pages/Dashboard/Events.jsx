@@ -44,20 +44,22 @@ function Events() {
   const handleApproveEvent = async (event) => {
     try {
       // Remove from 'tempProducts'
-      await deleteDoc(doc(db, "tempEvents", event.id));
 
       // Add to 'addProduct'
       await addDoc(collection(db, "add event"), {
+        eventImg: event.eventImg,
+        ticketImg: event.ticketImg,
+        organizer: event.ownerID,
         name: event.name,
         date: event.date,
         address: event.address,
         description: event.description,
-        eventImg: event.eventImg,
-        ticketImg: event.ticketImg,
         time: event.time,
-        pricetTcket: event.pricetTcket,
-        organizer: localStorage.getItem("id"),
+        pricetacket: event.pricetacket,
+        eventtype: event.eventtype,
+        ticketquantity: event.ticketquantity,
       });
+      await deleteDoc(doc(db, "tempEvents", event.id));
 
       console.log(`event with ID ${event.id} moved to addEvent.`);
     } catch (error) {
@@ -83,7 +85,8 @@ function Events() {
                 <p className="font-normal text-gray-700 dark:text-gray-400 text-[1rem]">
                   {event.description}
                 </p>
-                <h5 className="text-[1.130rem] font-medium">{`$ ${event.priceTicket}`}</h5>
+                <h5 className="text-[1.130rem] font-medium">{`$ ${event.pricetacket}`}</h5>
+                <h5 className="text-[1.130rem] font-medium">{`tickets:  ${event.ticketquantity} `}</h5>
                 <div className="flex justify-between gap-5">
                   <Button
                     color={"green"}

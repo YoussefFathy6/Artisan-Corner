@@ -69,21 +69,28 @@ function Products() {
     <div className="p-4">
       <h2 className="text-2xl font-semibold mb-4">Products List</h2>
       {products.length > 0 ? (
-        <ul className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-y-8 xl:gap-3 justify-center">
+        <ul className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
           {products.map((product) => (
             <li key={product.id}>
-              <Card
-                className="max-w-[17rem] bg-transparent relative m-0 p-0 gap-0 cursor-pointer"
-                imgAlt="Meaningful alt text for an image that is not purely decorative"
-                imgSrc={product.img}
+              <div
+                className="border rounded-lg shadow  flex flex-col justify-between hover:scale-105 hover:shadow-xl transition-all"
+                style={{ height: "550px" }}
               >
-                <h5 className="text-base text-[#3E402D] font-Rosario font-bold tracking-tight  dark:text-white">
-                  {product.title}
-                </h5>
-                <p className="font-normal text-gray-700 dark:text-gray-400 text-[1rem]">
-                  {product.description}
-                </p>
-                <h5 className="text-[1.130rem] font-medium">{`$ ${product.price}`}</h5>
+                <div>
+                  {" "}
+                  <img
+                    className="w-full h-56 rounded-t-lg cursor-pointer"
+                    src={product.img}
+                    alt="Meaningful alt text for an image that is not purely decorative"
+                  />
+                  <h5 className="text-base text-[#3E402D] font-Rosario font-bold tracking-tight  dark:text-white">
+                    {product.title}
+                  </h5>
+                  <p className="font-normal text-gray-700 dark:text-gray-400 text-[1rem]">
+                    {product.description}
+                  </p>
+                  <h5 className="text-[1.130rem] font-medium">{`$ ${product.price}`}</h5>
+                </div>
                 <div className="flex justify-between gap-5">
                   <Button
                     color={"green"}
@@ -100,7 +107,7 @@ function Products() {
                     <IoClose />
                   </Button>
                 </div>
-              </Card>
+              </div>
             </li>
           ))}
         </ul>
