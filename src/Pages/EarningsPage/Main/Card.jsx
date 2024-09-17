@@ -89,6 +89,10 @@ function ProductCard(props) {
                 bobId: props.productID,
               },
             });
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth", // Smooth scrolling
+            });
           }}
           className="w-full h-56 rounded-t-lg cursor-pointer"
           src={props.imgsrc}

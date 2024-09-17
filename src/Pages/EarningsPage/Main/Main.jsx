@@ -229,6 +229,12 @@ function Main() {
             {/* Pagination Controls */}
             <div className="flex justify-center mt-6">
               <Pagination
+                onClick={() => {
+                  window.scrollTo({
+                    top: 0,
+                    behavior: "smooth", // Smooth scrolling
+                  });
+                }}
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={(page) => setCurrentPage(page)}
