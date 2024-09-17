@@ -12,7 +12,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import RegistraionInput from "./RegistraionInput";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, setDoc,doc } from "firebase/firestore";
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
@@ -102,12 +102,19 @@ const RegisterPage = () => {
         profilePic: "", // Add account type to Firestore
       });
       localStorage.setItem("id", data.user.uid);
+    
       nav("/");
       console.log(localStorage.getItem("id"));
       console.log(data.user.uid);
       console.log(data.user.displayName);
       // console.log(data.user.email);
       // console.log(data.user.metadata);
+
+      // hanaa
+
+      // await setDoc(doc(db,"userChats" ,data.user.uid),{});
+
+      //hanaa
     });
   } //functio
   return (
