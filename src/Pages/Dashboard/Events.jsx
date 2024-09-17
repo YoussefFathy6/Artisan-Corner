@@ -49,7 +49,7 @@ function Events() {
       await addDoc(collection(db, "add event"), {
         eventImg: event.eventImg,
         ticketImg: event.ticketImg,
-        Organizer: event.Organizer,
+        organizer: event.ownerID,
         name: event.name,
         date: event.date,
         address: event.address,
