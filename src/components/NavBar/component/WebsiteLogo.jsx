@@ -165,7 +165,7 @@ function BodyNav() {
                   dismissOnClick={true}
                   renderTrigger={() => (
                     <img
-                      className="rounded-full w-10 mx-4 cursor-pointer"
+                      className="rounded-full w-12 h-12 mx-4 cursor-pointer"
                       src={
                         userData.profilePic
                           ? userData.profilePic // User's profile picture
