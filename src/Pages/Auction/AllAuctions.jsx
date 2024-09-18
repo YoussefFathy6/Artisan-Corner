@@ -1,7 +1,9 @@
 /* eslint-disable no-unused-vars */
 import {
+  addDoc,
   arrayUnion,
   collection,
+  deleteDoc,
   doc,
   onSnapshot,
   updateDoc,
@@ -15,15 +17,49 @@ function AllAuctions() {
   const userId = localStorage.getItem("id"); // Get the user's ID from localStorage
 
   async function addMember(documentId, newItem) {
-    const docRef = doc(db, "auctionProduct", documentId); // Replace with your collection and document ID
+    const docRef = doc(db, "auctionProduct", documentId); // Reference to the document
 
     // Update the array field
     await updateDoc(docRef, {
-      members: arrayUnion(newItem), // Replace `yourArrayField` with the name of your array field
+      members: arrayUnion(newItem), // Adding new member
     });
 
     console.log("Item added successfully to the array!");
   }
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      collection(db, "auctionProduct"),
+      (snapshot) => {
+        snapshot.docs.forEach(async (doc) => {
+          const auctionData = doc.data();
+          const currentDate = new Date();
+
+          // Ensure that auction's endDate is a Firestore Timestamp and convert it to JS Date
+          if (
+            auctionData.endDate &&
+            currentDate >= auctionData.endDate.toDate()
+          ) {
+            // Delete the expired auction
+            await addDoc(collection(db, "Bag"), {
+              basePrice: doc.data().initPrice,
+              description: doc.data().description,
+              imgsrc: doc.data().img,
+              name: doc.data().title,
+              price: doc.data().initPrice,
+              quantity: 1,
+              userID:
+                doc.data().proposals[doc.data().proposals.length - 1].member,
+            });
+            await deleteDoc(doc.ref);
+            console.log(`Auction ${doc.id} deleted due to expiration.`);
+          }
+        });
+      }
+    );
+
+    return () => unsubscribe(); // Clean up on unmount
+  }, []);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(

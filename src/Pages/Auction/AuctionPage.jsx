@@ -9,6 +9,7 @@ import {
   doc,
   updateDoc,
   arrayUnion,
+  Timestamp,
 } from "firebase/firestore";
 import Card from "./components/Card";
 import Menu from "../EarningsPage/Menu/Menu";
