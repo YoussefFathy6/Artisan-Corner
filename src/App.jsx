@@ -39,6 +39,7 @@ import EventOnline from "./components/Ticket/EventOnlin";
 import Users from "./components/Art/Users";
 import ArtProfile from "./components/Art/ArtProfile";
 import Chat from "./components/Chat/Chat";
+// import ChatApp from "./components/Chat/ChatApp";
 
 function App() {
   const navigate = useNavigate();
@@ -84,7 +85,8 @@ function App() {
             <>
               <NavBar />
               <Routes>
-              <Route path="chat" element={<Chat/>} />
+              <Route path="chat" element={<Chat />} />
+              {/* <Route path="chatApp" element={<ChatApp />} /> */}
 
                 <Route path="/" element={<Home />} />
                 <Route path="earnings" element={<EarningsPage />} />

@@ -12,15 +12,12 @@ export default function Chat() {
     const storedUser = localStorage.getItem("id");
 
     try {
- 
       const parsedUser = JSON.parse(storedUser);
       setCurrentUser(parsedUser);
     } catch (error) {
-
       setCurrentUser({ displayName: storedUser });
     }
 
-  
     const q = query(collection(db, "chats"), orderBy("timestamp", "asc"));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       let messagesArr = [];
@@ -49,7 +46,6 @@ export default function Chat() {
   return (
     <div>
       <h2>Chat Room</h2>
-
 
       <div className="messages">
         {messages.map((msg, index) => (
