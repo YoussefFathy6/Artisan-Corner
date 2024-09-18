@@ -9,7 +9,13 @@ import { FaFacebookF } from "react-icons/fa";
 import Cards2 from "./Cards2";
 import Addproduct from "./Addproduct";
 import db from "../../Config/firebase";
-import { collection, onSnapshot, query, where, getDocs } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import Side from "./Side";
 
 function Profile() {
@@ -20,7 +26,10 @@ function Profile() {
   async function checkUser() {
     try {
       const usersCollection = collection(db, "users");
-      const q = query(usersCollection, where("id", "==", localStorage.getItem("id")));
+      const q = query(
+        usersCollection,
+        where("id", "==", localStorage.getItem("id"))
+      );
       const querySnapshot = await getDocs(q);
 
       if (!querySnapshot.empty) {
@@ -44,7 +53,11 @@ function Profile() {
   }
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "add product"), (snapshot) => {
+    const q = query(
+      collection(db, "add product"),
+      where("ownerID", "==", localStorage.getItem("id"))
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
       const arr = snapshot.docs.map((doc) => {
         return { ...doc.data(), id: doc.id };
       });
@@ -59,40 +72,58 @@ function Profile() {
     <div className="flex flex-col lg:flex-row justify-around">
       {data.length > 0 && data[0].accountType !== "customer" && <Side />}
       <div className="lg:ml-7 mt-0 lg:mr-4 w-full">
-        {data && data.length > 0 && data.map((item, index) => (
-          <div className="mt-10 mb-56 lg:mt-28 flex flex-col items-center rounded-xl" key={index}>
-            {/* Image and Icons Centered */}
-            <div className=" lg:mt-30 lg:w-1/2 flex flex-col items-center">
-              <img
-                src={item.profilePic || "avatar-1299805_1280.png"}
-                alt="Profile"
-                className="rounded-[100%] border-4 border-red-800 h-50 lg:w-80 lg:h-80 object-cover mx-auto transition-transform duration-500 ease-in-out hover:scale-110"
-              />
+        {data &&
+          data.length > 0 &&
+          data.map((item, index) => (
+            <div
+              className="mt-10 mb-56 lg:mt-28 flex flex-col items-center rounded-xl"
+              key={index}
+            >
+              {/* Image and Icons Centered */}
+              <div className=" lg:mt-30 lg:w-1/2 flex flex-col items-center">
+                <img
+                  src={
+                    item.profilePic ||
+                    "https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png"
+                  }
+                  alt="Profile"
+                  className="rounded-[100%] border-4 border-red-800 h-50 lg:w-80 lg:h-80 object-cover mx-auto transition-transform duration-500 ease-in-out hover:scale-110"
+                />
 
-              <div className="flex justify-around w-3/4 lg:w-[30%] lg:mt-5 mx-auto">
-                <a href={item.facebook} className="mx-2 text-gray-600 hover:text-blue-600 transition-colors duration-300">
-                  <FaFacebookF size={30} />
-                </a>
-                <a href={item.instgram} className="mx-2 text-gray-600 hover:text-pink-600 transition-colors duration-300">
-                  <FaInstagram size={30} />
-                </a>
-                <a href={item.linkedin} className="mx-2 text-gray-600 hover:text-blue-800 transition-colors duration-300">
-                  <FaLinkedinIn size={30} />
-                </a>
+                <div className="flex justify-around w-3/4 lg:w-[30%] lg:mt-5 mx-auto">
+                  <a
+                    href={item.facebook}
+                    className="mx-2 text-gray-600 hover:text-blue-600 transition-colors duration-300"
+                  >
+                    <FaFacebookF size={30} />
+                  </a>
+                  <a
+                    href={item.instgram}
+                    className="mx-2 text-gray-600 hover:text-pink-600 transition-colors duration-300"
+                  >
+                    <FaInstagram size={30} />
+                  </a>
+                  <a
+                    href={item.linkedin}
+                    className="mx-2 text-gray-600 hover:text-blue-800 transition-colors duration-300"
+                  >
+                    <FaLinkedinIn size={30} />
+                  </a>
+                </div>
               </div>
 
+              {/* Text Below Image and Icons */}
+              <div className="mt-10 lg:mt-12 lg:w-1/2 text-center">
+                <h1 className="text-5xl lg:text-7xl mb-5 lg:mb-10">
+                  {item.firstname} {item.lastname}
+                </h1>
+                <h4 className="text-xl lg:text-3xl mb-2  font-bold lg:mb-5">
+                  About
+                </h4>
+                <h4 className="text-xl lg:text-3xl">{item.about}</h4>
+              </div>
             </div>
-
-            {/* Text Below Image and Icons */}
-            <div className="mt-10 lg:mt-12 lg:w-1/2 text-center">
-              <h1 className="text-5xl lg:text-7xl mb-5 lg:mb-10">{item.firstname} {item.lastname}</h1>
-              <h4 className="text-xl lg:text-3xl mb-2  font-bold lg:mb-5">About</h4>
-              <h4 className="text-xl lg:text-3xl">{item.about}</h4>
-            </div>
-          </div>
-        ))}
-
-
+          ))}
 
         <div>
           {data.length > 0 && data[0].accountType !== "customer" && (
@@ -118,7 +149,6 @@ function Profile() {
             </>
           )}
           {data.length > 0 && data[0].accountType !== "customer" && (
-
             <div className="px-5 lg:px-32">
               {products.length > 0 && (
                 <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -127,7 +157,8 @@ function Profile() {
                   ))}
                 </div>
               )}
-            </div>)}
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -135,4 +166,3 @@ function Profile() {
 }
 
 export default Profile;
-

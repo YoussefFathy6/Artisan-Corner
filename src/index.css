@@ -146,6 +146,8 @@ body {
   font-size: 1.25rem;
 } */
 /* From Uiverse.io by SelfMadeSystem */
+
+/* Loader Style */
 .loader {
   width: 12em;
   height: 12em;
@@ -180,3 +182,4 @@ body {
     stroke-dashoffset: 5;
   }
 }
+/* Loader Style */

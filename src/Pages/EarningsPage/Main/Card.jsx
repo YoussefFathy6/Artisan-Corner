@@ -76,6 +76,7 @@ function ProductCard(props) {
         style={{ height: "550px" }} // Ensuring card height is consistent
       >
         {/* Image and Title Section */}
+
         <img
           onClick={() => {
             nav("/details", {
@@ -88,12 +89,27 @@ function ProductCard(props) {
                 bobId: props.productID,
               },
             });
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth", // Smooth scrolling
+            });
           }}
           className="w-full h-56 rounded-t-lg cursor-pointer"
           src={props.imgsrc}
           alt={props.productType}
         />
-
+        <div className="flex gap-4 items-center my-2 pe-2">
+          <img
+            className="rounded-full border-2 w-12 h-12 mx-4 cursor-pointer"
+            src={
+              props.artistImage
+                ? props.artistImage // User's profile picture
+                : "https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png" // Default profile pic
+            }
+            alt="User Profile"
+          />
+          <p>{`${props.firstname} ${props.lastname}`}</p>
+        </div>
         <div className="m-3">
           <h5 className=" text-base text-[#3E402D] font-Rosario font-bold tracking-tight dark:text-white">
             {props.productType}

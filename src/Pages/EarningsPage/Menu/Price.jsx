@@ -22,14 +22,14 @@ function PriceFilter({ onPriceChange }) {
       <div className="flex gap-4">
         <input
           type="number"
-          className=" p-2 rounded w-full"
+          className=" p-2 rounded w-full border-0"
           placeholder="Min Price"
           value={minPrice}
           onChange={handleMinPriceChange}
         />
         <input
           type="number"
-          className="border p-2 rounded w-full"
+          className="border-0 p-2 rounded w-full"
           placeholder="Max Price"
           value={maxPrice}
           onChange={handleMaxPriceChange}
