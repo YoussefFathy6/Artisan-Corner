@@ -1,5 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
+import db from "../../Config/firebase";
 import { collection, query, where, onSnapshot, addDoc } from "firebase/firestore"; 
 import db from '../../Config/firebase'; 
 import ProCard from "./ProCard";
@@ -19,15 +21,16 @@ function ArtProfile() {
   const [user, setUser] = useState(location.state?.user || null);
   const [currentUser, setCurrentUser] = useState(null);
   const [showChat, setShowChat] = useState(false);
-  const [selectedTab, setSelectedTab] = useState('events');
+  const [selectedTab, setSelectedTab] = useState("events");
   const [eventsData, setEventsData] = useState([]);
   const [postsData, setPostsData] = useState([]);
+  console.log(user);
   const [reviewsData, setReviewsData] = useState([]);
   const [newReview, setNewReview] = useState("");
 
   useEffect(() => {
     if (!user) {
-      const storedUser = localStorage.getItem('user');
+      const storedUser = localStorage.getItem("user");
       if (storedUser) {
         setUser(JSON.parse(storedUser));
       }
@@ -43,6 +46,14 @@ function ArtProfile() {
 
   useEffect(() => {
     if (user) {
+      const eventsQuery = query(
+        collection(db, "add event"),
+        where("organizer", "==", user.id)
+      );
+      const postsQuery = query(
+        collection(db, "add product"),
+        where("ownerID", "==", user.id)
+      );
       const eventsQuery = query(collection(db, "add event"), where("organizer", "==", user.id));
       const postsQuery = query(collection(db, "add product"), where("ownerID", "==", user.id));
       const reviewsQuery = query(collection(db, "userReviews"), where("userID", "==", user.id));
@@ -97,6 +108,20 @@ function ArtProfile() {
     <div className="min-h-screen bg-gray-100">
       {user ? (
         <div className="mx-auto bg-white shadow-lg rounded-lg overflow-hidden pt-44">
+          <div className="relative"></div>
+
+          <div className="p-20">
+            <div className="relative">
+              <div className="absolute -top-40 left-20">
+                <img
+                  src={
+                    user.profilePic ||
+                    "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"
+                  }
+                  alt="Profile"
+                  className="w-80 h-80 rounded-full object-cover border-4 border-white shadow-lg"
+                />
+              </div>
           <div className="relative p-20">
             <div className="absolute -top-40 left-20">
               <img
@@ -125,12 +150,22 @@ function ArtProfile() {
                 Posts
               </li>
               <li
-                className={`cursor-pointer ${selectedTab === 'events' ? 'text-blue-500' : 'hover:text-blue-500'}`}
-                onClick={() => handleTabClick('events')}
+                className={`cursor-pointer ${
+                  selectedTab === "events"
+                    ? "text-blue-500"
+                    : "hover:text-blue-500"
+                }`}
+                onClick={() => handleTabClick("events")}
               >
                 Events
               </li>
               <li
+                className={`cursor-pointer ${
+                  selectedTab === "posts"
+                    ? "text-blue-500"
+                    : "hover:text-blue-500"
+                }`}
+                onClick={() => handleTabClick("posts")}
                 className={`cursor-pointer ${selectedTab === 'reviews' ? 'text-blue-500' : 'hover:text-blue-500'}`}
                 onClick={() => handleTabClick('reviews')}
               >
@@ -140,7 +175,7 @@ function ArtProfile() {
           </div>
 
           <div className="p-4">
-            {selectedTab === 'events' && (
+            {selectedTab === "events" && (
               <div>
                 {eventsData.length > 0 ? (
                   eventsData.map((item) => (
@@ -152,6 +187,8 @@ function ArtProfile() {
               </div>
             )}
 
+            {selectedTab === "posts" && (
+              <div>
             {selectedTab === 'posts' && (
               <div className="flex flex-wrap">
                 {postsData.length > 0 ? (
@@ -220,6 +257,10 @@ function ArtProfile() {
         <p>No user data available</p>
       )}
 
+          {showChat && <div className="p-4">{/* <ChatApp /> */}</div>}
+        </div>
+      ) : (
+        <p>No user data available</p>
       {showChat && (
         <div className="p-4">
           {/* <ChatApp /> */}
