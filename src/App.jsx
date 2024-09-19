@@ -39,6 +39,7 @@ import EventOnline from "./components/Ticket/EventOnlin";
 import Users from "./components/Art/Users";
 import ArtProfile from "./components/Art/ArtProfile";
 import Chat from "./components/Chat/Chat";
+import Posts from "./Pages/EarningsPage/Main/Posts";
 // import ChatApp from "./components/Chat/ChatApp";
 
 function App() {
@@ -89,6 +90,8 @@ function App() {
               {/* <Route path="chatApp" element={<ChatApp />} /> */}
 
                 <Route path="/" element={<Home />} />
+                <Route path="posts" element={<Posts />} />
+
                 <Route path="earnings" element={<EarningsPage />} />
                 <Route path="shipping" element={<ShippingPage />} />
                 <Route path="payment" element={<CheckoutPage />} />
