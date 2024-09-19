@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { collection, query, where, onSnapshot } from "firebase/firestore"; 
-import  db  from '../../Config/firebase'; 
+import { collection, query, where, onSnapshot } from "firebase/firestore";
+import db from "../../Config/firebase";
 import ProCard from "./ProCard";
 import EventCard from "./EventCard";
 
@@ -9,13 +9,14 @@ function ArtProfile() {
   const location = useLocation();
   const [user, setUser] = useState(location.state?.user || null);
   const [showChat, setShowChat] = useState(false);
-  const [selectedTab, setSelectedTab] = useState('events');
+  const [selectedTab, setSelectedTab] = useState("events");
   const [eventsData, setEventsData] = useState([]);
   const [postsData, setPostsData] = useState([]);
+  console.log(user);
 
   useEffect(() => {
     if (!user) {
-      const storedUser = localStorage.getItem('user');
+      const storedUser = localStorage.getItem("user");
       if (storedUser) {
         setUser(JSON.parse(storedUser));
       }
@@ -24,8 +25,14 @@ function ArtProfile() {
 
   useEffect(() => {
     if (user) {
-      const eventsQuery = query(collection(db, "add event"), where("organizer", "==", user.id));
-      const postsQuery = query(collection(db, "add product"), where("ownerID", "==", user.id));
+      const eventsQuery = query(
+        collection(db, "add event"),
+        where("organizer", "==", user.id)
+      );
+      const postsQuery = query(
+        collection(db, "add product"),
+        where("ownerID", "==", user.id)
+      );
 
       const unsubscribeEvents = onSnapshot(eventsQuery, (snapshot) => {
         const events = snapshot.docs.map((doc) => ({
@@ -68,7 +75,10 @@ function ArtProfile() {
             <div className="relative">
               <div className="absolute -top-40 left-20">
                 <img
-                  src={user.profilePic || "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"}
+                  src={
+                    user.profilePic ||
+                    "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"
+                  }
                   alt="Profile"
                   className="w-80 h-80 rounded-full object-cover border-4 border-white shadow-lg"
                 />
@@ -88,14 +98,22 @@ function ArtProfile() {
           <div className="mt-4 px-4">
             <ul className="flex space-x-4 text-gray-600">
               <li
-                className={`cursor-pointer ${selectedTab === 'events' ? 'text-blue-500' : 'hover:text-blue-500'}`}
-                onClick={() => handleTabClick('events')}
+                className={`cursor-pointer ${
+                  selectedTab === "events"
+                    ? "text-blue-500"
+                    : "hover:text-blue-500"
+                }`}
+                onClick={() => handleTabClick("events")}
               >
                 Events
               </li>
               <li
-                className={`cursor-pointer ${selectedTab === 'posts' ? 'text-blue-500' : 'hover:text-blue-500'}`}
-                onClick={() => handleTabClick('posts')}
+                className={`cursor-pointer ${
+                  selectedTab === "posts"
+                    ? "text-blue-500"
+                    : "hover:text-blue-500"
+                }`}
+                onClick={() => handleTabClick("posts")}
               >
                 Posts
               </li>
@@ -103,7 +121,7 @@ function ArtProfile() {
           </div>
 
           <div className="p-4">
-            {selectedTab === 'events' && (
+            {selectedTab === "events" && (
               <div>
                 {eventsData.length > 0 ? (
                   eventsData.map((item, index) => (
@@ -115,7 +133,7 @@ function ArtProfile() {
               </div>
             )}
 
-            {selectedTab === 'posts' && (
+            {selectedTab === "posts" && (
               <div>
                 {postsData.length > 0 ? (
                   postsData.map((item, index) => (
@@ -137,11 +155,7 @@ function ArtProfile() {
             </button> */}
           </div>
 
-          {showChat && (
-            <div className="p-4">
-              {/* <ChatApp /> */}
-            </div>
-          )}
+          {showChat && <div className="p-4">{/* <ChatApp /> */}</div>}
         </div>
       ) : (
         <p>No user data available</p>

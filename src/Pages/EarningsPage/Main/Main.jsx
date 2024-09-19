@@ -218,7 +218,8 @@ function Main() {
                       productID={product.id}
                       firstname={artist?.firstname}
                       lastname={artist?.lastname}
-                      artistImage={artist?.profilePic} // Assuming profilePic is the field name
+                      artistImage={artist?.profilePic}
+                      artistData={artist} // Assuming profilePic is the field name
                       func={() => clickMe(product)}
                     />
                   </div>
