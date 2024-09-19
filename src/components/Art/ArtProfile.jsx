@@ -1,9 +1,9 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { collection, query, where, onSnapshot ,addDoc } from "firebase/firestore";
 import db from "../../Config/firebase";
-import { collection, query, where, onSnapshot, addDoc } from "firebase/firestore"; 
-import db from '../../Config/firebase'; 
+
+
 import ProCard from "./ProCard";
 import EventCard from "./EventCard";
 import Masonry from 'react-masonry-css';
@@ -46,14 +46,7 @@ function ArtProfile() {
 
   useEffect(() => {
     if (user) {
-      const eventsQuery = query(
-        collection(db, "add event"),
-        where("organizer", "==", user.id)
-      );
-      const postsQuery = query(
-        collection(db, "add product"),
-        where("ownerID", "==", user.id)
-      );
+  
       const eventsQuery = query(collection(db, "add event"), where("organizer", "==", user.id));
       const postsQuery = query(collection(db, "add product"), where("ownerID", "==", user.id));
       const reviewsQuery = query(collection(db, "userReviews"), where("userID", "==", user.id));
@@ -108,29 +101,21 @@ function ArtProfile() {
     <div className="min-h-screen bg-gray-100">
       {user ? (
         <div className="mx-auto bg-white shadow-lg rounded-lg overflow-hidden pt-44">
-          <div className="relative"></div>
-
-          <div className="p-20">
-            <div className="relative">
-              <div className="absolute -top-40 left-20">
-                <img
-                  src={
-                    user.profilePic ||
-                    "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"
-                  }
-                  alt="Profile"
-                  className="w-80 h-80 rounded-full object-cover border-4 border-white shadow-lg"
-                />
-              </div>
-          <div className="relative p-20">
+          {/* صورة الملف الشخصي */}
+          <div className="relative">
             <div className="absolute -top-40 left-20">
               <img
-                src={user.profilePic || "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"}
+                src={
+                  user.profilePic ||
+                  "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"
+                }
                 alt="Profile"
                 className="w-80 h-80 rounded-full object-cover border-4 border-white shadow-lg"
               />
             </div>
-
+          </div>
+  
+          <div className="p-20">
             <div className="ml-96 pl-16">
               <h1 className="text-2xl font-bold text-gray-800 pb-4">
                 {user.firstname} {user.lastname}
@@ -140,7 +125,7 @@ function ArtProfile() {
               <p className="text-gray-600 pb-4">{user.about}</p>
             </div>
           </div>
-
+  
           <div className="mt-4 px-4">
             <ul className="flex space-x-4 text-gray-600">
               <li
@@ -150,22 +135,12 @@ function ArtProfile() {
                 Posts
               </li>
               <li
-                className={`cursor-pointer ${
-                  selectedTab === "events"
-                    ? "text-blue-500"
-                    : "hover:text-blue-500"
-                }`}
-                onClick={() => handleTabClick("events")}
+                className={`cursor-pointer ${selectedTab === 'events' ? 'text-blue-500' : 'hover:text-blue-500'}`}
+                onClick={() => handleTabClick('events')}
               >
                 Events
               </li>
               <li
-                className={`cursor-pointer ${
-                  selectedTab === "posts"
-                    ? "text-blue-500"
-                    : "hover:text-blue-500"
-                }`}
-                onClick={() => handleTabClick("posts")}
                 className={`cursor-pointer ${selectedTab === 'reviews' ? 'text-blue-500' : 'hover:text-blue-500'}`}
                 onClick={() => handleTabClick('reviews')}
               >
@@ -173,9 +148,9 @@ function ArtProfile() {
               </li>
             </ul>
           </div>
-
+  
           <div className="p-4">
-            {selectedTab === "events" && (
+            {selectedTab === 'events' && (
               <div>
                 {eventsData.length > 0 ? (
                   eventsData.map((item) => (
@@ -186,9 +161,7 @@ function ArtProfile() {
                 )}
               </div>
             )}
-
-            {selectedTab === "posts" && (
-              <div>
+  
             {selectedTab === 'posts' && (
               <div className="flex flex-wrap">
                 {postsData.length > 0 ? (
@@ -215,40 +188,36 @@ function ArtProfile() {
                 )}
               </div>
             )}
-
+  
             {selectedTab === 'reviews' && (
               <div>
                 {reviewsData.length > 0 ? (
                   <ul>
                     {reviewsData.map((review) => (
                       <li key={review.id} className="border-b pb-2 mb-2">
-                      
-                        <p>
-  Created At: { review.createdAt.toDate().toLocaleString()}
-</p>                        <p>{review.reviewText}</p>
-                        
+                        <p>Created At: {review.createdAt.toDate().toLocaleString()}</p>
+                        <p>{review.reviewText}</p>
                       </li>
                     ))}
                   </ul>
                 ) : (
                   <p>No reviews available</p>
                 )}
-
-                  <div className="mt-4">
-                    <textarea
-                      value={newReview}
-                      onChange={(e) => setNewReview(e.target.value)}
-                      className="w-full p-2 border rounded"
-                      placeholder="Write a review..."
-                    />
-                    <button
-                      onClick={handleAddReview}
-                      className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
-                    >
-                      Add Review
-                    </button>
-                  </div>
-              
+  
+                <div className="mt-4">
+                  <textarea
+                    value={newReview}
+                    onChange={(e) => setNewReview(e.target.value)}
+                    className="w-full p-2 border rounded"
+                    placeholder="Write a review..."
+                  />
+                  <button
+                    onClick={handleAddReview}
+                    className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
+                  >
+                    Add Review
+                  </button>
+                </div>
               </div>
             )}
           </div>
@@ -256,11 +225,7 @@ function ArtProfile() {
       ) : (
         <p>No user data available</p>
       )}
-
-          {showChat && <div className="p-4">{/* <ChatApp /> */}</div>}
-        </div>
-      ) : (
-        <p>No user data available</p>
+  
       {showChat && (
         <div className="p-4">
           {/* <ChatApp /> */}
@@ -268,6 +233,7 @@ function ArtProfile() {
       )}
     </div>
   );
+  
 }
 
 export default ArtProfile;
