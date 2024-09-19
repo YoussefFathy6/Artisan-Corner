@@ -167,15 +167,13 @@ function Posts() {
             
             <div className="flex justify-between items-center mb-6">
             <div className="col-span-1">
-  {/* زر فتح القائمة */}
   <Button
     className="bg-white text-black my-3 border-2  border-gray-400"
-    onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)} // عكس حالة القائمة عند النقر
+    onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
   >
     Filter Options
   </Button>
 
-  {/* عرض القائمة بناءً على حالة isFilterDropdownOpen */}
   {isFilterDropdownOpen && (
     <div className="mt-2 border border-gray-300 shadow-lg rounded-md p-4 bg-white absolute z-40">
       <Menu

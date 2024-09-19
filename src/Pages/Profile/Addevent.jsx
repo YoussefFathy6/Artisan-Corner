@@ -45,7 +45,7 @@ function Addevent() {
     setOpenModal(false);
 
     try {
-      if (!imgurl || !imgurl2) {
+      if (!imgurl ) {
         throw new Error(
           "Both event and ticket images must be selected for upload."
         );
