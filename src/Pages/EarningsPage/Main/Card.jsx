@@ -10,13 +10,21 @@ import ReactStars from "react-rating-stars-component";
 import { RatingsContext } from "../../../Context/RatingsContext";
 
 import ReviewsContext from "../../../Context/ReviewsContext";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 import db from "../../../Config/firebase";
 import { ToastContainer, toast } from "react-toastify";
 function ProductCard(props) {
   const [openModal, setOpenModal] = useState(false);
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
+  const [user, setUser] = useState();
+  const [artists, setArtists] = useState([]);
   const { saveRating } = useContext(RatingsContext);
   const { productType, setProductType } = useContext(ReviewsContext);
   const ratingChanged = async (newRating) => {
@@ -58,7 +66,24 @@ function ProductCard(props) {
       });
     }
   };
+  useEffect(() => {
+    const q = query(
+      collection(db, "users"),
+      where("accountType", "==", "artist")
+    );
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const artistArr = snapshot.docs.map((doc) => ({
+          ...doc.data(),
+        }));
+        setArtists(artistArr);
+      },
+      []
+    );
 
+    return () => unsubscribe();
+  }, []);
   const [isExpanded, setIsExpanded] = useState(false);
   const nav = useNavigate();
   const toggleDescription = () => {
@@ -76,6 +101,7 @@ function ProductCard(props) {
         style={{ height: "550px" }} // Ensuring card height is consistent
       >
         {/* Image and Title Section */}
+
         <img
           onClick={() => {
             nav("/details", {
@@ -88,12 +114,39 @@ function ProductCard(props) {
                 bobId: props.productID,
               },
             });
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth", // Smooth scrolling
+            });
           }}
           className="w-full h-56 rounded-t-lg cursor-pointer"
           src={props.imgsrc}
           alt={props.productType}
         />
+        <div className="flex gap-4 items-center my-2 pe-2">
+          <img
+            className="rounded-full border-2 w-12 h-12 mx-4 cursor-pointer"
+            src={
+              props.artistImage
+                ? props.artistImage // User's profile picture
+                : "https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png" // Default profile pic
+            }
+            alt="User Profile"
+            onClick={() => {
+              nav("/Artprofile", {
+                state: {
+                  user: { ...props.artistData }, // Use 'artist' directly here
+                },
+              });
 
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth", // Smooth scrolling
+              });
+            }}
+          />
+          <p>{`${props.firstname} ${props.lastname}`}</p>
+        </div>
         <div className="m-3">
           <h5 className=" text-base text-[#3E402D] font-Rosario font-bold tracking-tight dark:text-white">
             {props.productType}

@@ -15,6 +15,7 @@ import Menu from "../Menu/Menu";
 import Loader from "../../../components/Loader";
 
 function Main() {
+  const [artists, setArtists] = useState([]);
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -29,15 +30,35 @@ function Main() {
   const [productsPerPage] = useState(9); // Number of products to display per page
 
   useEffect(() => {
-    let arr;
+    const q = query(
+      collection(db, "users"),
+      where("accountType", "==", "artist")
+    );
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const artistArr = snapshot.docs.map((doc) => ({
+          ...doc.data(),
+        }));
+        setArtists(artistArr);
+      },
+      []
+    );
+
+    return () => unsubscribe();
+  }, []);
+  console.log(artists);
+
+  useEffect(() => {
     const unsubscribe = onSnapshot(
       collection(db, "add product"),
       (snapshot) => {
-        arr = snapshot.docs.map((doc) => {
-          return { ...doc.data(), id: doc.id };
-        });
-        setProducts([...arr]);
-        setFilteredProducts([...arr]); // Initialize with all products
+        const productArr = snapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        setProducts(productArr);
+        setFilteredProducts(productArr); // Initialize with all products
         setLoading(false); // Set loading to false after fetching data
       }
     );
@@ -181,23 +202,40 @@ function Main() {
               </div>
             </div>
             <section className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
-              {currentProducts.map((product) => (
-                <div className="m-5" key={product.id}>
-                  <Card
-                    imgsrc={product.img}
-                    productType={product.title}
-                    title={product.description}
-                    price={product.price}
-                    productID={product.id}
-                    func={() => clickMe(product)}
-                  />
-                </div>
-              ))}
+              {currentProducts.map((product) => {
+                // Find the corresponding artist for each product
+                const artist = artists.find(
+                  (artist) => artist.id === product.ownerID
+                );
+
+                return (
+                  <div className="m-5" key={product.id}>
+                    <Card
+                      imgsrc={product.img}
+                      productType={product.title}
+                      title={product.description}
+                      price={product.price}
+                      productID={product.id}
+                      firstname={artist?.firstname}
+                      lastname={artist?.lastname}
+                      artistImage={artist?.profilePic}
+                      artistData={artist} // Assuming profilePic is the field name
+                      func={() => clickMe(product)}
+                    />
+                  </div>
+                );
+              })}
             </section>
 
             {/* Pagination Controls */}
             <div className="flex justify-center mt-6">
               <Pagination
+                onClick={() => {
+                  window.scrollTo({
+                    top: 0,
+                    behavior: "smooth", // Smooth scrolling
+                  });
+                }}
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={(page) => setCurrentPage(page)}

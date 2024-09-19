@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 // // // eslint-disable-next-line no-undef
 // // const cors = require('cors');
 
@@ -224,4 +225,50 @@
 // // تشغيل السيرفر
 // app.listen(port, () => {
 //   console.log(`Server running on port ${port}`);
+// });
+
+
+
+// const express = require('express');
+// const http = require('http');
+// const { Server } = require('socket.io');
+// const cors = require('cors');
+
+// const app = express();
+// const server = http.createServer(app);
+// const io = new Server(server, {
+//   cors: {
+//     origin: "http://localhost:5174", // Update to match your frontend origin
+//     methods: ["GET", "POST"]
+//   }
+// });
+
+// app.use(cors({
+//   origin: 'http://localhost:5174', // Update to match your frontend origin
+//   methods: ['GET', 'POST']
+// }));
+
+// io.on('connection', (socket) => {
+//   console.log('User connected:', socket.id);
+
+//   socket.on('join room', ({ userId, profileId }) => {
+//     const roomId = [userId, profileId].sort().join('-');
+//     socket.join(roomId);
+//     console.log(`User ${userId} and profile owner ${profileId} joined room ${roomId}`);
+//   });
+
+//   socket.on('chat message', ({ message, roomId }) => {
+//     console.log('Received message:', message); // Log the received message
+//     io.to(roomId).emit('chat message', message);
+//   });
+  
+
+//   socket.on('disconnect', () => {
+//     console.log('User disconnected');
+//   });
+// });
+
+// const PORT = process.env.PORT || 3001;
+// server.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
 // });

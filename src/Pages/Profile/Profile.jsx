@@ -5,7 +5,13 @@ import { Link } from "react-router-dom";
 import Cards2 from "./Cards2";
 import Addproduct from "./Addproduct";
 import db from "../../Config/firebase";
-import { collection, onSnapshot, query, where, getDocs } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import Side from "./Side";
 
 function Profile() {
