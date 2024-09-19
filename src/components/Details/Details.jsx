@@ -31,6 +31,7 @@ function Details() {
   const { saveRating } = useContext(RatingsContext);
   const { productType, setProductType } = useContext(ReviewsContext);
   const [isLoading, setIsLoading] = useState(false);
+  
 
   useEffect(() => {
     setProductType(productType);
