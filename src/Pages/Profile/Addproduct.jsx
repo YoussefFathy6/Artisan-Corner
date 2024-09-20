@@ -57,9 +57,9 @@ function Addproduct() {
   }
 
   function save() {
-    setOpenModal(false);
     const storageRef = ref(storage, `productimg/${imgurl.name}`);
     const uploadTask = uploadBytesResumable(storageRef, imgurl);
+
     uploadTask.on(
       "state_changed",
       (snapshot) => {
@@ -73,7 +73,8 @@ function Addproduct() {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloaduRL) => {
-          if (data1) {
+          // Save regular product if data1 is filled
+          if (data1.title && data1.description) {
             const collectionref = collection(db, "tempProducts");
             addDoc(collectionref, {
               title: data1.title,
@@ -85,7 +86,10 @@ function Addproduct() {
               typeproduct: data1.typeproduct,
               ownerID: localStorage.getItem("id"),
             });
-          } else if (aucData) {
+          }
+
+          // Save auction product if aucData is filled
+          if (aucData.title && aucData.description) {
             const collectionref = collection(db, "auctionProduct");
             addDoc(collectionref, {
               title: aucData.title,
@@ -93,13 +97,17 @@ function Addproduct() {
               initPrice: Number(aucData.initPrice),
               img: downloaduRL,
               ownerID: localStorage.getItem("id"),
-              startDate: aucData.startDate,
-              endDate: aucData.endDate,
+              startDate: aucData.sdate,
+              endDate: aucData.edate,
+              members: [],
+              proposals: [],
             });
           }
         });
       }
     );
+
+    // Reset form data after save
     setdate1({
       title: "",
       description: "",
@@ -115,6 +123,8 @@ function Addproduct() {
       endDate: "",
     });
     setimgurl(null);
+    setOpenModal(false);
+    setOpenAucModal(false);
   }
 
   return (
@@ -335,12 +345,12 @@ function Addproduct() {
               {/* Second Column */}
               <div>
                 <Label
-                  htmlFor="price"
+                  htmlFor="initPrice"
                   value="Initial Price"
                   className="text-xl mb-2"
                 />
                 <TextInput
-                  id="price"
+                  id="initPrice"
                   type="text"
                   required
                   onChange={getAucData}
@@ -349,12 +359,12 @@ function Addproduct() {
               </div>
               <div>
                 <Label
-                  htmlFor="file"
+                  htmlFor="Afile"
                   value="Product Image"
                   className="text-xl mb-2"
                 />
                 <FileInput
-                  id="file"
+                  id="Afile"
                   helperText="Upload a product image."
                   onChange={(e) => setimgurl(e.target.files[0])}
                 />

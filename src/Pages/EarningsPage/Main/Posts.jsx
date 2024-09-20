@@ -10,19 +10,19 @@ import {
   where,
   getDocs,
 } from "firebase/firestore";
-import Masonry from 'react-masonry-css';
+import Masonry from "react-masonry-css";
 import Menu from "../Menu/Menu";
 import Loader from "../../../components/Loader";
 import PostCard from "./PostCard";
 
 function Posts() {
   const breakpointColumnsObj = {
-    default: 4, 
+    default: 4,
     1100: 2,
     700: 1,
     500: 1,
   };
-  
+
   const [artists, setArtists] = useState([]);
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -155,37 +155,31 @@ function Posts() {
 
   return (
     <div className="containerr ">
-
-
       {loading ? (
         <Loader />
       ) : (
         <>
-         
-
           <main className="w-full col-span-8">
-            
             <div className="flex justify-between items-center mb-6">
-            <div className="col-span-1">
-  {/* زر فتح القائمة */}
-  <Button
-    className="bg-white text-black my-3 border-2  border-gray-400"
-    onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)} // عكس حالة القائمة عند النقر
-  >
-    Filter Options
-  </Button>
+              <div className="col-span-1">
+                {/* زر فتح القائمة */}
+                <Button
+                  className="bg-white text-black my-3 border-2  border-gray-400"
+                  onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)} // عكس حالة القائمة عند النقر
+                >
+                  Filter Options
+                </Button>
 
-  {/* عرض القائمة بناءً على حالة isFilterDropdownOpen */}
-  {isFilterDropdownOpen && (
-    <div className="mt-2 border border-gray-300 shadow-lg rounded-md p-4 bg-white absolute z-40">
-      <Menu
-        onFilterChange={handleFilterChange}
-        onPriceChange={handlePriceChange}
-      />
-    </div>
-  )}
-</div>
-
+                {/* عرض القائمة بناءً على حالة isFilterDropdownOpen */}
+                {isFilterDropdownOpen && (
+                  <div className="mt-2 border border-gray-300 shadow-lg rounded-md p-4 bg-white absolute z-40">
+                    <Menu
+                      onFilterChange={handleFilterChange}
+                      onPriceChange={handlePriceChange}
+                    />
+                  </div>
+                )}
+              </div>
               {filteredProducts.length} Items Found
               <div className="flex gap-3">
                 <Dropdown label="Sort By" color="light" dismissOnClick={true}>
@@ -223,6 +217,7 @@ function Posts() {
                       firstname={artist?.firstname}
                       lastname={artist?.lastname}
                       artistImage={artist?.profilePic}
+                      artistData={artist}
                       func={() => clickMe(product)}
                     />
                   );
