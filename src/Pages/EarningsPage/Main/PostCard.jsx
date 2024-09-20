@@ -84,53 +84,56 @@ function PostCard(props) {
           });
         }}
       >
-          <div
-        className="relative overflow-hidden text-white  bg-clip-border rounded-xl bg-blue-gray-500 shadow-blue-gray-500/40 group transition-all duration-300 cursor-pointer"
-        onClick={() => {
-          nav("/details", {
-            state: {
-              imgsrc: props.imgsrc,
-              productType: props.productType,
-              desc: props.title,
-              price: props.price,
-              bobId: props.productID,
-            },
-          });
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-          });
-        }}
-      >
-        <img
-          src={props.imgsrc}
-          alt={props.productType}
-          className="object-cover rounded-xl transition-all duration-300 group-hover:scale-110"
-        />
-        <div className="absolute inset-0 flex flex-col p-10 bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-          <h5 className="text-white text-2xl font-semibold mb-2">
-            {props.productType}
-          </h5>
-          <p className="text-white text-base line-clamp-2 overflow-hidden">
-            {props.title}
-          </p>
-        </div>
-        <div className="absolute inset-x-0 bottom-0 flex  p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-          <div className="flex gap-4 items-center">
-            <img
-              className="rounded-full border-2 w-12 h-12 ml-4"
-              src={
-                props.artistImage
-                  ? props.artistImage
-                  : "https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png"
-              }
-              alt="User Profile"
-            />
-            <p className="text-white">{`${props.firstname} ${props.lastname}`}</p>
+        <div
+          className="relative overflow-hidden text-white  bg-clip-border rounded-xl bg-blue-gray-500 shadow-blue-gray-500/40 group transition-all duration-300 cursor-pointer"
+          onClick={() => {
+            nav("/details", {
+              state: {
+                imgsrc: props.imgsrc,
+                productType: props.productType,
+                desc: props.title,
+                price: props.price,
+                bobId: props.productID,
+              },
+            });
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            });
+          }}
+        >
+          <img
+            src={props.imgsrc}
+            alt={props.productType}
+            className="object-cover rounded-xl transition-all duration-300 group-hover:scale-110"
+          />
+          <div className="absolute inset-0 flex flex-col p-10 bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <h5 className="text-white text-2xl font-semibold mb-2">
+              {props.productType}
+            </h5>
+            <p className="text-white text-base line-clamp-2 overflow-hidden">
+              {props.title}
+            </p>
+          </div>
+          <div className="absolute inset-x-0 bottom-0 flex  p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <div className="flex gap-4 items-center">
+              <img
+                className="rounded-full border-2 w-12 h-12 ml-4"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  nav("/Artprofile"), { state: { user: props.artistData } };
+                }}
+                src={
+                  props.artistImage
+                    ? props.artistImage
+                    : "https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png"
+                }
+                alt="User Profile"
+              />
+              <p className="text-white">{`${props.firstname} ${props.lastname}`}</p>
+            </div>
           </div>
         </div>
-      </div>
-
       </div>
       <div className="flex justify-between items-center  px-3">
         <h5 className="text-[1rem] font-medium">{props.productType} </h5>

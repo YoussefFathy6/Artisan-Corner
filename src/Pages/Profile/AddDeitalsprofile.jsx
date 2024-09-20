@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import {
   Button,
@@ -14,7 +15,8 @@ import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 
 function AddDeitalsprofile() {
   const [data, setData] = useState([]);
-  const [imgurl, setImgUrl] = useState(null);
+  const [imgurl, setImgUrl] = useState(null); // رابط الصورة الجديد أو الملف
+  const [storedImageUrl, setStoredImageUrl] = useState(null); // رابط الصورة المحفوظة مسبقًا
   const [percent, setPercent] = useState(0);
   const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
@@ -28,7 +30,9 @@ function AddDeitalsprofile() {
       if (!querySnapshot.empty) {
         console.log("User found!");
         querySnapshot.forEach((doc) => {
-          setData([doc.data()]);
+          const userData = doc.data();
+          setData([userData]);
+          setStoredImageUrl(userData.profilePic); // تخزين رابط الصورة المحفوظة مسبقًا
           setUserId(doc.id);
         });
       } else {
@@ -45,42 +49,52 @@ function AddDeitalsprofile() {
   }, []);
 
   async function save() {
-    const storageRef = ref(storage, `profileimg/${imgurl.name}`);
-    const uploadTask = uploadBytesResumable(storageRef, imgurl);
+    let downloadURL = storedImageUrl; // افتراضيًا استخدم الصورة المخزنة مسبقًا
 
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const bits = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+    // إذا كان هناك صورة جديدة تم رفعها
+    if (imgurl) {
+      const storageRef = ref(storage, `profileimg/${imgurl.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, imgurl);
+
+      await new Promise((resolve, reject) => {
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const bits = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+            setPercent(bits);
+          },
+          (error) => {
+            alert(error);
+            reject(error);
+          },
+          async () => {
+            downloadURL = await getDownloadURL(uploadTask.snapshot.ref); // تحديث رابط الصورة الجديدة
+            resolve();
+          }
         );
-        setPercent(bits);
-      },
-      (error) => {
-        alert(error);
-      },
-      async () => {
-        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-        if (userId) {
-          const itemRef = doc(db, "users", userId);
-          await updateDoc(itemRef, {
-            firstname: data[0].firstname, 
-            about: data[0].about,
-            profilePic: downloadURL,
-            lastname: data[0].lastname,
-            email: data[0].email,
-            accountType: data[0].accountType,
-            facebook: data[0].facebook,
-            instgram: data[0].instgram,
-            linkedin: data[0].linkedin,
-          });
-          console.log(data);
-            navigate("/profile", { state: { data } }); 
-        } else {
-          console.error("User ID is not defined.");
-        }
-      }
-    );
+      });
+    }
+
+    if (userId) {
+      const itemRef = doc(db, "users", userId);
+      await updateDoc(itemRef, {
+        firstname: data[0].firstname, 
+        about: data[0].about,
+        profilePic: downloadURL,
+        lastname: data[0].lastname,
+        email: data[0].email,
+        accountType: data[0].accountType,
+        facebook: data[0].facebook,
+        instgram: data[0].instgram,
+        linkedin: data[0].linkedin,
+      });
+      console.log(data);
+      navigate("/profile", { state: { data } }); 
+    } else {
+      console.error("User ID is not defined.");
+    }
   }
 
   return (
@@ -91,6 +105,7 @@ function AddDeitalsprofile() {
           return (
             <div className="m-20" key={index}>
               <div className="flex justify-around gap-7">
+                <div className="w-1/3">
                 <div className="w-1/3">
                   <div>
                     <div className="mb-2 block">
@@ -110,7 +125,8 @@ function AddDeitalsprofile() {
                     </div>
                     <Textarea id="aboutyou" required rows={4} value={item.about} onChange={(e) => setData([{ ...item, about: e.target.value }])} />
                   </div>
-                  <div className="mt-6">
+                </div>
+                <div className="mt-6">
                     <div className="mb-2 block">
                       <Label htmlFor="email" value="FaceBook" />
                     </div>
@@ -128,6 +144,10 @@ function AddDeitalsprofile() {
                     <div className="mb-2 block">
                       <Label htmlFor="profileimg" value="Profile Img" />
                     </div>
+                  
+                    {storedImageUrl && (
+                      <img src={storedImageUrl} alt="Profile" className="mb-4 w-28" />
+                    )}
                     <FileInput id="profileimg" onChange={(e) => setImgUrl(e.target.files[0])} />
                   </div>
                   <div className="mt-6">

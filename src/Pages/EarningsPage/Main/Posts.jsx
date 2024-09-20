@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { Dropdown, Button, Pagination } from "flowbite-react";
 import db from "../../../Config/firebase";
 import "./style.css";
@@ -10,19 +10,19 @@ import {
   where,
   getDocs,
 } from "firebase/firestore";
-import Masonry from 'react-masonry-css';
+import Masonry from "react-masonry-css";
 import Menu from "../Menu/Menu";
 import Loader from "../../../components/Loader";
 import PostCard from "./PostCard";
 
 function Posts() {
   const breakpointColumnsObj = {
-    default: 4, 
+    default: 4,
     1100: 2,
     700: 1,
     500: 1,
   };
-  
+
   const [artists, setArtists] = useState([]);
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -155,17 +155,19 @@ function Posts() {
 
   return (
     <div className="containerr ">
-
-
       {loading ? (
         <Loader />
       ) : (
         <>
-         
-
           <main className="w-full col-span-8">
-            
             <div className="flex justify-between items-center mb-6">
+              <div className="col-span-1">
+                <Button
+                  className="bg-white text-black my-3 border-2  border-gray-400"
+                  onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)} 
+                >
+                  Filter Options
+                </Button>
             <div className="col-span-1">
   <Button
     className="bg-white text-black my-3 border-2  border-gray-400"
@@ -174,6 +176,15 @@ function Posts() {
     Filter Options
   </Button>
 
+                {isFilterDropdownOpen && (
+                  <div className="mt-2 border border-gray-300 shadow-lg rounded-md p-4 bg-white absolute z-40">
+                    <Menu
+                      onFilterChange={handleFilterChange}
+                      onPriceChange={handlePriceChange}
+                    />
+                  </div>
+                )}
+              </div>
   {isFilterDropdownOpen && (
     <div className="mt-2 border border-gray-300 shadow-lg rounded-md p-4 bg-white absolute z-40">
       <Menu
@@ -221,6 +232,7 @@ function Posts() {
                       firstname={artist?.firstname}
                       lastname={artist?.lastname}
                       artistImage={artist?.profilePic}
+                      artistData={artist}
                       func={() => clickMe(product)}
                     />
                   );

@@ -14,6 +14,7 @@ import {
   getDocs,
 } from "firebase/firestore";
 import Side from "./Side";
+import Counter from "./Counter";
 
 function Profile() {
   const [products, setProducts] = useState([]);
@@ -103,7 +104,9 @@ function Profile() {
             </div>
           </div>
         ))}
-
+         {data.length > 0 && data[0].accountType !== "Customer" && (
+      <Counter/>
+         )}
         {data.length > 0 && data[0].accountType !== "Customer" && (
           <>
             <div >
