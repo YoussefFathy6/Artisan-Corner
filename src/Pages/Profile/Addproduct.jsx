@@ -73,7 +73,6 @@ function Addproduct() {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloaduRL) => {
-          // Save regular product if data1 is filled
           if (data1.title && data1.description) {
             const collectionref = collection(db, "tempProducts");
             addDoc(collectionref, {
@@ -88,7 +87,6 @@ function Addproduct() {
             });
           }
 
-          // Save auction product if aucData is filled
           if (aucData.title && aucData.description) {
             const collectionref = collection(db, "auctionProduct");
             addDoc(collectionref, {

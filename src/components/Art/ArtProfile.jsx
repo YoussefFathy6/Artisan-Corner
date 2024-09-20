@@ -5,7 +5,7 @@ import db from "../../Config/firebase";
 import ProCard from "./ProCard";
 import EventCard from "./EventCard";
 import Masonry from 'react-masonry-css';
-import ReactStars from "react-rating-stars-component"; // استيراد مكتبة التقييم بالنجوم
+import ReactStars from "react-rating-stars-component";
 import "./Users.modules.css";
 
 function ArtProfile() {
@@ -18,7 +18,7 @@ function ArtProfile() {
 
   const location = useLocation();
   const [user, setUser] = useState(location.state?.user || null);
-  const [selectedTab, setSelectedTab] = useState("events");
+  const [selectedTab, setSelectedTab] = useState("posts");
   const [eventsData, setEventsData] = useState([]);
   const [postsData, setPostsData] = useState([]);
   const [reviewsData, setReviewsData] = useState([]);
@@ -92,56 +92,66 @@ function ArtProfile() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen justify-center">
       {user ? (
-        <div className="mx-auto bg-white shadow-lg rounded-lg overflow-hidden pt-44">
-          <div className="relative">
-            <div className="absolute -top-40 left-20">
-              <img
-                src={user.profilePic || "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"}
-                alt="Profile"
-                className="w-80 h-80 rounded-full object-cover border-4 border-white shadow-lg"
-              />
+        <div>
+<div
+  className=" shadow-xl rounded-lg overflow-hidden pt-28 "
+  style={{
+    backgroundImage: "url('https://i.pinimg.com/564x/c7/63/26/c763269cb2ca4e07982501d6085e0460.jpg')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  }}
+>            <div className="justify-center items-center m-auto flex">
+              <div className="justify-center items-center m-auto flex">
+                <div>
+                  <img
+                    src={user.profilePic || "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"}
+                    alt="Profile"
+                    className="w-96 h-96 rounded-full object-cover border-4 border-orange-950 shadow-lg"
+                  />
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div className="p-20">
-            <div className="ml-96 pl-16">
-              <h1 className="text-2xl font-bold text-gray-800 pb-4">
-                {user.firstname} {user.lastname}
-              </h1>
-              <p className="text-gray-600 pb-4">{user.email}</p>
-              <p className="text-gray-600 pb-4">{user.accountType}</p>
-              <p className="text-gray-600 pb-4">{user.about}</p>
-            </div>
-          </div>
-
-          <div className="mt-4 px-4">
-            <ul className="flex space-x-4 text-gray-600">
-              <li
-                className={`cursor-pointer ${selectedTab === 'posts' ? 'text-blue-500' : 'hover:text-blue-500'}`}
-                onClick={() => setSelectedTab('posts')}
-              >
-                Posts
-              </li>
-              <li
-                className={`cursor-pointer ${selectedTab === 'events' ? 'text-blue-500' : 'hover:text-blue-500'}`}
-                onClick={() => setSelectedTab('events')}
-              >
-                Events
-              </li>
-              <li
-                className={`cursor-pointer ${selectedTab === 'reviews' ? 'text-blue-500' : 'hover:text-blue-500'}`}
-                onClick={() => setSelectedTab('reviews')}
-              >
-                Reviews
-              </li>
-            </ul>
-          </div>
-
-          <div className="p-4">
-            {selectedTab === 'events' && (
+            <div className="justify-center items-center text-center flex pt-7">
               <div>
+                <h1 className="text-3xl font-bold text-gray-800 pb-4">
+                  {user.firstname} {user.lastname}
+                </h1>
+                <p className="text-gray-600 pb-4 text-xl">{user.email}</p>
+                <p className="text-gray-600 pb-4 text-xl">{user.accountType}</p>
+                <p className="text-gray-600 pb-4 text-xl">{user.about}</p>
+              </div>
+            </div>
+
+            <div className="mt-4 px-4">
+              <ul className="flex space-x-4 text-gray-600 text-center justify-center p-8">
+                <li
+                  className={`cursor-pointer ${selectedTab === 'posts' ? 'text-red-900 text-xl font-semibold' : 'hover:text-red-950 text-xl font-semibold'}`}
+                  onClick={() => setSelectedTab('posts')}
+                >
+                  Posts
+                </li>
+                <li
+                  className={`cursor-pointer ${selectedTab === 'events' ? 'text-red-900 text-xl font-semibold' : 'hover:text-red-950 text-xl font-semibold'}`}
+                  onClick={() => setSelectedTab('events')}
+                >
+                  Events
+                </li>
+                <li
+                  className={`cursor-pointer ${selectedTab === 'reviews' ? 'text-red-900 text-xl font-semibold' : 'hover:text-red-950 text-xl font-semibold'}`}
+                  onClick={() => setSelectedTab('reviews')}
+                >
+                  Reviews
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="p-4 flex">
+            {selectedTab === 'events' && (
+              <div className="flex">
                 {eventsData.length > 0 ? (
                   eventsData.map((item) => <EventCard data={item} key={item.id} />)
                 ) : (
@@ -182,7 +192,7 @@ function ArtProfile() {
                 {reviewsData.length > 0 ? (
                   <ul>
                     {reviewsData.map((review) => (
-                      <li key={review.id} className=" pb-2 mb-2 pl-9 pt-9   w-80">
+                      <li key={review.id} className="pb-2 mb-2 pl-9 pt-9 w-80">
                         <div className="flex items-center justify-between">
                           <h3 className="text-lg font-bold">{review.userName}</h3>
                           <ReactStars
@@ -202,14 +212,14 @@ function ArtProfile() {
                   <p>No reviews available</p>
                 )}
 
-                <div className="flex justify-center m-auto items-center mt-6">
+                <div className=" justify-center m-auto items-center mt-6  w-full">
                   <textarea
                     value={newReview}
                     onChange={(e) => setNewReview(e.target.value)}
-                    className="w-80 border rounded p-2"
+                    className="w-96 border rounded p-2"
                     placeholder="Write a review..."
                   />
-                </div>
+           
 
                 <div className="flex justify-center mt-4">
                   <ReactStars
@@ -227,7 +237,7 @@ function ArtProfile() {
                 >
                   Add Review
                 </button>
-              </div>
+              </div>     </div>
             )}
           </div>
         </div>
