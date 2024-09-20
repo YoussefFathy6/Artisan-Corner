@@ -1,17 +1,16 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { collection, query, where, onSnapshot ,addDoc } from "firebase/firestore";
+import { collection, query, where, onSnapshot, addDoc, getDoc, doc } from "firebase/firestore";
 import db from "../../Config/firebase";
-
-
 import ProCard from "./ProCard";
 import EventCard from "./EventCard";
 import Masonry from 'react-masonry-css';
-import "./Users.modules.css"
+import ReactStars from "react-rating-stars-component"; // استيراد مكتبة التقييم بالنجوم
+import "./Users.modules.css";
 
 function ArtProfile() {
   const breakpointColumnsObj = {
-    default: 4, 
+    default: 4,
     1100: 2,
     700: 1,
     500: 1,
@@ -19,34 +18,22 @@ function ArtProfile() {
 
   const location = useLocation();
   const [user, setUser] = useState(location.state?.user || null);
-  const [currentUser, setCurrentUser] = useState(null);
-  const [showChat, setShowChat] = useState(false);
   const [selectedTab, setSelectedTab] = useState("events");
   const [eventsData, setEventsData] = useState([]);
   const [postsData, setPostsData] = useState([]);
-  console.log(user);
   const [reviewsData, setReviewsData] = useState([]);
   const [newReview, setNewReview] = useState("");
+  const [newRating, setNewRating] = useState(0);
 
   useEffect(() => {
-    if (!user) {
-      const storedUser = localStorage.getItem("user");
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      }
-    }
-  }, [user]);
-
-  useEffect(() => {
-    const storedCurrentUser = localStorage.getItem('currentUser');
-    if (storedCurrentUser) {
-      setCurrentUser(JSON.parse(storedCurrentUser));
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
     }
   }, []);
 
   useEffect(() => {
     if (user) {
-  
       const eventsQuery = query(collection(db, "add event"), where("organizer", "==", user.id));
       const postsQuery = query(collection(db, "add product"), where("ownerID", "==", user.id));
       const reviewsQuery = query(collection(db, "userReviews"), where("userID", "==", user.id));
@@ -67,12 +54,18 @@ function ArtProfile() {
         setPostsData(posts);
       });
 
-      const unsubscribeReviews = onSnapshot(reviewsQuery, (snapshot) => {
-        const reviews = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
+      const unsubscribeReviews = onSnapshot(reviewsQuery, async (snapshot) => {
+        const reviewsList = await Promise.all(snapshot.docs.map(async (reviewDoc) => {
+          const reviewData = reviewDoc.data();
+          const userDoc = await getDoc(doc(db, "users", reviewData.userID));
+          const userName = userDoc.exists() ? userDoc.data().name : "Unknown User";
+          return {
+            id: reviewDoc.id,
+            ...reviewData,
+            userName,
+          };
         }));
-        setReviewsData(reviews);
+        setReviewsData(reviewsList);
       });
 
       return () => {
@@ -83,38 +76,35 @@ function ArtProfile() {
     }
   }, [user]);
 
-  const handleTabClick = (tab) => {
-    setSelectedTab(tab);
+  const handleRatingChange = (newRating) => {
+    setNewRating(newRating);
   };
 
   const handleAddReview = async () => {
-      await addDoc(collection(db, "userReviews"), {
-        userID: user.id, 
-        reviewText: newReview,
-        createdAt: new Date(),
-  
-  })
-  setNewReview(""); 
+    await addDoc(collection(db, "userReviews"), {
+      userID: user.id,
+      reviewText: newReview,
+      rating: newRating,
+      createdAt: new Date(),
+    });
+    setNewReview("");
+    setNewRating(0);
   };
 
   return (
     <div className="min-h-screen bg-gray-100">
       {user ? (
         <div className="mx-auto bg-white shadow-lg rounded-lg overflow-hidden pt-44">
-          {/* صورة الملف الشخصي */}
           <div className="relative">
             <div className="absolute -top-40 left-20">
               <img
-                src={
-                  user.profilePic ||
-                  "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"
-                }
+                src={user.profilePic || "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"}
                 alt="Profile"
                 className="w-80 h-80 rounded-full object-cover border-4 border-white shadow-lg"
               />
             </div>
           </div>
-  
+
           <div className="p-20">
             <div className="ml-96 pl-16">
               <h1 className="text-2xl font-bold text-gray-800 pb-4">
@@ -125,43 +115,41 @@ function ArtProfile() {
               <p className="text-gray-600 pb-4">{user.about}</p>
             </div>
           </div>
-  
+
           <div className="mt-4 px-4">
             <ul className="flex space-x-4 text-gray-600">
               <li
                 className={`cursor-pointer ${selectedTab === 'posts' ? 'text-blue-500' : 'hover:text-blue-500'}`}
-                onClick={() => handleTabClick('posts')}
+                onClick={() => setSelectedTab('posts')}
               >
                 Posts
               </li>
               <li
                 className={`cursor-pointer ${selectedTab === 'events' ? 'text-blue-500' : 'hover:text-blue-500'}`}
-                onClick={() => handleTabClick('events')}
+                onClick={() => setSelectedTab('events')}
               >
                 Events
               </li>
               <li
                 className={`cursor-pointer ${selectedTab === 'reviews' ? 'text-blue-500' : 'hover:text-blue-500'}`}
-                onClick={() => handleTabClick('reviews')}
+                onClick={() => setSelectedTab('reviews')}
               >
                 Reviews
               </li>
             </ul>
           </div>
-  
+
           <div className="p-4">
             {selectedTab === 'events' && (
               <div>
                 {eventsData.length > 0 ? (
-                  eventsData.map((item) => (
-                    <EventCard data={item} key={item.id} />
-                  ))
+                  eventsData.map((item) => <EventCard data={item} key={item.id} />)
                 ) : (
                   <p>No events available</p>
                 )}
               </div>
             )}
-  
+
             {selectedTab === 'posts' && (
               <div className="flex flex-wrap">
                 {postsData.length > 0 ? (
@@ -171,8 +159,8 @@ function ArtProfile() {
                     columnClassName="my-masonry-grid_column"
                   >
                     {postsData.map((item) => (
-                      <ProCard 
-                        key={item.id}  
+                      <ProCard
+                        key={item.id}
                         data={{
                           imgsrc: item.img,
                           productType: item.title,
@@ -188,36 +176,57 @@ function ArtProfile() {
                 )}
               </div>
             )}
-  
+
             {selectedTab === 'reviews' && (
               <div>
                 {reviewsData.length > 0 ? (
                   <ul>
                     {reviewsData.map((review) => (
-                      <li key={review.id} className="border-b pb-2 mb-2">
-                        <p>Created At: {review.createdAt.toDate().toLocaleString()}</p>
-                        <p>{review.reviewText}</p>
+                      <li key={review.id} className=" pb-2 mb-2 pl-9 pt-9   w-80">
+                        <div className="flex items-center justify-between">
+                          <h3 className="text-lg font-bold">{review.userName}</h3>
+                          <ReactStars
+                            count={5}
+                            value={review.rating}
+                            size={24}
+                            activeColor="#ffd700"
+                            edit={false} 
+                          />
+                        </div>
+                        <p className="text-sm text-gray-500">Created At: {review.createdAt.toDate().toLocaleString()}</p>
+                        <p className="text-gray-700 pt-5">{review.reviewText}</p>
                       </li>
                     ))}
                   </ul>
                 ) : (
                   <p>No reviews available</p>
                 )}
-  
-                <div className="mt-4">
+
+                <div className="flex justify-center m-auto items-center mt-6">
                   <textarea
                     value={newReview}
                     onChange={(e) => setNewReview(e.target.value)}
-                    className="w-full p-2 border rounded"
+                    className="w-80 border rounded p-2"
                     placeholder="Write a review..."
                   />
-                  <button
-                    onClick={handleAddReview}
-                    className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
-                  >
-                    Add Review
-                  </button>
                 </div>
+
+                <div className="flex justify-center mt-4">
+                  <ReactStars
+                    count={5}
+                    value={newRating}
+                    onChange={handleRatingChange}
+                    size={30}
+                    activeColor="#ffd700"
+                  />
+                </div>
+
+                <button
+                  onClick={handleAddReview}
+                  className="bg-red-800 text-white px-4 py-2 rounded justify-center flex m-auto mt-4"
+                >
+                  Add Review
+                </button>
               </div>
             )}
           </div>
@@ -225,15 +234,8 @@ function ArtProfile() {
       ) : (
         <p>No user data available</p>
       )}
-  
-      {showChat && (
-        <div className="p-4">
-          {/* <ChatApp /> */}
-        </div>
-      )}
     </div>
   );
-  
 }
 
 export default ArtProfile;
