@@ -158,14 +158,19 @@ function Addproduct() {
       </div>
       <Modal
         show={openModal}
-        size="5xl"
-        className="bg-gray-300"
+        size="6xl"
         onClose={onCloseModal}
         popup
       >
         <Modal.Header />
-        <Modal.Body>
-          <div className="space-y-6 m-10 bg-orange-200 p-10">
+        <Modal.Body
+         style={{
+          backgroundImage: `url(${"https://i.pinimg.com/564x/29/c9/9f/29c99f2d3d1c2058959052d88e69c0ab.jpg"})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+        >
+          <div className="space-y-6 m-10 p-10">
             <h3 className="text-4xl font-medium text-gray-900 dark:text-white">
               Add Product
             </h3>
@@ -279,14 +284,19 @@ function Addproduct() {
       </Modal>
       <Modal
         show={openAucModal}
-        size="5xl"
-        className="bg-gray-300"
+        size="6xl"
         onClose={onCloseModal}
         popup
       >
         <Modal.Header />
-        <Modal.Body>
-          <div className="space-y-6 m-10 bg-orange-200 p-10">
+        <Modal.Body
+         style={{
+          backgroundImage: `url(${"https://i.pinimg.com/564x/29/c9/9f/29c99f2d3d1c2058959052d88e69c0ab.jpg"})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+        >
+          <div className="space-y-6 m-10 p-10">
             <h3 className="text-4xl font-medium text-gray-900 dark:text-white">
               Add Auction Product
             </h3>

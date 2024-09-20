@@ -13,7 +13,7 @@ export default function Users() {
       try {
         //    'accountType', '==', 'artist'
 
-        const q = query(collection(db, 'users'), where('accountType', '==', 'artist'));
+        const q = query(collection(db, 'users'), where('accountType', '==', 'Artist'));
         const querySnapshot = await getDocs(q);
         const usersList = [];
         querySnapshot.forEach((doc) => {
