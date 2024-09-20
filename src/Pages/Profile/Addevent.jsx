@@ -6,6 +6,8 @@ import {
   Modal,
   TextInput,
   FileInput,
+  Dropdown,
+  DropdownItem,
 } from "flowbite-react";
 import db from "../../Config/firebase";
 import { collection, addDoc } from "firebase/firestore";
@@ -13,36 +15,62 @@ import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../Config/firebase";
 
 function Addevent() {
-  const [openModal, setOpenModal] = useState(false);
-  const [data1, setdate1] = useState({
+  const [openOfflineModal, setOpenOfflineModal] = useState(false);
+  const [openOnlineModal, setOpenOnlineModal] = useState(false);
+  const [offline, setoffline] = useState({
     name: "",
     date: "",
     address: "",
     description: "",
     time: "",
     pricetacket: "",
-    eventtype: "",
     ticketquantity: 0,
+  });
+  const [online, setonline] = useState({
+    name: "",
+    date: "",
+    description: "",
+    time: "",
+    price: "",
   });
   const [imgurl, setimgurl] = useState(null);
   const [imgurl2, setimgurl2] = useState(null);
 
-  const getdate = (e) => {
+  const getdateoff = (e) => {
+    if (!e || !e.target) {
+      console.error("Event or target is undefined");
+      return;
+    }
+
     const { id, name, value, type } = e.target;
 
-    setdate1((prevData) => ({
+    setoffline((prevData) => ({
       ...prevData,
       [name || id]: type === "number" ? Number(value) : value,
     }));
-    console.log(data1);
+  };
+
+  const getdateon = (e) => {
+    if (!e || !e.target) {
+      console.error("Event or target is undefined");
+      return;
+    }
+
+    const { id, name, value, type } = e.target;
+
+    setonline((prevData) => ({
+      ...prevData,
+      [name || id]: type === "number" ? Number(value) : value,
+    }));
   };
 
   function onCloseModal() {
-    setOpenModal(false);
+    setOpenOfflineModal(false);
+    setOpenOnlineModal(false);
   }
 
-  async function save() {
-    setOpenModal(false);
+  async function saveoff() {
+    setOpenOfflineModal(false);
 
     try {
       if (!imgurl ) {
@@ -65,24 +93,22 @@ function Addevent() {
       const downloadURL1 = await getDownloadURL(snapshot1.ref);
       const downloadURL2 = await getDownloadURL(snapshot2.ref);
 
-      const collectionRef = collection(db, "tempEvents");
+      const collectionRef = collection(db, "add event");
       await addDoc(collectionRef, {
-        ...data1,
+        ...offline,
         eventImg: downloadURL1,
         ticketImg: downloadURL2,
         ownerID: localStorage.getItem("id"),
       });
 
-      setdate1({
+      setoffline({
         name: "",
         date: "",
         address: "",
         description: "",
         time: "",
         pricetacket: "",
-        eventtype: "",
         ticketquantity: 0,
-        
       });
       setimgurl(null);
       setimgurl2(null);
@@ -93,25 +119,96 @@ function Addevent() {
     }
   }
 
+  async function saveon() {
+    setOpenOnlineModal(false);
+
+    try {
+      if (!imgurl) {
+        throw new Error("Event image must be selected for upload.");
+      }
+
+      const eventImgRef = ref(storage, `eventimg/${imgurl.name}`);
+      const uploadTask = uploadBytesResumable(eventImgRef, imgurl);
+
+      await uploadTask;
+
+      const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+
+      const collectionRef = collection(db, "online event");
+      await addDoc(collectionRef, {
+        ...online,
+        eventImg: downloadURL,
+        ownerID: localStorage.getItem("id"),
+      });
+
+      setonline({
+        name: "",
+        date: "",
+        description: "",
+        time: "",
+        price: "",
+      });
+      setimgurl(null);
+
+      alert("Online event saved successfully!");
+    } catch (error) {
+      alert("Error: " + error.message);
+    }
+  }
+
   return (
     <>
-      <div class="w-auto h-auto">
+      <div className="w-auto h-auto">
         <div className="mr-36 mt-4">
-          <div class=" h-full p-3 bg-orange-950 text-orange-200 shadow rounded-full">
-            <div class="relative ">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor"    onClick={() => setOpenModal(true)}>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-              </svg>
-            </div>
-          </div>
+          <Dropdown
+            renderTrigger={() => (
+              <div className="h-full p-3 bg-orange-950 text-orange-200 shadow rounded-full cursor-pointer">
+                <div className="relative">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-10 w-16"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                    />
+                  </svg>
+                </div>
+              </div>
+            )}
+          >
+            <DropdownItem>
+              <button onClick={() => setOpenOfflineModal(true)}>
+                Add Offline Event
+              </button>
+            </DropdownItem>
+            <DropdownItem>
+              <button onClick={() => setOpenOnlineModal(true)}>
+                Add Online Event
+              </button>
+            </DropdownItem>
+          </Dropdown>
         </div>
       </div>
 
-      <Modal show={openModal} size="7xl" className="bg-gray-300" onClose={onCloseModal} popup>
+      <Modal
+        show={openOfflineModal}
+        size="7xl"
+        className="bg-gray-300"
+        onClose={onCloseModal}
+        popup
+      >
         <Modal.Header />
         <Modal.Body>
           <div className="space-y-6 m-10 bg-orange-200 p-10">
-            <h3 className="text-4xl font-medium text-gray-900 dark:text-white">Add Event</h3>
+            <h3 className="text-4xl font-medium text-gray-900 dark:text-white">
+              Add Event
+            </h3>
 
             <div className="grid grid-cols-2 gap-6">
               {/* First Column */}
@@ -123,8 +220,8 @@ function Addevent() {
                 />
                 <TextInput
                   id="name"
-                  value={data1.name}
-                  onChange={getdate}
+                  value={offline.name}
+                  onChange={getdateoff}
                   required
                 />
 
@@ -136,8 +233,8 @@ function Addevent() {
                 <TextInput
                   id="date"
                   type="date"
-                  value={data1.date}
-                  onChange={getdate}
+                  value={offline.date}
+                  onChange={getdateoff}
                 />
 
                 <Label
@@ -148,8 +245,8 @@ function Addevent() {
                 <TextInput
                   id="time"
                   type="time"
-                  value={data1.time}
-                  onChange={getdate}
+                  value={offline.time}
+                  onChange={getdateoff}
                 />
 
                 <Label
@@ -159,8 +256,8 @@ function Addevent() {
                 />
                 <TextInput
                   id="address"
-                  value={data1.address}
-                  onChange={getdate}
+                  value={offline.address}
+                  onChange={getdateoff}
                 />
 
                 <Label
@@ -171,39 +268,13 @@ function Addevent() {
                 <Textarea
                   id="description"
                   rows={4}
-                  value={data1.description}
-                  onChange={getdate}
+                  value={offline.description}
+                  onChange={getdateoff}
                 />
               </div>
 
               {/* Second Column */}
-              <div>
-                <Label htmlFor="eventtype" value="Event Type" className="text-xl mt-10 block" />
-                <div className="flex gap-4">
-                  <label className="flex items-center">
-                    <input
-                      type="radio"
-                      name="eventtype"
-                      value="online"
-                      checked={data1.eventtype === "online"}
-                      onChange={getdate}
-                      className="w-4 h-4 text-blue-600"
-                    />
-                    <span className="ml-2 text-lg">Online</span>
-                  </label>
-                  <label className="flex items-center">
-                    <input
-                      type="radio"
-                      name="eventtype"
-                      value="offline"
-                      checked={data1.eventtype === "offline"}
-                      onChange={getdate}
-                      className="w-4 h-4 text-blue-600"
-                    />
-                    <span className="ml-2 text-lg">Offline</span>
-                  </label>
-                </div>
-
+              <div className="mt-16">
                 <Label
                   htmlFor="file"
                   value="Event Img"
@@ -231,8 +302,8 @@ function Addevent() {
                 />
                 <TextInput
                   id="pricetacket"
-                  value={data1.pricetacket}
-                  onChange={getdate}
+                  value={offline.pricetacket}
+                  onChange={getdateoff}
                   required
                 />
 
@@ -244,16 +315,122 @@ function Addevent() {
                 <TextInput
                   id="ticketquantity"
                   type="number"
-                  value={data1.ticketquantity}
-                  onChange={getdate}
+                  value={offline.ticketquantity}
+                  onChange={getdateoff}
                   required
                 />
               </div>
             </div>
 
             <div className="flex justify-center space-x-4">
-              <Button onClick={save} className="bot2">Done</Button>
-              <Button onClick={onCloseModal} className="bot2">Cancel</Button>
+              <Button onClick={saveoff} className="bot2">
+                Done
+              </Button>
+              <Button onClick={onCloseModal} className="bot2">
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={openOnlineModal}
+        size="7xl"
+        className="bg-gray-300"
+        onClose={onCloseModal}
+        popup
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="space-y-6 m-10 bg-orange-200 p-10">
+            <h3 className="text-4xl font-medium text-gray-900 dark:text-white">
+              Add Event
+            </h3>
+
+            <div className="grid grid-cols-2 gap-6">
+              {/* First Column */}
+              <div>
+                <Label
+                  htmlFor="name"
+                  value="Event Name"
+                  className="text-xl mb-2 block"
+                />
+                <TextInput
+                  id="name"
+                  value={online.name}
+                  onChange={getdateon}
+                  required
+                />
+
+                <Label
+                  htmlFor="date"
+                  value="Event Date"
+                  className="text-xl mb-2 block"
+                />
+                <TextInput
+                  id="date"
+                  type="date"
+                  value={online.date}
+                  onChange={getdateon}
+                />
+
+                <Label
+                  htmlFor="time"
+                  value="Event Time"
+                  className="text-xl mb-2 block"
+                />
+                <TextInput
+                  id="time"
+                  type="time"
+                  value={online.time}
+                  onChange={getdateon}
+                />
+                <Label
+                  htmlFor="description"
+                  value="Event Description"
+                  className="text-xl mb-2 block"
+                />
+                <Textarea
+                  id="description"
+                  rows={4}
+                  value={online.description}
+                  onChange={getdateon}
+                />
+              </div>
+
+              {/* Second Column */}
+              <div className="mt-20">
+                <Label
+                  htmlFor="file"
+                  value="Event Img"
+                  className="text-xl mb-2 block"
+                />
+                <FileInput
+                  id="file"
+                  onChange={(e) => setimgurl(e.target.files[0])}
+                />
+                <Label
+                  htmlFor="price"
+                  value="Price"
+                  className="text-xl mb-2 block"
+                />
+                <TextInput
+                  id="price"
+                  value={online.price}
+                  onChange={getdateon}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-center space-x-4">
+              <Button onClick={saveon} className="bot2">
+                Done
+              </Button>
+              <Button onClick={onCloseModal} className="bot2">
+                Cancel
+              </Button>
             </div>
           </div>
         </Modal.Body>

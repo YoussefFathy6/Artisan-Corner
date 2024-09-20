@@ -19,10 +19,11 @@
   }
   
   .card {
+    padding: 0%;
 
     position: relative;
     display: block;
-    height: 50vh;  
+    height: 40vh;  
     border-radius: calc(var(--curve) * 1px);
     overflow: hidden;
     text-decoration: none;

@@ -13,7 +13,7 @@ export default function Users() {
       try {
         //    'accountType', '==', 'artist'
 
-        const q = query(collection(db, 'users'), where('accountType', '==', 'artist'));
+        const q = query(collection(db, 'users'), where('accountType', '==', 'Artist'));
         const querySnapshot = await getDocs(q);
         const usersList = [];
         querySnapshot.forEach((doc) => {
@@ -56,7 +56,7 @@ export default function Users() {
 
       </div>
 
-      <div className=" flex  m-auto items-center justify-center ">
+      <div className="   grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 m-auto items-center justify-center ">
         {filteredUsers.length > 0 ? (
           filteredUsers.map((user) => (
             <Cards key={user.id} data={user} onTicketClick={() => console.log(user.id)} />
