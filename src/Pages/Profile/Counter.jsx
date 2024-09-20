@@ -8,19 +8,14 @@ function Counter(){
   const userid = localStorage.getItem("id");
   console.log(userid);
   useEffect(() => {
-      // Query the number of events for the specific user
-      const eventQuery = query(collection(db, "add event"), where("organizer", "==", userid));
+      const eventQuery = query(collection(db, "add event"), where("ownerID", "==", userid));
       onSnapshot(eventQuery, (snapshot) => {
         setEventCount(snapshot.size);
       });
-
-      // Query the number of products for the specific user
       const productQuery = query(collection(db, "add product"), where("ownerID", "==", userid));
       onSnapshot(productQuery, (snapshot) => {
         setProductCount(snapshot.size);
       });
-
-      // Query the number of reviews for the specific user
       const reviewQuery = query(collection(db, "userReviews"), where("userID", "==", userid));
       onSnapshot(reviewQuery, (snapshot) => {
         setReviewCount(snapshot.size);

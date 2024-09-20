@@ -74,6 +74,7 @@ function Addevent() {
         pricetTcket: data1.pricetacket,
         eventtype: data1.eventtype,
         ticketquantity: data1.ticketquantity,
+        ownerID: localStorage.getItem("id"),
       });
       setdate1("");
       setimgurl("");
