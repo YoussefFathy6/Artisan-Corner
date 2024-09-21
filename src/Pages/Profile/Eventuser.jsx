@@ -35,7 +35,7 @@ function Eventuser() {
         </div>
         <div className="ml-7 mr-4 w-[95%]">
           <div className="mt-28 ml-7 flex justify-between">
-            <h1 className="text-8xl ty">Event</h1>
+            <h1 className="text-5xl font-semibold ">Event</h1>
             <Addevent />
           </div>
           <div>

@@ -133,7 +133,7 @@ function Addproduct() {
         <div className="mr-36 mt-4">
           <Dropdown
             renderTrigger={() => (
-              <div className=" h-full p-3 bg-orange-950 text-orange-200 shadow rounded-full cursor-pointer ">
+              <div className=" h-full py-3 bg-orange-950 text-orange-200 shadow rounded-full cursor-pointer ">
                 <div className="relative ">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

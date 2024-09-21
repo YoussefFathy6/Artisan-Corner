@@ -4,8 +4,10 @@ import { Button, Textarea, Label, Modal, TextInput } from "flowbite-react";
 import db from "../../Config/firebase";
 import { doc, updateDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { FaEdit } from 'react-icons/fa';
 
-function Editproduct({ data }) {
+function Editproduct({ data,children }) {
+
     const [openModal, setOpenModal] = useState(false);
     const [editedData, setEditedData] = useState(data);
 
@@ -51,13 +53,14 @@ function Editproduct({ data }) {
 
     return (
         <>
-            <Button
-                type="button"
-                onClick={() => OpenModal(true)}
-                className="bot2 mr-3"
-            >
-                Edit Product
-            </Button>
+         <button
+    type="button"
+    onClick={() => OpenModal(true)}
+    className=""
+>
+    <FaEdit className="" size={30} />
+</button>
+
 
             <Modal show={openModal} size="6xl"  onClose={onCloseModal} popup>
                 <Modal.Header />

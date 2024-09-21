@@ -8,7 +8,7 @@ import { FaUserEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
 function Side() {
   return (
-    <Sidebar className=" w-16  h-[90vh]  p-0 mt-28">
+    <Sidebar className=" w-16  h-[90vh]  p-0 ">
       <Sidebar.Items className="  m-0 pt-20  ">
         <Sidebar.ItemGroup className="  ">
           <Sidebar.Item>

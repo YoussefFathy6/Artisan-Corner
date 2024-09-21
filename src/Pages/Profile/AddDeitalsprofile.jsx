@@ -106,7 +106,7 @@ function AddDeitalsprofile() {
             <div className="m-20" key={index}>
               <div className="flex justify-around gap-7">
                 <div className="w-1/3">
-                <div className="w-1/3">
+                <div >
                   <div>
                     <div className="mb-2 block">
                       <Label htmlFor="frist" value="First Name" />
