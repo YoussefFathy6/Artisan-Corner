@@ -39,7 +39,7 @@ function Slider() {
 
           <div style={{ fontFamily: 'cursive' }} className=" text-4xl w-[650px] text-white mt-16 ">
 
-            <p className=" text-7xl">One of a <span className=" text-[#f18f55]">Kind</span></p><p className=" ms-16 leading-normal text-7xl"> Just Like <span className=" text-[#ffb6ad]">You</span>.</p>
+            <p className=" text-7xl">One of a <span className=" text-[#ffb6ad]">Kind</span></p><p className=" ms-16 leading-normal text-7xl"> Just Like <span className=" text-[#ffb6ad]">You</span>.</p>
             <p className=" text-2xl text-[#dceef1] mt-10  leading-normal">"Mashrabiya" offers unique handmade crafts and antiques, blending heritage and creativity. we connect you to the world through authentic artistry.</p>
             {/* Discover timeless treasures and handcrafted wonders that tell a story of artistry and tradition, each piece uniquely made to add charm and character to your home." */}
             {/* **"مشربية"** تقدم منتجات يدوية فريدة وأنتيكات، تجمع بين التراث والإبداع. مستوحاة من النافذة التقليدية، نربطك بالعالم من خلال فنون أصيلة. */}

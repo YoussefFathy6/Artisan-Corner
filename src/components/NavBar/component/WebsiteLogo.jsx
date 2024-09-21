@@ -108,10 +108,12 @@ function BodyNav() {
     //flowbit navbar
     <>
       <Navbar className="bg-[#025048]">
+
+
         <Navbar.Brand href="/">
           <span
             style={{ fontFamily: "cursive" }}
-            className="self-center whitespace-nowrap text-3xl  text-[#ffb6ad] font-bold"
+            className="self-center whitespace-nowrap xl:text-3xl lg:text-3xl text-md  text-[#ffb6ad] font-bold"
           >
             Mashrabiya
           </span>
@@ -121,16 +123,16 @@ function BodyNav() {
           <div className="">
             {/* <!-- User Greeting or Register/Login --> */}
             {localStorage.getItem("id") && userData ? (
-              <div className="flex items-center justify-between ">
+              <div className="flex items-center">
                 {/* Notifications Dropdown */}
                 <Dropdown
                   color={"transparent"}
                   label={
-                    <div className="relative">
+                    <div className="relative ">
                       <FaBell color="white" size={24} />{" "}
                       {/* Notification bell icon */}
                       {unreadNotification.length > 0 && (
-                        <span className="absolute top-0 right-0 left-2 bottom-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+                        <span className=" absolute top-0 right-0 left-2 bottom-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
                           {unreadNotification.length}{" "}
                           {/* Display the count of unread notifications */}
                         </span>
@@ -161,11 +163,10 @@ function BodyNav() {
                 </Dropdown>
 
                 <Dropdown
-                  label=""
                   dismissOnClick={true}
                   renderTrigger={() => (
                     <img
-                      className="rounded-full w-12 h-12 mx-4 cursor-pointer"
+                      className="rounded-full xl:w-12 xl:h-12  h-8  xl:mx-4 me-2  xl:me-2 cursor-pointer"
                       src={
                         userData.profilePic
                           ? userData.profilePic // User's profile picture
@@ -219,7 +220,7 @@ function BodyNav() {
                 </Dropdown>
 
                 {/* Greeting */}
-                <div className="text-white">
+                <div className="text-white xl:block hidden">
                   Hi, {userData.firstname} {userData.lastname}{" "}
                   {/* Greeting with name */}
                 </div>
@@ -249,8 +250,11 @@ function BodyNav() {
 
         <Navbar.Collapse>
           <div>
-            <div className="flex justify-between flex-wrap">
+            <div className="flex justify-between flex-wrap ">
               <div className="borderYtoX flex flex-col gap-y-4 md:gap-y-0 justify-center p-4 md:p-0 mt-4 font-medium rounded-lg bg-transparent sm:space-x-2 md:space-x-4 xl:space-x-7 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-transparent">
+               
+               
+               
                 <NavLink
                   style={isActive}
                   to="/"
@@ -267,13 +271,13 @@ function BodyNav() {
                   Products
                 </NavLink>
 
-                <NavLink
+                {/* <NavLink
                   style={isActive}
                   to="/order"
                   className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
                 >
                   Order
-                </NavLink>
+                </NavLink> */}
 
                 <NavLink
                   style={isActive}
@@ -291,13 +295,13 @@ function BodyNav() {
                   Event
                 </NavLink>
 
-                <NavLink
+                {/* <NavLink
                   style={isActive}
                   to="/dd"
                   className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
                 >
                   BEST SELLER
-                </NavLink>
+                </NavLink> */}
                 <NavLink
                   style={isActive}
                   to="/Users"
