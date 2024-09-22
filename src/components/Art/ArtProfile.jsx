@@ -24,6 +24,8 @@ function ArtProfile() {
   const [reviewsData, setReviewsData] = useState([]);
   const [newReview, setNewReview] = useState("");
   const [newRating, setNewRating] = useState(0);
+  const [totalStars, setTotalStars] = useState(0);
+  const [averageStars, setAverageStars] = useState(0);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -36,7 +38,6 @@ function ArtProfile() {
     if (user) {
       const eventsQuery = query(collection(db, "add event"), where("organizer", "==", user.id));
       const postsQuery = query(collection(db, "add product"), where("ownerID", "==", user.id));
-      const reviewsQuery = query(collection(db, "userReviews"), where("userID", "==", user.id));
 
       const unsubscribeEvents = onSnapshot(eventsQuery, (snapshot) => {
         const events = snapshot.docs.map((doc) => ({
@@ -54,25 +55,44 @@ function ArtProfile() {
         setPostsData(posts);
       });
 
-      const unsubscribeReviews = onSnapshot(reviewsQuery, async (snapshot) => {
-        const reviewsList = await Promise.all(snapshot.docs.map(async (reviewDoc) => {
-          const reviewData = reviewDoc.data();
-          const userDoc = await getDoc(doc(db, "users", reviewData.userID));
-          const userName = userDoc.exists() ? userDoc.data().name : "Unknown User";
-          return {
-            id: reviewDoc.id,
-            ...reviewData,
-            userName,
-          };
-        }));
-        setReviewsData(reviewsList);
-      });
-
       return () => {
         unsubscribeEvents();
         unsubscribePosts();
-        unsubscribeReviews();
       };
+    }
+  }, [user]);
+
+
+  useEffect(() => {
+    if (user) {
+      const reviewsQuery = query(collection(db, "userReviews"), where("userID", "==", user.id));
+
+      const unsubscribeReviews = onSnapshot(reviewsQuery, async (snapshot) => {
+        const reviewsList = await Promise.all(
+          snapshot.docs.map(async (reviewDoc) => {
+            const reviewData = reviewDoc.data();
+            const userDoc = await getDoc(doc(db, "users", reviewData.userID));
+            const userName = userDoc.exists()
+              ? `${userDoc.data().lname} ${userDoc.data().lname}`
+              : "Unknown User";
+
+            return {
+              id: reviewDoc.id,
+              ...reviewData,
+              userName, 
+            };
+          })
+        );
+
+        setReviewsData(reviewsList);
+
+        const total = reviewsList.reduce((acc, review) => acc + review.rating, 0);
+        setTotalStars(total);
+        const average = reviewsList.length > 0 ? total / reviewsList.length : 0;
+        setAverageStars(average);
+      });
+
+      return () => unsubscribeReviews();
     }
   }, [user]);
 
@@ -83,6 +103,8 @@ function ArtProfile() {
   const handleAddReview = async () => {
     await addDoc(collection(db, "userReviews"), {
       userID: user.id,
+      name: user.firstname,
+      lname: user.lastname,
       reviewText: newReview,
       rating: newRating,
       createdAt: new Date(),
@@ -90,6 +112,7 @@ function ArtProfile() {
     setNewReview("");
     setNewRating(0);
   };
+
 
   return (
     <div className="min-h-screen justify-center">
@@ -187,23 +210,25 @@ function ArtProfile() {
               </div>
             )}
 
-            {selectedTab === 'reviews' && (
+{selectedTab === 'reviews' && (
               <div>
                 {reviewsData.length > 0 ? (
                   <ul>
                     {reviewsData.map((review) => (
                       <li key={review.id} className="pb-2 mb-2 pl-9 pt-9 w-80">
                         <div className="flex items-center justify-between">
-                          <h3 className="text-lg font-bold">{review.userName}</h3>
+                          <h4 className="font-semibold">{review.userName} </h4>
                           <ReactStars
                             count={5}
                             value={review.rating}
                             size={24}
                             activeColor="#ffd700"
-                            edit={false} 
+                            edit={false}
                           />
                         </div>
-                        <p className="text-sm text-gray-500">Created At: {review.createdAt.toDate().toLocaleString()}</p>
+                        <p className="text-sm text-gray-500">
+                          Created At: {review.createdAt.toDate().toLocaleString()}
+                        </p>
                         <p className="text-gray-700 pt-5">{review.reviewText}</p>
                       </li>
                     ))}

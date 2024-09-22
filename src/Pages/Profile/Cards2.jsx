@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Card, Button } from "flowbite-react";
 import db from "../../Config/firebase";
 import { doc, deleteDoc } from "firebase/firestore";
+import { FaTrash, FaEdit } from 'react-icons/fa'
 import Editproduct from "./Editproduct";
 function Cards2({ data, onDelete }) {
   const deleteItemFromFirebase = async (itemId) => {
@@ -23,35 +24,29 @@ function Cards2({ data, onDelete }) {
   };
   return (
     <>
-   <div className="flex justify-center items-center my-20">
-  <div className="max-w-[720px] mx-auto">
-    <div className="relative flex flex-col text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-96 h-[500px] group transition-all duration-300 hover:bg-orange-200">
-      <div className="relative h-56 mx-4 -mt-6 overflow-hidden text-white shadow-lg bg-clip-border rounded-xl bg-blue-gray-500 shadow-blue-gray-500/40">
-        <img
-          src={data.img}
-          alt={data.title}
-          className="w-full h-full object-cover rounded-xl transition-all duration-300 group-hover:rounded-full"
-        />
-      </div>
+    <div className="">
+          <div className="relative  text-gray-700 bg-clip-border rounded-xl  group transition-all duration-300 ">
+            <div className="relative   overflow-hidden text-white  rounded-xl  ">
+              <img
+                src={data.img}   // Updated to match the prop
+                alt={data.title}
+                className=" object-cover rounded-xl transition-all duration-300 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 flex flex-col p-10  bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                <h5 className="text-white text-2xl font-semibold mb-2">{data.typeproduct}</h5>
+                <p className="text-white text-lg pb-5">{data.description}</p>
+                <p className="text-white text-lg font-semibold">{data.price} EGP</p>
 
-      <div className="p-4 h-[250px] overflow-hidden">
-        <h5 className="block mb-3 font-sans text-3xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-          {data.title}
-        </h5>
-        <p className="block  mb-3 font-sans antialiased font-light leading-relaxed text-inherit">
-          {data.description}
-        </p>
-        <p className="block font-bold text-2xl antialiased  leading-relaxed text-inherit">
-          {data.price} LE
-        </p>
-      </div>
+                <div className="absolute inset-x-0 bottom-0 gap-11 flex  p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+  <button onClick={() => deleteItem(data.id)}>
+    <FaTrash className="text-red-50" size={30} />
+  </button>
+  <Editproduct data={data}>
+  </Editproduct>
+</div>
+              </div>
 
-      <div className="flex justify-end pb-4 pt-5">
-        <Button className="bg-white mr-3 bot2 hover:bg-none" onClick={() => deleteItem(data.id)}>
-          Delete
-        </Button>
-        <Editproduct data={data} />
-      </div>
+     
     </div>
   </div>
 </div>

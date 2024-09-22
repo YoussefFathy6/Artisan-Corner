@@ -100,13 +100,13 @@ function AddDeitalsprofile() {
   return (
     <>
       <div>
-        <h1 className="text-6xl mb-20">Profile</h1>
+        <h1 className="ml-9 mt-9 flex justify-between text-5xl font-semibold ">Edit Profile</h1>
         {data.map((item, index) => {
           return (
             <div className="m-20" key={index}>
               <div className="flex justify-around gap-7">
                 <div className="w-1/3">
-                <div className="w-1/3">
+                <div >
                   <div>
                     <div className="mb-2 block">
                       <Label htmlFor="frist" value="First Name" />
@@ -188,7 +188,7 @@ function AddDeitalsprofile() {
 
                 </div>
               </div>
-              <Button className="bot2" onClick={save}>
+              <Button className="bot2 ml-24" onClick={save}>
                 DONE
               </Button>
             </div>

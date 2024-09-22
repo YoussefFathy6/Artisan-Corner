@@ -93,6 +93,17 @@ body {
   transform: scale(1.2);
 }
 
+/* CSS for number animation */
+.ty {
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.ty-show {
+  opacity: 1;
+  transform: scale(1);
+}
 
 
 /* a:hover {
