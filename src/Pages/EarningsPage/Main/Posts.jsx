@@ -36,7 +36,7 @@ function Posts() {
   useEffect(() => {
     const q = query(
       collection(db, "users"),
-      where("accountType", "==", "artist")
+      where("accountType", "==", "Artist")
     );
     const unsubscribe = onSnapshot(
       q,

@@ -41,7 +41,6 @@ import ArtProfile from "./components/Art/ArtProfile";
 import Chat from "./components/Chat/Chat";
 import Posts from "./Pages/EarningsPage/Main/Posts";
 // import ChatApp from "./components/Chat/ChatApp";
-
 function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();

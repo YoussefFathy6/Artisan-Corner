@@ -6,6 +6,9 @@ import Cards2 from "./Cards2";
 import Addproduct from "./Addproduct";
 import db from "../../Config/firebase";
 import { FaUserEdit } from "react-icons/fa";
+import { useSelector, useDispatch } from 'react-redux';
+// import { setId } from './Slices/profileid';
+
 import {
   collection,
   onSnapshot,
@@ -21,6 +24,13 @@ function Profile() {
   const [data, setData] = useState([]);
   const [userId, setUserId] = useState(null);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+
+  // الحصول على الـ profile ID الحالي من الـ state
+  const profileId = useSelector((state) => state.profileReducer.id);
+  const updateProfileId = () => {
+    dispatch(setId(123)); // إرسال أكشن لتحديث الـ profile ID
+  };
 
   useEffect(() => {
     const fetchUser = async () => {
