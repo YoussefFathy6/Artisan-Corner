@@ -121,7 +121,6 @@ function ArtProfile() {
 <div
   className=" shadow-xl rounded-lg overflow-hidden pt-28 "
   style={{
-    backgroundImage: "url('https://i.pinimg.com/564x/c7/63/26/c763269cb2ca4e07982501d6085e0460.jpg')",
     backgroundSize: "cover",
     backgroundPosition: "center",
   }}
