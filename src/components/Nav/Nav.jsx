@@ -17,7 +17,7 @@ function Nav({bobId , desc}) {
   
   return (
     <>
-      <nav className="mt-20 ">
+      <nav className="my-20 ">
         <div className="text-center space-x-10">
           <button
             onClick={() => setShowDEsc(true)}

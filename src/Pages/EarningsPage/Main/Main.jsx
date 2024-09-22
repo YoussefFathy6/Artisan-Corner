@@ -159,7 +159,7 @@ function Main() {
       {/* Button to show the filters dropdown on small screens */}
       <div className="sm:hidden">
         <Button
-          className="bg-secondary my-3"
+          className="bg-secondary my-3 text-nowrap"
           onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
         >
           Filter Options
@@ -212,8 +212,8 @@ function Main() {
                   <div className="m-5" key={product.id}>
                     <Card
                       imgsrc={product.img}
-                      productType={product.title}
-                      title={product.description}
+                      title={product.title}
+                      desc={product.description}
                       price={product.price}
                       productID={product.id}
                       firstname={artist?.firstname}

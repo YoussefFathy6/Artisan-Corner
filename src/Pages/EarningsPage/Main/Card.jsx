@@ -19,6 +19,7 @@ import {
 } from "firebase/firestore";
 import db from "../../../Config/firebase";
 import { ToastContainer, toast } from "react-toastify";
+
 function ProductCard(props) {
   const [openModal, setOpenModal] = useState(false);
   const [rating, setRating] = useState(0);
@@ -36,6 +37,7 @@ function ProductCard(props) {
 
   useEffect(() => {
     getUserData();
+    console.log(props)
   }, []);
 
   async function getUserData() {
@@ -108,7 +110,8 @@ function ProductCard(props) {
               state: {
                 imgsrc: props.imgsrc,
                 productType: props.productType,
-                desc: props.title,
+                title : props.title,
+                desc: props.desc,
                 price: props.price,
                 // rating: rating,
                 bobId: props.productID,
@@ -145,18 +148,18 @@ function ProductCard(props) {
               });
             }}
           />
-          <p>{`${props.firstname} ${props.lastname}`}</p>
+          <p >{`${props.firstname} ${props.lastname}`}</p>
         </div>
         <div className="m-3">
           <h5 className=" text-base text-[#3E402D] font-Rosario font-bold tracking-tight dark:text-white">
-            {props.productType}
+            {props.title}
           </h5>
           <p
             className={`font-normal text-gray-500 dark:text-gray-400 text-[1rem] ${
               isExpanded ? "line-clamp-none" : "line-clamp-2"
             } overflow-hidden`}
           >
-            {props.title}
+            {props.desc}
           </p>
 
           {/* Show More/Show Less Button */}

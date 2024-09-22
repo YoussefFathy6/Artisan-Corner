@@ -220,7 +220,7 @@ function BodyNav() {
 
                 {/* Greeting */}
                 <div className="text-white">
-                  Hi, {userData.firstname} {userData.lastname}{" "}
+                  Hi, {userData.firstname} {userData.lastname}
                   {/* Greeting with name */}
                 </div>
               </div>
