@@ -13,6 +13,7 @@ import {
 import Card from "./Card";
 import Menu from "../Menu/Menu";
 import Loader from "../../../components/Loader";
+import { toast } from "react-toastify";
 
 function Main() {
   const [artists, setArtists] = useState([]);
@@ -93,6 +94,9 @@ function Main() {
       quantity: 1,
       userID: UID,
     });
+      toast.success("Added successfully", {
+        position : "top-right"
+      })
   }
 
   const sortItemsHighest = () => {
