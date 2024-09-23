@@ -107,7 +107,7 @@ function BodyNav() {
     // bg-[#72a398]
     //flowbit navbar
     <>
-      <Navbar className="bg-[#025048]">
+      <Navbar className="bg-[#344646]">
 
 
         <Navbar.Brand href="/">
