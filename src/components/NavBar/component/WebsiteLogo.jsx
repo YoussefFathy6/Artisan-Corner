@@ -220,7 +220,7 @@ function BodyNav() {
                 </Dropdown>
 
                 {/* Greeting */}
-                <div className="text-white xl:block hidden">
+                <div className="text-white">
                   Hi, {userData.firstname} {userData.lastname}{" "}
                   {/* Greeting with name */}
                 </div>
@@ -239,6 +239,7 @@ function BodyNav() {
                   onClick={() => {
                     dispatch(toggleFlag()); // Dispatch toggleFlag action for login modal
                   }}
+                  
                 >
                   Login
                 </button>
@@ -265,7 +266,7 @@ function BodyNav() {
 
                 <NavLink
                   style={isActive}
-                  to="posts"
+                  to="earnings"
                   className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
                 >
                   Products

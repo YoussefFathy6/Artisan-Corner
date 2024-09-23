@@ -32,14 +32,15 @@ function Details() {
   const { productType, setProductType } = useContext(ReviewsContext);
   const [isLoading, setIsLoading] = useState(false);
   
+  const location = useLocation();
+  const { imgsrc, desc, price,title ,bobId } = location.state;
 
   useEffect(() => {
     setProductType(productType);
     getUserData();
+    
   }, [productType, setProductType]);
 
-  const location = useLocation();
-  const { imgsrc, desc, price, bobId } = location.state;
   const [count, setCount] = useState(1);
   const [flag, setFlag] = useState(false);
   const navigate = useNavigate();
@@ -128,7 +129,7 @@ function Details() {
             /> */}
           </div>
           <div className="details-text">
-            <h2 className="text-3Xl">{productType}</h2>
+            <h2 className="text-3Xl">{title}</h2>
             <p className="my-4  text-start">{desc}</p>
           </div>
 
@@ -182,7 +183,7 @@ function Details() {
         </div>
       </div>
       <Nav bobId={bobId} desc={desc} />
-      <Viewed />
+      {/* <Viewed /> */}
     </>
   );
 }

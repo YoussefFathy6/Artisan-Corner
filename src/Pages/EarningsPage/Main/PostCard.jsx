@@ -85,7 +85,7 @@ function PostCard(props) {
         }}
       >
         <div
-          className="relative overflow-hidden text-white  bg-clip-border rounded-xl bg-blue-gray-500 shadow-blue-gray-500/40 group transition-all duration-300 cursor-pointer"
+          className=" relative overflow-hidden text-white  bg-clip-border rounded-xl bg-blue-gray-500 shadow-blue-gray-500/40 group transition-all duration-300 cursor-pointer"
           onClick={() => {
             nav("/details", {
               state: {
@@ -115,7 +115,7 @@ function PostCard(props) {
               {props.title}
             </p>
           </div>
-          <div className="absolute inset-x-0 bottom-0 flex  p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+          <div className="absolute inset-x-0 bottom-0 flex  p-5 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
             <div className="flex gap-4 items-center">
               <img
                 className="rounded-full border-2 w-12 h-12 ml-4"
@@ -135,7 +135,7 @@ function PostCard(props) {
           </div>
         </div>
       </div>
-      <div className="flex justify-between items-center  px-3">
+      <div className="flex justify-between items-center  px-9 ">
         <h5 className="text-[1rem] font-medium">{props.productType} </h5>
         <MdOutlineRateReview
           size={20}

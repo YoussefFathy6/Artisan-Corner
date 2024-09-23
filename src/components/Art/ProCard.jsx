@@ -9,23 +9,23 @@ const ProCard = ({ data }) => {
         nav("/details", { 
           state: {
             imgsrc: data.imgsrc, 
-                // Ensure this matches the passed prop
+         
             productType: data.title,
-            desc: data.description,  // Consistent naming
+            desc: data.description,  
             price: data.price,
             bobId: data.productID,
           },
         });
         window.scrollTo({
           top: 0,
-          behavior: "smooth", // Smooth scrolling
+          behavior: "smooth", 
         });
       }}> 
         <div className="">
           <div className="relative  text-gray-700 bg-clip-border rounded-xl  group transition-all duration-300 ">
             <div className="relative   overflow-hidden text-white shadow-lg bg-clip-border rounded-xl bg-blue-gray-500 shadow-blue-gray-500/40">
               <img
-                src={data.imgsrc}   // Updated to match the prop
+                src={data.imgsrc}   
                 alt={data.productType}
                 className=" object-cover rounded-xl transition-all duration-300 group-hover:scale-110"
               />

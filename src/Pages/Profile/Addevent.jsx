@@ -89,7 +89,7 @@ function Addevent() {
 
   return (
     <>
-      <div className=" h-full p-3 bg-orange-800 mr-14 text-orange-200 shadow rounded-full cursor-pointer ">
+      <div className=" h-full py-3 bg-orange-800 mr-14 text-orange-200 shadow rounded-full cursor-pointer ">
                 <div className="relative ">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

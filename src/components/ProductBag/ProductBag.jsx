@@ -19,7 +19,6 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 import SweetAlert2 from "react-sweetalert2";
 import Swal from "sweetalert2";
 
-
 function ProductBag() {
   const navigate = useNavigate();
   const [bags, setBags] = useState([]);
@@ -36,24 +35,23 @@ function ProductBag() {
     //   // console.log(arr)
     //   setBags([...arr]);
     // });
-     if (UID) {
-      showBag(UID); 
+    if (UID) {
+      showBag(UID);
     }
   }, [UID]);
 
-    // ============ Show Bag From Database  =================//
-    async function showBag(userID) {
-      const q = query(
-        collection(db, "Bag"),
-        where("userID", "==", userID)
-      );
-  
-      const querySnapshot = await getDocs(q);
-      // console.log(querySnapshot)
-      const bagsData = querySnapshot.docs.map((doc) => ({ ...doc.data(),id: doc.id,}));
-      setBags(bagsData);
-    }
+  // ============ Show Bag From Database  =================//
+  async function showBag(userID) {
+    const q = query(collection(db, "Bag"), where("userID", "==", userID));
 
+    const querySnapshot = await getDocs(q);
+    // console.log(querySnapshot)
+    const bagsData = querySnapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    setBags(bagsData);
+  }
 
   function handleDelete(id) {
     // alert("Are You Sure");
@@ -97,31 +95,46 @@ function ProductBag() {
       quantity: newQuantity,
       price: newTotalPrice,
     });
+    setBags((prevBag) =>
+      prevBag.map((bagItem) =>
+        bagItem.id == id
+          ? { ...bagItem, quantity: newQuantity, price: newTotalPrice }
+          : bagItem
+      )
+    );
   }
 
   return (
-    <>
-      <h1 className="text-center mt-5 font-medium"> {bags.length == 1 ?  `${bags.length} Item Found` :`${bags.length} Items Found`}   </h1>
+    <div className={bags.length == 0 ? "h-[100vh]" : ""}>
+      <div className="flex  w-[30%] mx-auto items-center justify-center space-x-8 ">
+        <h1 className="text-center mt-5 font-medium text-nowrap">
+          {bags.length == 1
+            ? `${bags.length} Item Found`
+            : `${bags.length} Items Found`}
+        </h1>
+        <button
+          className="btn bg-[#f2ba36] mt-5 p-2 text-nowrap text-[#025048]"
+          onClick={() => navigate("/payment")}
+        >
+          continue to payment
+        </button>
+      </div>
       <div className="grid grid-cols-2 Md:grid-cols-1 ">
         {bags.map((item) => (
-          
           <div
             key={item.id}
-            className=" zeroToTo768:flex-col flex items-center  justify-between space-x-6 my-6 shadow-2Xl p-9 rounded-Xl "
+            className="  zeroToTo768:flex-col flex justify-center  items-center space-x-6 m-6 shadow-2Xl rounded-Xl "
           >
-            
             <div className="zeroToTo768:w-[300px]  w-[500px]  flex justify-center items-center">
               <img
                 src={item.imgsrc}
                 alt="images"
                 className="rounded-lg min-h-[300px] max-w-[300px] max-h-[300px] shadow-xl "
               />
-            
             </div>
-            
-            <div className="w-[80%]">
-            
-              <div className="my-5 flex justify-between items-center">
+
+            <div className="w-[fit-content] ">
+              <div className="my-5 flex justify-between items-center  w-[fit-content] text-nowrap">
                 Quantity : {item.quantity}
                 <input
                   className="mx-9 rounded-lg w-[70px]"
@@ -139,14 +152,10 @@ function ProductBag() {
                   )}
               </div>
               <h2>
-                <strong>Total price :</strong> {parseFloat(item.price).toFixed(2)} $
+                <strong>Total price :</strong>{" "}
+                {parseFloat(item.price).toFixed(2)} $
               </h2>
-              <button
-                className="btn bg-[#f2ba36] mt-5 p-2 "
-                onClick={() => navigate("/payment")}
-              >
-                Checkout
-              </button>
+
               <button
                 className="btn bg-red-600 mt-5 p-2 ml-3"
                 onClick={() => handleDelete(item.id)}
@@ -182,7 +191,7 @@ function ProductBag() {
         ""
       )}
       <SweetAlert2 {...swalProps} />
-    </>
+    </div>
   );
 }
 

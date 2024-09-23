@@ -11,7 +11,7 @@ import NavSections from "./component/NavSections";
 
 function NavBar() {
   return (
-    <nav>
+    <nav className="">
       <WebsiteLogo />
       {/* <NavSections /> */}
     </nav>

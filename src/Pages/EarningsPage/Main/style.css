@@ -2,16 +2,16 @@
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    margin-left: -30px; /* Adjust this to control spacing between columns */
+    margin-left: -10px; 
     width: auto;
   }
   
   .my-masonry-grid_column {
-    padding-left: 30px; /* Adjust this to control spacing between columns */
+    padding-left: 30px; 
     background-clip: padding-box;
   }
   
   .my-masonry-grid_column > div {
-    margin-bottom: 30px; /* Adjust this to control spacing between rows */
+    margin-bottom: 20px; 
   }
   

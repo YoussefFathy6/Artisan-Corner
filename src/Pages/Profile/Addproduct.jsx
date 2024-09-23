@@ -73,7 +73,6 @@ function Addproduct() {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloaduRL) => {
-          // Save regular product if data1 is filled
           if (data1.title && data1.description) {
             const collectionref = collection(db, "tempProducts");
             addDoc(collectionref, {
@@ -88,7 +87,6 @@ function Addproduct() {
             });
           }
 
-          // Save auction product if aucData is filled
           if (aucData.title && aucData.description) {
             const collectionref = collection(db, "auctionProduct");
             addDoc(collectionref, {
@@ -133,7 +131,7 @@ function Addproduct() {
         <div className="mr-36 mt-4">
           <Dropdown
             renderTrigger={() => (
-              <div className=" h-full p-3 bg-orange-950 text-orange-200 shadow rounded-full cursor-pointer ">
+              <div className=" h-full py-3 bg-orange-950 text-orange-200 shadow rounded-full cursor-pointer ">
                 <div className="relative ">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
