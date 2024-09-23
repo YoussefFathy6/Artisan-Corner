@@ -8,10 +8,10 @@ import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 
 function AddDeitalsprofile() {
   const [data, setData] = useState([]);
-  const [imgurl, setImgUrl] = useState(null); // ملف صورة الملف الشخصي
-  const [coverImgUrl, setCoverImgUrl] = useState(null); // ملف صورة الغلاف
-  const [storedImageUrl, setStoredImageUrl] = useState(null); // رابط صورة الملف الشخصي المخزنة مسبقًا
-  const [storedCoverImageUrl, setStoredCoverImageUrl] = useState(null); // رابط صورة الغلاف المخزنة مسبقًا
+  const [imgurl, setImgUrl] = useState(null); 
+  const [coverImgUrl, setCoverImgUrl] = useState(null); 
+  const [storedImageUrl, setStoredImageUrl] = useState(null); 
+  const [storedCoverImageUrl, setStoredCoverImageUrl] = useState(null); 
   const [percent, setPercent] = useState(0);
   const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
@@ -27,8 +27,8 @@ function AddDeitalsprofile() {
         querySnapshot.forEach((doc) => {
           const userData = doc.data();
           setData([userData]);
-          setStoredImageUrl(userData.profilePic); // رابط صورة الملف الشخصي المخزنة مسبقًا
-          setStoredCoverImageUrl(userData.coverPic); // رابط صورة الغلاف المخزنة مسبقًا
+          setStoredImageUrl(userData.profilePic); 
+          setStoredCoverImageUrl(userData.coverPic); 
           setUserId(doc.id);
         });
       } else {
@@ -70,15 +70,13 @@ function AddDeitalsprofile() {
   }
 
   async function save() {
-    let profileImageUrl = storedImageUrl; // استخدام صورة الملف الشخصي المخزنة مسبقًا بشكل افتراضي
-    let coverImageUrl = storedCoverImageUrl; // استخدام صورة الغلاف المخزنة مسبقًا بشكل افتراضي
+    let profileImageUrl = storedImageUrl; 
+    let coverImageUrl = storedCoverImageUrl; 
 
-    // رفع صورة الملف الشخصي الجديدة إذا تم تحديدها
     if (imgurl) {
       profileImageUrl = await uploadImageToStorage(imgurl, `profileimg/${imgurl.name}`);
     }
 
-    // رفع صورة الغلاف الجديدة إذا تم تحديدها
     if (coverImgUrl) {
       coverImageUrl = await uploadImageToStorage(coverImgUrl, `coverimg/${coverImgUrl.name}`);
     }
@@ -89,7 +87,7 @@ function AddDeitalsprofile() {
         firstname: data[0].firstname,
         about: data[0].about,
         profilePic: profileImageUrl,
-        coverPic: coverImageUrl, // إضافة رابط صورة الغلاف هنا
+        coverPic: coverImageUrl, 
         lastname: data[0].lastname,
         email: data[0].email,
         accountType: data[0].accountType,
