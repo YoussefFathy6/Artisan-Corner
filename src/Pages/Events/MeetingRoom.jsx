@@ -403,9 +403,12 @@ const VideoCall = () => {
   return (
     <div className='h-[100vh]'>
       {!showMeeting ? (
-        <button onClick={handleStartMeeting}>Start Video Call</button>
+        <div className='flex justify-center mt-16'>
+              <button onClick={handleStartMeeting} className='bg-[#025048] p-5 rounded-xl text-white'>Start Video Call</button>
+        </div>
+    
       ) : (
-        <div id="jitsi-container" style={{ height: '800px', width: '100%' }} />
+        <div id="jitsi-container" style={{ height: '900px', width: '100%' }} />
       )}
     </div>
   );
