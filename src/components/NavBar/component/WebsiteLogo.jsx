@@ -238,6 +238,7 @@ function BodyNav() {
                   onClick={() => {
                     dispatch(toggleFlag()); // Dispatch toggleFlag action for login modal
                   }}
+                  
                 >
                   Login
                 </button>

@@ -38,7 +38,7 @@ export default function Cart() {
   }
 
   return (
-    <div className="p-6 bg-white col-span-4">
+    <div className="p-6 bg-white col-span-4  h-[100vh]">
       <div className="flex justify-center flex-wrap">
         {products.map((product) => (
           <div key={product.id} className="pt-5 pr-4 w-full sm:w-1/2 lg:w-1/3">

@@ -401,7 +401,7 @@ const VideoCall = () => {
   };
 
   return (
-    <div>
+    <div className='h-[100vh]'>
       {!showMeeting ? (
         <button onClick={handleStartMeeting}>Start Video Call</button>
       ) : (

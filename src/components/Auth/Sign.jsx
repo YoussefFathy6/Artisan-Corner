@@ -67,7 +67,7 @@ function Sign() {
     <>
       <form
         onSubmit={handleSubmit(addTodb)}
-        className=" ms-96 mt-10 flex max-w-md flex-col gap-4 border-4 border-orange-500 border-solid p-8  "
+        className=" ms-96 mt-10 flex max-w-md flex-col gap-4 border-4 border-orange-500 border-solid p-8"
       >
         <div>
           <div className="flex justify-end  p-5 ">
@@ -79,7 +79,7 @@ function Sign() {
             </button>
           </div>
           <div className="mb-6 block">
-            <h1 className="mb-2 "> Sign up </h1>
+            <h1 className="mb-2"> Sign up </h1>
             <p className="mb-2 "> Create your account in seconds.</p>
           </div>
 
