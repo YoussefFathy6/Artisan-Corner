@@ -268,13 +268,13 @@ function BodyNav() {
                   Products
                 </NavLink>
 
-                <NavLink
+                {/* <NavLink
                   style={isActive}
                   to="/order"
                   className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
                 >
                   Order
-                </NavLink>
+                </NavLink> */}
 
                 <NavLink
                   style={isActive}
