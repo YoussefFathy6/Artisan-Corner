@@ -110,6 +110,7 @@ function Profile() {
       )}
 
       {/* Main Content */}
+
      <div className={`p-5  ${accountType === "Customer" ? "w-full" : "w-[90%]"}`}>
   {activeItem === "profile" && (
     <div>
@@ -124,18 +125,27 @@ function Profile() {
                   </Link>
                 </div>
               )}
+                              {/* Profile Picture Section */}
 
-              <div className="mt-8  pl-32 flex flex-col lg:flex-row items-center justify-around lg:gap-10">
-                {/* Profile Picture Section */}
-                <div className="flex-shrink-0 justify-center items-center m-auto">
-                  <div className="p-3 rounded-lg ml-4 mt-4">
+<div className=" relative ">     <img
+                      src={item.coverPic || "avatar-1299805_1280.png"}
+                      alt="Profile"
+                      className=" w-full h-80 object-cover "
+                    />
+
+<div className=" rounded-lg ml-16 -mt-32  absolute ">
                     <img
                       src={item.profilePic || "avatar-1299805_1280.png"}
                       alt="Profile"
-                      className="rounded-3xl w-72 h-auto object-cover transition-transform duration-500 ease-in-out hover:scale-110 shadow-lg"
+                      className="rounded-full w-72 h-auto object-cover transition-transform duration-500 ease-in-out hover:scale-110 shadow-lg"
                     />
                   </div>
-                  <div className="flex justify-between lg:w-[70%] mt-5 ml-12">
+                    </div>
+              <div className="mt-8  pl-32 flex flex-col lg:flex-row items-center justify-around lg:gap-10">
+           
+                <div className="flex-shrink-0 justify-center mt-36 items-center m-auto">
+                
+                  <div className="flex justify-between lg:w-[70%] mt-5 ">
                     <a
                       href={item.facebook}
                       className="icon mx-2 text-gray-600 hover:text-blue-600 transition-colors duration-300"
@@ -158,7 +168,7 @@ function Profile() {
                 </div>
 
                 {/* Text and Info Section */}
-                <div className="flex-grow mt-4 lg:mt-0 lg:ml-4">
+                <div className="flex-grow mt-4 lg:mt-0 lg:ml-20">
                   <div className="flex flex-col w-full lg:w-[700px]">
                     <h1 className="text-2xl font-bold">{item.firstname} {item.lastname}</h1>
                     <h4 className="text-lg">{item.email}</h4>
