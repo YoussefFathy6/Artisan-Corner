@@ -16,7 +16,7 @@ function Cards({ data }) {
   return (
     <ul className="cards">
       <li>
-        <a href="#" className="card">
+        <a href="#" className="card ">
           <img
             className="card__image"
             src={data.profilePic || "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"}

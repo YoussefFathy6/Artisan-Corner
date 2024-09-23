@@ -85,6 +85,27 @@ body {
 .bot2 {
   background: rgba(130, 59, 16, 1) !important;
 }
+.icon {
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.icon:hover {
+  transform: scale(1.2);
+}
+
+/* CSS for number animation */
+.ty {
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.ty-show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+
 /* a:hover {
   color: #f9f2e6 !important ;
 } */

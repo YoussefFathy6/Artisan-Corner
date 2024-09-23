@@ -48,16 +48,7 @@ function Category({ onFilterChange }) {
 
   return (
     <div className="section-styling">
-      <section className="hidden lg:block">
-        <section>
-          <section>
-            <p className="font-bold text-xs">
-              Home / <span>Earnings</span>
-            </p>
-            <h2 className="text-2xl">-Refine By</h2>
-          </section>
-        </section>
-      </section>
+ 
 
       {/* Render MiniMenu Component */}
       <MiniMenu maintitle="Category" />

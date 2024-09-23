@@ -61,7 +61,7 @@ function NavSections() {
 
               <NavLink
                 style={isActive}
-                to="earnings"
+                to="/posts"
                 className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
               >
                 Products
