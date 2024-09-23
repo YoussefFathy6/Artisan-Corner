@@ -1,12 +1,5 @@
-
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Textarea,
-  Label,
-  TextInput,
-  FileInput,
-} from "flowbite-react";
+import { Button, Textarea, Label, TextInput, FileInput } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 import db from "../../Config/firebase";
 import { getDocs, collection, query, where, doc, updateDoc } from "firebase/firestore";
@@ -15,8 +8,10 @@ import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 
 function AddDeitalsprofile() {
   const [data, setData] = useState([]);
-  const [imgurl, setImgUrl] = useState(null); // رابط الصورة الجديد أو الملف
-  const [storedImageUrl, setStoredImageUrl] = useState(null); // رابط الصورة المحفوظة مسبقًا
+  const [imgurl, setImgUrl] = useState(null); // ملف صورة الملف الشخصي
+  const [coverImgUrl, setCoverImgUrl] = useState(null); // ملف صورة الغلاف
+  const [storedImageUrl, setStoredImageUrl] = useState(null); // رابط صورة الملف الشخصي المخزنة مسبقًا
+  const [storedCoverImageUrl, setStoredCoverImageUrl] = useState(null); // رابط صورة الغلاف المخزنة مسبقًا
   const [percent, setPercent] = useState(0);
   const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
@@ -32,7 +27,8 @@ function AddDeitalsprofile() {
         querySnapshot.forEach((doc) => {
           const userData = doc.data();
           setData([userData]);
-          setStoredImageUrl(userData.profilePic); // تخزين رابط الصورة المحفوظة مسبقًا
+          setStoredImageUrl(userData.profilePic); // رابط صورة الملف الشخصي المخزنة مسبقًا
+          setStoredCoverImageUrl(userData.coverPic); // رابط صورة الغلاف المخزنة مسبقًا
           setUserId(doc.id);
         });
       } else {
@@ -48,41 +44,52 @@ function AddDeitalsprofile() {
     checkUser();
   }, []);
 
+  async function uploadImageToStorage(imageFile, filePath) {
+    const storageRef = ref(storage, filePath);
+    const uploadTask = uploadBytesResumable(storageRef, imageFile);
+
+    return new Promise((resolve, reject) => {
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const bits = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setPercent(bits);
+        },
+        (error) => {
+          alert(error);
+          reject(error);
+        },
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          resolve(downloadURL);
+        }
+      );
+    });
+  }
+
   async function save() {
-    let downloadURL = storedImageUrl; // افتراضيًا استخدم الصورة المخزنة مسبقًا
+    let profileImageUrl = storedImageUrl; // استخدام صورة الملف الشخصي المخزنة مسبقًا بشكل افتراضي
+    let coverImageUrl = storedCoverImageUrl; // استخدام صورة الغلاف المخزنة مسبقًا بشكل افتراضي
 
-    // إذا كان هناك صورة جديدة تم رفعها
+    // رفع صورة الملف الشخصي الجديدة إذا تم تحديدها
     if (imgurl) {
-      const storageRef = ref(storage, `profileimg/${imgurl.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, imgurl);
+      profileImageUrl = await uploadImageToStorage(imgurl, `profileimg/${imgurl.name}`);
+    }
 
-      await new Promise((resolve, reject) => {
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            const bits = Math.round(
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            );
-            setPercent(bits);
-          },
-          (error) => {
-            alert(error);
-            reject(error);
-          },
-          async () => {
-            downloadURL = await getDownloadURL(uploadTask.snapshot.ref); // تحديث رابط الصورة الجديدة
-            resolve();
-          }
-        );
-      });
+    // رفع صورة الغلاف الجديدة إذا تم تحديدها
+    if (coverImgUrl) {
+      coverImageUrl = await uploadImageToStorage(coverImgUrl, `coverimg/${coverImgUrl.name}`);
     }
 
     if (userId) {
       const itemRef = doc(db, "users", userId);
       await updateDoc(itemRef, {
-        firstname: data[0].firstname, 
+        firstname: data[0].firstname,
         about: data[0].about,
-        profilePic: downloadURL,
+        profilePic: profileImageUrl,
+        coverPic: coverImageUrl, // إضافة رابط صورة الغلاف هنا
         lastname: data[0].lastname,
         email: data[0].email,
         accountType: data[0].accountType,
@@ -91,7 +98,7 @@ function AddDeitalsprofile() {
         linkedin: data[0].linkedin,
       });
       console.log(data);
-      navigate("/profile", { state: { data } }); 
+      navigate("/profile", { state: { data } });
     } else {
       console.error("User ID is not defined.");
     }
@@ -100,13 +107,13 @@ function AddDeitalsprofile() {
   return (
     <>
       <div>
-        <h1 className="ml-9 mt-9 flex justify-between text-5xl font-semibold ">Edit Profile</h1>
+        <h1 className="ml-9 mt-9 flex justify-between text-5xl font-semibold">Edit Profile</h1>
         {data.map((item, index) => {
           return (
             <div className="m-20" key={index}>
               <div className="flex justify-around gap-7">
                 <div className="w-1/3">
-                <div >
+                  {/* First Name and Last Name */}
                   <div>
                     <div className="mb-2 block">
                       <Label htmlFor="frist" value="First Name" />
@@ -125,31 +132,45 @@ function AddDeitalsprofile() {
                     </div>
                     <Textarea id="aboutyou" required rows={4} value={item.about} onChange={(e) => setData([{ ...item, about: e.target.value }])} />
                   </div>
-                </div>
-                <div className="mt-6">
+
+                  {/* Social Links */}
+                  <div className="mt-6">
                     <div className="mb-2 block">
-                      <Label htmlFor="email" value="FaceBook" />
+                      <Label htmlFor="facebook" value="Facebook" />
                     </div>
                     <TextInput id="facebook" type="text" sizing="sm" value={item.facebook} onChange={(e) => setData([{ ...item, facebook: e.target.value }])} />
                   </div>
                   <div className="mt-6">
                     <div className="mb-2 block">
-                      <Label htmlFor="email" value="Instgram" />
+                      <Label htmlFor="instgram" value="Instagram" />
                     </div>
                     <TextInput id="instgram" type="text" sizing="sm" value={item.instgram} onChange={(e) => setData([{ ...item, instgram: e.target.value }])} />
                   </div>
                 </div>
                 <div className="w-1/3">
+                  {/* Profile Image */}
                   <div>
                     <div className="mb-2 block">
                       <Label htmlFor="profileimg" value="Profile Img" />
                     </div>
-                  
                     {storedImageUrl && (
                       <img src={storedImageUrl} alt="Profile" className="mb-4 w-28" />
                     )}
                     <FileInput id="profileimg" onChange={(e) => setImgUrl(e.target.files[0])} />
                   </div>
+
+                  {/* Cover Image */}
+                  <div>
+                    <div className="mb-2 block">
+                      <Label htmlFor="coverimg" value="Cover Img" />
+                    </div>
+                    {storedCoverImageUrl && (
+                      <img src={storedCoverImageUrl} alt="Cover" className="mb-4 w-28" />
+                    )}
+                    <FileInput id="coverimg" onChange={(e) => setCoverImgUrl(e.target.files[0])} />
+                  </div>
+
+                  {/* Email and LinkedIn */}
                   <div className="mt-6">
                     <div className="mb-2 block">
                       <Label htmlFor="email" value="Email" />
@@ -158,34 +179,29 @@ function AddDeitalsprofile() {
                   </div>
                   <div className="mt-6">
                     <div className="mb-2 block">
-                      <Label htmlFor="email" value="Linkedin" />
+                      <Label htmlFor="linkedin" value="LinkedIn" />
                     </div>
                     <TextInput id="linkedin" type="text" sizing="sm" value={item.linkedin} onChange={(e) => setData([{ ...item, linkedin: e.target.value }])} />
                   </div>
+
+                  {/* Account Type */}
                   <div className="mt-5">
-                    <Label
-                      htmlFor="accounttype"
-                      value="Account Type"
-                      className="mb-2"
-                    />
+                    <Label htmlFor="accounttype" value="Account Type" className="mb-2" />
                     <select
                       id="accounttype"
                       required
                       value={item.accountType}
                       onChange={(e) => {
                         const selectedValue = e.target.value;
-                        setData((prevData) => [{ ...prevData[0], accountType: selectedValue }]); // تأكد من تحديث accountType
+                        setData((prevData) => [{ ...prevData[0], accountType: selectedValue }]);
                       }}
                       className="block w-full px-3 py-2 border border-gray-300 bg-white text-gray-900 text-lg rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                     >
-                      <option value="" disabled>
-                        Select
-                      </option>
+                      <option value="" disabled>Select</option>
                       <option value="Artist">Artist</option>
                       <option value="Customer">Customer</option>
                     </select>
                   </div>
-
                 </div>
               </div>
               <Button className="bot2 ml-24" onClick={save}>
