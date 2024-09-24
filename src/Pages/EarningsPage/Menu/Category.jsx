@@ -1,15 +1,26 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
+
+
+
+
+
 import React, { useEffect, useState } from "react";
 import Chbx from "./Chbx";
 import MiniMenu from "./MiniMenu";
 import db from "../../../Config/firebase.js";
 import { onSnapshot, collection } from "firebase/firestore";
 
+
+
+
+
 function Category({ onFilterChange }) {
+
+
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
+
+
 
   useEffect(() => {
     // Fetch products from Firestore
@@ -23,6 +34,7 @@ function Category({ onFilterChange }) {
 
         setProducts(fetchedProducts);
 
+
         // Calculate unique categories after fetching products
         const uniqueCategories = new Set(
           fetchedProducts.map((product) => product.typeproduct)
@@ -31,9 +43,15 @@ function Category({ onFilterChange }) {
       }
     );
 
+
     // Cleanup on unmount
     return () => unsubscribe();
   }, []);
+
+
+
+
+
 
   const handleCheckboxChange = (category) => {
     let updatedCategories;

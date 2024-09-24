@@ -1,3 +1,7 @@
+
+
+
+
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useContext, useEffect, useState } from "react";
@@ -20,6 +24,15 @@ import {
 import db from "../../../Config/firebase";
 import { ToastContainer, toast } from "react-toastify";
 
+
+
+
+
+
+
+
+
+
 function ProductCard(props) {
   const [openModal, setOpenModal] = useState(false);
   const [rating, setRating] = useState(0);
@@ -29,11 +42,17 @@ function ProductCard(props) {
   const { saveRating } = useContext(RatingsContext);
   const { productType, setProductType } = useContext(ReviewsContext);
   const ratingChanged = async (newRating) => {
-    setRating(newRating);
-  };
+    setRating(newRating);};
 
-  // ========= user Data ==========//
+        // ========= user Data ==========//
   const [username, setUsername] = useState("");
+
+
+
+
+
+
+
 
   useEffect(() => {
     getUserData();
@@ -54,6 +73,9 @@ function ProductCard(props) {
     });
   }
 
+
+
+
   const handleSave = () => {
     if (review == "") {
       toast.error("Please Fill Review Input", {
@@ -68,6 +90,10 @@ function ProductCard(props) {
       });
     }
   };
+
+
+
+
   useEffect(() => {
     const q = query(
       collection(db, "users"),

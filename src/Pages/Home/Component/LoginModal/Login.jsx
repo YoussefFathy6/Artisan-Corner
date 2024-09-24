@@ -44,12 +44,16 @@ function Login() {
           console.log("done");
           localStorage.setItem("id", auth.currentUser.uid);
           dispatch(toggleFlag());
+
+          // Reload the page to show updated user data in the navbar
+          window.location.reload();
         })
         .catch((err) => {
           reject(err);
         });
     });
   }
+
   function logoutAcc() {
     auth.signOut();
     localStorage.removeItem("id");

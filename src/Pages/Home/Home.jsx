@@ -26,7 +26,7 @@ function MainContent() {
     <>
       <Login />
       <Slider />
-      <RoundedCard />
+      {/* <RoundedCard /> */}
       <ImgCard />
       <BigCard />
       <SmallCards />

@@ -119,6 +119,8 @@ function BodyNav() {
           </span>
         </Navbar.Brand>
 
+
+
         <div className="flex md:order-2 items-center">
           <div className="">
             {/* <!-- User Greeting or Register/Login --> */}
@@ -220,7 +222,7 @@ function BodyNav() {
                 </Dropdown>
 
                 {/* Greeting */}
-                <div className="text-white">
+                <div className="text-white xl:block hidden">
                   Hi, {userData.firstname} {userData.lastname}{" "}
                   {/* Greeting with name */}
                 </div>
@@ -239,7 +241,6 @@ function BodyNav() {
                   onClick={() => {
                     dispatch(toggleFlag()); // Dispatch toggleFlag action for login modal
                   }}
-                  
                 >
                   Login
                 </button>
