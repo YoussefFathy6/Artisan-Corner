@@ -37,7 +37,7 @@ export default {
       },
       colors: {
         primary: "white",
-        secondary: "#025048",
+        secondary: "#344646",
         third: "#ffb6ad",
         fourth: "#0C2B63",
 
@@ -45,16 +45,13 @@ export default {
           "border-none bg-transparent text-white focus:border-none focus:ring-none dark:border-none dark:bg-transparent dark:text-white dark:placeholder-white dark:focus:border-none dark:focus:white",
       },
       writingMode: {
-        'vertical-rl': 'vertical-rl',
-        'vertical-lr': 'vertical-lr',
+        "vertical-rl": "vertical-rl",
+        "vertical-lr": "vertical-lr",
       },
     },
   },
   plugins: [flowbite.plugin()],
 };
-
-
-
 
 // main green  #7A8371
 // Beige  #9E9586
