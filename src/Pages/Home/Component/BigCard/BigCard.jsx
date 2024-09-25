@@ -6,7 +6,7 @@
 // eslint-disable-next-line no-unused-vars
 import React from "react";
 import ImgBig from "../../../../assets/imges/newww/event.jpeg";
-
+import SmallEvents from "./SmallEvents";
 
 
 
@@ -15,7 +15,7 @@ function BigCard() {
 
   return (
 
-
+<>
     <section className=" w-[85%] m-auto lg:my-20 lg:mt-28">
 
       <h1 className=" text-[#025048] font-lora text-5xl  lg:mb-10 ">EVENTS</h1>
@@ -33,6 +33,10 @@ function BigCard() {
         </div>
       </div>
     </section>
+
+<SmallEvents />
+
+</>
   );
 }
 

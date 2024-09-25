@@ -26,13 +26,15 @@ import { useLocation } from "react-router-dom";// QEDAiiiS
 
 
 
+
 // Start Function Component
 function Main() {
 
 
 
   const location = useLocation() // QEDAiiiS
-  const { categoryType } = location.state; // QEDAiiiS
+  
+  // const { categoryType } = location.state; // QEDAiiiS
 
 
   
@@ -210,13 +212,13 @@ function Main() {
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
 
-  useEffect(() => {
-    if (categoryType) {
-      setSelectedCategories(categoryType)
-      handleFilterChange(categoryType);
-      console.log(selectedCategories);     
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (categoryType) {
+  //     setSelectedCategories(categoryType)
+  //     handleFilterChange(categoryType);
+  //     console.log(selectedCategories);     
+  //   }
+  // }, []);
   
 
   // handleFilterChange(selectedCategories)
@@ -265,7 +267,8 @@ function Main() {
 
           {/* Products Section */}
           <main className="col-span-3">
-
+             
+             {/* Sort by */}
             <div className="flex justify-between items-center mb-6">
               {filteredProducts.length} Items Found
               <div className="flex gap-3">
