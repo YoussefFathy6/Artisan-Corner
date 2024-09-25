@@ -1,4 +1,6 @@
-/* eslint-disable no-unused-vars */
+
+
+
 import React, { useState, useEffect } from "react";
 import { Dropdown, Button, Pagination } from "flowbite-react";
 import db from "../../../Config/firebase";
@@ -13,27 +15,60 @@ import {
 import Card from "./Card";
 import Menu from "../Menu/Menu";
 import Loader from "../../../components/Loader";
+import { toast } from "react-toastify";
 
+
+
+import { useLocation } from "react-router-dom";// QEDAiiiS
+
+
+
+
+
+
+
+// Start Function Component
 function Main() {
-  const [artists, setArtists] = useState([]);
-  const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
+
+
+
+  const location = useLocation() // QEDAiiiS
+  
+  // const { categoryType } = location.state; // QEDAiiiS
+
+
+  
+
+  const [artists, setArtists] = useState([]);   // الفنانين
+  const [products, setProducts] = useState([]);     // المنتجات
+  const [filteredProducts, setFilteredProducts] = useState([]);   //  المنتجات المتفلتره
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [priceRange, setPriceRange] = useState({ min: "", max: "" });
-  const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false); // For showing filters dropdown on small screens
+  // console.log(ctegoryType);
+  // console.log(selectedCategories);
+  
+     //  الفئه المتحدده
+  const [priceRange, setPriceRange] = useState({ min: "", max: "" });  //   حد السعر 
+  const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false); // For showing filters dropdown on small screens قائمة الفلترز
 
   // Loader state
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);   // حالة اللودر
 
   // Pagination State
-  const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(9); // Number of products to display per page
+  const [currentPage, setCurrentPage] = useState(1);    //  الصفحة الحالية
+  const [productsPerPage] = useState(9); // Number of products to display per page   رقم الصفحة
+
+
+
+
+
+
 
   useEffect(() => {
     const q = query(
       collection(db, "users"),
       where("accountType", "==", "artist")
     );
+    
     const unsubscribe = onSnapshot(
       q,
       (snapshot) => {
@@ -47,7 +82,10 @@ function Main() {
 
     return () => unsubscribe();
   }, []);
-  console.log(artists);
+  // console.log(artists);
+
+
+
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
@@ -67,14 +105,23 @@ function Main() {
     return () => unsubscribe(); // Clean up subscription on unmount
   }, []);
 
+
+
+
+  
   // ========= user Data ==========//
   const [UID, setUID] = useState("");
+
+
+
   async function getUserData() {
     const userCollection = collection(db, "users");
     const q = query(
       userCollection,
       where("id", "==", localStorage.getItem("id"))
     );
+
+
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
@@ -82,6 +129,9 @@ function Main() {
       setUID(userData.id);
     });
   }
+
+
+
 
   async function clickMe(product) {
     await addDoc(collection(db, "Bag"), {
@@ -93,7 +143,14 @@ function Main() {
       quantity: 1,
       userID: UID,
     });
+      toast.success("Added successfully", {
+        position : "top-right"
+      })
   }
+
+
+
+
 
   const sortItemsHighest = () => {
     const sortedItems = [...filteredProducts].sort((a, b) => a.price - b.price);
@@ -128,7 +185,7 @@ function Main() {
     // Filter by category
     if (categories.length > 0) {
       filtered = filtered.filter((product) =>
-        categories.includes(product.typeproduct)
+        categories.includes(product.typeproduct)   /// مبيرجعش غير المنتجات اللي من الفئه المتحدده
       );
     }
 
@@ -154,12 +211,36 @@ function Main() {
 
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
+
+  // useEffect(() => {
+  //   if (categoryType) {
+  //     setSelectedCategories(categoryType)
+  //     handleFilterChange(categoryType);
+  //     console.log(selectedCategories);     
+  //   }
+  // }, []);
+  
+
+  // handleFilterChange(selectedCategories)
+
+
+
+
+//todo/       Start HTML
+
   return (
+
+
+
+
+
     <div className="containerr grid grid-cols-1 sm:grid-cols-4 gap-4">
+
+
       {/* Button to show the filters dropdown on small screens */}
-      <div className="sm:hidden">
+      <div className="sm:hidden ">
         <Button
-          className="bg-secondary my-3"
+          className="bg-secondary my-3 text-nowrap"
           onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
         >
           Filter Options
@@ -167,15 +248,11 @@ function Main() {
       </div>
 
       {/* Show Loader while loading */}
-      {loading ? (
-        <Loader />
-      ) : (
+      {loading ? (<Loader />) : (
         <>
           {/* Filters Section */}
           <div
-            className={`col-span-1 ${
-              isFilterDropdownOpen ? "block" : "hidden"
-            } sm:block`}
+            className={`col-span-1 ${isFilterDropdownOpen ? "block" : "hidden"} sm:block`}
           >
             <Menu
               onFilterChange={handleFilterChange}
@@ -183,8 +260,15 @@ function Main() {
             />
           </div>
 
+
+
+
+
+
           {/* Products Section */}
           <main className="col-span-3">
+             
+             {/* Sort by */}
             <div className="flex justify-between items-center mb-6">
               {filteredProducts.length} Items Found
               <div className="flex gap-3">
@@ -201,6 +285,8 @@ function Main() {
                 </Dropdown>
               </div>
             </div>
+
+
             <section className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
               {currentProducts.map((product) => {
                 // Find the corresponding artist for each product
@@ -212,8 +298,8 @@ function Main() {
                   <div className="m-5" key={product.id}>
                     <Card
                       imgsrc={product.img}
-                      productType={product.title}
-                      title={product.description}
+                      title={product.title}
+                      desc={product.description}
                       price={product.price}
                       productID={product.id}
                       firstname={artist?.firstname}
@@ -226,6 +312,9 @@ function Main() {
                 );
               })}
             </section>
+
+
+
 
             {/* Pagination Controls */}
             <div className="flex justify-center mt-6">
@@ -241,6 +330,10 @@ function Main() {
                 onPageChange={(page) => setCurrentPage(page)}
               />
             </div>
+
+
+
+
           </main>
         </>
       )}

@@ -1,15 +1,28 @@
+
+
+
+
 import { useState } from "react";
 import "./Users.modules.css";
 import { useNavigate } from "react-router-dom";
 
+
+
 function Cards({ data }) {
+
+
+  
   const [isExpanded, setIsExpanded] = useState(false);
   const navigate = useNavigate();
+
+
   const handleClick = () => {
 
     localStorage.setItem('user', JSON.stringify(data));
     navigate("/Artprofile");
   };
+
+
   const descriptionMaxLength = 80;
   const aboutText = data.about ? data.about : 'No description available';
 

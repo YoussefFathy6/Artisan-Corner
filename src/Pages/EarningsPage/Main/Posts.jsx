@@ -36,7 +36,7 @@ function Posts() {
   useEffect(() => {
     const q = query(
       collection(db, "users"),
-      where("accountType", "==", "artist")
+      where("accountType", "==", "Artist")
     );
     const unsubscribe = onSnapshot(
       q,
@@ -169,12 +169,7 @@ function Posts() {
                   Filter Options
                 </Button>
             <div className="col-span-1">
-  <Button
-    className="bg-white text-black my-3 border-2  border-gray-400"
-    onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
-  >
-    Filter Options
-  </Button>
+
 
                 {isFilterDropdownOpen && (
                   <div className="mt-2 border border-gray-300 shadow-lg rounded-md p-4 bg-white absolute z-40">

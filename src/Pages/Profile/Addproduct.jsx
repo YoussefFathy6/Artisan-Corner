@@ -73,7 +73,6 @@ function Addproduct() {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloaduRL) => {
-          // Save regular product if data1 is filled
           if (data1.title && data1.description) {
             const collectionref = collection(db, "tempProducts");
             addDoc(collectionref, {
@@ -86,10 +85,7 @@ function Addproduct() {
               typeproduct: data1.typeproduct,
               ownerID: localStorage.getItem("id"),
             });
-          }
-
-          // Save auction product if aucData is filled
-          if (aucData.title && aucData.description) {
+          } else if (aucData.title && aucData.description) {
             const collectionref = collection(db, "auctionProduct");
             addDoc(collectionref, {
               title: aucData.title,
@@ -166,19 +162,14 @@ function Addproduct() {
           </Dropdown>
         </div>
       </div>
-      <Modal
-        show={openModal}
-        size="6xl"
-        onClose={onCloseModal}
-        popup
-      >
+      <Modal show={openModal} size="6xl" onClose={onCloseModal} popup>
         <Modal.Header />
         <Modal.Body
-         style={{
-          backgroundImage: `url(${"https://i.pinimg.com/564x/29/c9/9f/29c99f2d3d1c2058959052d88e69c0ab.jpg"})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
+          style={{
+            backgroundImage: `url(${"https://i.pinimg.com/564x/29/c9/9f/29c99f2d3d1c2058959052d88e69c0ab.jpg"})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
         >
           <div className="space-y-6 m-10 p-10">
             <h3 className="text-4xl font-medium text-gray-900 dark:text-white">
@@ -292,19 +283,14 @@ function Addproduct() {
           </div>
         </Modal.Body>
       </Modal>
-      <Modal
-        show={openAucModal}
-        size="6xl"
-        onClose={onCloseModal}
-        popup
-      >
+      <Modal show={openAucModal} size="6xl" onClose={onCloseModal} popup>
         <Modal.Header />
         <Modal.Body
-         style={{
-          backgroundImage: `url(${"https://i.pinimg.com/564x/29/c9/9f/29c99f2d3d1c2058959052d88e69c0ab.jpg"})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
+          style={{
+            backgroundImage: `url(${"https://i.pinimg.com/564x/29/c9/9f/29c99f2d3d1c2058959052d88e69c0ab.jpg"})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
         >
           <div className="space-y-6 m-10 p-10">
             <h3 className="text-4xl font-medium text-gray-900 dark:text-white">

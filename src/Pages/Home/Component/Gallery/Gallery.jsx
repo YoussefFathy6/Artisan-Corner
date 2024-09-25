@@ -4,7 +4,7 @@
 // eslint-disable-next-line no-unused-vars
 import React from "react";
 import Title from "./component/Title";
-import Smallgallery from "./component/Smallgallery";
+import ArtistSlider from "./component/ArtistSlider";
 
 
 
@@ -14,7 +14,7 @@ function Gallery() {
     <section className=" w-[85%] m-auto ">
       <div className="  flex flex-col pb-10">
         <Title />
-        <Smallgallery />
+        <ArtistSlider />
       </div>
     </section>
   );

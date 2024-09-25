@@ -5,19 +5,65 @@
 import './component/card.css'
 
 
-// eslint-disable-next-line no-unused-vars
 import React from "react";
 // import imgCard from "../../../../assets/imges/Card.png";
 // import imgCard2 from "../../../../assets/imges/Card2.png";
 // import SmallimgCard from "./component/SmallimgCard";
 import category1 from '../../../../assets/imges/newww/category1.jpg'
 import category2 from '../../../../assets/imges/newww/category2.jpeg'
-import category3 from '../../../../assets/imges/newww/category3.jpeg'
+import category3 from '../../../../assets/imges/newww/category3.jpg'
 import category4 from '../../../../assets/imges/newww/category4.jpg'
 
 
 
+import { useNavigate } from 'react-router-dom';
+
+
+
+
+
+
+
+
+
 function ImgCard() {
+
+  const navigate = useNavigate()
+
+
+  const catType = ['Painting']
+  const handleClick = () => 
+    {
+      navigate ('/earnings', {state: {categoryType:catType}})
+      // console.log(categoryType);  
+      // console.log(catType);
+      
+    }
+
+
+    // <img
+    // onClick={() => {
+    //   nav("/details", {
+    //     state: {
+    //       imgsrc: props.imgsrc,
+    //       productType: props.productType,
+    //       title : props.title,
+    //       desc: props.desc,
+    //       price: props.price,
+    //       // rating: rating,
+    //       bobId: props.productID,
+    //     },
+    //   });
+    //   window.scrollTo({
+    //     top: 0,
+    //     behavior: "smooth", // Smooth scrolling
+    //   });
+    // }}
+
+
+
+
+    
   return (
     <>
 
@@ -32,11 +78,11 @@ function ImgCard() {
 
 
 
-{/* .products .card:hover{
-  transform: scale(1.1);
-    transition: 0.6s;
 
-} */}
+
+
+
+
 
 
       {/* NEWWW */}
@@ -48,28 +94,28 @@ function ImgCard() {
         <div className='flex gap-10 mt-9'>
 
 
-        <div className=" flex flex-col w-[350px]">
-        <img className='fancy hover:scale-105 transition  duration-300 ease-out hover:ease-linear' src={category2} alt="" />
-         <p className=' mt-5 text-center font-bold text-2xl text-[#025048]'>ANTIQUES</p>
+        <div onClick={handleClick} className=" flex flex-col w-[350px]">
+        <img className=' rounded-[50%] fancy hover:scale-105 transition  duration-300 ease-out hover:ease-linear' src={category2} alt="" />
+         <button onClick={handleClick} className=' mt-5 text-center font-bold text-2xl text-[#025048]'>ANTIQUES</button>
         </div>
 
 
 
-        <div className=" flex flex-col w-[350px]">
-        <img className='fancy hover:scale-105 transition  duration-300 ease-out hover:ease-linear' src={category1} alt="" />
-         <p className='mt-5 text-center font-bold text-2xl text-[#025048]'>POTTERY</p>
+        <div onClick={handleClick}  className=" flex flex-col w-[350px]">
+        <img className=' rounded-[50%] fancy hover:scale-105 transition  duration-300 ease-out hover:ease-linear' src={category1} alt="" />
+         <button onClick={handleClick} className='mt-5 text-center font-bold text-2xl text-[#025048]'>POTTERY</button>
         </div>
 
 
 
-        <div className=" flex flex-col w-[350px]">
-        <img className='fancy hover:scale-105 transition  duration-300 ease-out hover:ease-linear' src={category3} alt="" />
-         <p className=' mt-5 text-center font-bold text-2xl text-[#025048]'>TEXTILE</p>
+        <div onClick={handleClick}  className=" flex flex-col w-[350px]">
+        <img className='rounded-[50%] fancy hover:scale-105 transition  duration-300 ease-out hover:ease-linear' src={category3} alt="" />
+         <button onClick={handleClick} className=' mt-5 text-center font-bold text-2xl text-[#025048]'>TEXTILE</button>
         </div>
 
-        <div className=" flex flex-col w-[350px]">
-        <img className='fancy hover:scale-105 transition  duration-300 ease-out hover:ease-linear' src={category4} alt="" />
-         <p className=' mt-5 text-center font-bold text-2xl text-[#025048]'>ACCESSORIES</p>
+        <div onClick={handleClick}  className=" flex flex-col w-[350px]">
+        <img className='rounded-[50%] fancy hover:scale-105 transition  duration-300 ease-out hover:ease-linear' src={category4} alt="" />
+         <button onClick={handleClick} className=' mt-5 text-center font-bold text-2xl text-[#025048]'>TEXTILE</button>
         </div>
 
         </div>
@@ -84,3 +130,7 @@ function ImgCard() {
 }
 
 export default ImgCard;
+
+
+
+

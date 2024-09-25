@@ -1,3 +1,7 @@
+
+
+
+
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useContext, useEffect, useState } from "react";
@@ -19,6 +23,16 @@ import {
 } from "firebase/firestore";
 import db from "../../../Config/firebase";
 import { ToastContainer, toast } from "react-toastify";
+
+
+
+
+
+
+
+
+
+
 function ProductCard(props) {
   const [openModal, setOpenModal] = useState(false);
   const [rating, setRating] = useState(0);
@@ -28,14 +42,21 @@ function ProductCard(props) {
   const { saveRating } = useContext(RatingsContext);
   const { productType, setProductType } = useContext(ReviewsContext);
   const ratingChanged = async (newRating) => {
-    setRating(newRating);
-  };
+    setRating(newRating);};
 
-  // ========= user Data ==========//
+        // ========= user Data ==========//
   const [username, setUsername] = useState("");
+
+
+
+
+
+
+
 
   useEffect(() => {
     getUserData();
+    console.log(props)
   }, []);
 
   async function getUserData() {
@@ -52,6 +73,9 @@ function ProductCard(props) {
     });
   }
 
+
+
+
   const handleSave = () => {
     if (review == "") {
       toast.error("Please Fill Review Input", {
@@ -66,6 +90,10 @@ function ProductCard(props) {
       });
     }
   };
+
+
+
+
   useEffect(() => {
     const q = query(
       collection(db, "users"),
@@ -108,7 +136,8 @@ function ProductCard(props) {
               state: {
                 imgsrc: props.imgsrc,
                 productType: props.productType,
-                desc: props.title,
+                title : props.title,
+                desc: props.desc,
                 price: props.price,
                 // rating: rating,
                 bobId: props.productID,
@@ -145,18 +174,18 @@ function ProductCard(props) {
               });
             }}
           />
-          <p>{`${props.firstname} ${props.lastname}`}</p>
+          <p >{`${props.firstname} ${props.lastname}`}</p>
         </div>
         <div className="m-3">
           <h5 className=" text-base text-[#3E402D] font-Rosario font-bold tracking-tight dark:text-white">
-            {props.productType}
+            {props.title}
           </h5>
           <p
             className={`font-normal text-gray-500 dark:text-gray-400 text-[1rem] ${
               isExpanded ? "line-clamp-none" : "line-clamp-2"
             } overflow-hidden`}
           >
-            {props.title}
+            {props.desc}
           </p>
 
           {/* Show More/Show Less Button */}

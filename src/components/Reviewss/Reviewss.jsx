@@ -104,7 +104,7 @@ function Reviewss({ bobId }) {
 
         <h1 className="text-[#344054] font-bold">Reviews</h1>
 
-        <div className="reviews-list mt-4  overflow-y-auto max-h-[400px] p-2">
+        <div className="reviews-list mt-4  overflow-y-auto max-h-[400px] p-2 ">
           {reviewList.length == 0 ? (
             <h1 className="text-center">
               No reviews have been added for this product yet. Be the first to
