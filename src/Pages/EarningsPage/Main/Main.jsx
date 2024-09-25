@@ -339,3 +339,113 @@ function Main() {
 }
 
 export default Main;
+// import React from 'react';
+// import { useLocation } from 'react-router-dom';
+
+// const products = [
+//     { id: 1, name: 'Product 1', category: 'Macramé' },
+//     { id: 2, name: 'Product 2', category: 'Category 2' },
+//     { id: 3, name: 'Product 3', category: 'Category 1' },
+//     { id: 4, name: 'Product 4', category: 'Category 3' },
+// ];
+
+// const Main = () => {
+//     const location = useLocation();
+//     const queryParams = new URLSearchParams(location.search);
+//     const category = queryParams.get('category');
+
+//     const filteredProducts = category 
+//         ? products.filter(product => product.category === category) 
+//         : products;
+
+//     return (
+//         <div className="main">
+//             <h1>Products in {category ? category : 'All Categories'}</h1>
+//             <div className="productList">
+//                 {filteredProducts.map(product => (
+//                     <div key={product.id} className="product">
+//                         <h2>{product.name}</h2>
+//                     </div>
+//                 ))}
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default Main;
+
+
+// import React, { useState, useEffect } from "react";
+// import { useLocation } from "react-router-dom";
+// import db from "../../../Config/firebase";
+// import { onSnapshot, collection } from "firebase/firestore";
+// import Card from "./Card";
+// import Loader from "../../../components/Loader";
+// import { toast } from "react-toastify";
+
+// const Main = () => {
+//   const location = useLocation();
+//   const { categoryType } = location.state || {}; // QEDAiiiS
+//   const queryParams = new URLSearchParams(location.search);
+//   const categoryFromUrl = queryParams.get('category')
+
+//     const [products, setProducts] = useState([]);
+//     const [filteredProducts, setFilteredProducts] = useState([]);
+//     const [loading, setLoading] = useState(true);
+
+//     useEffect(() => {
+//         const unsubscribe = onSnapshot(collection(db, "add product"), (snapshot) => {
+//             const productArr = snapshot.docs.map((doc) => ({
+//                 ...doc.data(),
+//                 id: doc.id,
+//             }));
+//             setProducts(productArr);
+//             setLoading(false);
+//         });
+
+//         return () => unsubscribe();
+//     }, []);
+
+//     useEffect(() => {
+//         if (category) {
+//             const filtered = products.filter(product => product.typeproduct === category);
+//             setFilteredProducts(filtered);
+//         } else {
+//             setFilteredProducts(products);
+//         }
+//     }, [category, products]);
+
+//     const clickMe = (product) => {
+//         toast.success("added   ", {
+//             position: "top-right",
+//         });
+//     };
+
+//     return (
+//         <div className="container grid grid-cols-1 sm:grid-cols-4 gap-4">
+//             {loading ? (
+//                 <Loader />
+//             ) : (
+//                 <main className="col-span-3">
+//                     <h1>{category ? category : 'All category'}</h1>
+//                     <section className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
+//                         {filteredProducts.map((product) => (
+//                             <div className="m-5" key={product.id}>
+//                                 <Card
+//                                     imgsrc={product.img}
+//                                     title={product.title}
+//                                     desc={product.description}
+//                                     price={product.price}
+//                                     productID={product.id}
+//                                     func={() => clickMe(product)}
+//                                 />
+//                             </div>
+//                         ))}
+//                     </section>
+//                 </main>
+//             )}
+//         </div>
+//     );
+// };
+
+// export default Main;

@@ -111,7 +111,7 @@ function Profile() {
 
       {/* Main Content */}
 
-     <div className={`p-5  ${accountType === "Customer" ? "w-full" : "w-[90%]"}`}>
+     <div className={`pl-3  ${accountType === "Customer" ? "w-full" : "w-[90%]"}`}>
   {activeItem === "profile" && (
     <div>
       {data.length > 0 &&
@@ -137,7 +137,7 @@ function Profile() {
                     <img
                       src={item.profilePic || "avatar-1299805_1280.png"}
                       alt="Profile"
-                      className="rounded-full w-72 h-auto object-cover transition-transform duration-500 ease-in-out hover:scale-110 shadow-lg"
+                      className="rounded-full w-72 h-72 object-cover transition-transform duration-500 ease-in-out hover:scale-110 shadow-lg"
                     />
                   </div>
                     </div>

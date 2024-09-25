@@ -5,7 +5,6 @@
 import './component/card.css'
 
 
-import React from "react";
 // import imgCard from "../../../../assets/imges/Card.png";
 // import imgCard2 from "../../../../assets/imges/Card2.png";
 // import SmallimgCard from "./component/SmallimgCard";
@@ -16,7 +15,7 @@ import category4 from '../../../../assets/imges/newww/category4.jpg'
 
 
 
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
@@ -100,7 +99,10 @@ function ImgCard() {
         </div>
 
 
-
+{/* <Link to={`/earnings?category=${Macramé}`}>
+    <img src={category2} alt={Macramé} />
+    <h3>{Macramé}</h3>
+</Link> */}
         <div onClick={handleClick}  className=" flex flex-col w-[350px]">
         <img className=' rounded-[50%] fancy hover:scale-105 transition  duration-300 ease-out hover:ease-linear' src={category1} alt="" />
          <button onClick={handleClick} className='mt-5 text-center font-bold text-2xl text-[#025048]'>POTTERY</button>
@@ -134,3 +136,95 @@ export default ImgCard;
 
 
 
+// import React from 'react';
+// import { Link } from 'react-router-dom';
+
+// const categories = [
+//     { id: 1, name: 'Macramé', image: 'link_to_image1.jpg' },
+//     { id: 2, name: 'Category 2', image: 'link_to_image2.jpg' },
+//     { id: 3, name: 'Category 3', image: 'link_to_image3.jpg' },
+// ];
+
+// const ImgCard = () => {
+//     return (
+//         <div className="home">
+//             <h1>Categories</h1>
+//             <div className="imgCards">
+//                 {categories.map(category => (
+//                     <Link to={`/earnings?category=${category.name}`} key={category.id} className="imgCard">
+//                         <img src={category.image} alt={category.name} />
+//                         <h3>{category.name}</h3>
+//                     </Link>
+//                 ))}
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default ImgCard;
+
+// import React from 'react';
+// import { Link } from 'react-router-dom';
+// import category1 from '../../../../assets/imges/newww/category1.jpg'
+// import category2 from '../../../../assets/imges/newww/category2.jpeg'
+// import category3 from '../../../../assets/imges/newww/category3.jpg'
+// import category4 from '../../../../assets/imges/newww/category4.jpg'
+
+// const categories = [
+//     { id: 1, name: 'Macramé', image: category1 },
+//     { id: 2, name: 'Painting', image: category2 },
+//     { id: 3, name: 'Wood carving', image: category3 },
+// ];
+
+// const ImgCard = () => {
+//     return (
+//         <div className="">
+//           <h2 style={{ fontFamily: 'cursive' }} className=' text-[#025048] text-center font-bold text-3xl'>Enjoy with us</h2>
+//         <h2 className=' text-5xl text-[#025048] font-lora lg:mt-16'>Our product categories</h2>
+        
+//           <div  className=" flex flex-row w-[200px]">
+//             {categories.map(category => (
+
+//                     <Link to={`/earnings?category=${category.name}`} key={category.id} className="imgCard">
+//                      <img className='rounded-[50%] fancy hover:scale-105 transition  duration-300 ease-out hover:ease-linear' src={category.image} alt={category.name} />
+//                       <button  className=' mt-5 text-center font-bold text-2xl text-[#025048]'>{category.name}</button>
+
+//                     </Link>
+//                 ))}
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default ImgCard;
+// import React from 'react';
+// import { Link } from 'react-router-dom';
+// import category1 from '../../../../assets/imges/newww/category1.jpg';
+// import category2 from '../../../../assets/imges/newww/category2.jpeg';
+// import category3 from '../../../../assets/imges/newww/category3.jpg';
+
+// const categories = [
+//   { id: 1, name: 'Macramé', image: category1 },
+//   { id: 2, name: 'Painting', image: category2 },
+//   { id: 3, name: 'Wood carving', image: category3 },
+// ];
+
+// const ImgCard = () => {
+//   return (
+//     <div className="text-center">
+//       <h2 style={{ fontFamily: 'cursive' }} className='text-[#025048] text-center font-bold text-3xl'>Enjoy with us</h2>
+//       <h2 className='text-5xl text-[#025048] font-lora lg:mt-16'>Our product categories</h2>
+
+//       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 justify-center mt-8">
+//         {categories.map(category => (
+//           <Link to={`/earnings?category=${category.name}`} key={category.id} className="imgCard text-center">
+//             <img className='rounded-full fancy hover:scale-105 transition duration-300 ease-out hover:ease-linear' src={category.image} alt={category.name} />
+//             <button className='mt-5 text-center font-bold text-2xl text-[#025048]'>{category.name}</button>
+//           </Link>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ImgCard;
