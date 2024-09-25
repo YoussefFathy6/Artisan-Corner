@@ -1,34 +1,62 @@
 /* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from "react";
+import { Button, TextInput } from "flowbite-react";
+import { useLocation } from "react-router-dom";
 import {
-  arrayUnion,
-  collection,
   doc,
   onSnapshot,
   updateDoc,
+  arrayUnion,
   getDocs,
-  getDoc,
-  query,
-  where,
+  collection,
 } from "firebase/firestore";
-import { Button, TextInput } from "flowbite-react";
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import db from "../../Config/firebase";
 
 function ProposalsPage() {
   const location = useLocation();
-  const [inputValue, setInputValue] = useState(""); // State to hold the input value
-  const [proposals, setProposals] = useState([]); // State to hold proposals
-  const [users, setUsers] = useState({}); // State to hold user data
-  const [error, setError] = useState(""); // State to hold user data
-
+  const [inputValue, setInputValue] = useState("");
+  const [proposals, setProposals] = useState([]);
+  const [users, setUsers] = useState({});
+  const [error, setError] = useState("");
+  const [timeRemaining, setTimeRemaining] = useState(""); // State for remaining time
   const { product } = location.state;
 
+  // Calculate the time remaining
+  console.log(product);
+
+  useEffect(() => {
+    if (product?.endDate) {
+      const calculateTimeLeft = () => {
+        const endDate = new Date(product.endDate);
+        const now = new Date();
+        const difference = endDate - now;
+
+        if (difference > 0) {
+          const hours = Math.floor(difference / (1000 * 60 * 60));
+          const minutes = Math.floor(
+            (difference % (1000 * 60 * 60)) / (1000 * 60)
+          );
+          const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+          setTimeRemaining(`${hours}h ${minutes}m ${seconds}s`);
+        } else {
+          setTimeRemaining("Auction has ended");
+        }
+      };
+
+      // Update the countdown every second
+      const timer = setInterval(calculateTimeLeft, 1000);
+
+      // Cleanup timer when component unmounts
+      return () => clearInterval(timer);
+    }
+  }, [product?.endDate]);
+
+  // Fetch proposals and users logic (already implemented)
   useEffect(() => {
     if (product?.id) {
       const docRef = doc(db, "auctionProduct", product.id);
 
-      // Fetch the proposals from Firestore
       const unsubscribe = onSnapshot(docRef, (doc) => {
         const data = doc.data();
         if (data?.proposals) {
@@ -36,13 +64,11 @@ function ProposalsPage() {
         }
       });
 
-      // Cleanup subscription on unmount
       return () => unsubscribe();
     }
   }, [product]);
 
   useEffect(() => {
-    // Fetch users data from the "users" collection
     const fetchUsers = async () => {
       const usersCollection = collection(db, "users");
       const userDocs = await getDocs(usersCollection);
@@ -62,97 +88,29 @@ function ProposalsPage() {
 
     fetchUsers();
   }, []);
-  async function updatePrice(documentId) {
-    const docRef = doc(db, "auctionProduct", documentId); // Replace with your collection and document ID
-
-    // Update the array field
-    await updateDoc(docRef, {
-      initPrice: +inputValue, // Replace `yourArrayField` with the name of your array field
-    });
-
-    console.log("Item added successfully to the array!");
-  }
 
   async function addProposal(documentId, newItem) {
     const docRef = doc(db, "auctionProduct", documentId);
-
-    // Update the array field
     await updateDoc(docRef, {
       proposals: arrayUnion(newItem),
     });
-
-    console.log("Item added successfully to the array!");
-    notifyMembers(documentId, newItem.member);
+    updatePrice(documentId);
   }
 
-  async function notifyMembers(productId, offerMemberId) {
-    try {
-      const docRef = doc(db, "auctionProduct", productId);
-
-      // Correct document reference
-      const productDoc = await getDoc(docRef); // Retrieve the document
-
-      // Check if productDoc exists
-      if (!productDoc.exists()) {
-        console.log("Product not found");
-        return;
-      }
-
-      const { members } = productDoc.data();
-
-      // Log members to verify if they are correctly fetched
-      console.log("Members: ", members);
-
-      // Notify each member except the one who made the offer
-      for (const memberId of members) {
-        if (memberId !== offerMemberId) {
-          const userQuery = query(
-            collection(db, "users"),
-            where("id", "==", memberId)
-          );
-
-          // Fetch the query results using getDocs
-          const userDocs = await getDocs(userQuery);
-
-          // If the query returns no results, skip this member
-          if (userDocs.empty) {
-            console.log(`User ${memberId} not found`);
-            continue;
-          }
-
-          // Process the first user document found (since there should only be one)
-          const userDoc = userDocs.docs[0];
-
-          // Log user data to verify it is fetched correctly
-          console.log(`User data for ${memberId}: `, userDoc.data());
-
-          // Push a notification to this member's notifications array
-          const userDocRef = userDoc.ref; // Get document reference
-          await updateDoc(userDocRef, {
-            notifications: arrayUnion({
-              message: `A new offer has been made on ${
-                productDoc.data().title
-              }`,
-              timestamp: new Date().toISOString(),
-              read: false,
-            }),
-          });
-
-          console.log(`Notification sent to user ${memberId}`);
-        }
-      }
-    } catch (error) {
-      console.error("Error notifying members: ", error);
-    }
+  async function updatePrice(documentId) {
+    const docRef = doc(db, "auctionProduct", documentId);
+    await updateDoc(docRef, {
+      initPrice: +inputValue,
+    });
   }
 
   return (
     <main className="flex gap-5 p-5 h-screen">
       {/* Left section */}
       <div className="w-1/2 flex flex-col">
-        <h1 className="text-2xl font-bold">{product.productType}</h1>
+        <h1 className="text-2xl font-bold">{product.title}</h1>
         <img
-          src={product.imgsrc}
+          src={product.img}
           alt={product.productType}
           className="w-full h-96 rounded-md"
         />
@@ -160,7 +118,11 @@ function ProposalsPage() {
         <h2 className="mt-2 text-lg font-bold">
           Current Price: {product.price} $
         </h2>
-        {/* Add more product details here */}
+
+        {/* Countdown Timer */}
+        <div className="mt-4 text-red-600 font-bold">
+          Time Remaining: {timeRemaining}
+        </div>
       </div>
 
       {/* Right section */}
@@ -173,12 +135,11 @@ function ProposalsPage() {
             <ul className="list-disc pl-5">
               {proposals.map((proposal, index) => {
                 const user = users[proposal.member] || {};
-                console.log(user);
 
                 return (
                   <div
                     key={index}
-                    className=" flex justify-between py-3 px-7  border border-s-0 border-e-0"
+                    className="flex justify-between py-3 px-7 border border-s-0 border-e-0"
                   >
                     <div className="w-48 justify-center items-center">
                       <div className="flex justify-center">
@@ -189,12 +150,11 @@ function ProposalsPage() {
                               : "https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png"
                           }
                           alt={user.firstName}
-                          className="rounded-full w-20 h-20 "
+                          className="rounded-full w-20 h-20"
                         />
                       </div>
                       <div className="flex justify-center items-center">
                         <span className="me-1">{user.firstName}</span>
-                        <span></span>
                         <span>{user.lastName}</span>
                       </div>
                     </div>
@@ -216,21 +176,17 @@ function ProposalsPage() {
           <TextInput
             type="number"
             className="w-3/4"
-            value={inputValue} // Bind the input value to state
+            value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
           />
           <Button
             onClick={() => {
-              console.log(product.price, product.id);
-
               if (product.price <= inputValue) {
                 setError("");
                 addProposal(product.id, {
                   member: localStorage.getItem("id"),
                   offer: +inputValue,
                 });
-                updatePrice(product.id);
-                console.log(users);
               } else setError("Your Offer must be higher than current price");
             }}
             className="w-1/4 bg-secondary"
@@ -238,7 +194,7 @@ function ProposalsPage() {
             Add Proposal
           </Button>
         </div>
-        <p className=" text-red-700">{error}</p>
+        <p className="text-red-700">{error}</p>
       </div>
     </main>
   );
