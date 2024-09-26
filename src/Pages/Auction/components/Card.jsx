@@ -16,11 +16,7 @@ function ProductCard(props) {
     navigate("/proposals", {
       state: {
         product: {
-          id: props.ID,
-          imgsrc: props.imgsrc,
-          productType: props.productType,
-          title: props.title,
-          price: props.price,
+          ...props.productData,
         },
       },
     });
