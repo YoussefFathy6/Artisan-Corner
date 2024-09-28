@@ -126,7 +126,7 @@ function CartSection({ customerInfo }) {
                         <div className="w-1/6 h-40">
                           <img
                             className="w-full h-full rounded-full"
-                            src={product.imgsrc}
+                            src={product.image}
                             alt={product.name}
                           />
                         </div>

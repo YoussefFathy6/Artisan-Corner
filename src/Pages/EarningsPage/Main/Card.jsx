@@ -47,13 +47,6 @@ function ProductCard(props) {
         // ========= user Data ==========//
   const [username, setUsername] = useState("");
 
-
-
-
-
-
-
-
   useEffect(() => {
     getUserData();
     console.log(props)
@@ -134,7 +127,7 @@ function ProductCard(props) {
           onClick={() => {
             nav("/details", {
               state: {
-                imgsrc: props.imgsrc,
+                image: props.image,
                 productType: props.productType,
                 title : props.title,
                 desc: props.desc,
@@ -149,7 +142,7 @@ function ProductCard(props) {
             });
           }}
           className="w-full h-56 rounded-t-lg cursor-pointer"
-          src={props.imgsrc}
+          src={props.image}
           alt={props.productType}
         />
         <div className="flex gap-4 items-center my-2 pe-2">
@@ -181,9 +174,7 @@ function ProductCard(props) {
             {props.title}
           </h5>
           <p
-            className={`font-normal text-gray-500 dark:text-gray-400 text-[1rem] ${
-              isExpanded ? "line-clamp-none" : "line-clamp-2"
-            } overflow-hidden`}
+            className={`font-normal text-gray-500 dark:text-gray-400 text-[1rem] ${isExpanded ? "line-clamp-none" : "line-clamp-2"} overflow-hidden`}
           >
             {props.desc}
           </p>
