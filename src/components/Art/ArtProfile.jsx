@@ -191,16 +191,20 @@ function ArtProfile() {
                     columnClassName="my-masonry-grid_column"
                   >
                     {postsData.map((item) => (
+                      
                       <ProCard
                         key={item.id}
                         data={{
-                          imgsrc: item.img,
-                          productType: item.title,
+                          // imgsrc: item.img,
+                          image: item.img,
+                          // productType: item.title,
+                          name: item.title,
                           description: item.description,
                           price: item.price,
                           productID: item.id
                         }}
                       />
+                     
                     ))}
                   </Masonry>
                 ) : (
