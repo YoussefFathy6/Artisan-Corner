@@ -6,7 +6,6 @@ import db from "../../Config/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../Config/firebase";
-import { daDK } from "rsuite/esm/locales";
 function Addevent() {
   const [openModal, setOpenModal] = useState();
   let [data1, setdate1] = useState({
