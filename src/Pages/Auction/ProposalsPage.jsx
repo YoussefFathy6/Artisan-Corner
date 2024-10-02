@@ -180,16 +180,18 @@ function ProposalsPage() {
                     key={index}
                     className=" flex justify-between py-3 px-7  border border-s-0 border-e-0"
                   >
-                    <div className="w-20 justify-center items-center">
-                      <img
-                        src={
-                          user.Profile
-                            ? user.Profile
-                            : "https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png"
-                        }
-                        alt={user.firstName}
-                        className="rounded-full w-full "
-                      />
+                    <div className="w-48 justify-center items-center">
+                      <div className="flex justify-center">
+                        <img
+                          src={
+                            user.Profile
+                              ? user.Profile
+                              : "https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png"
+                          }
+                          alt={user.firstName}
+                          className="rounded-full w-20 h-20 "
+                        />
+                      </div>
                       <div className="flex justify-center items-center">
                         <span className="me-1">{user.firstName}</span>
                         <span></span>
@@ -219,7 +221,7 @@ function ProposalsPage() {
           />
           <Button
             onClick={() => {
-              console.log(product.price);
+              console.log(product.price, product.id);
 
               if (product.price <= inputValue) {
                 setError("");
