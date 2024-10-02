@@ -1,11 +1,13 @@
+import { useState, useEffect } from 'react';
+import { Modal, Button } from 'flowbite-react';
 import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { collection, query, where, onSnapshot, addDoc, getDoc, doc } from "firebase/firestore";
 import db from "../../Config/firebase";
 import ProCard from "./ProCard";
 import EventCard from "./EventCard";
 import Masonry from 'react-masonry-css';
 import ReactStars from "react-rating-stars-component";
+import Chat from '../Chat/Chat'; 
 import "./Users.modules.css";
 
 function ArtProfile() {
@@ -26,6 +28,9 @@ function ArtProfile() {
   const [newRating, setNewRating] = useState(0);
   const [totalStars, setTotalStars] = useState(0);
   const [averageStars, setAverageStars] = useState(0);
+  const [isChatModalOpen, setIsChatModalOpen] = useState(false); 
+  const openChatModal = () => setIsChatModalOpen(true);
+  const closeChatModal = () => setIsChatModalOpen(false);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -62,7 +67,6 @@ function ArtProfile() {
     }
   }, [user]);
 
-
   useEffect(() => {
     if (user) {
       const reviewsQuery = query(collection(db, "userReviews"), where("userID", "==", user.id));
@@ -79,7 +83,7 @@ function ArtProfile() {
             return {
               id: reviewDoc.id,
               ...reviewData,
-              userName, 
+              userName,
             };
           })
         );
@@ -113,27 +117,23 @@ function ArtProfile() {
     setNewRating(0);
   };
 
-
   return (
     <div className="min-h-screen justify-center">
       {user ? (
         <div>
-<div
-  className=" shadow-xl rounded-lg overflow-hidden pt-28 "
-  style={{
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-  }}
->            <div className="justify-center items-center m-auto flex">
-              <div className="justify-center items-center m-auto flex">
-                <div>
-                  <img
-                    src={user.profilePic || "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"}
-                    alt="Profile"
-                    className="w-96 h-96 rounded-full object-cover border-4 border-orange-950 shadow-lg"
-                  />
-                </div>
-              </div>
+          <div
+            className="shadow-xl rounded-lg overflow-hidden pt-28"
+            style={{
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            <div className="justify-center items-center m-auto flex">
+              <img
+                src={user.profilePic || "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"}
+                alt="Profile"
+                className="w-96 h-96 rounded-full object-cover border-4 border-orange-950 shadow-lg"
+              />
             </div>
 
             <div className="justify-center items-center text-center flex pt-7">
@@ -194,8 +194,8 @@ function ArtProfile() {
                       <ProCard
                         key={item.id}
                         data={{
-                          imgsrc: item.img,
-                          productType: item.title,
+                          image: item.img,
+                          name: item.title,
                           description: item.description,
                           price: item.price,
                           productID: item.id
@@ -209,14 +209,14 @@ function ArtProfile() {
               </div>
             )}
 
-{selectedTab === 'reviews' && (
+            {selectedTab === 'reviews' && (
               <div>
                 {reviewsData.length > 0 ? (
                   <ul>
                     {reviewsData.map((review) => (
                       <li key={review.id} className="pb-2 mb-2 pl-9 pt-9 w-80">
                         <div className="flex items-center justify-between">
-                          <h4 className="font-semibold">{review.userName} </h4>
+                          <h4 className="font-semibold">{review.userName}</h4>
                           <ReactStars
                             count={5}
                             value={review.rating}
@@ -243,30 +243,48 @@ function ArtProfile() {
                     className="w-96 border rounded p-2"
                     placeholder="Write a review..."
                   />
-           
+                  <div className="flex justify-center mt-4">
+                    <ReactStars
+                      count={5}
+                      value={newRating}
+                      onChange={handleRatingChange}
+                      size={30}
+                      activeColor="#ffd700"
+                    />
+                  </div>
 
-                <div className="flex justify-center mt-4">
-                  <ReactStars
-                    count={5}
-                    value={newRating}
-                    onChange={handleRatingChange}
-                    size={30}
-                    activeColor="#ffd700"
-                  />
+                  <button
+                    onClick={handleAddReview}
+                    className="mt-4 bg-red-900 hover:bg-red-950 text-white font-bold py-2 px-4 rounded"
+                  >
+                    Submit Review
+                  </button>
                 </div>
-
-                <button
-                  onClick={handleAddReview}
-                  className="bg-red-800 text-white px-4 py-2 rounded justify-center flex m-auto mt-4"
-                >
-                  Add Review
-                </button>
-              </div>     </div>
+              </div>
             )}
           </div>
+
+          <div className="fixed bottom-5 right-5">
+            <Button
+              onClick={openChatModal}
+              className="bg-red-600 p-3 rounded-full shadow-lg text-white"
+            >
+              💬
+            </Button>
+          </div>
+
+          {/* مودال الشات */}
+          <Modal show={isChatModalOpen} onClose={closeChatModal} >
+            <Modal.Header >Chat with   {user.firstname} {user.lastname}</Modal.Header>
+            <Modal.Body >
+              <Chat />
+            </Modal.Body>
+            <Modal.Footer>
+            </Modal.Footer>
+          </Modal>
         </div>
       ) : (
-        <p>No user data available</p>
+        <p>User not found</p>
       )}
     </div>
   );
