@@ -97,6 +97,8 @@ function AddDeitalsprofile() {
       });
       console.log(data);
       navigate("/profile", { state: { data } });
+      console.log("erorr");
+      
     } else {
       console.error("User ID is not defined.");
     }
