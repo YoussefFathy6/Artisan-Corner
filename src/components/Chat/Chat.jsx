@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc } from "firebase/firestore";
+import { collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc, getDocs, where } from "firebase/firestore";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import db from '../../Config/firebase'; 
 import { IoMdSend } from "react-icons/io"; 
@@ -32,19 +32,34 @@ export default function Chat() {
       setMessages(messagesArr);
     });
 
-    const userQ = query(collection(db, "users"));
-    const unsubscribeUsers = onSnapshot(userQ, (querySnapshot) => {
-      let usersMap = {};
-      querySnapshot.forEach((doc) => {
-        usersMap[doc.id] = doc.data().firstname; 
-      });
-      setUsers(usersMap);
-    });
+    return () => unsubscribe(); 
+  }, []);
 
-    return () => {
-      unsubscribe();
-      unsubscribeUsers(); 
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userid = localStorage.getItem("id");
+        if (userid) {
+          const usersCollection = collection(db, "users");
+          const q = query(usersCollection, where("id", "==", userid));
+          const querySnapshot = await getDocs(q);
+  
+          if (!querySnapshot.empty) {
+            const userData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+            setUsers(userData.reduce((acc, user) => {
+              acc[user.displayName] = user.displayName;
+              return acc;
+            }, {}));
+          } else {
+            console.error("No user found!");
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching user data: ", error);
+      }
     };
+  
+    fetchUser();
   }, []);
 
   const uploadImage = async (file) => {
@@ -106,24 +121,25 @@ export default function Chat() {
       <div className="messages">
         {messages.map((msg, index) => (
           <div key={index} className={`message ${msg.sender === currentUser?.displayName ? 'sent' : 'received'}`}>
-            <strong>{users[msg.sender] || msg.sender}: </strong> {msg.text}
+            <strong>{msg.sender}: </strong> 
+            {msg.text}
 
-            {msg.replyTo && <div className="reply"> replay to: {msg.replyTo}</div>}
+            {msg.replyTo && <div className="reply"> reply to: {msg.replyTo}</div>}
 
-            {msg.image && <img src={msg.image} alt="sent" className="sent-image " />} 
+            {msg.image && <img src={msg.image} alt="sent" className="sent-image" />} 
 
             {msg.sender === currentUser?.displayName && (
               <button onClick={() => deleteMessage(msg.id)} className="delete-btn">delete</button> 
             )}
 
-            <button onClick={() => handleReply(msg)} className="reply-btn">replay</button> 
+            <button onClick={() => handleReply(msg)} className="reply-btn">reply</button> 
           </div>
         ))}
       </div>
 
       {replyTo && (
         <div className="replying-to">
-          replay {replyTo.text} <button className='text-red-700' onClick={() => setReplyTo(null)}>Cancel</button>
+          reply {replyTo.text} <button className='text-red-700' onClick={() => setReplyTo(null)}>Cancel</button>
         </div>
       )}
 
@@ -143,7 +159,7 @@ export default function Chat() {
           type="file" 
           onChange={handleImageSelect} 
           accept="image/*" 
-          className='hidden' // إخفاء حقل تحميل الصورة
+          className='hidden' 
         />
         <button type="submit" className='m-2'>
           <IoMdSend size={32} className='text-blue-600' />
