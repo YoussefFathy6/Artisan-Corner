@@ -33,7 +33,7 @@ function Details() {
   const [isLoading, setIsLoading] = useState(false);
   
   const location = useLocation();
-  const { imgsrc, desc, price,title ,bobId } = location.state;
+  const { image, desc, price,title ,bobId } = location.state;
 
   useEffect(() => {
     setProductType(productType);
@@ -65,7 +65,9 @@ function Details() {
     setIsLoading(true);
     const collectionRef = collection(db, "Bag");
     const doc = await addDoc(collectionRef, {
-      imgsrc: imgsrc,
+      // imgsrc: imgsrc,
+      image: image,
+    
       quantity: count,
       price: price * count,
       description: desc,
@@ -106,7 +108,7 @@ function Details() {
             offset={{ vertical: 0, horizontal: 0 }}
           /> */}
           <img
-            src={imgsrc}
+            src={image}
             alt="detailsImage"
             className="rounded-lg shadow-xl w-[100%] h-[100%]"
           />

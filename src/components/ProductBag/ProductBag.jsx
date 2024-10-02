@@ -127,7 +127,7 @@ function ProductBag() {
           >
             <div className="zeroToTo768:w-[300px]  w-[500px]  flex justify-center items-center">
               <img
-                src={item.imgsrc}
+                src={item.image}
                 alt="images"
                 className="rounded-lg min-h-[300px] max-w-[300px] max-h-[300px] shadow-xl "
               />

@@ -53,6 +53,7 @@ function JoinedAuctions() {
             title={product.description}
             price={product.initPrice}
             ID={product.id}
+            productData={product}
             func={() => addMember(product.id, userId)}
             isMember={product.members?.includes(userId)}
           />

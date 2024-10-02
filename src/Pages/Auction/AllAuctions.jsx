@@ -31,28 +31,41 @@ function AllAuctions() {
     const unsubscribe = onSnapshot(
       collection(db, "auctionProduct"),
       (snapshot) => {
+        const currentDate = new Date(); // Get the current date
+
+        // Process each auction product individually
         snapshot.docs.forEach(async (doc) => {
           const auctionData = doc.data();
-          const currentDate = new Date();
 
-          // Ensure that auction's endDate is a Firestore Timestamp and convert it to JS Date
-          if (
-            auctionData.endDate &&
-            currentDate >= auctionData.endDate.toDate()
-          ) {
-            // Delete the expired auction
-            await addDoc(collection(db, "Bag"), {
-              basePrice: doc.data().initPrice,
-              description: doc.data().description,
-              imgsrc: doc.data().img,
-              name: doc.data().title,
-              price: doc.data().initPrice,
-              quantity: 1,
-              userID:
-                doc.data().proposals[doc.data().proposals.length - 1].member,
-            });
-            await deleteDoc(doc.ref);
-            console.log(`Auction ${doc.id} deleted due to expiration.`);
+          // Parse the string `endDate` into a JavaScript Date object
+          const endDate = new Date(auctionData.endDate);
+
+          // Check if the auction's `endDate` has passed
+          if (endDate && currentDate >= endDate) {
+            // If there are no proposals, don't add to the Bag, just delete the auction
+            if (!auctionData.proposals || auctionData.proposals.length === 0) {
+              await deleteDoc(doc.ref); // Delete the expired auction
+              console.log(
+                `Auction ${doc.id} deleted due to expiration (no proposals).`
+              );
+            } else {
+              // Add auction details to the "Bag"
+              const lastProposal =
+                auctionData.proposals[auctionData.proposals.length - 1];
+              await addDoc(collection(db, "Bag"), {
+                basePrice: auctionData.initPrice,
+                description: auctionData.description,
+                imgsrc: auctionData.img,
+                name: auctionData.title,
+                price: auctionData.initPrice,
+                quantity: 1,
+                userID: lastProposal.member, // Use last proposal's member as userID
+              });
+
+              // Remove the expired auction
+              await deleteDoc(doc.ref);
+              console.log(`Auction ${doc.id} deleted and added to the Bag.`);
+            }
           }
         });
       }

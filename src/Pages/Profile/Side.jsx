@@ -6,12 +6,12 @@ import { FaCog } from "react-icons/fa";
 
 function Side({ activeItem, onItemClick }) {
   return (
-    <div className="Sidebar w-44 h-[90vh] p-0">
+    <div className="Sidebar w-44 h-[90vh] p-0 bg-orange-50">
       <div className="pt-20">
         {/* Profile */}
         <div
           className={`flex items-center justify-around p-4 text-lg font-bold cursor-pointer ${
-            activeItem === "profile" ? "bg-gray-300" : ""
+            activeItem === "profile" ? "bg-orange-300" : ""
           }`}
           onClick={() => onItemClick("profile")}
         >
@@ -22,7 +22,7 @@ function Side({ activeItem, onItemClick }) {
         {/* Products */}
         <div
           className={`flex items-center justify-around p-4 text-lg font-bold cursor-pointer ${
-            activeItem === "products" ? "bg-gray-300" : ""
+            activeItem === "products" ? "bg-orange-300" : ""
           }`}
           onClick={() => onItemClick("products")}
         >
@@ -31,7 +31,7 @@ function Side({ activeItem, onItemClick }) {
         </div>
         <div
           className={`flex items-center justify-around p-4 text-lg font-bold cursor-pointer ${
-            activeItem === "Events" ? "bg-gray-300" : ""
+            activeItem === "Events" ? "bg-orange-300" : ""
           }`}
           onClick={() => onItemClick("Events")}
         >
@@ -40,7 +40,7 @@ Events        </div>
         {/* Settings */}
         <div
           className={`flex items-center justify-around p-4 text-lg font-bold cursor-pointer ${
-            activeItem === "settings" ? "bg-gray-300" : ""
+            activeItem === "settings" ? "bg-orange-300" : ""
           }`}
           onClick={() => onItemClick("settings")}
         >

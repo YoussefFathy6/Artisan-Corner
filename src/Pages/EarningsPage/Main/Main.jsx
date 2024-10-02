@@ -109,7 +109,7 @@ function Main() {
   async function clickMe(product) {
     await addDoc(collection(db, "Bag"), {
       name: product.title,
-      imgsrc: product.img,
+      image: product.img,
       description: product.description,
       price: product.price,
       basePrice: product.price,
@@ -252,7 +252,7 @@ function Main() {
                 return (
                   <div className="m-5" key={product.id}>
                     <Card
-                      imgsrc={product.img}
+                      image={product.img}
                       title={product.title}
                       desc={product.description}
                       price={product.price}
