@@ -1,13 +1,22 @@
-import { useState, useEffect } from 'react';
-import { Modal, Button } from 'flowbite-react';
+/* eslint-disable no-unused-vars */
+import { useState, useEffect } from "react";
+import { Modal, Button } from "flowbite-react";
 import { useLocation } from "react-router-dom";
-import { collection, query, where, onSnapshot, addDoc, getDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  onSnapshot,
+  addDoc,
+  getDoc,
+  doc,
+} from "firebase/firestore";
 import db from "../../Config/firebase";
 import ProCard from "./ProCard";
 import EventCard from "./EventCard";
-import Masonry from 'react-masonry-css';
+import Masonry from "react-masonry-css";
 import ReactStars from "react-rating-stars-component";
-import Chat from '../Chat/Chat'; 
+import Chat from "../Chat/Chat";
 import "./Users.modules.css";
 
 function ArtProfile() {
@@ -28,21 +37,29 @@ function ArtProfile() {
   const [newRating, setNewRating] = useState(0);
   const [totalStars, setTotalStars] = useState(0);
   const [averageStars, setAverageStars] = useState(0);
-  const [isChatModalOpen, setIsChatModalOpen] = useState(false); 
+  const [isChatModalOpen, setIsChatModalOpen] = useState(false);
   const openChatModal = () => setIsChatModalOpen(true);
   const closeChatModal = () => setIsChatModalOpen(false);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    if (!user) {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
     }
   }, []);
 
   useEffect(() => {
     if (user) {
-      const eventsQuery = query(collection(db, "add event"), where("organizer", "==", user.id));
-      const postsQuery = query(collection(db, "add product"), where("ownerID", "==", user.id));
+      const eventsQuery = query(
+        collection(db, "add event"),
+        where("organizer", "==", user.id)
+      );
+      const postsQuery = query(
+        collection(db, "add product"),
+        where("ownerID", "==", user.id)
+      );
 
       const unsubscribeEvents = onSnapshot(eventsQuery, (snapshot) => {
         const events = snapshot.docs.map((doc) => ({
@@ -69,7 +86,10 @@ function ArtProfile() {
 
   useEffect(() => {
     if (user) {
-      const reviewsQuery = query(collection(db, "userReviews"), where("userID", "==", user.id));
+      const reviewsQuery = query(
+        collection(db, "userReviews"),
+        where("userID", "==", user.id)
+      );
 
       const unsubscribeReviews = onSnapshot(reviewsQuery, async (snapshot) => {
         const reviewsList = await Promise.all(
@@ -90,7 +110,10 @@ function ArtProfile() {
 
         setReviewsData(reviewsList);
 
-        const total = reviewsList.reduce((acc, review) => acc + review.rating, 0);
+        const total = reviewsList.reduce(
+          (acc, review) => acc + review.rating,
+          0
+        );
         setTotalStars(total);
         const average = reviewsList.length > 0 ? total / reviewsList.length : 0;
         setAverageStars(average);
@@ -130,7 +153,10 @@ function ArtProfile() {
           >
             <div className="justify-center items-center m-auto flex">
               <img
-                src={user.profilePic || "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"}
+                src={
+                  user.profilePic ||
+                  "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"
+                }
                 alt="Profile"
                 className="w-96 h-96 rounded-full object-cover border-4 border-orange-950 shadow-lg"
               />
@@ -150,20 +176,32 @@ function ArtProfile() {
             <div className="mt-4 px-4">
               <ul className="flex space-x-4 text-gray-600 text-center justify-center p-8">
                 <li
-                  className={`cursor-pointer ${selectedTab === 'posts' ? 'text-red-900 text-xl font-semibold' : 'hover:text-red-950 text-xl font-semibold'}`}
-                  onClick={() => setSelectedTab('posts')}
+                  className={`cursor-pointer ${
+                    selectedTab === "posts"
+                      ? "text-red-900 text-xl font-semibold"
+                      : "hover:text-red-950 text-xl font-semibold"
+                  }`}
+                  onClick={() => setSelectedTab("posts")}
                 >
                   Posts
                 </li>
                 <li
-                  className={`cursor-pointer ${selectedTab === 'events' ? 'text-red-900 text-xl font-semibold' : 'hover:text-red-950 text-xl font-semibold'}`}
-                  onClick={() => setSelectedTab('events')}
+                  className={`cursor-pointer ${
+                    selectedTab === "events"
+                      ? "text-red-900 text-xl font-semibold"
+                      : "hover:text-red-950 text-xl font-semibold"
+                  }`}
+                  onClick={() => setSelectedTab("events")}
                 >
                   Events
                 </li>
                 <li
-                  className={`cursor-pointer ${selectedTab === 'reviews' ? 'text-red-900 text-xl font-semibold' : 'hover:text-red-950 text-xl font-semibold'}`}
-                  onClick={() => setSelectedTab('reviews')}
+                  className={`cursor-pointer ${
+                    selectedTab === "reviews"
+                      ? "text-red-900 text-xl font-semibold"
+                      : "hover:text-red-950 text-xl font-semibold"
+                  }`}
+                  onClick={() => setSelectedTab("reviews")}
                 >
                   Reviews
                 </li>
@@ -172,17 +210,19 @@ function ArtProfile() {
           </div>
 
           <div className="p-4 flex">
-            {selectedTab === 'events' && (
+            {selectedTab === "events" && (
               <div className="flex">
                 {eventsData.length > 0 ? (
-                  eventsData.map((item) => <EventCard data={item} key={item.id} />)
+                  eventsData.map((item) => (
+                    <EventCard data={item} key={item.id} />
+                  ))
                 ) : (
                   <p>No events available</p>
                 )}
               </div>
             )}
 
-            {selectedTab === 'posts' && (
+            {selectedTab === "posts" && (
               <div className="flex flex-wrap">
                 {postsData.length > 0 ? (
                   <Masonry
@@ -198,7 +238,7 @@ function ArtProfile() {
                           name: item.title,
                           description: item.description,
                           price: item.price,
-                          productID: item.id
+                          productID: item.id,
                         }}
                       />
                     ))}
@@ -209,7 +249,7 @@ function ArtProfile() {
               </div>
             )}
 
-            {selectedTab === 'reviews' && (
+            {selectedTab === "reviews" && (
               <div>
                 {reviewsData.length > 0 ? (
                   <ul>
@@ -226,9 +266,12 @@ function ArtProfile() {
                           />
                         </div>
                         <p className="text-sm text-gray-500">
-                          Created At: {review.createdAt.toDate().toLocaleString()}
+                          Created At:{" "}
+                          {review.createdAt.toDate().toLocaleString()}
                         </p>
-                        <p className="text-gray-700 pt-5">{review.reviewText}</p>
+                        <p className="text-gray-700 pt-5">
+                          {review.reviewText}
+                        </p>
                       </li>
                     ))}
                   </ul>
@@ -274,13 +317,14 @@ function ArtProfile() {
           </div>
 
           {/* مودال الشات */}
-          <Modal show={isChatModalOpen} onClose={closeChatModal} >
-            <Modal.Header >Chat with   {user.firstname} {user.lastname}</Modal.Header>
-            <Modal.Body >
+          <Modal show={isChatModalOpen} onClose={closeChatModal}>
+            <Modal.Header>
+              Chat with {user.firstname} {user.lastname}
+            </Modal.Header>
+            <Modal.Body>
               <Chat />
             </Modal.Body>
-            <Modal.Footer>
-            </Modal.Footer>
+            <Modal.Footer></Modal.Footer>
           </Modal>
         </div>
       ) : (
