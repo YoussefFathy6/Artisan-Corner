@@ -116,10 +116,10 @@ function ImgCard() {
     <img src={category2} alt={Macramé} />
     <h3>{Macramé}</h3>
 </Link> */}
-        <div onClick={handleClick}  className=" flex flex-col w-[350px]">
+        {/* <div onClick={handleClick}  className=" flex flex-col w-[350px]">
         <img className=' rounded-[50%] fancy hover:scale-105 transition  duration-300 ease-out hover:ease-linear' src={category1} alt="" />
          <button onClick={handleClick} className='mt-5 text-center font-bold text-2xl text-[#025048]'>POTTERY</button>
-        </div>
+        </div> */}
 
           <div class="card">
             <img
@@ -163,6 +163,25 @@ function ImgCard() {
             <img
               className="card__background"
               src={category3}
+            />
+            <div className="card__content | flow">
+              <div className="card__content--container | flow">
+                <h2 className="card__title text-white text-2xl">TEXTILE</h2>
+                <p className="card__description text-white">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  Rerum in labore laudantium deserunt fugiat numquam.
+                </p>
+              </div>
+              <button onClick={handleClick} className="card__button text-white">
+                Take a journy
+              </button>
+            </div>
+          </div>
+
+          <div class="card">
+            <img
+              className="card__background"
+              src={category2}
             />
             <div className="card__content | flow">
               <div className="card__content--container | flow">
