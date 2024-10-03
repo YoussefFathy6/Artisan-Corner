@@ -65,7 +65,7 @@ function TicketOnline() {
         from_name: 'HandiCraft',
         from_email: 'hanaamohammed840@gmail.com',
         message: 'Please join the event room when the event starts.',
-      }, 'oHU2f0mLFm9mvleo5')
+      }, '1_CwPxJFoAvU6MWAd')
       .then((response) => {
         console.log('Email successfully sent!', response.status, response.text);
         setEmailSent(true);

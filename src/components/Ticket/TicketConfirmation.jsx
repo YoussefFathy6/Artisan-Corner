@@ -55,7 +55,7 @@ function TicketConfirmation() {
         from_email: 'hanaamohammed840@gmail.com',
         bcc: '',
         cc: '',
-      }, 'oHU2f0mLFm9mvleo5')
+      }, '1_CwPxJFoAvU6MWAd')
       .then((response) => {
         console.log('Email successfully sent!', response.status, response.text);
         setEmailSent(true);
