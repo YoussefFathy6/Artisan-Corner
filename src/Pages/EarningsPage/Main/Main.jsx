@@ -45,7 +45,7 @@ function Main() {
   useEffect(() => {
     const q = query(
       collection(db, "users"),
-      where("accountType", "==", "artist")
+      where("accountType", "==", "Artist")
     );
 
     const unsubscribe = onSnapshot(
@@ -305,8 +305,8 @@ export default Main;
 //     const queryParams = new URLSearchParams(location.search);
 //     const category = queryParams.get('category');
 
-//     const filteredProducts = category 
-//         ? products.filter(product => product.category === category) 
+//     const filteredProducts = category
+//         ? products.filter(product => product.category === category)
 //         : products;
 
 //     return (
@@ -324,7 +324,6 @@ export default Main;
 // };
 
 // export default Main;
-
 
 // import React, { useState, useEffect } from "react";
 // import { useLocation } from "react-router-dom";

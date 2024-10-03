@@ -9,6 +9,7 @@ import {
   arrayUnion,
   getDocs,
   collection,
+  getDoc,
 } from "firebase/firestore";
 import db from "../../Config/firebase";
 
@@ -17,6 +18,7 @@ function ProposalsPage() {
   const [inputValue, setInputValue] = useState("");
   const [proposals, setProposals] = useState([]);
   const [users, setUsers] = useState({});
+  const [allUsers, setAllUsers] = useState([]);
   const [error, setError] = useState("");
   const [timeRemaining, setTimeRemaining] = useState(""); // State for remaining time
   const { product } = location.state;
@@ -81,13 +83,52 @@ function ProposalsPage() {
 
     fetchUsers();
   }, []);
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "users"), (snapshot) => {
+      const users = snapshot.docs.map((doc) => {
+        return { ...doc.data(), docID: doc.id };
+      }); // Filter out products that include the user ID in members
+      setAllUsers(users);
+    });
 
+    return () => unsubscribe(); // Clean up the listener on component unmount
+  }, []);
   async function addProposal(documentId, newItem) {
-    const docRef = doc(db, "auctionProduct", documentId);
-    await updateDoc(docRef, {
+    const auctionRef = doc(db, "auctionProduct", documentId);
+
+    // Add the new proposal to the auction product
+    await updateDoc(auctionRef, {
       proposals: arrayUnion(newItem),
     });
+
+    // Update the auction price
     updatePrice(documentId);
+
+    // Fetch the auction product document to get the members field
+    const auctionDoc = await getDoc(auctionRef);
+    if (auctionDoc.exists()) {
+      const auctionData = auctionDoc.data();
+      const members = auctionData.members || [];
+
+      // Iterate over allUsers and check if their ID is in the members array
+      allUsers.forEach(async (user) => {
+        const userId = user.id;
+        const docId = user.docID;
+        // If userId is in the members array and not the proposer
+        if (members.includes(userId) && userId !== newItem.member) {
+          const notification = {
+            message: `A new proposal has been added to auction ${product.title}`,
+            read: false,
+          };
+
+          // Update the notifications array for each matching member
+          const userRef = doc(db, "users", docId);
+          await updateDoc(userRef, {
+            notifications: arrayUnion(notification),
+          });
+        }
+      });
+    }
   }
 
   async function updatePrice(documentId) {
