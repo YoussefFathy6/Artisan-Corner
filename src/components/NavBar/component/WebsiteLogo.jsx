@@ -113,7 +113,7 @@ function BodyNav() {
         <Navbar.Brand href="/">
           <span
             style={{ fontFamily: "cursive" }}
-            className="self-center whitespace-nowrap xl:text-3xl lg:text-3xl text-md  text-[#ffb6ad] font-bold"
+            className="self-center whitespace-nowrap xl:text-3xl lg:text-3xl text-md  text-white font-bold"
           >
             Mashrabiya
           </span>
@@ -143,7 +143,7 @@ function BodyNav() {
                   }
                 >
                   <DropdownHeader>
-                    <p>Notifications</p>
+                    <p className="text-black">Notifications</p>
                   </DropdownHeader>
 
                   {/* Render unread notifications */}

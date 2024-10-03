@@ -29,7 +29,7 @@ function Cards({ data }) {
   return (
     <ul className="cards">
       <li>
-        <a href="#" className="card ">
+        <a href="#" className="card-1">
           <img
             className="card__image"
             src={data.profilePic || "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"}
@@ -46,7 +46,7 @@ function Cards({ data }) {
                 alt="Profile Picture"
               />
               <div className="card__header-text">
-                <h3 className="card__title">{data.firstname} {data.lastname}</h3>
+                <h3 className="card__title_1">{data.firstname} {data.lastname}</h3>
                 <span className="card__status">{data.accountType}</span>
               </div>
             </div>
