@@ -33,7 +33,7 @@ p {
   height: 100vh;
 } */
 
-h2 {
+/* h2 {
   font-size: 2.25rem;
   font-family: var(--font-title);
   color: var(--white);
@@ -45,7 +45,7 @@ p {
   font-size: 1rem;
   line-height: 1.5;
   color: var(--white);
-}
+} */
 
 .flow > * + * {
   margin-top: var(--flow-space, 1em);
