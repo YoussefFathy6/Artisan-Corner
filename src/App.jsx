@@ -40,6 +40,7 @@ import Users from "./components/Art/Users";
 import ArtProfile from "./components/Art/ArtProfile";
 import Chat from "./components/Chat/Chat";
 import Posts from "./Pages/EarningsPage/Main/Posts";
+import SpecialOrderPage from "./Pages/SpecialOrder/SpecialOrderPage";
 // import ChatApp from "./components/Chat/ChatApp";
 function App() {
   const navigate = useNavigate();
@@ -85,8 +86,8 @@ function App() {
             <>
               <NavBar />
               <Routes>
-              <Route path="chat" element={<Chat />} />
-              {/* <Route path="chatApp" element={<ChatApp />} /> */}
+                <Route path="chat" element={<Chat />} />
+                {/* <Route path="chatApp" element={<ChatApp />} /> */}
 
                 <Route path="/" element={<Home />} />
                 <Route path="posts" element={<Posts />} />
@@ -95,6 +96,7 @@ function App() {
                 <Route path="shipping" element={<ShippingPage />} />
                 <Route path="payment" element={<CheckoutPage />} />
                 <Route path="register" element={<RegisterPage />} />
+                <Route path="special" element={<SpecialOrderPage />} />
                 <Route path="auction" element={<AuctionPage />} />
                 <Route path="proposals" element={<ProposalsPage />} />
                 <Route path="verify" element={<VerificationPage />} />

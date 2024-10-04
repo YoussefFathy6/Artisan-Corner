@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
-import { Modal, Button } from "flowbite-react";
+import { Modal, Button, Label, Textarea, TextInput } from "flowbite-react";
 import { useLocation } from "react-router-dom";
 import {
   collection,
@@ -10,6 +10,9 @@ import {
   addDoc,
   getDoc,
   doc,
+  updateDoc,
+  arrayUnion,
+  getDocs,
 } from "firebase/firestore";
 import db from "../../Config/firebase";
 import ProCard from "./ProCard";
@@ -18,6 +21,7 @@ import Masonry from "react-masonry-css";
 import ReactStars from "react-rating-stars-component";
 import Chat from "../Chat/Chat";
 import "./Users.modules.css";
+import { toast } from "react-toastify";
 
 function ArtProfile() {
   const breakpointColumnsObj = {
@@ -38,6 +42,12 @@ function ArtProfile() {
   const [totalStars, setTotalStars] = useState(0);
   const [averageStars, setAverageStars] = useState(0);
   const [isChatModalOpen, setIsChatModalOpen] = useState(false);
+  //////// special order vars /////////////////////////////
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [deadline, setDeadline] = useState("");
+  //////// special order vars /////////////////////////////
   const openChatModal = () => setIsChatModalOpen(true);
   const closeChatModal = () => setIsChatModalOpen(false);
 
@@ -139,7 +149,36 @@ function ArtProfile() {
     setNewReview("");
     setNewRating(0);
   };
+  const handleSendOrder = async () => {
+    try {
+      // Query to find the user with the matching id
+      const q = query(collection(db, "users"), where("id", "==", user.id));
+      const querySnapshot = await getDocs(q); // Get the document(s) matching the query
 
+      if (!querySnapshot.empty) {
+        querySnapshot.forEach(async (docSnapshot) => {
+          // Access each document and update the specialOrder field
+          await updateDoc(docSnapshot.ref, {
+            specialOrder: arrayUnion({
+              customer: localStorage.getItem("id"),
+              description: description,
+              price: Number(price),
+              deadline: deadline,
+              opened: false, // Set opened to false
+              pending: false, // Set opened to false
+            }),
+          });
+        });
+
+        console.log("Order sent successfully!");
+        setIsOrderModalOpen(false); // Close the modal after sending the order
+      } else {
+        console.error("No artist found with the specified ID");
+      }
+    } catch (error) {
+      console.error("Error sending the order: ", error);
+    }
+  };
   return (
     <div className="min-h-screen justify-center">
       {user ? (
@@ -169,6 +208,17 @@ function ArtProfile() {
                 </h1>
                 <p className="text-gray-600 pb-4 text-xl">{user.email}</p>
                 <p className="text-gray-600 pb-4 text-xl">{user.accountType}</p>
+                <div className="flex"></div>
+                <button className="mx-4 bg-secondary text-white">
+                  Chat with me
+                </button>
+                <button
+                  onClick={() => {
+                    setIsOrderModalOpen(true);
+                  }}
+                >
+                  Make special Order
+                </button>
                 <p className="text-gray-600 pb-4 text-xl">{user.about}</p>
               </div>
             </div>
@@ -325,6 +375,65 @@ function ArtProfile() {
               <Chat />
             </Modal.Body>
             <Modal.Footer></Modal.Footer>
+          </Modal>
+          {/* Special Order Modal */}
+          <Modal
+            show={isOrderModalOpen}
+            onClose={() => {
+              setIsOrderModalOpen(false);
+            }}
+          >
+            <Modal.Header>Custom Your Order</Modal.Header>
+            <Modal.Body>
+              <div className="p-5">
+                <div className="">
+                  <Label htmlFor="">Describe your order</Label>
+                  <Textarea
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="Describe Here"
+                  ></Textarea>
+                </div>
+                <div>
+                  <Label htmlFor="">Price</Label>
+                  <TextInput
+                    onChange={(e) => setPrice(e.target.value)}
+                    type="number"
+                    placeholder="Describe Here"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="">Deadline</Label>
+                  <TextInput
+                    onChange={(e) => setDeadline(e.target.value)}
+                    type="date"
+                    placeholder="Describe Here"
+                  />
+                </div>
+              </div>
+            </Modal.Body>
+            <Modal.Footer className="flex justify-between ">
+              <Button
+                onClick={() => {
+                  handleSendOrder();
+                  setIsOrderModalOpen(false);
+                  toast.success("Your order has been sent", {
+                    position: "top-right",
+                  });
+                }}
+                className="bg-secondary ms-5 my-2"
+              >
+                Send
+              </Button>
+              <Button
+                onClick={() => {
+                  setIsOrderModalOpen(false);
+                }}
+                color={"failure"}
+                className="me-2 my-2"
+              >
+                Cancel
+              </Button>
+            </Modal.Footer>
           </Modal>
         </div>
       ) : (
