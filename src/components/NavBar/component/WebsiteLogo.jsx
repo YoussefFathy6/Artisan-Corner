@@ -195,14 +195,14 @@ function BodyNav() {
                   >
                     View Profile
                   </Dropdown.Item>
-                  <Dropdown.Item icon={HiCog}>Settings</Dropdown.Item>
+                  <Dropdown.Item     onClick={() => nav("/AddDeitalsprofile")}  icon={HiCog}>Settings</Dropdown.Item>
                   <Dropdown.Item
                     icon={FaShoppingCart}
                     onClick={() => nav("/bag")} // Navigate to bag
                   >
                     My Bag
                   </Dropdown.Item>
-                  <Dropdown.Item icon={HiCurrencyDollar}>
+                  <Dropdown.Item icon={HiCurrencyDollar}   onClick={() => nav("/Accountbalance")}>
                     Earnings
                   </Dropdown.Item>
                   <Dropdown.Divider />

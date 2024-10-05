@@ -13,6 +13,7 @@ import "./style.css";
 import AddDeitalsprofile from "./AddDeitalsprofile";
 import Eventuser from "./Eventuser";
 import ReactStars from "react-rating-stars-component"; // Assuming you're using this for stars
+import Accountbalance from "./Accountbalance";
 
 function Profile() {
   const [activeItem, setActiveItem] = useState("profile");
@@ -282,6 +283,7 @@ function Profile() {
         )}
         {activeItem === "settings" && <AddDeitalsprofile />}
         {activeItem === "Events" && <Eventuser />}
+        {activeItem === "earnings" && <Accountbalance />}
       </div>
     </div>
   );

@@ -1,7 +1,3 @@
-
-
-
-
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useContext, useEffect, useState } from "react";
@@ -24,15 +20,6 @@ import {
 import db from "../../../Config/firebase";
 import { ToastContainer, toast } from "react-toastify";
 
-
-
-
-
-
-
-
-
-
 function ProductCard(props) {
   const [openModal, setOpenModal] = useState(false);
   const [rating, setRating] = useState(0);
@@ -42,14 +29,17 @@ function ProductCard(props) {
   const { saveRating } = useContext(RatingsContext);
   const { productType, setProductType } = useContext(ReviewsContext);
   const ratingChanged = async (newRating) => {
-    setRating(newRating);};
+    setRating(newRating);
+  };
 
-        // ========= user Data ==========//
+  // ========= user Data ==========//
   const [username, setUsername] = useState("");
 
   useEffect(() => {
+    console.log(props.artistData);
+
     getUserData();
-    console.log(props)
+    console.log(props);
   }, []);
 
   async function getUserData() {
@@ -66,9 +56,6 @@ function ProductCard(props) {
     });
   }
 
-
-
-
   const handleSave = () => {
     if (review == "") {
       toast.error("Please Fill Review Input", {
@@ -84,13 +71,10 @@ function ProductCard(props) {
     }
   };
 
-
-
-
   useEffect(() => {
     const q = query(
       collection(db, "users"),
-      where("accountType", "==", "artist")
+      where("accountType", "==", "Artist")
     );
     const unsubscribe = onSnapshot(
       q,
@@ -129,7 +113,7 @@ function ProductCard(props) {
               state: {
                 image: props.image,
                 productType: props.productType,
-                title : props.title,
+                title: props.title,
                 desc: props.desc,
                 price: props.price,
                 // rating: rating,
@@ -167,14 +151,16 @@ function ProductCard(props) {
               });
             }}
           />
-          <p >{`${props.firstname} ${props.lastname}`}</p>
+          <p>{`${props.firstname} ${props.lastname}`}</p>
         </div>
         <div className="m-3">
           <h5 className=" text-base text-[#3E402D] font-Rosario font-bold tracking-tight dark:text-white">
             {props.title}
           </h5>
           <p
-            className={`font-normal text-gray-500 dark:text-gray-400 text-[1rem] ${isExpanded ? "line-clamp-none" : "line-clamp-2"} overflow-hidden`}
+            className={`font-normal text-gray-500 dark:text-gray-400 text-[1rem] ${
+              isExpanded ? "line-clamp-none" : "line-clamp-2"
+            } overflow-hidden`}
           >
             {props.desc}
           </p>

@@ -12,7 +12,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import RegistraionInput from "./RegistraionInput";
-import { addDoc, collection, setDoc,doc } from "firebase/firestore";
+import { addDoc, collection, setDoc, doc } from "firebase/firestore";
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
@@ -102,7 +102,7 @@ const RegisterPage = () => {
         profilePic: "", // Add account type to Firestore
       });
       localStorage.setItem("id", data.user.uid);
-    
+
       nav("/");
       console.log(localStorage.getItem("id"));
       console.log(data.user.uid);
@@ -186,9 +186,9 @@ const RegisterPage = () => {
             <Radio
               id="artist"
               name="accountType"
-              value="artist"
+              value="Artist"
               onChange={formik.handleChange}
-              checked={formik.values.accountType === "artist"}
+              checked={formik.values.accountType === "Artist"}
             />
             <Label htmlFor="artist">Artist</Label>
           </div>
@@ -196,9 +196,9 @@ const RegisterPage = () => {
             <Radio
               id="customer"
               name="accountType"
-              value="customer"
+              value="Customer"
               onChange={formik.handleChange}
-              checked={formik.values.accountType === "customer"}
+              checked={formik.values.accountType === "Customer"}
             />
             <Label htmlFor="customer">Customer</Label>
           </div>
