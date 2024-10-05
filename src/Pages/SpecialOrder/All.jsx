@@ -1,14 +1,9 @@
 /* eslint-disable no-unused-vars */
 import {
-  addDoc,
-  arrayUnion,
   collection,
-  deleteDoc,
-  doc,
   getDocs,
   onSnapshot,
   query,
-  updateDoc,
   where,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
@@ -18,21 +13,20 @@ import Card from "./components/Card";
 function All() {
   const [products, setProducts] = useState([]);
   const [artist, setArtist] = useState({});
-  const [users, setUsers] = useState({});
+  const [users, setUsers] = useState([]);
+
   useEffect(() => {
-    const unsubscribe = onSnapshot(
-      collection(db, "users"),
-      (snapshot) => {
-        const users = snapshot.docs.map((doc) => ({
-          ...doc.data(),
-        }));
-        setUsers(users);
-      },
-      []
-    );
+    // Fetch all users and set them in the state
+    const unsubscribe = onSnapshot(collection(db, "users"), (snapshot) => {
+      const users = snapshot.docs.map((doc) => ({
+        ...doc.data(),
+      }));
+      setUsers(users);
+    });
 
     return () => unsubscribe();
   }, []);
+
   useEffect(() => {
     const fetchArtistData = async () => {
       try {
@@ -42,7 +36,7 @@ function All() {
           where("id", "==", localStorage.getItem("id"))
         );
 
-        // Wait for the documents to be fetched
+        // Fetch artist data
         const querySnapshot = await getDocs(q);
 
         // Loop through the QuerySnapshot to get document data
@@ -64,14 +58,20 @@ function All() {
 
     fetchArtistData(); // Call the function to fetch data
   }, []);
-  console.log(products);
+
+  // Filter products where pending is false
+  const filteredProducts = products.filter((product) => !product.pending);
+
+  console.log(filteredProducts);
   console.log(artist);
   console.log(users);
 
   return (
     <div className="grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-y-8 xl:gap-2 justify-center">
-      {products.map((product) => {
+      {filteredProducts.map((product) => {
+        // Find the customer in the users collection
         const customer = users.find((user) => user.id === product.customer);
+
         return (
           <div className="m-5" key={product.id}>
             <Card
@@ -80,6 +80,8 @@ function All() {
               price={product.price}
               deadline={product.deadline}
               customerData={{ ...customer }}
+              productData={{ ...product }}
+              isPending={product.pending}
             />
           </div>
         );
