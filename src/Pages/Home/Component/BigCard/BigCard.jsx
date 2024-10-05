@@ -34,7 +34,7 @@ function BigCard() {
       </div>
     </section>
 
-<SmallEvents />
+{/* <SmallEvents /> */}
 
 </>
   );

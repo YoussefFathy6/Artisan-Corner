@@ -28,6 +28,8 @@ import db from "../../../../../../Config/firebase";
 import { onSnapshot, collection } from "firebase/firestore";
 import Comp_SmCard from "./componant/CompSmCard";
 
+import "./componant/small.css";
+
 function SmallC() {
   const [products, setProducts] = useState([]); // المنتجات
 
@@ -51,22 +53,20 @@ function SmallC() {
   }, []);
 
   return (
-    <div className="  grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-y-8 xl:gap-5 justify-center">
-      {products.map((product) => {
-        return (
-          <div className="m-5" key={product.id}>
-            <Comp_SmCard
-              url={product.img}
-              title={product.title}
-              price={product.price}
-            />
-          </div>
-        );
-      })}
+    <div className=" carousel  overflow-hidden h-[50vh]">
+      <div class="carousel__container grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5   justify-center">
+        {products.map((product) => {
+          return (
+              <Comp_SmCard
+                url={product.img}
+                title={product.title}
+                price={product.price}
+              />
+          );
+        })}
+      </div>
     </div>
   );
 }
 
 export default SmallC;
-
-

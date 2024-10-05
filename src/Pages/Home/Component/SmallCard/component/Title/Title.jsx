@@ -16,7 +16,7 @@ function Title() {
       <div>
         {/* <h5 className="text-2xl">Lorem Ipsum</h5> */}
         {/* <h5 className="font-lora text-5xl">Lorem Ipsum</h5> */}
-        <h5 className="font-lora text-5xl text-[#025048]">Best Seller</h5>
+        <h5 className="font-lora text-5xl text-[#025048]">Products</h5>
       </div>
       <div>
 

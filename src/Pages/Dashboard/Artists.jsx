@@ -12,7 +12,7 @@ function Artists() {
     const usersCollectionRef = collection(db, "users");
 
     // Create a query against the collection where accountType is "customer"
-    const q = query(usersCollectionRef, where("accountType", "==", "artist"));
+    const q = query(usersCollectionRef, where("accountType", "==", "Artist"));
 
     // Listen for real-time updates using onSnapshot
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -34,10 +34,14 @@ function Artists() {
         <ul className="space-y-4">
           {aritsts.map((artist) => (
             <li key={artist.id} className="border p-4 rounded-lg shadow">
-              <div className="flex justify-between gap-7 items-center w-1/2">
+              <div className="flex justify-between gap-7 items-center w-1/2 h-24">
                 <img
-                  className=" rounded-full w-24"
-                  src="https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png"
+                  className=" rounded-full w-24 h-24"
+                  src={
+                    artist.profilePic
+                      ? artist.profilePic
+                      : "https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png"
+                  }
                   alt=""
                 />
                 <div>

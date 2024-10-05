@@ -18,7 +18,7 @@
     list-style-type: none;
   }
   
-  .card {
+  .card-1 {
     padding: 0%;
 
     position: relative;
@@ -48,7 +48,7 @@
     transition: .2s ease-in-out;
   }
   
-  .card:hover .card__overlay {
+  .card-1:hover .card__overlay {
     transform: translateY(0);
   }
   
@@ -78,7 +78,7 @@
     d: path("M 40 80 c 22 0 40 -22 40 -40 v 40 Z");
   }       
   
-  .card:hover .card__header {
+  .card-1:hover .card__header {
     transform: translateY(0);
   }
   
@@ -89,7 +89,7 @@
     border-radius: 50%;      
   }
   
-  .card__title {
+  .card__title_1 {
     font-size: 1em;
     margin: 0 0 .3em;
     color: #6A515E;

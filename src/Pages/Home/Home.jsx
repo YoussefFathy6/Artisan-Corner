@@ -1,5 +1,4 @@
 
-//! QEDAiiiS passed from here
 
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
@@ -18,6 +17,7 @@ import { auth } from "../../Config/firebase";
 import { useEffect } from "react";
 
 import ImgCard from './Component/ImgCard/ImgCard'
+import Hero from "./Component/Slider/Hero";
 
 
 
@@ -26,6 +26,7 @@ function MainContent() {
     <>
       <Login />
       <Slider />
+      {/* <Hero /> */}
       {/* <RoundedCard /> */}
       <ImgCard />
       <BigCard />
