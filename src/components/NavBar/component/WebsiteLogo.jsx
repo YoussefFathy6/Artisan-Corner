@@ -202,7 +202,7 @@ function BodyNav() {
                   >
                     My Bag
                   </Dropdown.Item>
-                  <Dropdown.Item icon={HiCurrencyDollar}   onClick={() => nav("/Accountbalance")}>
+                  <Dropdown.Item icon={HiCurrencyDollar}  onClick={() => nav("/accountbalance")} >
                     Earnings
                   </Dropdown.Item>
                   <Dropdown.Divider />

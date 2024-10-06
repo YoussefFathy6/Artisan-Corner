@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { HiMail } from "react-icons/hi";
 
 import { Label, TextInput } from "flowbite-react";
-function AccountBalance() {
+function Accountbalance() {
     const [selectedAccount, setSelectedAccount] = useState('bank');
 
     return (
@@ -11,7 +11,7 @@ function AccountBalance() {
                 <h1 className="text-5xl font-semibold">Account Profits</h1>
             </div>
 
-            <div className="flex justify-around bg-stone-200 w-[95%] h-[35%] p-10 text-center ml-10 mb-20">
+            <div className="flex justify-around bg-stone-200 w-[80%] h-[30%] p-10 text-center ml-36 mb-20">
                 <div className="w-[25%] flex flex-col justify-center items-center">
                     <h1 className="text-3xl font-semibold pb-5">Total Balance</h1>
                     <h1 className="text-center pb-5 text-teal-600 font-semibold text-2xl">00.00 $</h1>
@@ -37,7 +37,7 @@ function AccountBalance() {
                 </div>
             </div>
 
-            <div className="bg-stone-200 w-[95%] p-10 ml-10 mb-72">
+            <div className="bg-stone-200 w-[80%] p-10 ml-36 mb-72">
                 <h1 className="text-3xl font-semibold border-b-4 border-zinc-50 pb-5 w-full">
                     Request to Withdraw Profits
                 </h1>
@@ -100,4 +100,4 @@ function AccountBalance() {
     );
 }
 
-export default AccountBalance;
+export default Accountbalance;
