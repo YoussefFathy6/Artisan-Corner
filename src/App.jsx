@@ -41,6 +41,7 @@ import ArtProfile from "./components/Art/ArtProfile";
 import Chat from "./components/Chat/Chat";
 import Posts from "./Pages/EarningsPage/Main/Posts";
 import SpecialOrderPage from "./Pages/SpecialOrder/SpecialOrderPage";
+import Setting from "./Pages/Profile/Setting";
 // import ChatApp from "./components/Chat/ChatApp";
 function App() {
   const navigate = useNavigate();
@@ -106,6 +107,7 @@ function App() {
                 <Route path="*" element={<NotFound />} />
                 <Route path="/ticket" element={<Ticket />} />
                 <Route path="/event" element={<AllEvent />} />
+                <Route path="/setting" element={<Setting/>} />
                 <Route
                   path="/TicketConfirmation/:eventId"
                   element={<TicketConfirmation />}

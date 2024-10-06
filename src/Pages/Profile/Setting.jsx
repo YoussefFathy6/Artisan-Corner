@@ -1,4 +1,9 @@
 /* eslint-disable no-unused-vars */
+
+
+
+import profile from "../../assets/imges/newww/best11.jpg";
+import profile2 from "../../assets/imges/newww/artist1.jpeg";
 import React, { useState, useEffect } from "react";
 import {
   FaInstagram,
@@ -149,68 +154,105 @@ function Setting() {
                   <div className="relative">
                     {/* تعديل الكارد الأحمر */}
                     {data.length > 0 && data[0].accountType !== "Artist" && (
-                      <div className="mt-10">
+                      <div className="mt-10 w-[50px] absolute">
                         <Link to="/adddeitalsprofile">
                           <FaUserEdit size={50} color="rgba(200, 59, 16, 1)" />
                         </Link>
                       </div>
                     )}
 
-                    {/* صورة الغلاف */}
-                    {/* <div className="relative">
-          <img
-            src={item.coverPic || "avatar-1299805_1280.png"}
-            alt="Profile"
-            className="w-full h-80 object-cover"
-          />
-        </div> */}
-
                     {/* الكارد الأحمر */}
                     <div
-                      className="bg-gradient-to-r from-lime-200 via-orange-200 to-red-200 w-[80%] rounded-3xl p-9 shadow-2xl ml-40 mb-28 mt-9 transition-all duration-500 ease-in-out transform opacity-0 translate-y-10 hover:shadow-2xl hover:scale-105 animate-fadeInUp"
+                      className='w-[70%]  rounded-3xl p-9 shadow-2xl mx-20 my-7'
                       style={{ animation: "fadeInUp 1s forwards" }}
                     >
-                      <div className="flex flex-col items-center">
-                        {/* صورة الملف الشخصي */}
-                        <div className="rounded-full">
+                      <div className="flex flex-col ">
+
+                        {/* صورة الغلاف */}
+                        <div className="h-[300px] w-[100%] ">
                           <img
-                            src={item.profilePic || "avatar-1299805_1280.png"}
-                            alt="Profile"
-                            className="rounded-full w-72 h-auto object-cover transition-transform duration-500 ease-in-out hover:scale-110 shadow-lg"
+                            // src={item.profilePic || {profile}}
+                            src={profile}
+                            className=" h-[100%] w-[100%] rounded-3xl object-cover  shadow-lg"
                           />
                         </div>
 
-                        {/* الروابط الاجتماعية */}
-                        <div className="flex justify-between w-[20%] mt-5">
+                        <div className=" flex ">
+                          {/* صورة الملف الشخصي */}
+                          <div className=" w-[180px] absolute top-[240px] left-[80px] mr-[55px]   rounded-3xl">
+                            <img
+                              // src={item.profilePic || "avatar-1299805_1280.png"}
+                              src={item.profilePic || profile2}
+                              alt="Profile"
+                              className="rounded-3xl w-[100%] h-[100%] object-cover transition-transform duration-500 ease-in-out hover:scale-110 shadow-lg border-4 border-[#94e7d1]"
+                            />
+                          </div>
+
+                          {/* معلومات النصوص */}
+                          <div className="ms-[250px] mt-3">
+                          <h1 style={{fontFamily: "Playwrite DE Grund"}} className="text-2xl font-bold ">{item.firstname} {item.lastname}</h1>
+                          <p className=" ms-3 text-[#4b535c]">{item.jobtitle}</p>                         
+                        </div>
+
+                          {/* الروابط الاجتماعية */}
+                        <div className="flex  w-[20%] mt-5 ms-auto">
                           <a
                             href={item.facebook}
-                            className="icon mx-2 text-gray-600 hover:text-blue-600 transition-colors duration-300"
+                            className="icon text-[#94e7d1]   hover:text-blue-600 transition-colors duration-300"
                           >
-                            <FaFacebookF size={30} />
+                            <FaFacebookF size={25} />
                           </a>
                           <a
                             href={item.instagram}
-                            className="icon mx-2 text-gray-600 hover:text-pink-600 transition-colors duration-300"
+                            className="icon mx-5 text-[#94e7d1]  hover:text-pink-600 transition-colors duration-300"
                           >
-                            <FaInstagram size={30} />
+                            <FaInstagram size={25} />
                           </a>
                           <a
                             href={item.linkedin}
-                            className="icon mx-2 text-gray-600 hover:text-blue-800 transition-colors duration-300"
+                            className="icon  text-[#94e7d1]  hover:text-blue-800 transition-colors duration-300"
                           >
-                            <FaLinkedinIn size={30} />
+                            <FaLinkedinIn size={25} />
                           </a>
                         </div>
 
-                        {/* معلومات النصوص */}
-                        <div className="mt-8 text-center">
-                          <h1 className="text-2xl font-bold">
-                            {item.firstname} {item.lastname}
-                          </h1>
-                          <h4 className="text-lg">{item.email}</h4>
-                          <h4 className="text-lg pt-2">{item.accountType}</h4>
-                          <h4 className="text-xl mt-2">{item.about}</h4>
+                          </div>
+
+
+                        <div className="w-[80%] mx-auto mt-10">
+
+                        <div className="about mb-10">
+                          <h2 className="text-2xl mr-6 text-[#37977f] font-medium">About :</h2>
+                          <p className=" mt-2 text-[#3e6258] mb-2">{item.about}</p>
                         </div>
+                        <div className="email flex border-b-2 my-5">
+                          <h2 className="text-lg">Email :</h2>
+                        <h4 className="text-lg ms-10 text-[#3e6258] mb-2">{item.email}</h4>
+                        </div>
+
+                        <div className="email flex border-b-2 mb-5">
+                          <h2 className="text-lg">Account Type :</h2>
+                        <h4 className="text-lg ms-10 text-[#3e6258] mb-2">{item.accountType}</h4>
+                        </div>
+
+                        <div className="email flex border-b-2 mb-5">
+                          <h2 className="text-lg">Adress :</h2>
+                        <h4 className="text-lg ms-10 text-[#3e6258] mb-2">{item.adress}</h4>
+                        </div>
+
+                        <div className="email flex border-b-2 mb-5">
+                          <h2 className="text-lg">Date of Birth :</h2>
+                        <h4 className="text-lg ms-10 text-[#3e6258] mb-2">{item.birth}</h4>
+                        </div>
+
+                        {item.mobile != ''?(<div className="email flex border-b-2 mb-5">
+                          <h2 className="text-lg">Mobile :</h2>
+                        <h4 className="text-lg ms-10 text-[#3e6258] mb-2">{item.mobile}</h4>
+                        </div>):''}
+                        
+
+                        </div>
+          
 
                         {/* العداد إذا لم يكن الحساب Customer */}
                         {accountType !== "Customer" && (

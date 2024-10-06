@@ -27,16 +27,16 @@ function Counter(){
         <>
       <div className="flex justify-between w-96 mt-12">
         <div>
-          <h2 className="text-3xl text-black mb-3 ">+{eventCount}</h2>
-          <h2 className="text-1xl  text-black text-center">Events</h2>
+          <h2 className="text-3xl text-black mb-3 text-center">+{eventCount}</h2>
+          <h2 className=" text-xl  text-center text-[#37977f]">Events</h2>
         </div>
         <div>
-          <h2 className="text-3xl text-black mb-3">+{productCount}</h2>
-          <h2 className="text-1xl text-black text-center">Products</h2>
+          <h2 className="text-3xl text-black mb-3  text-center">+{productCount}</h2>
+          <h2 className=" text-xl text-center text-[#37977f]">Products</h2>
         </div>
         <div>
-          <h2 className="text-3xl text-black mb-3">+{reviewCount}</h2>
-          <h2 className="text-1xl text-black text-center">Reviews</h2>
+          <h2 className="text-3xl text-black mb-3 text-center">+{reviewCount}</h2>
+          <h2 className=" text-xl text-center text-[#37977f]">Reviews</h2>
         </div>
       </div>
     </>
