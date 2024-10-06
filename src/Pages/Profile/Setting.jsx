@@ -1,7 +1,5 @@
 /* eslint-disable no-unused-vars */
 
-
-
 import profile from "../../assets/imges/newww/best11.jpg";
 import profile2 from "../../assets/imges/newww/artist1.jpeg";
 import React, { useState, useEffect } from "react";
@@ -152,22 +150,12 @@ function Setting() {
               data.map((item, index) => (
                 <div key={index} className="mb-10">
                   <div className="relative">
-                    {/* تعديل الكارد الأحمر */}
-                    {data.length > 0 && data[0].accountType !== "Artist" && (
-                      <div className="mt-10 w-[50px] absolute">
-                        <Link to="/adddeitalsprofile">
-                          <FaUserEdit size={50} color="rgba(200, 59, 16, 1)" />
-                        </Link>
-                      </div>
-                    )}
-
                     {/* الكارد الأحمر */}
                     <div
-                      className='w-[70%]  rounded-3xl p-9 shadow-2xl mx-20 my-7'
+                      className="w-[70%]  rounded-3xl p-9 shadow-2xl mx-auto my-7 border-2"
                       style={{ animation: "fadeInUp 1s forwards" }}
                     >
                       <div className="flex flex-col ">
-
                         {/* صورة الغلاف */}
                         <div className="h-[300px] w-[100%] ">
                           <img
@@ -177,7 +165,7 @@ function Setting() {
                           />
                         </div>
 
-                        <div className=" flex ">
+                        <div className=" flex justify-between">
                           {/* صورة الملف الشخصي */}
                           <div className=" w-[180px] absolute top-[240px] left-[80px] mr-[55px]   rounded-3xl">
                             <img
@@ -190,69 +178,146 @@ function Setting() {
 
                           {/* معلومات النصوص */}
                           <div className="ms-[250px] mt-3">
-                          <h1 style={{fontFamily: "Playwrite DE Grund"}} className="text-2xl font-bold ">{item.firstname} {item.lastname}</h1>
-                          <p className=" ms-3 text-[#4b535c]">{item.jobtitle}</p>                         
-                        </div>
-
-                          {/* الروابط الاجتماعية */}
-                        <div className="flex  w-[20%] mt-5 ms-auto">
-                          <a
-                            href={item.facebook}
-                            className="icon text-[#94e7d1]   hover:text-blue-600 transition-colors duration-300"
-                          >
-                            <FaFacebookF size={25} />
-                          </a>
-                          <a
-                            href={item.instagram}
-                            className="icon mx-5 text-[#94e7d1]  hover:text-pink-600 transition-colors duration-300"
-                          >
-                            <FaInstagram size={25} />
-                          </a>
-                          <a
-                            href={item.linkedin}
-                            className="icon  text-[#94e7d1]  hover:text-blue-800 transition-colors duration-300"
-                          >
-                            <FaLinkedinIn size={25} />
-                          </a>
-                        </div>
-
+                            <h1
+                              style={{ fontFamily: "Playwrite DE Grund" }}
+                              className="text-2xl font-bold "
+                            >
+                              {item.firstname} {item.lastname}
+                            </h1>
+                            <p className=" ms-3 text-[#4b535c]">
+                              {item.jobtitle}
+                            </p>
                           </div>
 
+                          {/* الروابط الاجتماعية */}
+                          <div className="flex  w-[20%] mt-6 ">
+                            <a
+                              href={item.facebook}
+                              className="icon text-[#94e7d1]   hover:text-blue-600 transition-colors duration-300"
+                            >
+                              <FaFacebookF size={25} />
+                            </a>
+                            <a
+                              href={item.instagram}
+                              className="icon mx-5 text-[#94e7d1]  hover:text-pink-600 transition-colors duration-300"
+                            >
+                              <FaInstagram size={25} />
+                            </a>
+                            <a
+                              href={item.linkedin}
+                              className="icon  text-[#94e7d1]  hover:text-blue-800 transition-colors duration-300"
+                            >
+                              <FaLinkedinIn size={25} />
+                            </a>
+                          </div>
+
+                          {/* تعديل الكارد الأحمر */}
+                          {data.length > 0 &&
+                            data[0].accountType !== "Artist" && (
+                              <div className="mt-2 me-2 transition-transform  ease-in-out translate-x-3 transform hover:scale-110 ">
+                                <Link to="/adddeitalsprofile" className="text-[#204d43]">
+                                  <FaUserEdit
+                                    size={50}
+                                    color="#53958e"
+                                    className=" hover:translate-x-8 duration-300"
+                                  />
+                                Edite profile
+                                </Link>
+                              </div>
+                            )}
+                        </div>
 
                         <div className="w-[80%] mx-auto mt-10">
+                          <div className="about mb-10">
+                            <h2 className="text-2xl mr-6 text-[#37977f] font-medium">
+                              About :
+                            </h2>
+                            <p className=" mt-2 text-[#3e6258] mb-2">
+                              {item.about}
+                            </p>
+                          </div>
+                          <div className="email flex border-b-2 my-5">
+                            <h2 className="text-lg">Email :</h2>
+                            <h4 className="text-lg ms-10 text-[#3e6258] mb-2">
+                              {item.email}
+                            </h4>
+                          </div>
 
-                        <div className="about mb-10">
-                          <h2 className="text-2xl mr-6 text-[#37977f] font-medium">About :</h2>
-                          <p className=" mt-2 text-[#3e6258] mb-2">{item.about}</p>
-                        </div>
-                        <div className="email flex border-b-2 my-5">
-                          <h2 className="text-lg">Email :</h2>
-                        <h4 className="text-lg ms-10 text-[#3e6258] mb-2">{item.email}</h4>
-                        </div>
+                          <div className="email flex border-b-2 mb-5">
+                            <h2 className="text-lg">Account Type :</h2>
+                            <h4 className="text-lg ms-10 text-[#3e6258] mb-2">
+                              {item.accountType}
+                            </h4>
+                          </div>
+                          {item.adress != "" ? (
+                            <div className="email flex border-b-2 mb-5">
+                              <h2 className="text-lg">Adress :</h2>
+                              <h4 className="text-lg ms-10 text-[#3e6258] mb-2">
+                                {item.adress}
+                              </h4>
+                            </div>
+                          ) : (
+                            ""
+                          )}
 
-                        <div className="email flex border-b-2 mb-5">
-                          <h2 className="text-lg">Account Type :</h2>
-                        <h4 className="text-lg ms-10 text-[#3e6258] mb-2">{item.accountType}</h4>
-                        </div>
+                          {item.birth != "" ? (
+                            <div className="email flex border-b-2 mb-5">
+                              <h2 className="text-lg">Date of Birth :</h2>
+                              <h4 className="text-lg ms-10 text-[#3e6258] mb-2">
+                                {item.birth}
+                              </h4>
+                            </div>
+                          ) : (
+                            ""
+                          )}
 
-                        <div className="email flex border-b-2 mb-5">
-                          <h2 className="text-lg">Adress :</h2>
-                        <h4 className="text-lg ms-10 text-[#3e6258] mb-2">{item.adress}</h4>
-                        </div>
+                          {item.mobile != "" ? (
+                            <div className="email flex border-b-2 mb-5">
+                              <h2 className="text-lg">Mobile :</h2>
+                              <h4 className="text-lg ms-10 text-[#3e6258] mb-2">
+                                {item.mobile}
+                              </h4>
+                            </div>
+                          ) : (
+                            ""
+                          )}
 
-                        <div className="email flex border-b-2 mb-5">
-                          <h2 className="text-lg">Date of Birth :</h2>
-                        <h4 className="text-lg ms-10 text-[#3e6258] mb-2">{item.birth}</h4>
+                          {/* Reviews Section */}
+                          {accountType !== "Customer" && (
+                            <div className="mt-10 flex border-b-2">
+                              <h2 className="text-lg">Reviews :</h2>
+                              {loadingReviews ? (
+                                <div>Loading reviews...</div>
+                              ) : reviewsData.length > 0 ? (
+                                reviewsData.map((review) => (
+                                  <div
+                                    key={review.id}
+                                    className="my-4 p-4 border rounded-lg shadow w-[90%]"
+                                  >
+                                    <h4 className="font-semibold">
+                                      {review.userName}{" "}
+                                    </h4>
+                                    <ReactStars
+                                      count={5}
+                                      value={review.rating}
+                                      size={24}
+                                      activeColor="#ffd700"
+                                      edit={false}
+                                    />
+                                    <p>{review.reviewText}</p>
+                                    <p className="text-sm text-gray-500">
+                                      {review.rating} / 5 stars
+                                    </p>
+                                  </div>
+                                ))
+                              ) : (
+                                <p className="text-lg ms-10 text-[#3e6258] mb-2">
+                                  No reviews available. Be the first to review!
+                                </p>
+                              )}
+                            </div>
+                          )}
                         </div>
-
-                        {item.mobile != ''?(<div className="email flex border-b-2 mb-5">
-                          <h2 className="text-lg">Mobile :</h2>
-                        <h4 className="text-lg ms-10 text-[#3e6258] mb-2">{item.mobile}</h4>
-                        </div>):''}
-                        
-
-                        </div>
-          
 
                         {/* العداد إذا لم يكن الحساب Customer */}
                         {accountType !== "Customer" && (
@@ -265,38 +330,6 @@ function Setting() {
                   </div>
                 </div>
               ))}
-
-            {/* Reviews Section */}
-            {accountType !== "Customer" && (
-              <div className="mt-10">
-                <h2 className="text-3xl font-bold">Reviews</h2>
-                {loadingReviews ? (
-                  <div>Loading reviews...</div>
-                ) : reviewsData.length > 0 ? (
-                  reviewsData.map((review) => (
-                    <div
-                      key={review.id}
-                      className="my-4 p-4 border rounded-lg shadow w-[90%]"
-                    >
-                      <h4 className="font-semibold">{review.userName} </h4>
-                      <ReactStars
-                        count={5}
-                        value={review.rating}
-                        size={24}
-                        activeColor="#ffd700"
-                        edit={false}
-                      />
-                      <p>{review.reviewText}</p>
-                      <p className="text-sm text-gray-500">
-                        {review.rating} / 5 stars
-                      </p>
-                    </div>
-                  ))
-                ) : (
-                  <p>No reviews available. Be the first to review!</p>
-                )}
-              </div>
-            )}
           </div>
         )}
 
