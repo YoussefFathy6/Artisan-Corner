@@ -50,6 +50,8 @@ import { darkTheme, lightTheme } from './theme';
 
 export const ThemeContext = createContext();
 
+import Setting from "./Pages/Profile/Setting";
+// import ChatApp from "./components/Chat/ChatApp";
 function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -137,6 +139,62 @@ function App() {
         </Paper>
       </ThemeProvider>
     </ThemeContext.Provider>
+    <>
+      <ReviewsProvider>
+        <RatingsProvider>
+          {isAdmin ? (
+            <DashBoard />
+          ) : (
+            <>
+              <NavBar />
+              <Routes>
+                <Route path="chat" element={<Chat />} />
+                {/* <Route path="chatApp" element={<ChatApp />} /> */}
+
+                <Route path="/" element={<Home />} />
+                <Route path="posts" element={<Posts />} />
+
+                <Route path="earnings" element={<EarningsPage />} />
+                <Route path="shipping" element={<ShippingPage />} />
+                <Route path="payment" element={<CheckoutPage />} />
+                <Route path="register" element={<RegisterPage />} />
+                <Route path="special" element={<SpecialOrderPage />} />
+                <Route path="auction" element={<AuctionPage />} />
+                <Route path="proposals" element={<ProposalsPage />} />
+                <Route path="verify" element={<VerificationPage />} />
+                <Route path="/details" element={<Details />} />
+                <Route path="/bag" element={<ProductBag />} />
+                <Route path="order" element={<Order />} />
+                <Route path="*" element={<NotFound />} />
+                <Route path="/ticket" element={<Ticket />} />
+                <Route path="/event" element={<AllEvent />} />
+                <Route path="/setting" element={<Setting/>} />
+                <Route
+                  path="/TicketConfirmation/:eventId"
+                  element={<TicketConfirmation />}
+                />
+                <Route path="/Artprofile" element={<ArtProfile />} />
+                <Route path="/online" element={<VideoCall />} />
+                <Route path="/EventOnline" element={<EventOnline />} />
+                <Route path="/Users" element={<Users />} />
+                <Route
+                  path="/TicketOnline/:eventId"
+                  element={<TicketOnline />}
+                />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/eventuser" element={<Eventuser />} />
+                <Route
+                  path="/adddeitalsprofile"
+                  element={<AddDeitalsprofile />}
+                />
+              </Routes>
+              <Footer />
+              <ToastContainer />
+            </>
+          )}
+        </RatingsProvider>
+      </ReviewsProvider>
+    </>
   );
 }
 

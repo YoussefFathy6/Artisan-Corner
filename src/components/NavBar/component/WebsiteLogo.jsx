@@ -189,7 +189,7 @@ function BodyNav() {
                   </Dropdown.Header>
                   <Dropdown.Item
                     onClick={() => {
-                      nav("/profile"); // Navigate to profile
+                      nav("/setting"); // Navigate to profile
                     }}
                     icon={HiViewGrid}
                   >
