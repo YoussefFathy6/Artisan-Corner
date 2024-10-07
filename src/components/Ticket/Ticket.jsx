@@ -157,9 +157,9 @@ function Ticket() {
 
   return (
     <>
-      <section className=" w-96 justify-center items-center m-auto">
-        <div className="pt-6 pl-6">
-          <div className="ticket-card w-96">
+      <section className="  justify-center items-center m-auto ">
+        <div className="pt-6 pb-9 ">
+          <div className="ticket-card ">
             <div className="ticket-header">
               <img src={event.eventImg} alt={event.name} />
             </div>
@@ -340,7 +340,7 @@ function Ticket() {
       </Modal>
 
       {/* Carousel */}
-      <h1 className="border-t-2  p-8 border-black border-dashed text-3xl text-red-900 pl-7 mt-12  font-semibold">
+      {/* <h1 className="border-t-2  p-8 border-black border-dashed text-3xl text-red-900 pl-7 mt-12  font-semibold">
         Other Events
       </h1>
 
@@ -380,7 +380,7 @@ function Ticket() {
             )}
           </Carousel>
         </div>
-      </section>
+      </section> */}
     </>
   );
 }
