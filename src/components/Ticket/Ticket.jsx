@@ -320,8 +320,26 @@ function Ticket() {
           >
             <PayPalButtons
               style={{ layout: "vertical" }}
-              amount={Number(total).toFixed(2)}
-              onApprove={handlePayPalSuccess}
+              createOrder={(data, actions) => {
+                return actions.order.create({
+                  purchase_units: [
+                    {
+                      amount: {
+                        value: Number(total).toFixed(2),
+                      },
+                    },
+                  ],
+                });
+              }}
+              // amount={Number(total).toFixed(2)}
+              onApprove={async (data, actions) => {
+                const details = await actions.order.capture();
+
+                const emailSubmitted = await handleEmailSubmission();
+                if (emailSubmitted) {
+                  navigate(`/TicketConfirmation/${event.id}`);
+                }
+              }}
             />
           </PayPalScriptProvider>
 
