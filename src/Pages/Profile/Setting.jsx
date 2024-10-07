@@ -159,7 +159,7 @@ function Setting() {
                         {/* صورة الغلاف */}
                         <div className="h-[300px] w-[100%] ">
                           <img
-                            src={item.profilePic || profile}
+                            src={item.coverPic || profile}
                             // src={profile}
                             className=" h-[100%] w-[100%] rounded-3xl object-cover  shadow-lg"
                           />
@@ -213,7 +213,8 @@ function Setting() {
 
                           {/* تعديل الكارد الأحمر */}
                           {data.length > 0 &&
-                            data[0].accountType !== "Artist" && (
+                            // data[0].accountType !== "Artist" && 
+                            (
                               <div className="mt-2 me-2 transition-transform  ease-in-out translate-x-3 transform hover:scale-110 ">
                                 <Link to="/adddeitalsprofile" className="text-[#204d43]">
                                   <FaUserEdit
@@ -221,7 +222,7 @@ function Setting() {
                                     color="#53958e"
                                     className=" hover:translate-x-8 duration-300"
                                   />
-                                Edite profile
+                                Edit profile
                                 </Link>
                               </div>
                             )}
