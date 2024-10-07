@@ -193,61 +193,82 @@ function ArtProfile() {
     setNewReview("");
     setNewRating(0);
   };
+
+
+
   return (
-    <div className="min-h-screen justify-center">
+
+
+
+    <div className="  min-h-screen justify-center  m-auto rounded-3xl my-10">
+
+
+      
       {user ? (
         <div>
           <div
-            className="shadow-xl rounded-lg overflow-hidden pt-28"
+            className=" rounded-lg overflow-hidden "
             style={{
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
           >
             {/* Profile Picture */}
-            <div className="justify-center items-center m-auto flex">
+            <div className=" flex items-center justify-center shadow-2xl rounded-[40px]">
+            <div className=" m-11 border-4 border-orange-950 h-[260px] rounded-full w-[150px]">
               <img
                 src={
                   user.profilePic ||
                   "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"
                 }
                 alt="Profile"
-                className="w-96 h-96 rounded-full object-cover border-4 border-orange-950 shadow-lg"
+                className=" h-[260px] rounded-full   shadow-lg"
               />
             </div>
+                            {/* profile details */}
+            <div className="">
+            <h2 className="">{user.accountType} :</h2>
 
-            {/* profile details */}
-            <div className="justify-center items-center text-center flex pt-7">
-              <div>
-                <h1 className="text-3xl font-bold text-gray-800 pb-4">
+              <div className=" space-y-4">
+                <h1 className="text-3xl font-bold font-newfont">
                   {user.firstname} {user.lastname}
                 </h1>
-                <p className="text-gray-600 pb-4 text-xl">{user.email}</p>
-                <p className="text-gray-600 pb-4 text-xl">{user.accountType}</p>
-                <div className="flex"></div>
+                <h2 className="">{user.email}</h2>
+
+                {/* chat btn */}
                 <button
                   onClick={() => {
                     createNewChat().then(() => {
                       nav("/chat", { state: { user } });
                     });
                   }}
-                  className="mx-4 bg-secondary text-white"
+                  className=" bg-[#c6ece8] p-2 px-3 rounded-xl "
                 >
-                  Chat with me
+                  Chat me
                 </button>
+
+                {/* order btn */}
                 <button
                   onClick={() => {
                     setIsOrderModalOpen(true);
                   }}
+                  className=" bg-[#c6ece8] p-2 px-3 rounded-xl ms-3"
                 >
-                  Make special Order
+                   Special Order
                 </button>
-                <p className="text-gray-600 pb-4 text-xl">{user.about}</p>
+
+                
               </div>
             </div>
+            </div>
+
+
+                {/* <p className="text-gray-600 pb-4 text-xl">{user.about}</p> */}
+
+
             {/* options bar */}
-            <div className="mt-4 px-4">
-              <ul className="flex space-x-4 text-gray-600 text-center justify-center p-8">
+            <div className="my-10 ">
+              <ul className=" w-[60%] mx-auto flex space-x-20  text-center justify-center ">
                 <li
                   className={`cursor-pointer ${
                     selectedTab === "posts"
@@ -279,10 +300,16 @@ function ArtProfile() {
                   Reviews
                 </li>
               </ul>
+              <p className=""></p>
             </div>
           </div>
 
+
+
+
           <div className="p-4 flex">
+
+            {/* Events */}
             {selectedTab === "events" && (
               <div className="flex">
                 {eventsData.length > 0 ? (
@@ -295,6 +322,8 @@ function ArtProfile() {
               </div>
             )}
 
+
+            {/* posts */}
             {selectedTab === "posts" && (
               <div className="flex flex-wrap">
                 {postsData.length > 0 ? (
@@ -322,6 +351,8 @@ function ArtProfile() {
               </div>
             )}
 
+
+            {/* reviews */}
             {selectedTab === "reviews" && (
               <div>
                 {reviewsData.length > 0 ? (
@@ -380,17 +411,17 @@ function ArtProfile() {
             )}
           </div>
 
-          <div className="fixed bottom-5 right-5">
+          {/* <div className="fixed bottom-5 right-5">
             <Button
               onClick={openChatModal}
               className="bg-red-600 p-3 rounded-full shadow-lg text-white"
             >
               💬
             </Button>
-          </div>
+          </div> */}
 
           {/* مودال الشات */}
-          <Modal show={isChatModalOpen} onClose={closeChatModal}>
+          {/* <Modal show={isChatModalOpen} onClose={closeChatModal}>
             <Modal.Header>
               Chat with {user.firstname} {user.lastname}
             </Modal.Header>
@@ -398,7 +429,10 @@ function ArtProfile() {
               <Chat />
             </Modal.Body>
             <Modal.Footer></Modal.Footer>
-          </Modal>
+          </Modal> */}
+
+
+
           {/* Special Order Modal */}
           <Modal
             show={isOrderModalOpen}
