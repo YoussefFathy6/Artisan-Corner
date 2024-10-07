@@ -2,7 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Button, Textarea, Label, TextInput, FileInput } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 import db from "../../Config/firebase";
-import { getDocs, collection, query, where, doc, updateDoc } from "firebase/firestore";
+import {
+  getDocs,
+  collection,
+  query,
+  where,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 import { storage } from "../../Config/firebase";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 
@@ -17,7 +24,10 @@ function AddDeitalsprofile() {
   async function checkUser() {
     try {
       const usersCollection = collection(db, "users");
-      const q = query(usersCollection, where("id", "==", localStorage.getItem("id")));
+      const q = query(
+        usersCollection,
+        where("id", "==", localStorage.getItem("id"))
+      );
       const querySnapshot = await getDocs(q);
 
       if (!querySnapshot.empty) {
@@ -69,7 +79,10 @@ function AddDeitalsprofile() {
   async function save() {
     let profileImageUrl = storedImageUrl; 
     if (imgurl) {
-      profileImageUrl = await uploadImageToStorage(imgurl, `profileimg/${imgurl.name}`);
+      profileImageUrl = await uploadImageToStorage(
+        imgurl,
+        `profileimg/${imgurl.name}`
+      );
     }
 
     if (userId) {
@@ -105,19 +118,43 @@ console.log("erorr");
                     <div className="mb-2 block">
                       <Label htmlFor="frist" value="First Name" className="text-xl" />
                     </div>
-                    <TextInput id="frist" type="text" sizing="sm" value={item.firstname} onChange={(e) => setData([{ ...item, firstname: e.target.value }])} />
+                    <TextInput
+                      id="frist"
+                      type="text"
+                      sizing="sm"
+                      value={item.firstname}
+                      onChange={(e) =>
+                        setData([{ ...item, firstname: e.target.value }])
+                      }
+                    />
                   </div>
                   <div>
                     <div className="mb-2 block">
                       <Label htmlFor="last" value="Last Name" className="text-xl" />
                     </div>
-                    <TextInput id="last" type="text" sizing="sm" value={item.lastname} onChange={(e) => setData([{ ...item, lastname: e.target.value }])} />
+                    <TextInput
+                      id="last"
+                      type="text"
+                      sizing="sm"
+                      value={item.lastname}
+                      onChange={(e) =>
+                        setData([{ ...item, lastname: e.target.value }])
+                      }
+                    />
                   </div>
                   <div>
                     <div className="mb-2 block">
                       <Label htmlFor="aboutyou" value="About you" className="text-xl"/>
                     </div>
-                    <Textarea id="aboutyou" required rows={4} value={item.about} onChange={(e) => setData([{ ...item, about: e.target.value }])} />
+                    <Textarea
+                      id="aboutyou"
+                      required
+                      rows={4}
+                      value={item.about}
+                      onChange={(e) =>
+                        setData([{ ...item, about: e.target.value }])
+                      }
+                    />
                   </div>
 
                   {/* Social Links */}
@@ -125,13 +162,29 @@ console.log("erorr");
                     <div className="mb-2 block">
                       <Label htmlFor="facebook" value="Facebook" className="text-xl" />
                     </div>
-                    <TextInput id="facebook" type="text" sizing="sm" value={item.facebook} onChange={(e) => setData([{ ...item, facebook: e.target.value }])} />
+                    <TextInput
+                      id="facebook"
+                      type="text"
+                      sizing="sm"
+                      value={item.facebook}
+                      onChange={(e) =>
+                        setData([{ ...item, facebook: e.target.value }])
+                      }
+                    />
                   </div>
                   <div className="mt-6">
                     <div className="mb-2 block">
                       <Label htmlFor="instgram" value="Instagram" className="text-xl" />
                     </div>
-                    <TextInput id="instgram" type="text" sizing="sm" value={item.instgram} onChange={(e) => setData([{ ...item, instgram: e.target.value }])} />
+                    <TextInput
+                      id="instgram"
+                      type="text"
+                      sizing="sm"
+                      value={item.instgram}
+                      onChange={(e) =>
+                        setData([{ ...item, instgram: e.target.value }])
+                      }
+                    />
                   </div>
                 </div>
                 <div className="w-[35%] mt-[-2%] mr-32">
@@ -141,9 +194,16 @@ console.log("erorr");
                       <Label htmlFor="profileimg" value="Profile Img" className="text-xl" />
                     </div>
                     {storedImageUrl && (
-                      <img src={storedImageUrl} alt="Profile" className="mb-4 w-28" />
+                      <img
+                        src={storedImageUrl}
+                        alt="Profile"
+                        className="mb-4 w-28"
+                      />
                     )}
-                    <FileInput id="profileimg" onChange={(e) => setImgUrl(e.target.files[0])} />
+                    <FileInput
+                      id="profileimg"
+                      onChange={(e) => setImgUrl(e.target.files[0])}
+                    />
                   </div>
 
                   {/* Email and LinkedIn */}
@@ -151,13 +211,29 @@ console.log("erorr");
                     <div className="mb-2 block">
                       <Label htmlFor="email" value="Email" className="text-xl" />
                     </div>
-                    <TextInput id="email" type="text" sizing="sm" value={item.email} onChange={(e) => setData([{ ...item, email: e.target.value }])} />
+                    <TextInput
+                      id="email"
+                      type="text"
+                      sizing="sm"
+                      value={item.email}
+                      onChange={(e) =>
+                        setData([{ ...item, email: e.target.value }])
+                      }
+                    />
                   </div>
                   <div className="mt-6">
                     <div className="mb-2 block">
                       <Label htmlFor="linkedin" value="LinkedIn" className="text-xl"/>
                     </div>
-                    <TextInput id="linkedin" type="text" sizing="sm" value={item.linkedin} onChange={(e) => setData([{ ...item, linkedin: e.target.value }])} />
+                    <TextInput
+                      id="linkedin"
+                      type="text"
+                      sizing="sm"
+                      value={item.linkedin}
+                      onChange={(e) =>
+                        setData([{ ...item, linkedin: e.target.value }])
+                      }
+                    />
                   </div>
 
                   {/* Account Type */}
@@ -169,11 +245,15 @@ console.log("erorr");
                       value={item.accountType}
                       onChange={(e) => {
                         const selectedValue = e.target.value;
-                        setData((prevData) => [{ ...prevData[0], accountType: selectedValue }]);
+                        setData((prevData) => [
+                          { ...prevData[0], accountType: selectedValue },
+                        ]);
                       }}
                       className="block w-full px-3 py-2 border border-gray-300 bg-white text-gray-900 text-lg rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                     >
-                      <option value="" disabled>Select</option>
+                      <option value="" disabled>
+                        Select
+                      </option>
                       <option value="Artist">Artist</option>
                       <option value="Customer">Customer</option>
                     </select>

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import { Modal, Button, Label, Textarea, TextInput } from "flowbite-react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   collection,
   query,
@@ -13,6 +13,7 @@ import {
   updateDoc,
   arrayUnion,
   getDocs,
+  Timestamp,
 } from "firebase/firestore";
 import db from "../../Config/firebase";
 import ProCard from "./ProCard";
@@ -32,6 +33,7 @@ function ArtProfile() {
   };
 
   const location = useLocation();
+  const nav = useNavigate();
   const [user, setUser] = useState(location.state?.user || null);
   const [selectedTab, setSelectedTab] = useState("posts");
   const [eventsData, setEventsData] = useState([]);
@@ -179,6 +181,18 @@ function ArtProfile() {
       console.error("Error sending the order: ", error);
     }
   };
+  const createNewChat = async () => {
+    await addDoc(collection(db, "chats"), {
+      IDlist: [user.id, localStorage.getItem("id")],
+      message: [
+        { content: "", timestamp: "", sender: localStorage.getItem("id") },
+      ],
+      firstID: user.id,
+      secondID: localStorage.getItem("id"),
+    });
+    setNewReview("");
+    setNewRating(0);
+  };
   return (
     <div className="min-h-screen justify-center">
       {user ? (
@@ -190,6 +204,7 @@ function ArtProfile() {
               backgroundPosition: "center",
             }}
           >
+            {/* Profile Picture */}
             <div className="justify-center items-center m-auto flex">
               <img
                 src={
@@ -201,6 +216,7 @@ function ArtProfile() {
               />
             </div>
 
+            {/* profile details */}
             <div className="justify-center items-center text-center flex pt-7">
               <div>
                 <h1 className="text-3xl font-bold text-gray-800 pb-4">
@@ -209,7 +225,14 @@ function ArtProfile() {
                 <p className="text-gray-600 pb-4 text-xl">{user.email}</p>
                 <p className="text-gray-600 pb-4 text-xl">{user.accountType}</p>
                 <div className="flex"></div>
-                <button className="mx-4 bg-secondary text-white">
+                <button
+                  onClick={() => {
+                    createNewChat().then(() => {
+                      nav("/chat", { state: { user } });
+                    });
+                  }}
+                  className="mx-4 bg-secondary text-white"
+                >
                   Chat with me
                 </button>
                 <button
@@ -222,7 +245,7 @@ function ArtProfile() {
                 <p className="text-gray-600 pb-4 text-xl">{user.about}</p>
               </div>
             </div>
-
+            {/* options bar */}
             <div className="mt-4 px-4">
               <ul className="flex space-x-4 text-gray-600 text-center justify-center p-8">
                 <li

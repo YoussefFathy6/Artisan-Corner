@@ -74,7 +74,7 @@ function Addproduct() {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloaduRL) => {
           if (data1.title && data1.description) {
-            const collectionref = collection(db, "add product");
+            const collectionref = collection(db, "tempProducts");
             addDoc(collectionref, {
               title: data1.title,
               description: data1.description,

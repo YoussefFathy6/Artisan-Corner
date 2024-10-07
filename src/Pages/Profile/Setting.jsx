@@ -131,10 +131,10 @@ function Setting() {
   const accountType = data.length > 0 ? data[0].accountType : "";
 
   return (
-    <div className="flex page-fade-in">
+    <div className="flex page-fade-in justify-centerd">
       {/* Sidebar يظهر فقط إذا لم يكن نوع الحساب Customer */}
       {accountType !== "Customer" && (
-        <div className="w-[10%]">
+        <div className="">
           <Side activeItem={activeItem} onItemClick={handleItemClick} />
         </div>
       )}
@@ -142,7 +142,7 @@ function Setting() {
       {/* Main Content */}
 
       <div
-        className={`p-5  ${accountType === "Customer" ? "w-full" : "w-[90%]"}`}
+        className={`p-5  ${accountType === "Customer" ? "w-full" : "w-[65vw]"}`}
       >
         {activeItem === "profile" && (
           <div>
@@ -152,15 +152,18 @@ function Setting() {
                   <div className="relative">
                     {/* الكارد الأحمر */}
                     <div
-                      className="w-[70%]  rounded-3xl p-9 shadow-2xl mx-auto my-7 border-2"
+                      className="  rounded-3xl p-9 shadow-2xl my-7 border-2"
                       style={{ animation: "fadeInUp 1s forwards" }}
                     >
                       <div className="flex flex-col ">
                         {/* صورة الغلاف */}
                         <div className="h-[300px] w-[100%] ">
                           <img
-                            // src={item.profilePic || {profile}}
-                            src={profile}
+                            src={
+                              item.coverPic ||
+                              "https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png"
+                            }
+                            // src={profile}
                             className=" h-[100%] w-[100%] rounded-3xl object-cover  shadow-lg"
                           />
                         </div>
@@ -169,8 +172,11 @@ function Setting() {
                           {/* صورة الملف الشخصي */}
                           <div className=" w-[180px] absolute top-[240px] left-[80px] mr-[55px]   rounded-3xl">
                             <img
-                              // src={item.profilePic || "avatar-1299805_1280.png"}
-                              src={item.profilePic || profile2}
+                              src={
+                                item.profilePic ||
+                                "https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png"
+                              }
+                              // src={item.profilePic || profile2}
                               alt="Profile"
                               className="rounded-3xl w-[100%] h-[100%] object-cover transition-transform duration-500 ease-in-out hover:scale-110 shadow-lg border-4 border-[#94e7d1]"
                             />
@@ -212,19 +218,21 @@ function Setting() {
                           </div>
 
                           {/* تعديل الكارد الأحمر */}
-                          {data.length > 0 &&
-                            data[0].accountType !== "Artist" && (
-                              <div className="mt-2 me-2 transition-transform  ease-in-out translate-x-3 transform hover:scale-110 ">
-                                <Link to="/adddeitalsprofile" className="text-[#204d43]">
-                                  <FaUserEdit
-                                    size={50}
-                                    color="#53958e"
-                                    className=" hover:translate-x-8 duration-300"
-                                  />
+                          {data.length > 0 && (
+                            <div className="mt-2 me-2 transition-transform  ease-in-out translate-x-3 transform hover:scale-110 ">
+                              <Link
+                                to="/adddeitalsprofile"
+                                className="text-[#204d43]"
+                              >
+                                <FaUserEdit
+                                  size={50}
+                                  color="#53958e"
+                                  className=" hover:translate-x-8 duration-300"
+                                />
                                 Edite profile
-                                </Link>
-                              </div>
-                            )}
+                              </Link>
+                            </div>
+                          )}
                         </div>
 
                         <div className="w-[80%] mx-auto mt-20">
@@ -249,38 +257,6 @@ function Setting() {
                               {item.accountType}
                             </h4>
                           </div>
-                          {item.adress != "" ? (
-                            <div className="email flex border-b-2 mb-5">
-                              <h2 className="text-lg">Adress :</h2>
-                              <h4 className="text-lg ms-10 text-[#3e6258] mb-2">
-                                {item.adress}
-                              </h4>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-
-                          {item.birth != "" ? (
-                            <div className="email flex border-b-2 mb-5">
-                              <h2 className="text-lg">Date of Birth :</h2>
-                              <h4 className="text-lg ms-10 text-[#3e6258] mb-2">
-                                {item.birth}
-                              </h4>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-
-                          {item.mobile != "" ? (
-                            <div className="email flex border-b-2 mb-5">
-                              <h2 className="text-lg">Mobile :</h2>
-                              <h4 className="text-lg ms-10 text-[#3e6258] mb-2">
-                                {item.mobile}
-                              </h4>
-                            </div>
-                          ) : (
-                            ""
-                          )}
 
                           {/* Reviews Section */}
                           {accountType !== "Customer" && (
