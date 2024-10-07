@@ -142,7 +142,7 @@ function Setting() {
       {/* Main Content */}
 
       <div
-        className={`p-5  ${accountType === "Customer" ? "w-full" : "w-[65vw]"}`}
+        className={`p-5  ${accountType === "Customer" ? "w-[90vw] ml-20" : "w-[65vw]"}`}
       >
         {activeItem === "profile" && (
           <div>
@@ -218,7 +218,7 @@ function Setting() {
                           </div>
 
                           {/* تعديل الكارد الأحمر */}
-                          {data.length > 0 && (
+                          {data.length > 0 && data[0].accountType !== "Artist" && (
                             <div className="mt-2 me-2 transition-transform  ease-in-out translate-x-3 transform hover:scale-110 ">
                               <Link
                                 to="/adddeitalsprofile"
@@ -233,6 +233,7 @@ function Setting() {
                               </Link>
                             </div>
                           )}
+        
                         </div>
 
                         <div className="w-[80%] mx-auto mt-20">
@@ -313,7 +314,7 @@ function Setting() {
             {data.length > 0 && data[0].accountType !== "Customer" && (
               <>
               
-              <div className="flex justify-between ml-32 mt-12">
+              <div className="flex justify-between mt-12">
                   <h1 className="text-5xl font-semibold">Products</h1>
                   <Addproduct />
                 </div>

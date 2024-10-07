@@ -29,7 +29,7 @@ function Eventuser() {
   }, []);
   return (
     <>
-      <div className="flex justify-between ml-32 mt-12">
+      <div className="flex justify-between  mt-12">
       
         <div className="  w-[95%] mb-8">
           <div className="  flex justify-between">
