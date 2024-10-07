@@ -194,9 +194,6 @@ function ArtProfile() {
     setNewRating(0);
   };
   return (
-
-
-
     <div className="min-h-screen justify-center">
       {user ? (
         <div>
@@ -219,7 +216,7 @@ function ArtProfile() {
               />
             </div>
 
-                {/* profile details */}
+            {/* profile details */}
             <div className="justify-center items-center text-center flex pt-7">
               <div>
                 <h1 className="text-3xl font-bold text-gray-800 pb-4">
@@ -237,7 +234,7 @@ function ArtProfile() {
                   className="mx-4 bg-secondary text-white"
                 >
                   Chat with me
-                </button> */}
+                </button>
                 <button
                   onClick={() => {
                     setIsOrderModalOpen(true);
@@ -248,7 +245,7 @@ function ArtProfile() {
                 <p className="text-gray-600 pb-4 text-xl">{user.about}</p>
               </div>
             </div>
-              {/* options bar */}
+            {/* options bar */}
             <div className="mt-4 px-4">
               <ul className="flex space-x-4 text-gray-600 text-center justify-center p-8">
                 <li
