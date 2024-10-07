@@ -199,7 +199,7 @@ function ArtProfile() {
       {user ? (
         <div>
           <div
-            className=" "
+            className=""
             style={{
               backgroundSize: "cover",
               backgroundPosition: "center",
@@ -211,35 +211,32 @@ function ArtProfile() {
               <div>
                 <img
                   src={user.coverPic}
-                  className=" shadow-2xl rounded-b-[40px] w-full h-[50vh] "
+                  className=" shadow-2xl rounded-b-[50px] w-full h-[50vh] "
                 />
               </div>
 
-              <div
-                className=" h-[50vh] absolute top-0 w-full bg-[#0003077a] flex items-center justify-center shadow-2xl rounded-b-[40px]"
-                style={{ backgroundImage: user.coverPic }}
-                >
+              <div className=" h-[50vh] absolute top-0 w-full bg-[#050605ad] flex items-center justify-center shadow-2xl rounded-b-[50px]">
                 {/* Profile Picture */}
-                <div className=" m-11 border-4 border-orange-950 h-[260px] rounded-full w-[150px]">
+                <div className=" m-11 border-4 border-[#d5eded] h-[260px] rounded-full w-[150px]">
                   <img
                     src={
                       user.profilePic ||
                       "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"
                     }
                     alt="Profile"
-                    className=" h-[260px] rounded-full   shadow-lg"
+                    className=" h-[260px] rounded-full   shadow-lg p-1"
                   />
                 </div>
 
                 {/* profile details */}
                 <div className="">
-                  <h2 className="">{user.accountType} :</h2>
+                  <h2 className=" text-white">{user.accountType} :</h2>
 
-                  <div className=" space-y-4">
-                    <h1 className="text-3xl font-bold font-newfont">
+                  <div className=" space-y-4 ">
+                    <h1 className="text-[40px] text-[#d5eded] font-bold font-newfont">
                       {user.firstname} {user.lastname}
                     </h1>
-                    <h2 className="">{user.email}</h2>
+                    <h2 className=" text-[#7ca7a7]">{user.email}</h2>
 
                     {/* chat btn */}
                     <button
@@ -271,32 +268,32 @@ function ArtProfile() {
 
             {/* options bar */}
             <div className="my-10 ">
-              <ul className=" w-[60%] mx-auto flex space-x-20  text-center justify-center ">
+              <ul className=" border-[#59ded0] border-b-[2px] w-[60%] mx-auto flex space-x-20  text-center justify-center ">
                 <li
-                  className={`cursor-pointer ${
+                  className={`cursor-pointer duration-200 ${
                     selectedTab === "posts"
-                      ? "text-red-900 text-xl font-semibold"
-                      : "hover:text-red-950 text-xl font-semibold"
+                      ? "text-[#26847b] text-[27px] font-semibold border-b-[2px] border-[#26847b]"
+                      : "hover:text-[#26847b] text-[22px] font-semibold text-[#26847b] "
                   }`}
                   onClick={() => setSelectedTab("posts")}
                 >
                   Posts
                 </li>
                 <li
-                  className={`cursor-pointer ${
+                  className={`cursor-pointer duration-200 ${
                     selectedTab === "events"
-                      ? "text-red-900 text-xl font-semibold"
-                      : "hover:text-red-950 text-xl font-semibold"
+                    ? "text-[#26847b] text-[27px] font-semibold border-b-[2px] border-[#26847b]"
+                    : "hover:text-[#26847b] text-xl font-semibold text-[#3ca99e]"
                   }`}
                   onClick={() => setSelectedTab("events")}
                 >
                   Events
                 </li>
                 <li
-                  className={`cursor-pointer ${
+                  className={`cursor-pointer duration-200 ${
                     selectedTab === "reviews"
-                      ? "text-red-900 text-xl font-semibold"
-                      : "hover:text-red-950 text-xl font-semibold"
+                    ? "text-[#26847b] text-[27px] font-semibold border-b-[2px] border-[#26847b]"
+                    : "hover:text-[#26847b] text-xl font-semibold text-[#3ca99e]"
                   }`}
                   onClick={() => setSelectedTab("reviews")}
                 >

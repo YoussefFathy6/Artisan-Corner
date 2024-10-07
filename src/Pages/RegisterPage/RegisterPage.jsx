@@ -119,7 +119,9 @@ const RegisterPage = () => {
   } //functio
   return (
     <div className="max-w-md mx-auto p-3 bg-primary shadow-md rounded-lg my-4">
-      <h2 className="text-2xl font-semibold mb-6 text-center">Register</h2>
+      <h2 className="text-2xl font-semibold mb-6 text-center text-secondary">
+        Register
+      </h2>
       <div className="flex justify-between mb-4">
         {/* Social login buttons */}
         <button
@@ -136,7 +138,7 @@ const RegisterPage = () => {
           </div>
         </button>
       </div>
-      <p className="text-center text-gray-500 my-4">or</p>
+      <p className="text-center text-secondary my-4">or</p>
       <form onSubmit={formik.handleSubmit}>
         <RegistraionInput
           name="firstname"
@@ -209,7 +211,7 @@ const RegisterPage = () => {
           )}
         </fieldset>
         <Button
-          className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          className="w-full py-2 bg-secondary text-white rounded-md hover:bg-blue-700"
           type="submit"
         >
           Signup
