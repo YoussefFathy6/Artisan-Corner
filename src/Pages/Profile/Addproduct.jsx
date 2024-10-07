@@ -15,7 +15,7 @@ import db from "../../Config/firebase";
 import { storage } from "../../Config/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
-
+import { toast } from "react-toastify";
 function Addproduct() {
   const [openModal, setOpenModal] = useState(false);
   const [openAucModal, setOpenAucModal] = useState(false);
@@ -85,6 +85,9 @@ function Addproduct() {
               typeproduct: data1.typeproduct,
               ownerID: localStorage.getItem("id"),
             });
+            toast.success("Added successfully", {
+              position: "top-right",
+            });
           } else if (aucData.title && aucData.description) {
             const collectionref = collection(db, "auctionProduct");
             addDoc(collectionref, {
@@ -97,6 +100,9 @@ function Addproduct() {
               endDate: aucData.edate,
               members: [],
               proposals: [],
+            });
+            toast.success("Added successfully", {
+              position: "top-right",
             });
           }
         });
@@ -129,7 +135,7 @@ function Addproduct() {
         <div className="mr-36 mt-4">
           <Dropdown
             renderTrigger={() => (
-              <div className=" h-full py-3 bg-orange-950 text-orange-200 shadow rounded-full cursor-pointer ">
+              <div className=" h-full py-3 bg-[#204d43] text-white shadow rounded-full cursor-pointer ">
                 <div className="relative ">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -162,11 +168,11 @@ function Addproduct() {
           </Dropdown>
         </div>
       </div>
-      <Modal show={openModal} size="6xl" onClose={onCloseModal} popup>
+      <Modal show={openModal} size="7xl" onClose={onCloseModal} popup>
         <Modal.Header />
         <Modal.Body
           style={{
-            backgroundImage: `url(${"https://i.pinimg.com/564x/29/c9/9f/29c99f2d3d1c2058959052d88e69c0ab.jpg"})`,
+            backgroundImage: `url(${"https://i.pinimg.com/736x/f1/5c/f6/f15cf6f020f82daefe5a86cb26a6ecaf.jpg"})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
@@ -273,10 +279,10 @@ function Addproduct() {
             </div>
 
             <div className="flex justify-center space-x-4">
-              <Button className="bot2" onClick={save}>
+              <Button className="bg-[#354646cc]" onClick={save}>
                 Done
               </Button>
-              <Button className="bot2" onClick={onCloseModal}>
+              <Button className="bg-[#354646cc]" onClick={onCloseModal}>
                 Cancel
               </Button>
             </div>
@@ -287,7 +293,7 @@ function Addproduct() {
         <Modal.Header />
         <Modal.Body
           style={{
-            backgroundImage: `url(${"https://i.pinimg.com/564x/29/c9/9f/29c99f2d3d1c2058959052d88e69c0ab.jpg"})`,
+            backgroundImage: `url(${"https://i.pinimg.com/736x/f1/5c/f6/f15cf6f020f82daefe5a86cb26a6ecaf.jpg"})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
@@ -385,10 +391,10 @@ function Addproduct() {
             </div>
 
             <div className="flex justify-center space-x-4">
-              <Button className="bot2" onClick={save}>
+              <Button className="bg-[#354646cc]" onClick={save}>
                 Done
               </Button>
-              <Button className="bot2" onClick={onCloseModal}>
+              <Button className="bg-[#354646cc]" onClick={onCloseModal}>
                 Cancel
               </Button>
             </div>

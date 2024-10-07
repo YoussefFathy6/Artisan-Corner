@@ -122,11 +122,12 @@ function BodyNav() {
 
 
         <div className="flex md:order-2 items-center">
-          <div className="">
+          <div >
             {/* <!-- User Greeting or Register/Login --> */}
             {localStorage.getItem("id") && userData ? (
               <div className="flex items-center">
                 {/* Notifications Dropdown */}
+
                 <Dropdown
                   color={"transparent"}
                   label={
@@ -142,6 +143,7 @@ function BodyNav() {
                     </div>
                   }
                 >
+
                   <DropdownHeader>
                     <p className="text-black">Notifications</p>
                   </DropdownHeader>
@@ -195,14 +197,14 @@ function BodyNav() {
                   >
                     View Profile
                   </Dropdown.Item>
-                  <Dropdown.Item     onClick={() => nav("/AddDeitalsprofile")}  icon={HiCog}>Settings</Dropdown.Item>
+                  <Dropdown.Item onClick={() => nav("/AddDeitalsprofile")} icon={HiCog}>Settings</Dropdown.Item>
                   <Dropdown.Item
                     icon={FaShoppingCart}
                     onClick={() => nav("/bag")} // Navigate to bag
                   >
                     My Bag
                   </Dropdown.Item>
-                  <Dropdown.Item icon={HiCurrencyDollar}   onClick={() => nav("/Accountbalance")}>
+                  <Dropdown.Item icon={HiCurrencyDollar} onClick={() => nav("/accountbalance")} >
                     Earnings
                   </Dropdown.Item>
                   <Dropdown.Divider />
@@ -226,8 +228,10 @@ function BodyNav() {
                   Hi, {userData.firstname} {userData.lastname}{" "}
                   {/* Greeting with name */}
                 </div>
+
               </div>
             ) : (
+
               <div className="text-white me-2 sm:pb-0">
                 <button
                   onClick={() => {
@@ -254,9 +258,9 @@ function BodyNav() {
           <div>
             <div className="flex justify-between flex-wrap ">
               <div className="borderYtoX flex flex-col gap-y-4 md:gap-y-0 justify-center p-4 md:p-0 mt-4 font-medium rounded-lg bg-transparent sm:space-x-2 md:space-x-4 xl:space-x-7 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-transparent">
-               
-               
-               
+
+
+
                 <NavLink
                   style={isActive}
                   to="/"
@@ -311,6 +315,20 @@ function BodyNav() {
                 >
                   Artists
                 </NavLink>
+                <NavLink
+                  style={isActive}
+                  to="/Contactus"
+                  className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
+                >
+                Contact US
+                </NavLink>
+                {/* <NavLink
+                  style={isActive}
+                  to="/Contactus"
+                  className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
+                >
+                  Contact US
+                </NavLink> */}
               </div>
               {/* <div className="flex">
                     <a href="#">

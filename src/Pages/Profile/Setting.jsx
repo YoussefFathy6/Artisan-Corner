@@ -29,7 +29,7 @@ import "./style.css";
 import AddDeitalsprofile from "./AddDeitalsprofile";
 import Eventuser from "./Eventuser";
 import ReactStars from "react-rating-stars-component"; // Assuming you're using this for stars
-
+import Accountbalance from "./Accountbalance";
 function Setting() {
   const [activeItem, setActiveItem] = useState("profile");
   const [products, setProducts] = useState([]);
@@ -183,7 +183,7 @@ function Setting() {
                           </div>
 
                           {/* معلومات النصوص */}
-                          <div className="ms-[250px] mt-3">
+                          <div className="ms-[250px] mt-10">
                             <h1
                               style={{ fontFamily: "Playwrite DE Grund" }}
                               className="text-2xl font-bold "
@@ -235,7 +235,7 @@ function Setting() {
                           )}
                         </div>
 
-                        <div className="w-[80%] mx-auto mt-10">
+                        <div className="w-[80%] mx-auto mt-20">
                           <div className="about mb-10">
                             <h2 className="text-2xl mr-6 text-[#37977f] font-medium">
                               About :
@@ -308,12 +308,12 @@ function Setting() {
               ))}
           </div>
         )}
-
         {activeItem === "products" && accountType !== "Customer" && (
           <div>
             {data.length > 0 && data[0].accountType !== "Customer" && (
               <>
-                <div className="mt-2 ml-5 lg:ml-7 flex justify-between items-center">
+              
+              <div className="flex justify-between ml-32 mt-12">
                   <h1 className="text-5xl font-semibold">Products</h1>
                   <Addproduct />
                 </div>
@@ -416,6 +416,7 @@ function Setting() {
         )}
         {activeItem === "settings" && <AddDeitalsprofile />}
         {activeItem === "Events" && <Eventuser />}
+        {activeItem === "earnings" && <Accountbalance />}
       </div>
     </div>
   );

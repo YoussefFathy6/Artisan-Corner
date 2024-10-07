@@ -229,7 +229,7 @@ function Profile() {
             )}
           </div>
         )}
-
+  <div className="flex justify-between mt-12 mb-8">
         {activeItem === "products" && accountType !== "Customer" && (
           <div>
             {data.length > 0 && data[0].accountType !== "Customer" && (
@@ -239,9 +239,9 @@ function Profile() {
                   <Addproduct />
                 </div>
 
-                <div className="mt-14">
+                <div className="mt-14  ">
                   {products.length ? (
-                    <section className="grid gap-5">
+                    <section className="grid gap-5 ml-[-30%] ">
                       <Masonry
                         breakpointCols={{
                           default: 4,
@@ -253,7 +253,7 @@ function Profile() {
                         columnClassName="my-masonry-grid_column"
                       >
                         {products.map((item, index) => (
-                          <Cards2 data={item} key={index} className="shadow-lg rounded-lg transition-transform hover:scale-105" />
+                          <Cards2 data={item} key={index} className="shadow-lg  rounded-lg transition-transform hover:scale-105" />
                         ))}
                       </Masonry>
                     </section>
@@ -281,6 +281,7 @@ function Profile() {
             )}
           </div>
         )}
+        </div>
         {activeItem === "settings" && <AddDeitalsprofile />}
         {activeItem === "Events" && <Eventuser />}
         {activeItem === "earnings" && <Accountbalance />}

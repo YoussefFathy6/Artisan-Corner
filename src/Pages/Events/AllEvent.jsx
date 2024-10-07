@@ -64,11 +64,11 @@ function AllEvent() {
 
   return (
     <>
-         <h1 className="text-5xl  ml-8 mt-9 text-red-900" style={{fontFamily:'cursive'}}>Events</h1>
+         <h1 className="text-5xl  ml-8 mt-9 text-red-900 " style={{fontFamily:'cursive'}}>Events</h1>
 
-      <div className=" flex  mb-72 ml-10">
-      <div className="relative w-60 ">
-  <div className="flex items-center  bg-gray-100 mt-12 rounded-lg">
+      <div className=" flex   ">
+      <div className="relative w-80  ">
+  <div className="flex items-center  mt-12 rounded-lg ">
             <input
               type="text"
               placeholder="Search events..."
@@ -78,7 +78,7 @@ function AllEvent() {
             />
           </div>
  
-  <div className="flex items-center p-4  mt-6 rounded-lg">
+  <div className="flex items-center p-4  mt-6 rounded-lg ">
     <svg
       viewBox="0 0 128 128"
       width="24"
@@ -218,9 +218,9 @@ function AllEvent() {
 </ul>
 
     </div>
-        <div className=" w-3/4 items-center ">
+        <div className=" w-3/4 items-center mx-auto">
         
-        <div className="mt-12 ml-64 justify-center   items-center">
+        <div className="mt-12 justify-center   items-center">
             {paginatedEvents.length ? (
               // flexxxxxxxxxxxxxxxxxxxxxxx
                 <div className="m-9 justify-between "> 

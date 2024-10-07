@@ -137,7 +137,7 @@ function TicketOnline() {
   const time = formatTimeRemaining(timeRemaining);
 
   return (
-    <div className="  p-8     mt-7">
+    <div className="  p-8     mt-7 ">
       <div>
         {!showMeeting ? (
           <div>

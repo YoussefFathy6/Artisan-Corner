@@ -5,6 +5,7 @@ import db from "../../Config/firebase";
 import { doc, updateDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { FaEdit } from 'react-icons/fa';
+import { toast } from "react-toastify";
 
 function Editproduct({ data,children }) {
 
@@ -46,6 +47,9 @@ function Editproduct({ data,children }) {
             });
             console.log("Item updated successfully!");
             onCloseModal();
+            toast.success("Updating successfully", {
+                position: "top-right",
+              });
         } catch (error) {
             console.error("Error updating item: ", error);
         }
@@ -66,7 +70,7 @@ function Editproduct({ data,children }) {
                 <Modal.Header />
                 <Modal.Body
                  style={{
-                    backgroundImage: `url(${"https://i.pinimg.com/564x/29/c9/9f/29c99f2d3d1c2058959052d88e69c0ab.jpg"})`,
+                    backgroundImage: `url(${"https://i.pinimg.com/736x/f1/5c/f6/f15cf6f020f82daefe5a86cb26a6ecaf.jpg"})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                   }}
@@ -171,10 +175,10 @@ function Editproduct({ data,children }) {
                         </div>
 
                         <div className="w-1/2 flex justify-around ml-52">
-                            <Button className="bot2" onClick={handleUpdate}>
+                            <Button className="bg-[#354646cc]" onClick={handleUpdate}>
                                 Done
                             </Button>
-                            <Button className="bot2" onClick={onCloseModal}>
+                            <Button className="bg-[#354646cc]" onClick={onCloseModal}>
                                 Cancel
                             </Button>
                         </div>
