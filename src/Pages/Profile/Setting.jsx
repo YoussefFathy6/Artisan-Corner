@@ -159,7 +159,10 @@ function Setting() {
                         {/* صورة الغلاف */}
                         <div className="h-[300px] w-[100%] ">
                           <img
-                            src={item.profilePic || profile}
+                            src={
+                              item.coverPic ||
+                              "https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png"
+                            }
                             // src={profile}
                             className=" h-[100%] w-[100%] rounded-3xl object-cover  shadow-lg"
                           />
@@ -169,8 +172,11 @@ function Setting() {
                           {/* صورة الملف الشخصي */}
                           <div className=" w-[180px] absolute top-[240px] left-[80px] mr-[55px]   rounded-3xl">
                             <img
-                              // src={item.profilePic || "avatar-1299805_1280.png"}
-                              src={item.profilePic || profile2}
+                              src={
+                                item.profilePic ||
+                                "https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png"
+                              }
+                              // src={item.profilePic || profile2}
                               alt="Profile"
                               className="rounded-3xl w-[100%] h-[100%] object-cover transition-transform duration-500 ease-in-out hover:scale-110 shadow-lg border-4 border-[#94e7d1]"
                             />
@@ -212,19 +218,21 @@ function Setting() {
                           </div>
 
                           {/* تعديل الكارد الأحمر */}
-                          {data.length > 0 &&
-                            data[0].accountType !== "Artist" && (
-                              <div className="mt-2 me-2 transition-transform  ease-in-out translate-x-3 transform hover:scale-110 ">
-                                <Link to="/adddeitalsprofile" className="text-[#204d43]">
-                                  <FaUserEdit
-                                    size={50}
-                                    color="#53958e"
-                                    className=" hover:translate-x-8 duration-300"
-                                  />
+                          {data.length > 0 && (
+                            <div className="mt-2 me-2 transition-transform  ease-in-out translate-x-3 transform hover:scale-110 ">
+                              <Link
+                                to="/adddeitalsprofile"
+                                className="text-[#204d43]"
+                              >
+                                <FaUserEdit
+                                  size={50}
+                                  color="#53958e"
+                                  className=" hover:translate-x-8 duration-300"
+                                />
                                 Edite profile
-                                </Link>
-                              </div>
-                            )}
+                              </Link>
+                            </div>
+                          )}
                         </div>
 
                         <div className="w-[80%] mx-auto mt-10">
@@ -249,11 +257,6 @@ function Setting() {
                               {item.accountType}
                             </h4>
                           </div>
-
-
-
-
-
 
                           {/* Reviews Section */}
                           {accountType !== "Customer" && (
