@@ -159,8 +159,8 @@ function Setting() {
                         {/* صورة الغلاف */}
                         <div className="h-[300px] w-[100%] ">
                           <img
-                            // src={item.profilePic || {profile}}
-                            src={profile}
+                            src={item.profilePic || profile}
+                            // src={profile}
                             className=" h-[100%] w-[100%] rounded-3xl object-cover  shadow-lg"
                           />
                         </div>
@@ -249,38 +249,11 @@ function Setting() {
                               {item.accountType}
                             </h4>
                           </div>
-                          {item.adress != "" ? (
-                            <div className="email flex border-b-2 mb-5">
-                              <h2 className="text-lg">Adress :</h2>
-                              <h4 className="text-lg ms-10 text-[#3e6258] mb-2">
-                                {item.adress}
-                              </h4>
-                            </div>
-                          ) : (
-                            ""
-                          )}
 
-                          {item.birth != "" ? (
-                            <div className="email flex border-b-2 mb-5">
-                              <h2 className="text-lg">Date of Birth :</h2>
-                              <h4 className="text-lg ms-10 text-[#3e6258] mb-2">
-                                {item.birth}
-                              </h4>
-                            </div>
-                          ) : (
-                            ""
-                          )}
 
-                          {item.mobile != "" ? (
-                            <div className="email flex border-b-2 mb-5">
-                              <h2 className="text-lg">Mobile :</h2>
-                              <h4 className="text-lg ms-10 text-[#3e6258] mb-2">
-                                {item.mobile}
-                              </h4>
-                            </div>
-                          ) : (
-                            ""
-                          )}
+
+
+
 
                           {/* Reviews Section */}
                           {accountType !== "Customer" && (

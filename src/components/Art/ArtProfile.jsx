@@ -237,7 +237,7 @@ function ArtProfile() {
                   className="mx-4 bg-secondary text-white"
                 >
                   Chat with me
-                </button> */}
+                </button> 
                 <button
                   onClick={() => {
                     setIsOrderModalOpen(true);
