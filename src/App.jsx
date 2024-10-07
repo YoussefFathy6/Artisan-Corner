@@ -39,28 +39,22 @@ import ArtProfile from "./components/Art/ArtProfile";
 import Chat from "./components/Chat/Chat";
 import Posts from "./Pages/EarningsPage/Main/Posts";
 import SpecialOrderPage from "./Pages/SpecialOrder/SpecialOrderPage";
-import { ThemeProvider } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
 import "react-toastify/dist/ReactToastify.css";
 import Side from "./Pages/Profile/Side";
-import CssBaseline from '@mui/material/CssBaseline';
+
 
 // Importing themes from theme.js
-import { darkTheme, lightTheme } from './theme';
 
 export const ThemeContext = createContext();
 
 import Setting from "./Pages/Profile/Setting";
+import Contactus from "./Pages/contact/contactus";
 
 function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isAdmin = useSelector((state) => state.adminReducer.isAdmin);
   const [darkMode, setDarkMode] = useState(false);
-
-  const toggleTheme = () => {
-    setDarkMode((prev) => !prev);
-  };
 
   const checkUserRole = () => {
     const usersCollection = collection(db, "users");
@@ -86,10 +80,7 @@ function App() {
   }, []);
 
   return (
-    <ThemeContext.Provider value={{ darkMode, toggleTheme }}>
-      <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-        <CssBaseline />
-        <Paper>
+        <div className="min-h-screen flex flex-col">
           <ReviewsProvider>
             <RatingsProvider>
               {isAdmin ? (
@@ -97,9 +88,6 @@ function App() {
               ) : (
                 <>
                   <NavBar />
-                  <button onClick={toggleTheme}>
-                    Toggle {darkMode ? "Light" : "Dark"} Mode
-                  </button>
                   <Routes>
                     <Route path="chat" element={<Chat />} />
                     <Route path="/" element={<Home />} />
@@ -124,22 +112,21 @@ function App() {
                     <Route path="/EventOnline" element={<EventOnline />} />
                     <Route path="/Users" element={<Users />} />
                     <Route path="/TicketOnline/:eventId" element={<TicketOnline />} />
-                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/Profile" element={<Profile />} />
                     <Route path="/eventuser" element={<Eventuser />} />
                     <Route path="/adddeitalsprofile" element={<AddDeitalsprofile />} />
                     <Route path="/accountbalance" element={<Accountbalance />} />
                     <Route path="/Side" element={<Side />} />
                     <Route path="/setting" element={<Setting />} />
+                    <Route path="/Contactus" element={<Contactus />} />
                   </Routes>
-                  <Footer />
                   <ToastContainer />
+                  <Footer />
                 </>
               )}
             </RatingsProvider>
           </ReviewsProvider>
-        </Paper>
-      </ThemeProvider>
-    </ThemeContext.Provider>
+        </div>
   );
 }
 

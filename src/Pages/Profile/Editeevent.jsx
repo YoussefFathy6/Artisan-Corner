@@ -4,7 +4,8 @@ import { Button, Textarea, Label, Modal, TextInput } from "flowbite-react";
 import db from "../../Config/firebase";
 import { doc, updateDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-
+import { toast } from "react-toastify";
+import { FaEdit } from 'react-icons/fa';
 function Editeevent({ data }) {
     const [openModal, setOpenModal] = useState(false);
     const [editedData, setEditedData] = useState(data);
@@ -57,7 +58,10 @@ function Editeevent({ data }) {
                 ticketquantity: editedData.ticketquantity,
                 img: editedData.img,
             });
-            console.log("Event updated successfully!");
+            toast.success("Updating successfully", {
+                position: "top-right",
+              });
+              
             onCloseModal();
         } catch (error) {
             console.error("Error updating event: ", error);
@@ -66,24 +70,25 @@ function Editeevent({ data }) {
 
     return (
         <>
-            <Button
-                type="button"
-                onClick={OpenModal}
-                className="bot2 mr-3"
-            >
-                Edit Event
-            </Button>
+            
+         <button
+    type="button"
+    onClick={() => OpenModal(true)}
+    className=""
+>
+    <FaEdit className="" size={30} />
+</button>
 
             <Modal show={openModal} size="7xl"className="bg-gray-300"onClose={onCloseModal} popup>
                 <Modal.Header />
                 <Modal.Body 
                  style={{
-                    backgroundImage: `url(${"https://i.pinimg.com/564x/29/c9/9f/29c99f2d3d1c2058959052d88e69c0ab.jpg"})`,
+                    backgroundImage: `url(${"https://i.pinimg.com/736x/f1/5c/f6/f15cf6f020f82daefe5a86cb26a6ecaf.jpg"})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                   }}
                 >
-                    <div className="space-y-6 m-10 bg-orange-200 p-10">
+                    <div className="space-y-6 m-10  p-10">
                         <h3 className="text-4xl font-medium text-gray-900 dark:text-white">
                             Edit Event
                         </h3>
@@ -211,10 +216,10 @@ function Editeevent({ data }) {
                         </div>
 
                         <div className="w-1/2 flex justify-around ml-52">
-                            <Button className="bot2" onClick={handleUpdate}>
+                            <Button className="bg-[#354646cc]" onClick={handleUpdate}>
                                 Done
                             </Button>
-                            <Button className="bot2" onClick={onCloseModal}>
+                            <Button className="bg-[#354646cc]" onClick={onCloseModal}>
                                 Cancel
                             </Button>
                         </div>
