@@ -194,77 +194,80 @@ function ArtProfile() {
     setNewRating(0);
   };
 
-
-
   return (
-
-
-
-    <div className="  min-h-screen justify-center  m-auto rounded-3xl my-10">
-
-
-      
+    <div className=" w-full  min-h-screen justify-center  m-auto  mb-10">
       {user ? (
         <div>
           <div
-            className=" rounded-lg overflow-hidden "
+            className=" "
             style={{
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
           >
-            {/* Profile Picture */}
-            <div className=" flex items-center justify-center shadow-2xl rounded-[40px]">
-            <div className=" m-11 border-4 border-orange-950 h-[260px] rounded-full w-[150px]">
-              <img
-                src={
-                  user.profilePic ||
-                  "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"
-                }
-                alt="Profile"
-                className=" h-[260px] rounded-full   shadow-lg"
-              />
-            </div>
-                            {/* profile details */}
-            <div className="">
-            <h2 className="">{user.accountType} :</h2>
+            {/* main profile */}
+            <div className=" relative">
+              {/* cover Pic */}
+              <div>
+                <img
+                  src={user.coverPic}
+                  className=" shadow-2xl rounded-b-[40px] w-full h-[50vh] "
+                />
+              </div>
 
-              <div className=" space-y-4">
-                <h1 className="text-3xl font-bold font-newfont">
-                  {user.firstname} {user.lastname}
-                </h1>
-                <h2 className="">{user.email}</h2>
-
-                {/* chat btn */}
-                <button
-                  onClick={() => {
-                    createNewChat().then(() => {
-                      nav("/chat", { state: { user } });
-                    });
-                  }}
-                  className=" bg-[#c6ece8] p-2 px-3 rounded-xl "
+              <div
+                className=" h-[50vh] absolute top-0 w-full bg-[#0003077a] flex items-center justify-center shadow-2xl rounded-b-[40px]"
+                style={{ backgroundImage: user.coverPic }}
                 >
-                  Chat me
-                </button>
+                {/* Profile Picture */}
+                <div className=" m-11 border-4 border-orange-950 h-[260px] rounded-full w-[150px]">
+                  <img
+                    src={
+                      user.profilePic ||
+                      "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"
+                    }
+                    alt="Profile"
+                    className=" h-[260px] rounded-full   shadow-lg"
+                  />
+                </div>
 
-                {/* order btn */}
-                <button
-                  onClick={() => {
-                    setIsOrderModalOpen(true);
-                  }}
-                  className=" bg-[#c6ece8] p-2 px-3 rounded-xl ms-3"
-                >
-                   Special Order
-                </button>
+                {/* profile details */}
+                <div className="">
+                  <h2 className="">{user.accountType} :</h2>
 
-                
+                  <div className=" space-y-4">
+                    <h1 className="text-3xl font-bold font-newfont">
+                      {user.firstname} {user.lastname}
+                    </h1>
+                    <h2 className="">{user.email}</h2>
+
+                    {/* chat btn */}
+                    <button
+                      onClick={() => {
+                        createNewChat().then(() => {
+                          nav("/chat", { state: { user } });
+                        });
+                      }}
+                      className=" bg-[#c6ece8] p-2 px-3 rounded-xl "
+                    >
+                      Chat me
+                    </button>
+
+                    {/* order btn */}
+                    <button
+                      onClick={() => {
+                        setIsOrderModalOpen(true);
+                      }}
+                      className=" bg-[#c6ece8] p-2 px-3 rounded-xl ms-3"
+                    >
+                      Special Order
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-            </div>
 
-
-                {/* <p className="text-gray-600 pb-4 text-xl">{user.about}</p> */}
-
+            {/* <p className="text-gray-600 pb-4 text-xl">{user.about}</p> */}
 
             {/* options bar */}
             <div className="my-10 ">
@@ -304,11 +307,7 @@ function ArtProfile() {
             </div>
           </div>
 
-
-
-
           <div className="p-4 flex">
-
             {/* Events */}
             {selectedTab === "events" && (
               <div className="flex">
@@ -321,7 +320,6 @@ function ArtProfile() {
                 )}
               </div>
             )}
-
 
             {/* posts */}
             {selectedTab === "posts" && (
@@ -350,7 +348,6 @@ function ArtProfile() {
                 )}
               </div>
             )}
-
 
             {/* reviews */}
             {selectedTab === "reviews" && (
@@ -430,8 +427,6 @@ function ArtProfile() {
             </Modal.Body>
             <Modal.Footer></Modal.Footer>
           </Modal> */}
-
-
 
           {/* Special Order Modal */}
           <Modal

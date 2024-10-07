@@ -7,7 +7,7 @@ import { HiCurrencyDollar } from "react-icons/hi";
 function Side({ activeItem, onItemClick }) {
   return (
     <div className="Sidebar">
-      <div className=" shadow-2xl bg-[#ffffff] w-[230px] h-[300px] flex flex-col justify-around border-2 mt-14 mx-10 p-3 ms-20 rounded-2xl">
+      <div className=" shadow-2xl bg-[#ffffff] w-[230px] h-[330px] flex flex-col justify-around border-2 mt-14 mx-10 p-3 ms-20 rounded-2xl">
         {/* Profile */}
         <div
           className={`text-[#204d43] flex items-center  rounded-xl text-lg  cursor-pointer ${

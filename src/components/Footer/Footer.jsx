@@ -11,22 +11,17 @@ import Copyrite from "./component/Copyrite";
 
 function Footer() {
   return (
-    <section className=" bg-[#6A9C89] grid grid-cols-1 py-9">
-      <div className="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 mb-9 ">
+    <footer className="bg-[#6A9C89] py-20">
+      <div className="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
         {/* <LinksG1 /> */}
         <LinksG2 />
         <LogoSocialMedia />
         <OrignalLogoSection />
         {/* <EmailInput /> */}
       </div>
-      {/* <div className="container">
-        <ManyLinksSection />
-      </div> */}
-      {/* <div className="container">
-        <Copyrite />
-      </div> */}
-    </section>
+    </footer>
   );
+
 }
 
 export default Footer;
