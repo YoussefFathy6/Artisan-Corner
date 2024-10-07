@@ -42,6 +42,7 @@ import Chat from "./components/Chat/Chat";
 import Posts from "./Pages/EarningsPage/Main/Posts";
 import SpecialOrderPage from "./Pages/SpecialOrder/SpecialOrderPage";
 import Setting from "./Pages/Profile/Setting";
+import ChatPage from "./Pages/ChatPage/ChatPage";
 // import ChatApp from "./components/Chat/ChatApp";
 function App() {
   const navigate = useNavigate();
@@ -87,7 +88,8 @@ function App() {
             <>
               <NavBar />
               <Routes>
-                <Route path="chat" element={<Chat />} />
+                {/* <Route path="chat" element={<Chat />} /> */}
+                <Route path="chat" element={<ChatPage />} />
                 {/* <Route path="chatApp" element={<ChatApp />} /> */}
 
                 <Route path="/" element={<Home />} />
@@ -107,7 +109,7 @@ function App() {
                 <Route path="*" element={<NotFound />} />
                 <Route path="/ticket" element={<Ticket />} />
                 <Route path="/event" element={<AllEvent />} />
-                <Route path="/setting" element={<Setting/>} />
+                <Route path="/setting" element={<Setting />} />
                 <Route
                   path="/TicketConfirmation/:eventId"
                   element={<TicketConfirmation />}
