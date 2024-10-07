@@ -78,7 +78,7 @@ function Login() {
       <Modal.Header>Terms of Service</Modal.Header>
       <Modal.Body>
         <div className="max-w-md mx-auto p-3 bg-white shadow-md rounded-lg">
-          <h2 className="text-2xl font-semibold mb-6 text-center">
+          <h2 className="text-2xl text-secondary font-semibold mb-6 text-center">
             Welcome back
           </h2>
           <div className="flex justify-center mb-4 ">
@@ -99,7 +99,7 @@ function Login() {
           <p className="text-center text-gray-500 my-4">or</p>
           <form>
             <div className="mb-4">
-              <label className="block text-left text-sm font-medium text-gray-700">
+              <label className="block text-secondary text-left text-sm font-medium text-gray-700">
                 Email
               </label>
               <TextInput
@@ -109,7 +109,7 @@ function Login() {
               ></TextInput>
             </div>
             <div className="mb-4">
-              <label className="block text-left text-sm font-medium text-gray-700">
+              <label className="block text-secondary text-left text-sm font-medium text-gray-700">
                 Password
               </label>
               <TextInput
@@ -121,16 +121,16 @@ function Login() {
             </div>
             <div className="flex justify-between items-center mb-4">
               <label className="flex items-center text-sm">
-                <input type="checkbox" className="mr-2" />
+                <input type="checkbox" className="mr-2 text-secondary" />
                 Remember me
               </label>
-              <button className="text-sm text-blue-500">
+              <button className="text-sm text-secondary">
                 Forgot password?
               </button>
             </div>
             <Button
               onClick={loginAcc}
-              className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+              className="w-full py-2 bg-secondary text-white rounded-md hover:bg-blue-700"
             >
               Sign in to your account
             </Button>
@@ -141,7 +141,7 @@ function Login() {
               onClick={() => {
                 nav("/register");
               }}
-              className="text-blue-500"
+              className="text-secondary"
             >
               Sign up here
             </button>

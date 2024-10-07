@@ -103,12 +103,12 @@ function EventOnline() {
   return (
     <>
 
-      <section className=" w-96 justify-center items-center m-auto">
+      <section className="  justify-center items-center m-auto ">
       
       
-            <div className="pt-6 pl-6">
+            <div className="pt-32 pb-32">
              
-          <div className="ticket-card w-96">
+          <div className="ticket-card">
   <div className="ticket-header">
     <img src={event.eventImg} alt={event.name} />
 
@@ -237,7 +237,7 @@ function EventOnline() {
       </Modal>
 
       {/* Carousel */}
-      <h1 className="border-t-2  p-8 border-black border-dashed text-3xl text-red-900 pl-7 mt-12  font-semibold">Other Events</h1>
+      {/* <h1 className="border-t-2  p-8 border-black border-dashed text-3xl text-red-900 pl-7 mt-12  font-semibold">Other Events</h1>
       
       <section className=" mt-10 mb-5  mx-32 justify-center items-center " id="slid">
         <div className="flex overflow-x-auto  pb-4">
@@ -272,7 +272,7 @@ function EventOnline() {
             )}
           </Carousel>
         </div>
-      </section>
+      </section> */}
     </>
   );
 }

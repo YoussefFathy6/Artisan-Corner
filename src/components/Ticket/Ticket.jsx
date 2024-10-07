@@ -157,9 +157,9 @@ function Ticket() {
 
   return (
     <>
-      <section className=" w-96 justify-center items-center m-auto">
-        <div className="pt-6 pl-6">
-          <div className="ticket-card w-96">
+      <section className="  justify-center items-center m-auto ">
+        <div className="pt-6 pb-9 ">
+          <div className="ticket-card ">
             <div className="ticket-header">
               <img src={event.eventImg} alt={event.name} />
             </div>
@@ -320,8 +320,26 @@ function Ticket() {
           >
             <PayPalButtons
               style={{ layout: "vertical" }}
-              amount={Number(total).toFixed(2)}
-              onApprove={handlePayPalSuccess}
+              createOrder={(data, actions) => {
+                return actions.order.create({
+                  purchase_units: [
+                    {
+                      amount: {
+                        value: Number(total).toFixed(2),
+                      },
+                    },
+                  ],
+                });
+              }}
+              // amount={Number(total).toFixed(2)}
+              onApprove={async (data, actions) => {
+                const details = await actions.order.capture();
+
+                const emailSubmitted = await handleEmailSubmission();
+                if (emailSubmitted) {
+                  navigate(`/TicketConfirmation/${event.id}`);
+                }
+              }}
             />
           </PayPalScriptProvider>
 
@@ -340,7 +358,7 @@ function Ticket() {
       </Modal>
 
       {/* Carousel */}
-      <h1 className="border-t-2  p-8 border-black border-dashed text-3xl text-red-900 pl-7 mt-12  font-semibold">
+      {/* <h1 className="border-t-2  p-8 border-black border-dashed text-3xl text-red-900 pl-7 mt-12  font-semibold">
         Other Events
       </h1>
 
@@ -380,7 +398,7 @@ function Ticket() {
             )}
           </Carousel>
         </div>
-      </section>
+      </section> */}
     </>
   );
 }

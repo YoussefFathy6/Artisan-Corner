@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 function VerificationPage() {
   const nav = useNavigate();
   useEffect(() => {
-    // auth.currentUser.emailVerified && nav("/");
+    auth.currentUser.emailVerified && nav("/");
   }, []);
   return (
     <Card className=" text-center w-1/2 mx-auto my-12">
