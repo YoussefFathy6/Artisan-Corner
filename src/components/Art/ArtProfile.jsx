@@ -179,7 +179,13 @@ function ArtProfile() {
       console.error("Error sending the order: ", error);
     }
   };
+
+
+
   return (
+
+
+
     <div className="min-h-screen justify-center">
       {user ? (
         <div>
@@ -190,6 +196,7 @@ function ArtProfile() {
               backgroundPosition: "center",
             }}
           >
+            {/* Profile Picture */}
             <div className="justify-center items-center m-auto flex">
               <img
                 src={
@@ -201,6 +208,7 @@ function ArtProfile() {
               />
             </div>
 
+                {/* profile details */}
             <div className="justify-center items-center text-center flex pt-7">
               <div>
                 <h1 className="text-3xl font-bold text-gray-800 pb-4">
@@ -208,10 +216,9 @@ function ArtProfile() {
                 </h1>
                 <p className="text-gray-600 pb-4 text-xl">{user.email}</p>
                 <p className="text-gray-600 pb-4 text-xl">{user.accountType}</p>
-                <div className="flex"></div>
-                <button className="mx-4 bg-secondary text-white">
+                {/* <button className="mx-4 bg-secondary text-white">
                   Chat with me
-                </button>
+                </button> */}
                 <button
                   onClick={() => {
                     setIsOrderModalOpen(true);
@@ -222,7 +229,7 @@ function ArtProfile() {
                 <p className="text-gray-600 pb-4 text-xl">{user.about}</p>
               </div>
             </div>
-
+              {/* options bar */}
             <div className="mt-4 px-4">
               <ul className="flex space-x-4 text-gray-600 text-center justify-center p-8">
                 <li

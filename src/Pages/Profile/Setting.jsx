@@ -131,10 +131,10 @@ function Setting() {
   const accountType = data.length > 0 ? data[0].accountType : "";
 
   return (
-    <div className="flex page-fade-in">
+    <div className="flex page-fade-in justify-centerd">
       {/* Sidebar يظهر فقط إذا لم يكن نوع الحساب Customer */}
       {accountType !== "Customer" && (
-        <div className="w-[10%]">
+        <div className="">
           <Side activeItem={activeItem} onItemClick={handleItemClick} />
         </div>
       )}
@@ -142,7 +142,7 @@ function Setting() {
       {/* Main Content */}
 
       <div
-        className={`p-5  ${accountType === "Customer" ? "w-full" : "w-[90%]"}`}
+        className={`p-5  ${accountType === "Customer" ? "w-full" : "w-[65vw]"}`}
       >
         {activeItem === "profile" && (
           <div>
@@ -152,7 +152,7 @@ function Setting() {
                   <div className="relative">
                     {/* الكارد الأحمر */}
                     <div
-                      className="w-[70%]  rounded-3xl p-9 shadow-2xl mx-auto my-7 border-2"
+                      className="  rounded-3xl p-9 shadow-2xl my-7 border-2"
                       style={{ animation: "fadeInUp 1s forwards" }}
                     >
                       <div className="flex flex-col ">
