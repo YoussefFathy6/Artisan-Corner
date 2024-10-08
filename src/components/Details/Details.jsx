@@ -31,16 +31,14 @@ function Details() {
   const { saveRating } = useContext(RatingsContext);
   const { productType, setProductType } = useContext(ReviewsContext);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const location = useLocation();
 
-  const { image, desc, price,title ,bobId } = location.state;
-
+  const { image, desc, price, title, bobId } = location.state;
 
   useEffect(() => {
     setProductType(productType);
     getUserData();
-    
   }, [productType, setProductType]);
 
   const [count, setCount] = useState(1);
@@ -103,10 +101,10 @@ function Details() {
       <div className="details  flex justify-between Md:flex-col w-[80%] mx-auto mt-9">
         <div className="detail-images w-[45%] Md:w-[100%]  rounded-lg shadow-xl">
           <ReactImageZoom
-           
             img={image}
             zoomWidth={500}
-            height={400}
+            height={500}
+            width={700}
             offset={{ vertical: 0, horizontal: 0 }}
           />
           {/* <img
