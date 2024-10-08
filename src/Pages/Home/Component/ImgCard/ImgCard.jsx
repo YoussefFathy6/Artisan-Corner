@@ -65,7 +65,7 @@ function ImgCard() {
         </div>
 
 
-        <div className=' bg-[#faf3d2] p-20 mt-16'>
+        <div className=' bg-[#fffbe8] p-20 mt-16'>
   <div className="flex justify relative">
     <div className="p-4 ml-44">
       <img 

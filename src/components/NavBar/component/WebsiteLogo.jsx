@@ -156,7 +156,7 @@ function BodyNav() {
           </span> */}
 
 
-<span className="first text-2xl md:text-4xl text-white" style={{fontFamily:"Updock, cursive"}}>Artistain Corner</span>
+<span className="first text-2xl md:text-4xl text-white" style={{fontFamily:"Updock, cursive"}}>ALKhan</span>
         </Navbar.Brand>
 
         <div className="flex md:order-2 items-center">
