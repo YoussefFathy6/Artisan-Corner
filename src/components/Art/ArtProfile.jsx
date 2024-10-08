@@ -185,7 +185,12 @@ function ArtProfile() {
     await addDoc(collection(db, "chats"), {
       IDlist: [user.id, localStorage.getItem("id")],
       message: [
-        { content: "", timestamp: "", sender: localStorage.getItem("id") },
+        {
+          // content: `Hi, I am ${user.firstname}, I will be glad to help you`,
+          content: "",
+          timestamp: "",
+          sender: localStorage.getItem("id"),
+        },
       ],
       firstID: user.id,
       secondID: localStorage.getItem("id"),
@@ -282,8 +287,8 @@ function ArtProfile() {
                 <li
                   className={`cursor-pointer duration-200 ${
                     selectedTab === "events"
-                    ? "text-[#26847b] text-[27px] font-semibold border-b-[2px] border-[#26847b]"
-                    : "hover:text-[#26847b] text-xl font-semibold text-[#3ca99e]"
+                      ? "text-[#26847b] text-[27px] font-semibold border-b-[2px] border-[#26847b]"
+                      : "hover:text-[#26847b] text-xl font-semibold text-[#3ca99e]"
                   }`}
                   onClick={() => setSelectedTab("events")}
                 >
@@ -292,8 +297,8 @@ function ArtProfile() {
                 <li
                   className={`cursor-pointer duration-200 ${
                     selectedTab === "reviews"
-                    ? "text-[#26847b] text-[27px] font-semibold border-b-[2px] border-[#26847b]"
-                    : "hover:text-[#26847b] text-xl font-semibold text-[#3ca99e]"
+                      ? "text-[#26847b] text-[27px] font-semibold border-b-[2px] border-[#26847b]"
+                      : "hover:text-[#26847b] text-xl font-semibold text-[#3ca99e]"
                   }`}
                   onClick={() => setSelectedTab("reviews")}
                 >
