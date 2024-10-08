@@ -54,7 +54,7 @@ function Side({ activeItem, onItemClick }) {
 
 
         {/* Settings */}
-        <div
+        {/* <div
           className={`text-[#204d43] flex   cursor-pointer rounded-xl ${
             activeItem === "settings" ? "bg-[#dff1ed] p-3 font-bold" : ""
           }`}
@@ -62,7 +62,7 @@ function Side({ activeItem, onItemClick }) {
         >
           <FaCog size={25} color="#26B893" className=" me-3"/>
           Settings
-        </div>
+        </div> */}
         <div
           className={`text-[#204d43] flex   cursor-pointer rounded-xl ${
             activeItem === "earnings" ? "bg-[#dff1ed] p-3 font-bold" : ""
