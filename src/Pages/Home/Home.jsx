@@ -23,7 +23,7 @@ import Header from "./Header/Header";
 import Eventshome from "./Header/Eventshome";
 import Actions from "./Header/Actions";
 
-
+import ProductSlider from "./Header/productSlider"
 
 function MainContent() {
   return (
@@ -35,7 +35,7 @@ function MainContent() {
       {/* <RoundedCard /> */}
     
       <ImgCard />
-        {/* <ProductSlider/> */}
+        <ProductSlider/>
         <Eventshome/>
         <Actions/>
       {/* <BigCard /> */}

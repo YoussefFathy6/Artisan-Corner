@@ -157,7 +157,6 @@
 // //         className="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110"
 // //       />
 
-<<<<<<< HEAD
 
 import pic1 from '../../../../../assets/imges/newww/artist1.jpeg'
 import pic2 from '../../../../../assets/imges/newww/artist2.jpeg'
@@ -165,16 +164,13 @@ import pic3 from '../../../../../assets/imges/newww/artist3.jpeg'
 import pic4 from '../../../../../assets/imges/newww/artist4.jpeg'
 import pic5 from '../../../../../assets/imges/newww/artist5.jpeg'
 
-export default function ArtistSlider() {
+export default function ArtistSlider() {(
 
 
 
 const picArr = [pic1, pic2, pic3, pic4, pic5]
 
   const [artists, setArtists] = useState([]);
-=======
-// //       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50"></div>
->>>>>>> a2dff1f5b51b27eb1c460b39cbad713f05c963fa
 
 // //       <span className="relative ml-4 mb-3 inline-block text-sm text-white md:ml-5 md:text-lg">
 // //         Handmade
@@ -194,7 +190,6 @@ const picArr = [pic1, pic2, pic3, pic4, pic5]
 
 // //       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50"></div>
 
-<<<<<<< HEAD
       <button onClick={goToArt} className=" bg-[#323a2cd7] p-3 m-8 rounded-lg text-white ">
         <span >
           See All
@@ -234,12 +229,6 @@ const picArr = [pic1, pic2, pic3, pic4, pic5]
     </div>
   );
 }
-=======
-// //       <span className="relative ml-4 mb-3 inline-block text-sm text-white md:ml-5 md:text-lg">
-// //         Handmade
-// //       </span>
-// //     </a>
->>>>>>> a2dff1f5b51b27eb1c460b39cbad713f05c963fa
 
 // //     <a
 // //       href="#"
