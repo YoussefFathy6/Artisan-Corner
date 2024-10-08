@@ -146,7 +146,6 @@ function Setting() {
       {/* Main Content */}
 
       <div
-        className={`p-5  ${accountType === "Customer" ? "w-[90vw] ml-20" : "w-[65vw]"}`}
         className={`p-5  ${accountType === "Customer" ? "w-[85vw] mx-auto my-10"  : "w-[65vw]"}`}
       >
         {activeItem === "profile" && (

@@ -167,7 +167,7 @@ function ProposalsPage() {
       {/* Left section */}
       <div className="w-full lg:w-1/2 flex flex-col bg-white rounded-lg shadow-md p-6">
         {streamProduct[0] && (
-          <>
+          <div>
             <img
               src={streamProduct[0].img}
               alt={streamProduct[0].productType}
@@ -193,7 +193,7 @@ function ProposalsPage() {
         >
           Time Remaining: {timeRemaining}
         </div>
-      </div>
+      
 
       {/* Right section */}
       <div className="w-full lg:w-1/2 bg-white rounded-lg shadow-md p-6">
@@ -260,6 +260,7 @@ function ProposalsPage() {
           </Button>
         </div>
         {error && <p className="text-red-500 p-3">{error}</p>}
+      </div>
       </div>
     </main>
   );
