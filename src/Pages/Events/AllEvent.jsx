@@ -64,15 +64,16 @@ function AllEvent() {
 
   return (
     <>
-         <h1 className="text-5xl  ml-8 mt-9 text-red-900 " style={{fontFamily:'cursive'}}>Events</h1>
+    <div className="mb-20">
+        <h1 className="text-5xl  ml-8 mt-9  text-[#344646]  " style={{fontFamily:'cursive'}}>Events</h1>
 
       <div className=" flex   ">
-      <div className="relative w-80  ">
-  <div className="flex items-center  mt-12 rounded-lg ">
+      <div className="relative w-80 border-2 mt-5 border-white shadow-2xl pb-10 px-5 ml-5 rounded-lg bg-white">
+      <div className="flex items-center  mt-12 rounded-lg ">
             <input
               type="text"
               placeholder="Search events..."
-              className="border-color8 border-0 p-2 rounded-lg w-full"
+              className="border-color8 border-[1] p-2 rounded-lg w-full "
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)} 
             />
@@ -209,7 +210,7 @@ function AllEvent() {
           onChange={() => setFilter(category)}
         />
         <div className="checkmark"></div>
-        <span className={`ml-2 ${filter === category ? 'font-bold text-red-900 rounded' : ''}`}>
+        <span className={`ml-2 ${filter === category ? 'font-bold text-[#344646] rounded' : ''}`}>
           {category.charAt(0).toUpperCase() + category.slice(1)}
         </span>
       </label>
@@ -218,7 +219,7 @@ function AllEvent() {
 </ul>
 
     </div>
-        <div className=" w-3/4 items-center mx-auto">
+        <div className=" w-3/4 items-center  ml-72">
         
         <div className="mt-12 justify-center   items-center">
             {paginatedEvents.length ? (
@@ -230,7 +231,7 @@ function AllEvent() {
 
        
 
-<div className="pagination ">
+<div className="pagination items-center ">
 
         <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
        Previous
@@ -253,6 +254,7 @@ function AllEvent() {
             )}
           </div>
          
+          </div>
           </div>
           </div>
           </>

@@ -236,7 +236,7 @@ function Setting() {
         
                         </div>
 
-                        <div className="w-[80%] mx-auto mt-20">
+                        <div className="w-[80%] mx-auto mt-10">
                           <div className="about mb-10">
                             <h2 className="text-2xl mr-6 text-[#37977f] font-medium">
                               About :

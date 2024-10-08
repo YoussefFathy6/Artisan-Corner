@@ -155,7 +155,7 @@ function ProposalsPage() {
 
         {/* Countdown Timer */}
         <div
-          className={`mt-6 p-4 text-center rounded-lg font-bold  ${
+          className={`mt-16 p-4 text-center rounded-lg ml-60 w-[50%] font-bold  ${
             timeRemaining.includes("ended")
               ? "bg-secondary text-white"
               : "bg-red-500 text-white"
