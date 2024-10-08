@@ -29,9 +29,9 @@ function MainContent() {
   return (
     <>
       <Login />
-      {/* <Slider /> */}
-      <Header/>
-      <Hero />
+      <Slider />
+      {/* <Header/> */}
+      {/* <Hero /> */}
       {/* <RoundedCard /> */}
     
       <ImgCard />

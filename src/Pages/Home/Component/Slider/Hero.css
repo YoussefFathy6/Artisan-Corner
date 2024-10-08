@@ -176,7 +176,6 @@
     animation: zoomBackground 3s ease-in-out forwards; 
   }
   
-  /* حركة الزوم */
   @keyframes zoomBackground {
     0% {
       background-size: 100%;
