@@ -222,14 +222,14 @@ function ArtProfile() {
 
               <div className=" h-[50vh] absolute top-0 w-full bg-[#050605ad] flex items-center justify-center shadow-2xl rounded-b-[50px]">
                 {/* Profile Picture */}
-                <div className=" m-11 border-4 border-[#d5eded] h-[200px] rounded-3xl ">
+                <div className=" m-11 border-4 border-[#d5eded] h-[200px] w-[200px] rounded-full ">
                   <img
                     src={
                       user.profilePic ||
                       "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"
                     }
                     alt="Profile"
-                    className=" h-full rounded-3xl "
+                    className=" h-full w-full rounded-full "
                   />
                 </div>
 
