@@ -85,7 +85,8 @@ const RegisterPage = () => {
       });
 
       localStorage.setItem("id", user.uid);
-      auth.currentUser.emailVerified ? nav("/") : nav("/verify");
+      nav("/");
+      // auth.currentUser.emailVerified ? nav("/") : nav("/verify");
     } catch (error) {
       console.error("Error creating user:", error.message);
     }

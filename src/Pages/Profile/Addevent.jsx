@@ -26,8 +26,8 @@ function Addevent() {
 
     setdate1((data1) => ({
       ...data1,
-      [name ? name : id]: value,
-      [id]: type === "number" ? Number(value) : value,
+      [name ? name : id]: type === "number" || id === "pricetacket" ? Number(value) : value,
+
     }));
     console.log(data1);
 

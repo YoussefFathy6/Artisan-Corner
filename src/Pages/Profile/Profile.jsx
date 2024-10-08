@@ -229,12 +229,12 @@ function Profile() {
             )}
           </div>
         )}
-  <div className="flex justify-between mt-12 mb-8">
+  <div className="flex  justify-around bg-red-500   mt-12  w-[95%] mb-8">
         {activeItem === "products" && accountType !== "Customer" && (
           <div>
             {data.length > 0 && data[0].accountType !== "Customer" && (
               <>
-                <div className="mt-2 ml-5 lg:ml-7 flex justify-between items-center">
+                <div className="mt-2  flex justify-around ">
                   <h1 className="text-5xl font-semibold">Products</h1>
                   <Addproduct />
                 </div>
