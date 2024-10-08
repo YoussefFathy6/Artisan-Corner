@@ -9,7 +9,7 @@ import SmallCards from "./Component/SmallCard/SmallCards";
 import SupportIcon from "./Component/SupportIcon/SupportIcon";
 import BigCard from "./Component/BigCard/BigCard";
 import CollectionCard from "./Component/CollectionCard/CollectionCard";
-import Gallery from "./Component/Gallery/Gallery";
+// import Gallery from "./Component/Gallery/Gallery";
 import Testimonials from "./Component/Testimonials/Testimonials";
 import Login from "./Component/LoginModal/Login";
 import FloatingActionButton from "./FloatActionButton/FloatActionButton";
@@ -42,7 +42,7 @@ function MainContent() {
       {/* <SmallCards /> */}
       {/* <SupportIcon /> */}
       {/* <CollectionCard /> */}
-      <Gallery />
+      {/* <Gallery /> */}
       {/* <Testimonials /> */}
       <FloatingActionButton />
     </>
