@@ -18,6 +18,7 @@ import { useEffect } from "react";
 
 import ImgCard from './Component/ImgCard/ImgCard'
 import Hero from "./Component/Slider/Hero";
+import ProductSlider from "./productSlider";
 
 
 
@@ -25,12 +26,13 @@ function MainContent() {
   return (
     <>
       <Login />
-      <Slider />
-      {/* <Hero /> */}
+      {/* <Slider /> */}
+      <Hero />
       {/* <RoundedCard /> */}
+      <ProductSlider/>
       <ImgCard />
       <BigCard />
-      <SmallCards />
+      {/* <SmallCards /> */}
       {/* <SupportIcon /> */}
       {/* <CollectionCard /> */}
       <Gallery />

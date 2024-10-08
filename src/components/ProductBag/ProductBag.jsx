@@ -113,7 +113,7 @@ function ProductBag() {
             : `${bags.length} Items Found`}
         </h1>
         <button
-          className="btn bg-[#f2ba36] mt-5 p-2 text-nowrap text-[#025048]"
+          className="btn bg-[#f2ba36] mt-5 p-2 text-nowrap text-[#025048] "
           onClick={() => navigate("/payment")}
         >
           continue to payment

@@ -4,7 +4,7 @@
 
 import './component/card.css';
 
-
+import "./imgCard.css"
 import React from "react";
 // import imgCard from "../../../../assets/imges/Card.png";
 // import imgCard2 from "../../../../assets/imges/Card2.png";
@@ -57,13 +57,40 @@ function ImgCard() {
       </section> */}
 
       {/* NEWWW */}
-      <div className="w-[85%] m-auto">
-        <h2
-          style={{ fontFamily: "cursive" }}
-          className=" text-[#025048] text-center font-bold text-3xl"
+      <div className=" m-auto ">
+        <div
+          className=" mt-32  flex items-center justify-center top h-52 animate-slide-up"
         >
-          Enjoy with us
-        </h2>
+   <img src="./src/assets/imges/En-removebg-preview.png" alt="" />
+        </div>
+
+
+        <div className='w-full bg-[#faf3d2] p-20 mt-36'>
+  <div className="flex justify relative">
+    <div className="p-4 ml-44">
+      <img 
+        src="./src/assets/imges/heroo.jpeg"
+        alt="Image" 
+        className="rounded-lg shadow-lg h-[400px] w-[500px]"
+      />
+    </div>
+
+    {/* الجزء الخاص بالنص والزر */}
+    <div className="absolute h-96 top-20 ml-[30%] transform -translate-x-1/2 -translate-y-1/2 bg-[#4c5841d7] p-20 rounded-lg shadow-lg w-[900px]  about">
+      <h2 className="text-2xl font-bold text-white mb-4" style={{fontFamily:"Abril Fatface, serif"}}>About Us !</h2>
+      <p className="text-white mb-6">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Non rem amet 
+        reprehenderit quo aspernatur deleniti? Architecto, fugit quia recusandae 
+        sequi eligendi nihil odio animi molestias.
+      </p>
+      <button className="border-2 border-white rounded-full px-6 py-2 text-white hover:bg-white hover:text-[#3e3e3e] transition duration-300">
+        See More
+      </button>
+    </div>
+  </div>
+</div>
+
+
         <h2 className=" text-5xl text-[#025048] font-lora lg:mt-16">
           Our product categories
         </h2>

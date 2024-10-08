@@ -96,7 +96,7 @@ function BodyNav() {
       // backgroundColor: isActive && "#fff",
       // padding: isActive && "8px",
       // color: isActive && "#913B10",
-      color: isActive && "#ffb6ad",
+      color: isActive && "#fccd88",
       borderRadius: isActive && "10px",
       textAlign: isActive && "center",
       transition: isActive && "all 0.2s ",
@@ -107,16 +107,19 @@ function BodyNav() {
     // bg-[#72a398]
     //flowbit navbar
     <>
-      <Navbar className="bg-[#344646]">
+      <Navbar className="bg-[#344646]   top-0 left-0 w-full z-50">
 
 
         <Navbar.Brand href="/">
-          <span
+          {/* <span
             style={{ fontFamily: "cursive" }}
             className="self-center whitespace-nowrap xl:text-3xl lg:text-3xl text-md  text-white font-bold"
           >
             Mashrabiya
-          </span>
+          </span> */}
+
+
+<span className="first text-2xl md:text-4xl text-white" style={{fontFamily:"Updock, cursive"}}>Artistain Corner</span>
         </Navbar.Brand>
 
 

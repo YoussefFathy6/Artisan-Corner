@@ -37,7 +37,7 @@ function NavSections() {
 
 
   return (
-    <Navbar className="flex gap-x-5 !bg-[#913b10] py-4 ">
+    <Navbar className="flex gap-x-5  py-4 ">
 
 
        
@@ -47,7 +47,7 @@ function NavSections() {
 
 
 
-      <Navbar.Collapse className="container bg-red-500">
+      <Navbar.Collapse className="container ">
         <div>
           <div className="flex justify-between flex-wrap">
             <div className="borderYtoX flex flex-col gap-y-4 md:gap-y-0 justify-center p-4 md:p-0 mt-4 font-medium rounded-lg bg-transparent sm:space-x-2 md:space-x-4 xl:space-x-7 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-transparent">
