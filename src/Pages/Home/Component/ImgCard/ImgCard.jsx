@@ -75,7 +75,7 @@ function ImgCard() {
       />
     </div>
 
-    <div className="absolute h-96 top-20 ml-[30%] transform -translate-x-1/2 -translate-y-1/2 bg-[#4c5841d7] p-20 rounded-lg shadow-lg w-[900px]  about">
+    <div className="absolute h-96 top-20 ml-[30%] transform -translate-x-1/2 -translate-y-1/2 bg-[#344646d0] p-20 rounded-lg shadow-lg w-[900px]  about">
       <h2 className="text-2xl font-bold text-white mb-4" style={{fontFamily:"Abril Fatface, serif"}}>About Us !</h2>
       <p className="text-white mb-6">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Non rem amet 

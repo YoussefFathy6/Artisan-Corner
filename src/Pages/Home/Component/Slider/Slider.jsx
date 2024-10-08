@@ -10,7 +10,7 @@ function Slider() {
         <div className=" flex justify-between py-7 ">
           <div
             className=" flex flex-col justify-between "
-            style={{ fontFamily: "cursive" }}
+     
           >
             <p className=" text-7xl xl:mt-28 text-[#344646]">One of aKind</p>
             <p className=" ms-16 leading-normal text-7xl text-[#344646]"> Just Like You.</p>
