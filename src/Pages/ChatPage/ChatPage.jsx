@@ -36,7 +36,21 @@ export default function ChatPage() {
   const [contacts, setContacts] = useState([]); // To hold all contacts
   const [selectedContact, setSelectedContact] = useState(null); // To hold the selected contact
   // const [artist, setArtist] = useState(location.state?.user || null);
-
+  const handleSelectContact = (contact) => {
+    setSelectedContact(contact);
+    localStorage.setItem("selectedContactId", contact.id); // Save selected contact ID
+  };
+  useEffect(() => {
+    const storedContactId = localStorage.getItem("selectedContactId");
+    if (storedContactId) {
+      const storedContact = contacts.find(
+        (contact) => contact.id === storedContactId
+      );
+      if (storedContact) {
+        setSelectedContact(storedContact); // Set the stored contact as selected
+      }
+    }
+  }, [contacts]);
   useEffect(() => {
     const storedId = localStorage.getItem("id"); // Retrieve the ID from local storage
     console.log("Stored ID:", storedId); // Debugging line
@@ -116,6 +130,25 @@ export default function ChatPage() {
     });
   };
 
+  // Add a new useEffect for listening to messages for the selected contact
+  useEffect(() => {
+    if (!selectedContact) return;
+
+    // Set up the real-time listener for the selected contact's messages
+    const q = doc(db, "chats", selectedContact.id);
+    const unsubscribe = onSnapshot(q, (docSnapshot) => {
+      if (docSnapshot.exists()) {
+        const data = docSnapshot.data();
+        setMessages(data.message || []); // Update the state with new messages
+      }
+    });
+
+    return () => {
+      unsubscribe(); // Cleanup the listener when the contact changes or component unmounts
+    };
+  }, [selectedContact]); // This effect runs whenever the selectedContact changes
+
+  // SendMessage function (remains the same as before)
   const sendMessage = async (e, docId) => {
     e.preventDefault();
     if (newMessage.trim() === "" && !newImage) return;
@@ -126,7 +159,6 @@ export default function ChatPage() {
     }
 
     await updateDoc(doc(db, "chats", docId), {
-      // Use `doc` for specific document
       message: arrayUnion({
         content: newMessage,
         sender: localStorage.getItem("id"),
@@ -184,7 +216,10 @@ export default function ChatPage() {
               // Ensure to return the <li> element
               <li
                 key={contact.id}
-                onClick={() => setSelectedContact(contact)}
+                onClick={() => {
+                  setSelectedContact(contact);
+                  handleSelectContact(contact);
+                }}
                 className={`p-2 mb-2 cursor-pointer rounded-lg ${
                   selectedContact?.id === contact.id
                     ? "bg-blue-300"
@@ -194,7 +229,11 @@ export default function ChatPage() {
                 <div className="flex gap-4 items-center">
                   <img
                     className="w-12 h-12 rounded-full"
-                    src={user ? user.profilePic : "defaultProfilePic.jpg"} // Provide a default image if user is not found
+                    src={
+                      user.profilePic
+                        ? user.profilePic
+                        : "https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png"
+                    } // Provide a default image if user is not found
                     alt=""
                   />
                   <div>
@@ -224,7 +263,7 @@ export default function ChatPage() {
             : "Select a Contact"}
         </h2> */}
 
-        <div className="messages h-[65vh] overflow-y-auto  p-4 rounded">
+        <div className="messages h-[75vh] overflow-y-auto  p-4 rounded">
           {selectedContact && selectedContact.message ? (
             selectedContact.message.map((msg, index) => (
               <div

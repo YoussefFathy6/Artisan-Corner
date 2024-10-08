@@ -1,11 +1,48 @@
 import React from "react";
 import hero from "../../../../assets/imges/newww/best1.jpg";
+import "./hero.css"
 
 export default function Hero() {
   return (
     <>
-      <section  className="hero   xl:p-10 h-[vh]   bg-gradient-to-l from-[#E8EAEA] to-[#E59B89]">
-        <div className="flex justify-between w-[95%] m-auto">
+      <section  className="   xl:p-10 h-[vh]  ">
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{/* 
+
+        
+     <div className="flex justify-between w-[95%] m-auto">
           <div className=" flex flex-col justify-around ">
             <div className=" leading-loose">
               <p className=" text-7xl"><span className="text-[#DC260D]">One</span> of aKind</p>
@@ -23,7 +60,11 @@ export default function Hero() {
               className="w-[100%] h-[100%] rounded-ss-[180px]  rounded-3xl "
             />
           </div>
-        </div>
+        </div>  */}
+
+
+
+
       </section>
     </>
   );

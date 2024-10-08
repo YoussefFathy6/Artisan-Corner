@@ -108,7 +108,7 @@ function Main() {
 
   async function clickMe(product) {
     await addDoc(collection(db, "Bag"), {
-      name: product.title,
+      title: product.title,
       image: product.img,
       description: product.description,
       price: product.price,

@@ -31,15 +31,14 @@ function Details() {
   const { saveRating } = useContext(RatingsContext);
   const { productType, setProductType } = useContext(ReviewsContext);
   const [isLoading, setIsLoading] = useState(false);
-  
-  const location = useLocation();
-  const { imgsrc, desc, price,name ,bobId } = location.state;
 
+  const location = useLocation();
+
+  const { image, desc, price, title, bobId } = location.state;
 
   useEffect(() => {
     setProductType(productType);
     getUserData();
-    
   }, [productType, setProductType]);
 
   const [count, setCount] = useState(1);
@@ -68,7 +67,7 @@ function Details() {
     const doc = await addDoc(collectionRef, {
       // imgsrc: imgsrc,
       image: image,
-    
+      title: title,
       quantity: count,
       price: price * count,
       description: desc,
@@ -101,18 +100,18 @@ function Details() {
     <>
       <div className="details  flex justify-between Md:flex-col w-[80%] mx-auto mt-9">
         <div className="detail-images w-[45%] Md:w-[100%]  rounded-lg shadow-xl">
-          {/* <ReactImageZoom
-           
-            img={imgsrc}
+          <ReactImageZoom
+            img={image}
             zoomWidth={500}
-            height={400}
+            height={500}
+            width={700}
             offset={{ vertical: 0, horizontal: 0 }}
-          /> */}
-          <img
-            src={imgsrc}
+          />
+          {/* <img
+            src={image}
             alt="detailsImage"
             className="rounded-lg shadow-xl w-[100%] h-[100%]"
-          />
+          /> */}
         </div>
 
         <div className="details-content w-[50%] mt-20 text-center Md:w-[100%]">
@@ -132,7 +131,7 @@ function Details() {
             /> */}
           </div>
           <div className="details-text">
-            <h2 className="text-3Xl text-neutral-950 bg-black">{name}</h2>
+            <h2 className="text-3Xl text-neutral-950">{title}</h2>
             <p className="my-4  text-start">{desc}</p>
           </div>
 

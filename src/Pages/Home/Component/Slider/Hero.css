@@ -159,3 +159,56 @@
       &:nth-child(6) { left: calc(50% + 420px); opacity: 0; }
     }
   } */
+
+  /* .hero {
+    background-image: linear-gradient(rgba(12, 20, 16, 0.911), rgba(49, 24, 1, 0.842)), url("./src/assets/imges/img.png");
+    background-position: center;
+    background-size: 10%; 
+    height: 90vh;
+    animation: zoomBackground 3s ease-in-out forwards; 
+  } */
+  .hero {
+    background-image: linear-gradient(#344646cc ,#344646cc ) ,url();
+
+    background-position: center;
+    background-size: 10%; 
+    height: 90vh;
+    animation: zoomBackground 3s ease-in-out forwards; 
+  }
+  
+  @keyframes zoomBackground {
+    0% {
+      background-size: 100%;
+    }
+    100% {
+      background-size: 120%; 
+    }
+  }
+  
+.first{
+
+    font-family: "Updock", cursive;
+    font-weight: 400;
+    font-style: normal;
+  
+  
+}
+.top{
+  font-family: "Abril Fatface", serif;
+  font-weight: 400;
+  font-style: normal;}
+  @keyframes slideUp {
+    0% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 2.5s ease-out forwards;
+  }
+  

@@ -4,6 +4,7 @@ import { AiOutlineProduct } from "react-icons/ai";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { FaCog } from "react-icons/fa";
 import { HiCurrencyDollar } from "react-icons/hi";
+import { TbMessage } from 'react-icons/tb';
 function Side({ activeItem, onItemClick }) {
   return (
     <div className="Sidebar">
@@ -46,14 +47,14 @@ function Side({ activeItem, onItemClick }) {
           }`}
           onClick={() => onItemClick("special")}
         >
-          <FaRegCalendarAlt size={25} color="#26B893" className=" me-3"/>
+          <TbMessage  size={25} color="#26B893" className=" me-3"/>
           Special Order
         </div>
 
 
 
         {/* Settings */}
-        <div
+        {/* <div
           className={`text-[#204d43] flex   cursor-pointer rounded-xl ${
             activeItem === "settings" ? "bg-[#dff1ed] p-3 font-bold" : ""
           }`}
@@ -61,7 +62,7 @@ function Side({ activeItem, onItemClick }) {
         >
           <FaCog size={25} color="#26B893" className=" me-3"/>
           Settings
-        </div>
+        </div> */}
         <div
           className={`text-[#204d43] flex   cursor-pointer rounded-xl ${
             activeItem === "earnings" ? "bg-[#dff1ed] p-3 font-bold" : ""

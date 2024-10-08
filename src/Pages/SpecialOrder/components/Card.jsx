@@ -24,6 +24,7 @@ function ProductCard(props) {
   };
 
   // Discard Product Function
+  // Inside ProductCard component
   const discardProduct = async () => {
     try {
       const userID = localStorage.getItem("id");
@@ -36,12 +37,16 @@ function ProductCard(props) {
 
       if (!querySnapshot.empty) {
         const userDocRef = querySnapshot.docs[0].ref;
-        // Remove product from specialOrder
+
+        // Remove the product from specialOrder using its unique ID
         await updateDoc(userDocRef, {
-          specialOrder: arrayRemove({ ...props.productData }), // props.productData contains product info
+          specialOrder: arrayRemove({ id: props.productData.id }), // Only pass the ID for removal
         });
 
         console.log("Product discarded successfully");
+
+        // Optionally trigger a state update in the parent to remove this product from the UI
+        // setProducts((prevProducts) => prevProducts.filter(p => p.id !== props.productData.id));
       } else {
         console.log("No user found with that ID.");
       }
@@ -50,7 +55,6 @@ function ProductCard(props) {
     }
   };
 
-  // Change Pending State Function
   const changePendingState = async () => {
     try {
       const userID = localStorage.getItem("id");
@@ -63,27 +67,16 @@ function ProductCard(props) {
 
       if (!querySnapshot.empty) {
         const userDocRef = querySnapshot.docs[0].ref;
-        const userData = querySnapshot.docs[0].data();
 
-        // Find the specific product in specialOrder array
-        const specialOrder = userData.specialOrder || [];
-        const productIndex = specialOrder.findIndex(
-          (item) => item.id === props.productData.id
-        );
+        // Find and update only the specific product in Firestore
+        await updateDoc(userDocRef, {
+          specialOrder: arrayUnion({
+            ...props.productData,
+            pending: true,
+          }),
+        });
 
-        if (productIndex !== -1) {
-          // Update the pending value of the found product
-          specialOrder[productIndex].pending = true;
-
-          // Update the user's specialOrder array in Firestore
-          await updateDoc(userDocRef, {
-            specialOrder: specialOrder,
-          });
-
-          console.log("Product pending state updated successfully");
-        } else {
-          console.log("Product not found in specialOrder array.");
-        }
+        console.log("Product pending state updated successfully");
       } else {
         console.log("No user found with that ID.");
       }
@@ -133,7 +126,11 @@ function ProductCard(props) {
       <div className="flex gap-5 p-3 items-center">
         <img
           className="rounded-full h-24 w-24"
-          src={props.customerData.profilePic}
+          src={
+            props.customerData.profilePic
+              ? props.customerData.profilePic
+              : "https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png"
+          }
           alt={props.customerData.firstname}
         />
         <h3>{`${props.customerData.firstname} ${props.customerData.lastname}`}</h3>
@@ -178,7 +175,7 @@ function ProductCard(props) {
             }}
             className="flex justify-center gap-2 items-center  shadow-xl text-lg bg-gray-50 backdrop-blur-md lg:font-semibold isolation-auto border-gray-50 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-left-full before:hover:left-0 before:rounded-full before:bg-secondary hover:text-third before:-z-10 before:aspect-square before:hover:scale-150 before:hover:duration-700 relative z-10 px-4 py-2 overflow-hidden border-2 rounded-full group"
           >
-            Join Auction
+            Accept
           </button>
 
           <button
