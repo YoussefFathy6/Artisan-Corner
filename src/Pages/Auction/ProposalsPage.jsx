@@ -183,8 +183,10 @@ function ProposalsPage() {
               Current Price: ${streamProduct[0].initPrice}
             </h2>
             {/* Countdown Timer */}
-          </> // <-- Ensure the fragment is closed here
+            {/* // <-- Ensure the fragment is closed here */}
+          </div>
         )}
+
         <div
           className={`mt-16 p-4 text-center rounded-lg ml-60 w-[50%] font-bold  ${
             timeRemaining.includes("ended")
@@ -194,74 +196,75 @@ function ProposalsPage() {
         >
           Time Remaining: {timeRemaining}
         </div>
-      
 
-      {/* Right section */}
-      <div className="w-full lg:w-1/2 bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-2xl font-bold mb-4 p-3">Proposals</h2>
+        {/* Right section */}
+        <div className="w-full lg:w-1/2 bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-2xl font-bold mb-4 p-3">Proposals</h2>
 
-        {/* Proposals List */}
-        <div className="w-full flex-1 overflow-y-auto space-y-4 h-3/4">
-          {proposals.length > 0 ? (
-            <ul className="space-y-4 px-3">
-              {proposals.map((proposal, index) => {
-                const user = users[proposal.member] || {};
-                return (
-                  <li
-                    key={index}
-                    className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm"
-                  >
-                    <div className="flex items-center space-x-4">
-                      <img
-                        src={
-                          user.profile ||
-                          "https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png"
-                        }
-                        alt={user.firstName}
-                        className="rounded-full w-16 h-16 object-cover"
-                      />
-                      <div>
-                        <h3 className="font-medium">
-                          {user.firstName} {user.lastName}
-                        </h3>
+          {/* Proposals List */}
+          <div className="w-full flex-1 overflow-y-auto space-y-4 h-3/4">
+            {proposals.length > 0 ? (
+              <ul className="space-y-4 px-3">
+                {proposals.map((proposal, index) => {
+                  const user = users[proposal.member] || {};
+                  return (
+                    <li
+                      key={index}
+                      className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm"
+                    >
+                      <div className="flex items-center space-x-4">
+                        <img
+                          src={
+                            user.profile ||
+                            "https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png"
+                          }
+                          alt={user.firstName}
+                          className="rounded-full w-16 h-16 object-cover"
+                        />
+                        <div>
+                          <h3 className="font-medium">
+                            {user.firstName} {user.lastName}
+                          </h3>
+                        </div>
                       </div>
-                    </div>
-                    <div>
-                      <p className="font-semibold text-lg">${proposal.offer}</p>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          ) : (
-            <p className="text-gray-500 p-3">No proposals yet.</p>
-          )}
-        </div>
+                      <div>
+                        <p className="font-semibold text-lg">
+                          ${proposal.offer}
+                        </p>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : (
+              <p className="text-gray-500 p-3">No proposals yet.</p>
+            )}
+          </div>
 
-        {/* Input and Button */}
-        <div className="mt-6 flex items-center justify-between space-x-4 px-3">
-          <TextInput
-            type="number"
-            className="w-3/4"
-            placeholder="Your proposal"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            required
-          />
-          <Button
-            className="bg-secondary"
-            onClick={() =>
-              addProposal(streamProduct[0]?.id, {
-                offer: inputValue,
-                member: localStorage.getItem("id"),
-              })
-            }
-          >
-            Add Proposal
-          </Button>
+          {/* Input and Button */}
+          <div className="mt-6 flex items-center justify-between space-x-4 px-3">
+            <TextInput
+              type="number"
+              className="w-3/4"
+              placeholder="Your proposal"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              required
+            />
+            <Button
+              className="bg-secondary"
+              onClick={() =>
+                addProposal(streamProduct[0]?.id, {
+                  offer: inputValue,
+                  member: localStorage.getItem("id"),
+                })
+              }
+            >
+              Add Proposal
+            </Button>
+          </div>
+          {error && <p className="text-red-500 p-3">{error}</p>}
         </div>
-        {error && <p className="text-red-500 p-3">{error}</p>}
-      </div>
       </div>
     </main>
   );
