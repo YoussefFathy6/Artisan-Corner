@@ -68,7 +68,7 @@ function AllEvent() {
         <h1 className="text-5xl  ml-8 mt-9  text-[#344646]  " style={{fontFamily:'cursive'}}>Events</h1>
 
       <div className=" flex   ">
-      <div className="relative w-80 border-2 mt-5 border-white shadow-2xl pb-10 px-5 ml-5 rounded-lg bg-white">
+      <div className="relative w-96 border-2 mt-5 border-white shadow-2xl pb-10 px-5 ml-5 rounded-lg bg-white ">
       <div className="flex items-center  mt-12 rounded-lg ">
             <input
               type="text"
@@ -219,7 +219,7 @@ function AllEvent() {
 </ul>
 
     </div>
-        <div className=" w-3/4 items-center  ml-72">
+        <div className=" w-3/4 items-center ml-10">
         
         <div className="mt-12 justify-center   items-center">
             {paginatedEvents.length ? (

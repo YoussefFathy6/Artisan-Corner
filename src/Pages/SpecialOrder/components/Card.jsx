@@ -16,6 +16,7 @@ import {
 import db from "../../../Config/firebase";
 
 function ProductCard(props) {
+  console.log(props)
   const [isExpanded, setIsExpanded] = useState(false);
   const navigate = useNavigate();
 
@@ -122,10 +123,10 @@ function ProductCard(props) {
   };
 
   return (
-    <div className="border rounded-lg shadow  flex flex-col hover:scale-105 hover:shadow-xl transition-all w-full">
-      <div className="flex gap-5 p-3 items-center">
+    <div className="border rounded-lg shadow  flex flex-col hover:scale-105 hover:shadow-xl transition-all w-[400px]">
+      <div className="flex gap-5 p-9  items-center">
         <img
-          className="rounded-full h-24 w-24"
+          className="rounded-3xl h-24 w-24"
           src={
             props.customerData.profilePic
               ? props.customerData.profilePic
@@ -167,7 +168,7 @@ function ProductCard(props) {
 
       {/* Conditionally render buttons based on pending state */}
       {!props.isPending ? (
-        <div className="mt-auto p-3 flex justify-between">
+        <div className="mt-auto p-5 flex justify-between">
           <button
             onClick={(e) => {
               e.stopPropagation();
