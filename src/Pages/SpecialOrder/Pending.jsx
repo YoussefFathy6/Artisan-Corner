@@ -1,12 +1,6 @@
 /* eslint-disable no-unused-vars */
-import {
-  collection,
-  getDocs,
-  onSnapshot,
-  query,
-  where,
-} from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 import db from "../../Config/firebase";
 import Card from "./components/Card";
 
@@ -15,58 +9,41 @@ function Pending() {
   const [artist, setArtist] = useState({});
   const [users, setUsers] = useState([]);
 
+  // Fetch all users and set them in the state
   useEffect(() => {
-    // Fetch all users and set them in the state
-    const unsubscribe = onSnapshot(collection(db, "users"), (snapshot) => {
+    const unsubscribeUsers = onSnapshot(collection(db, "users"), (snapshot) => {
       const users = snapshot.docs.map((doc) => ({
         ...doc.data(),
       }));
       setUsers(users);
     });
 
-    return () => unsubscribe();
+    return () => unsubscribeUsers();
   }, []);
 
+  // Fetch the artist's data in real-time
   useEffect(() => {
-    const fetchArtistData = async () => {
-      try {
-        // Query the "users" collection where "id" equals the value in localStorage
-        const q = query(
-          collection(db, "users"),
-          where("id", "==", localStorage.getItem("id"))
-        );
+    const userID = localStorage.getItem("id");
+    const q = query(collection(db, "users"), where("id", "==", userID));
 
-        // Fetch artist data
-        const querySnapshot = await getDocs(q);
+    const unsubscribeArtist = onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        const artistData = doc.data();
+        setArtist(artistData); // Store the artist data
 
-        // Loop through the QuerySnapshot to get document data
-        querySnapshot.forEach((doc) => {
-          const artistData = doc.data();
-          setArtist(artistData); // Store the artist data
+        // If the artist has specialOrders, store them in the products state
+        setProducts(artistData.specialOrder || []); // Ensure it's an array
+      });
+    });
 
-          // If the artist has specialOrders, store them in the products state
-          if (artistData.specialOrder) {
-            setProducts(artistData.specialOrder);
-          } else {
-            console.log("nothing");
-          }
-        });
-      } catch (error) {
-        console.error("Error fetching artist data: ", error);
-      }
-    };
-
-    fetchArtistData(); // Call the function to fetch data
+    return () => unsubscribeArtist(); // Clean up the artist listener on unmount
   }, []);
 
-  // Filter products where pending is false
+  // Filter products where pending is true
   const filteredProducts = products.filter((product) => product.pending);
 
-  console.log(filteredProducts);
-  console.log(artist);
-  console.log(users);
-
   const Discard = (docID) => {};
+
   return (
     <div className="grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-y-8 xl:gap-2 justify-center">
       {filteredProducts.map((product) => {
