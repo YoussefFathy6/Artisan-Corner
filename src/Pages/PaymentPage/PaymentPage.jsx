@@ -4,6 +4,8 @@ import React from "react";
 // import OrderSummary from "../ShippingPage/OrderSummary";
 // import PaymentEdit from "./PaymentEdit";
 import CheckoutPage from "./CheckoutPage";
+
+
 function PaymentPage() {
   return <CheckoutPage></CheckoutPage>;
 }
