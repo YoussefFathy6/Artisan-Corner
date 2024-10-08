@@ -182,8 +182,9 @@ function ProposalsPage() {
             <h2 className="mt-4 text-2xl font-bold px-2">
               Current Price: ${streamProduct[0].initPrice}
             </h2>
-
-        {/* Countdown Timer */}
+            {/* Countdown Timer */}
+          </> // <-- Ensure the fragment is closed here
+        )}
         <div
           className={`mt-16 p-4 text-center rounded-lg ml-60 w-[50%] font-bold  ${
             timeRemaining.includes("ended")
