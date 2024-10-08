@@ -193,96 +193,119 @@ function ArtProfile() {
     setNewReview("");
     setNewRating(0);
   };
+
   return (
-    <div className="min-h-screen justify-center">
+    <div className=" w-full  min-h-screen justify-center  m-auto  mb-10">
       {user ? (
         <div>
           <div
-            className="shadow-xl rounded-lg overflow-hidden pt-28"
+            className=""
             style={{
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
           >
-            {/* Profile Picture */}
-            <div className="justify-center items-center m-auto flex">
-              <img
-                src={
-                  user.profilePic ||
-                  "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"
-                }
-                alt="Profile"
-                className="w-96 h-96 rounded-full object-cover border-4 border-orange-950 shadow-lg"
-              />
-            </div>
-
-            {/* profile details */}
-            <div className="justify-center items-center text-center flex pt-7">
+            {/* main profile */}
+            <div className=" relative">
+              {/* cover Pic */}
               <div>
-                <h1 className="text-3xl font-bold text-gray-800 pb-4">
-                  {user.firstname} {user.lastname}
-                </h1>
-                <p className="text-gray-600 pb-4 text-xl">{user.email}</p>
-                <p className="text-gray-600 pb-4 text-xl">{user.accountType}</p>
-                <div className="flex"></div>
-                <button
-                  onClick={() => {
-                    createNewChat().then(() => {
-                      nav("/chat", { state: { user } });
-                    });
-                  }}
-                  className="mx-4 bg-secondary text-white"
-                >
-                  Chat with me
-                </button>
-                <button
-                  onClick={() => {
-                    setIsOrderModalOpen(true);
-                  }}
-                >
-                  Make special Order
-                </button>
-                <p className="text-gray-600 pb-4 text-xl">{user.about}</p>
+                <img
+                  src={user.coverPic}
+                  className=" shadow-2xl rounded-b-[50px] w-full h-[50vh] "
+                />
+              </div>
+
+              <div className=" h-[50vh] absolute top-0 w-full bg-[#050605ad] flex items-center justify-center shadow-2xl rounded-b-[50px]">
+                {/* Profile Picture */}
+                <div className=" m-11 border-4 border-[#d5eded] h-[260px] rounded-full w-[150px]">
+                  <img
+                    src={
+                      user.profilePic ||
+                      "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"
+                    }
+                    alt="Profile"
+                    className=" h-[260px] rounded-full   shadow-lg p-1"
+                  />
+                </div>
+
+                {/* profile details */}
+                <div className="">
+                  <h2 className=" text-white">{user.accountType} :</h2>
+
+                  <div className=" space-y-4 ">
+                    <h1 className="text-[40px] text-[#d5eded] font-bold font-newfont">
+                      {user.firstname} {user.lastname}
+                    </h1>
+                    <h2 className=" text-[#7ca7a7]">{user.email}</h2>
+
+                    {/* chat btn */}
+                    <button
+                      onClick={() => {
+                        createNewChat().then(() => {
+                          nav("/chat", { state: { user } });
+                        });
+                      }}
+                      className=" bg-[#c6ece8] p-2 px-3 rounded-xl "
+                    >
+                      Chat me
+                    </button>
+
+                    {/* order btn */}
+                    <button
+                      onClick={() => {
+                        setIsOrderModalOpen(true);
+                      }}
+                      className=" bg-[#c6ece8] p-2 px-3 rounded-xl ms-3"
+                    >
+                      Special Order
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
+
+            {/* <p className="text-gray-600 pb-4 text-xl">{user.about}</p> */}
+
             {/* options bar */}
-            <div className="mt-4 px-4">
-              <ul className="flex space-x-4 text-gray-600 text-center justify-center p-8">
+            <div className="my-10 ">
+              <ul className=" border-[#59ded0] border-b-[2px] w-[60%] mx-auto flex space-x-20  text-center justify-center ">
                 <li
-                  className={`cursor-pointer ${
+                  className={`cursor-pointer duration-200 ${
                     selectedTab === "posts"
-                      ? "text-red-900 text-xl font-semibold"
-                      : "hover:text-red-950 text-xl font-semibold"
+                      ? "text-[#26847b] text-[27px] font-semibold border-b-[2px] border-[#26847b]"
+                      : "hover:text-[#26847b] text-[22px] font-semibold text-[#26847b] "
                   }`}
                   onClick={() => setSelectedTab("posts")}
                 >
                   Posts
                 </li>
                 <li
-                  className={`cursor-pointer ${
+                  className={`cursor-pointer duration-200 ${
                     selectedTab === "events"
-                      ? "text-red-900 text-xl font-semibold"
-                      : "hover:text-red-950 text-xl font-semibold"
+                    ? "text-[#26847b] text-[27px] font-semibold border-b-[2px] border-[#26847b]"
+                    : "hover:text-[#26847b] text-xl font-semibold text-[#3ca99e]"
                   }`}
                   onClick={() => setSelectedTab("events")}
                 >
                   Events
                 </li>
                 <li
-                  className={`cursor-pointer ${
+                  className={`cursor-pointer duration-200 ${
                     selectedTab === "reviews"
-                      ? "text-red-900 text-xl font-semibold"
-                      : "hover:text-red-950 text-xl font-semibold"
+                    ? "text-[#26847b] text-[27px] font-semibold border-b-[2px] border-[#26847b]"
+                    : "hover:text-[#26847b] text-xl font-semibold text-[#3ca99e]"
                   }`}
                   onClick={() => setSelectedTab("reviews")}
                 >
                   Reviews
                 </li>
               </ul>
+              <p className=""></p>
             </div>
           </div>
 
           <div className="p-4 flex">
+            {/* Events */}
             {selectedTab === "events" && (
               <div className="flex">
                 {eventsData.length > 0 ? (
@@ -295,6 +318,7 @@ function ArtProfile() {
               </div>
             )}
 
+            {/* posts */}
             {selectedTab === "posts" && (
               <div className="flex flex-wrap">
                 {postsData.length > 0 ? (
@@ -322,6 +346,7 @@ function ArtProfile() {
               </div>
             )}
 
+            {/* reviews */}
             {selectedTab === "reviews" && (
               <div>
                 {reviewsData.length > 0 ? (
@@ -380,17 +405,17 @@ function ArtProfile() {
             )}
           </div>
 
-          <div className="fixed bottom-5 right-5">
+          {/* <div className="fixed bottom-5 right-5">
             <Button
               onClick={openChatModal}
               className="bg-red-600 p-3 rounded-full shadow-lg text-white"
             >
               💬
             </Button>
-          </div>
+          </div> */}
 
           {/* مودال الشات */}
-          <Modal show={isChatModalOpen} onClose={closeChatModal}>
+          {/* <Modal show={isChatModalOpen} onClose={closeChatModal}>
             <Modal.Header>
               Chat with {user.firstname} {user.lastname}
             </Modal.Header>
@@ -398,7 +423,8 @@ function ArtProfile() {
               <Chat />
             </Modal.Body>
             <Modal.Footer></Modal.Footer>
-          </Modal>
+          </Modal> */}
+
           {/* Special Order Modal */}
           <Modal
             show={isOrderModalOpen}

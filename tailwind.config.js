@@ -34,6 +34,7 @@ export default {
       fontFamily: {
         lora: ['"Lora", serif'],
         Rosario: ['"Rosario", sans-serif'],
+        newfont: "Playwrite DE Grund"
       },
       colors: {
         primary: "white",

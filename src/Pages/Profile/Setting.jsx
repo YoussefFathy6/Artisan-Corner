@@ -1,5 +1,8 @@
 /* eslint-disable no-unused-vars */
 
+
+
+
 import profile from "../../assets/imges/newww/best11.jpg";
 import profile2 from "../../assets/imges/newww/artist1.jpeg";
 import React, { useState, useEffect } from "react";
@@ -30,6 +33,7 @@ import AddDeitalsprofile from "./AddDeitalsprofile";
 import Eventuser from "./Eventuser";
 import ReactStars from "react-rating-stars-component"; // Assuming you're using this for stars
 import Accountbalance from "./Accountbalance";
+import SpecialOrderPage from "../SpecialOrder/SpecialOrderPage";
 function Setting() {
   const [activeItem, setActiveItem] = useState("profile");
   const [products, setProducts] = useState([]);
@@ -143,6 +147,7 @@ function Setting() {
 
       <div
         className={`p-5  ${accountType === "Customer" ? "w-[90vw] ml-20" : "w-[65vw]"}`}
+        className={`p-5  ${accountType === "Customer" ? "w-[85vw] mx-auto my-10"  : "w-[65vw]"}`}
       >
         {activeItem === "profile" && (
           <div>
@@ -418,6 +423,7 @@ function Setting() {
         {activeItem === "settings" && <AddDeitalsprofile />}
         {activeItem === "Events" && <Eventuser />}
         {activeItem === "earnings" && <Accountbalance />}
+        {activeItem === "special" && <SpecialOrderPage />}
       </div>
     </div>
   );
