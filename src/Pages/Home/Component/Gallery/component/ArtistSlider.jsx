@@ -90,7 +90,7 @@ export default function ArtistSlider() {
   }
   return (
     <div className="mb-28 mt-10">
-          <div className='flex justify-between items-center p-9 '>
+          <div className='flex justify-between items-center  '>
       
 
       <h2 className=" text-5xl text-[#025048] " style={{fontFamily:"Abril Fatface, serif"}}>
@@ -104,10 +104,10 @@ export default function ArtistSlider() {
       </button>
     </div>
       <Swiper
-        modules={[Virtual, Autoplay]}  // استخدام Virtual و Autoplay هنا
+        modules={[Virtual, Autoplay]}  
         spaceBetween={30}
         slidesPerView={3}
-        autoplay={{ delay: 3000, disableOnInteraction: false }} // تفعيل autoplay مع وقت تأخير
+        autoplay={{ delay: 3000, disableOnInteraction: false }}
         virtual // تفعيل العرض الافتراضي
         loop={true} // تفعيل تكرار السلايدر
         className="mySwiper"
