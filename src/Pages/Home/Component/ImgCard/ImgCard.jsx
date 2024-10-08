@@ -57,15 +57,15 @@ function ImgCard() {
       </section> */}
 
       {/* NEWWW */}
-      <div className=" m-auto ">
+      <div className="  ">
         <div
-          className=" mt-32  flex items-center justify-center top h-52 animate-slide-up"
+          className=" mt-20  flex items-center justify-center top h-52 animate-slide-up"
         >
-   <img src="./src/assets/imges/En-removebg-preview.png" alt="" />
+   <img src="./src/assets/imges/En__1_-removebg-preview.png" alt="" />
         </div>
 
 
-        <div className='w-full bg-[#faf3d2] p-20 mt-36'>
+        <div className=' bg-[#faf3d2] p-20 mt-16'>
   <div className="flex justify relative">
     <div className="p-4 ml-44">
       <img 
@@ -75,7 +75,6 @@ function ImgCard() {
       />
     </div>
 
-    {/* الجزء الخاص بالنص والزر */}
     <div className="absolute h-96 top-20 ml-[30%] transform -translate-x-1/2 -translate-y-1/2 bg-[#4c5841d7] p-20 rounded-lg shadow-lg w-[900px]  about">
       <h2 className="text-2xl font-bold text-white mb-4" style={{fontFamily:"Abril Fatface, serif"}}>About Us !</h2>
       <p className="text-white mb-6">
@@ -91,9 +90,7 @@ function ImgCard() {
 </div>
 
 
-        <h2 className=" text-5xl text-[#025048] font-lora lg:mt-16">
-          Our product categories
-        </h2>
+       
 
         <div className="flex gap-10 mt-9">
           {/* <div onClick={handleClick} className=" flex flex-col w-[350px]">
@@ -148,7 +145,7 @@ function ImgCard() {
          <button onClick={handleClick} className='mt-5 text-center font-bold text-2xl text-[#025048]'>POTTERY</button>
         </div> */}
 
-          <div class="card">
+          {/* <div class="card">
             <img
               className="card__background"
               src={category1}
@@ -167,7 +164,7 @@ function ImgCard() {
             </div>
           </div>
 
-          <div class="card">
+       = <div class="card">
             <img
               className="card__background"
               src={category4}
@@ -222,7 +219,7 @@ function ImgCard() {
                 Take a journy
               </button>
             </div>
-          </div>
+          </div>  */}
 
 
 

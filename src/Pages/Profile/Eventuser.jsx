@@ -29,10 +29,10 @@ function Eventuser() {
   }, []);
   return (
     <>
-      <div className="flex justify-between m-4">
+      <div className="flex justify-between  mt-12">
       
-        <div className="ml-7 mr-4 w-[95%]">
-          <div className=" ml-7 flex justify-between">
+        <div className="  w-[95%] mb-8">
+          <div className="  flex justify-between">
             <h1 className="text-5xl font-semibold ">Event</h1>
             <Addevent />
           </div>

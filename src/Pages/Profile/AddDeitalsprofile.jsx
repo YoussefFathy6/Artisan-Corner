@@ -96,7 +96,7 @@ function AddDeitalsprofile() {
         linkedin: data[0].linkedin,
       });
       console.log(data);
-      navigate("/profile", { state: { data } });
+      navigate("/setting", { state: { data } });
     } else {
       console.error("User ID is not defined.");
     }
@@ -144,6 +144,12 @@ function AddDeitalsprofile() {
                     </div>
                     <TextInput id="instgram" type="text" sizing="sm" value={item.instgram} onChange={(e) => setData([{ ...item, instgram: e.target.value }])} />
                   </div>
+                  <div className="mt-6">
+                    <div className="mb-2 block">
+                      <Label htmlFor="linkedin" value="LinkedIn" />
+                    </div>
+                    <TextInput id="linkedin" type="text" sizing="sm" value={item.linkedin} onChange={(e) => setData([{ ...item, linkedin: e.target.value }])} />
+                  </div>
                 </div>
                 <div className="w-1/3">
                   {/* Profile Image */}
@@ -175,12 +181,6 @@ function AddDeitalsprofile() {
                     </div>
                     <TextInput id="email" type="text" sizing="sm" value={item.email} onChange={(e) => setData([{ ...item, email: e.target.value }])} />
                   </div>
-                  <div className="mt-6">
-                    <div className="mb-2 block">
-                      <Label htmlFor="linkedin" value="LinkedIn" />
-                    </div>
-                    <TextInput id="linkedin" type="text" sizing="sm" value={item.linkedin} onChange={(e) => setData([{ ...item, linkedin: e.target.value }])} />
-                  </div>
 
                   {/* Account Type */}
                   <div className="mt-5">
@@ -202,7 +202,7 @@ function AddDeitalsprofile() {
                   </div>
                 </div>
               </div>
-              <Button className="bot2 ml-24" onClick={save}>
+              <Button className="bg-[#354646cc] ml-36 w-28 mt-10" onClick={save}>
                 DONE
               </Button>
             </div>

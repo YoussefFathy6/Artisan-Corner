@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
-import { Modal, Button } from "flowbite-react";
-import { useLocation } from "react-router-dom";
+import { Modal, Button, Label, Textarea, TextInput } from "flowbite-react";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   collection,
   query,
@@ -10,6 +10,10 @@ import {
   addDoc,
   getDoc,
   doc,
+  updateDoc,
+  arrayUnion,
+  getDocs,
+  Timestamp,
 } from "firebase/firestore";
 import db from "../../Config/firebase";
 import ProCard from "./ProCard";
@@ -18,6 +22,7 @@ import Masonry from "react-masonry-css";
 import ReactStars from "react-rating-stars-component";
 import Chat from "../Chat/Chat";
 import "./Users.modules.css";
+import { toast } from "react-toastify";
 
 function ArtProfile() {
   const breakpointColumnsObj = {
@@ -28,6 +33,7 @@ function ArtProfile() {
   };
 
   const location = useLocation();
+  const nav = useNavigate();
   const [user, setUser] = useState(location.state?.user || null);
   const [selectedTab, setSelectedTab] = useState("posts");
   const [eventsData, setEventsData] = useState([]);
@@ -38,6 +44,12 @@ function ArtProfile() {
   const [totalStars, setTotalStars] = useState(0);
   const [averageStars, setAverageStars] = useState(0);
   const [isChatModalOpen, setIsChatModalOpen] = useState(false);
+  //////// special order vars /////////////////////////////
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [deadline, setDeadline] = useState("");
+  //////// special order vars /////////////////////////////
   const openChatModal = () => setIsChatModalOpen(true);
   const closeChatModal = () => setIsChatModalOpen(false);
 
@@ -139,77 +151,161 @@ function ArtProfile() {
     setNewReview("");
     setNewRating(0);
   };
+  const handleSendOrder = async () => {
+    try {
+      // Query to find the user with the matching id
+      const q = query(collection(db, "users"), where("id", "==", user.id));
+      const querySnapshot = await getDocs(q); // Get the document(s) matching the query
+
+      if (!querySnapshot.empty) {
+        querySnapshot.forEach(async (docSnapshot) => {
+          // Access each document and update the specialOrder field
+          await updateDoc(docSnapshot.ref, {
+            specialOrder: arrayUnion({
+              customer: localStorage.getItem("id"),
+              description: description,
+              price: Number(price),
+              deadline: deadline,
+              opened: false, // Set opened to false
+              pending: false, // Set opened to false
+            }),
+          });
+        });
+
+        console.log("Order sent successfully!");
+        setIsOrderModalOpen(false); // Close the modal after sending the order
+      } else {
+        console.error("No artist found with the specified ID");
+      }
+    } catch (error) {
+      console.error("Error sending the order: ", error);
+    }
+  };
+  const createNewChat = async () => {
+    await addDoc(collection(db, "chats"), {
+      IDlist: [user.id, localStorage.getItem("id")],
+      message: [
+        { content: "", timestamp: "", sender: localStorage.getItem("id") },
+      ],
+      firstID: user.id,
+      secondID: localStorage.getItem("id"),
+    });
+    setNewReview("");
+    setNewRating(0);
+  };
 
   return (
-    <div className="min-h-screen justify-center">
+    <div className=" w-full  min-h-screen justify-center  m-auto  mb-10">
       {user ? (
         <div>
           <div
-            className="shadow-xl rounded-lg overflow-hidden pt-28"
+            className=""
             style={{
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
           >
-            <div className="justify-center items-center m-auto flex">
-              <img
-                src={
-                  user.profilePic ||
-                  "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"
-                }
-                alt="Profile"
-                className="w-96 h-96 rounded-full object-cover border-4 border-orange-950 shadow-lg"
-              />
-            </div>
-
-            <div className="justify-center items-center text-center flex pt-7">
+            {/* main profile */}
+            <div className=" relative">
+              {/* cover Pic */}
               <div>
-                <h1 className="text-3xl font-bold text-gray-800 pb-4">
-                  {user.firstname} {user.lastname}
-                </h1>
-                <p className="text-gray-600 pb-4 text-xl">{user.email}</p>
-                <p className="text-gray-600 pb-4 text-xl">{user.accountType}</p>
-                <p className="text-gray-600 pb-4 text-xl">{user.about}</p>
+                <img
+                  src={user.coverPic}
+                  className=" shadow-2xl rounded-b-[50px] w-full h-[50vh] "
+                />
+              </div>
+
+              <div className=" h-[50vh] absolute top-0 w-full bg-[#050605ad] flex items-center justify-center shadow-2xl rounded-b-[50px]">
+                {/* Profile Picture */}
+                <div className=" m-11 border-4 border-[#d5eded] h-[260px] rounded-full w-[150px]">
+                  <img
+                    src={
+                      user.profilePic ||
+                      "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"
+                    }
+                    alt="Profile"
+                    className=" h-[260px] rounded-full   shadow-lg p-1"
+                  />
+                </div>
+
+                {/* profile details */}
+                <div className="">
+                  <h2 className=" text-white">{user.accountType} :</h2>
+
+                  <div className=" space-y-4 ">
+                    <h1 className="text-[40px] text-[#d5eded] font-bold font-newfont">
+                      {user.firstname} {user.lastname}
+                    </h1>
+                    <h2 className=" text-[#7ca7a7]">{user.email}</h2>
+
+                    {/* chat btn */}
+                    <button
+                      onClick={() => {
+                        createNewChat().then(() => {
+                          nav("/chat", { state: { user } });
+                        });
+                      }}
+                      className=" bg-[#c6ece8] p-2 px-3 rounded-xl "
+                    >
+                      Chat me
+                    </button>
+
+                    {/* order btn */}
+                    <button
+                      onClick={() => {
+                        setIsOrderModalOpen(true);
+                      }}
+                      className=" bg-[#c6ece8] p-2 px-3 rounded-xl ms-3"
+                    >
+                      Special Order
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div className="mt-4 px-4">
-              <ul className="flex space-x-4 text-gray-600 text-center justify-center p-8">
+            {/* <p className="text-gray-600 pb-4 text-xl">{user.about}</p> */}
+
+            {/* options bar */}
+            <div className="my-10 ">
+              <ul className=" border-[#59ded0] border-b-[2px] w-[60%] mx-auto flex space-x-20  text-center justify-center ">
                 <li
-                  className={`cursor-pointer ${
+                  className={`cursor-pointer duration-200 ${
                     selectedTab === "posts"
-                      ? "text-red-900 text-xl font-semibold"
-                      : "hover:text-red-950 text-xl font-semibold"
+                      ? "text-[#26847b] text-[27px] font-semibold border-b-[2px] border-[#26847b]"
+                      : "hover:text-[#26847b] text-[22px] font-semibold text-[#26847b] "
                   }`}
                   onClick={() => setSelectedTab("posts")}
                 >
                   Posts
                 </li>
                 <li
-                  className={`cursor-pointer ${
+                  className={`cursor-pointer duration-200 ${
                     selectedTab === "events"
-                      ? "text-red-900 text-xl font-semibold"
-                      : "hover:text-red-950 text-xl font-semibold"
+                    ? "text-[#26847b] text-[27px] font-semibold border-b-[2px] border-[#26847b]"
+                    : "hover:text-[#26847b] text-xl font-semibold text-[#3ca99e]"
                   }`}
                   onClick={() => setSelectedTab("events")}
                 >
                   Events
                 </li>
                 <li
-                  className={`cursor-pointer ${
+                  className={`cursor-pointer duration-200 ${
                     selectedTab === "reviews"
-                      ? "text-red-900 text-xl font-semibold"
-                      : "hover:text-red-950 text-xl font-semibold"
+                    ? "text-[#26847b] text-[27px] font-semibold border-b-[2px] border-[#26847b]"
+                    : "hover:text-[#26847b] text-xl font-semibold text-[#3ca99e]"
                   }`}
                   onClick={() => setSelectedTab("reviews")}
                 >
                   Reviews
                 </li>
               </ul>
+              <p className=""></p>
             </div>
           </div>
 
           <div className="p-4 flex">
+            {/* Events */}
             {selectedTab === "events" && (
               <div className="flex">
                 {eventsData.length > 0 ? (
@@ -222,6 +318,7 @@ function ArtProfile() {
               </div>
             )}
 
+            {/* posts */}
             {selectedTab === "posts" && (
               <div className="flex flex-wrap">
                 {postsData.length > 0 ? (
@@ -249,6 +346,7 @@ function ArtProfile() {
               </div>
             )}
 
+            {/* reviews */}
             {selectedTab === "reviews" && (
               <div>
                 {reviewsData.length > 0 ? (
@@ -307,17 +405,17 @@ function ArtProfile() {
             )}
           </div>
 
-          <div className="fixed bottom-5 right-5">
+          {/* <div className="fixed bottom-5 right-5">
             <Button
               onClick={openChatModal}
               className="bg-red-600 p-3 rounded-full shadow-lg text-white"
             >
               💬
             </Button>
-          </div>
+          </div> */}
 
           {/* مودال الشات */}
-          <Modal show={isChatModalOpen} onClose={closeChatModal}>
+          {/* <Modal show={isChatModalOpen} onClose={closeChatModal}>
             <Modal.Header>
               Chat with {user.firstname} {user.lastname}
             </Modal.Header>
@@ -325,6 +423,66 @@ function ArtProfile() {
               <Chat />
             </Modal.Body>
             <Modal.Footer></Modal.Footer>
+          </Modal> */}
+
+          {/* Special Order Modal */}
+          <Modal
+            show={isOrderModalOpen}
+            onClose={() => {
+              setIsOrderModalOpen(false);
+            }}
+          >
+            <Modal.Header>Custom Your Order</Modal.Header>
+            <Modal.Body>
+              <div className="p-5">
+                <div className="">
+                  <Label htmlFor="">Describe your order</Label>
+                  <Textarea
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="Describe Here"
+                  ></Textarea>
+                </div>
+                <div>
+                  <Label htmlFor="">Price</Label>
+                  <TextInput
+                    onChange={(e) => setPrice(e.target.value)}
+                    type="number"
+                    placeholder="Describe Here"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="">Deadline</Label>
+                  <TextInput
+                    onChange={(e) => setDeadline(e.target.value)}
+                    type="date"
+                    placeholder="Describe Here"
+                  />
+                </div>
+              </div>
+            </Modal.Body>
+            <Modal.Footer className="flex justify-between ">
+              <Button
+                onClick={() => {
+                  handleSendOrder();
+                  setIsOrderModalOpen(false);
+                  toast.success("Your order has been sent", {
+                    position: "top-right",
+                  });
+                }}
+                className="bg-secondary ms-5 my-2"
+              >
+                Send
+              </Button>
+              <Button
+                onClick={() => {
+                  setIsOrderModalOpen(false);
+                }}
+                color={"failure"}
+                className="me-2 my-2"
+              >
+                Cancel
+              </Button>
+            </Modal.Footer>
           </Modal>
         </div>
       ) : (

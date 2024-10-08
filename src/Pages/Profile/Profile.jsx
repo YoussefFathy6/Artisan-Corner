@@ -13,6 +13,7 @@ import "./style.css";
 import AddDeitalsprofile from "./AddDeitalsprofile";
 import Eventuser from "./Eventuser";
 import ReactStars from "react-rating-stars-component"; // Assuming you're using this for stars
+import Accountbalance from "./Accountbalance";
 
 function Profile() {
   const [activeItem, setActiveItem] = useState("profile");
@@ -228,19 +229,19 @@ function Profile() {
             )}
           </div>
         )}
-
+  <div className="flex  justify-around bg-red-500   mt-12  w-[95%] mb-8">
         {activeItem === "products" && accountType !== "Customer" && (
           <div>
             {data.length > 0 && data[0].accountType !== "Customer" && (
               <>
-                <div className="mt-2 ml-5 lg:ml-7 flex justify-between items-center">
+                <div className="mt-2  flex justify-around ">
                   <h1 className="text-5xl font-semibold">Products</h1>
                   <Addproduct />
                 </div>
 
-                <div className="mt-14">
+                <div className="mt-14  ">
                   {products.length ? (
-                    <section className="grid gap-5">
+                    <section className="grid gap-5 ml-[-30%] ">
                       <Masonry
                         breakpointCols={{
                           default: 4,
@@ -252,7 +253,7 @@ function Profile() {
                         columnClassName="my-masonry-grid_column"
                       >
                         {products.map((item, index) => (
-                          <Cards2 data={item} key={index} className="shadow-lg rounded-lg transition-transform hover:scale-105" />
+                          <Cards2 data={item} key={index} className="shadow-lg  rounded-lg transition-transform hover:scale-105" />
                         ))}
                       </Masonry>
                     </section>
@@ -280,11 +281,16 @@ function Profile() {
             )}
           </div>
         )}
+        </div>
         {activeItem === "settings" && <AddDeitalsprofile />}
         {activeItem === "Events" && <Eventuser />}
+        {activeItem === "earnings" && <Accountbalance />}
       </div>
     </div>
   );
 }
 
 export default Profile;
+
+
+

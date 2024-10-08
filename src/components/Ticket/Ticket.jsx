@@ -15,7 +15,7 @@ import {
 function Ticket() {
   const location = useLocation();
   const event = location.state?.event || {};
-  const ticketPrice = event.pricetacket;
+  const ticketPrice = event.pricetTcket;
   const [count, setCount] = useState(1);
   const [total, setTotal] = useState(ticketPrice);
   const [showModal, setShowModal] = useState(false);
@@ -157,9 +157,9 @@ function Ticket() {
 
   return (
     <>
-      <section className=" w-96 justify-center items-center m-auto">
-        <div className="pt-6 pl-6">
-          <div className="ticket-card w-96">
+      <section className="  justify-center items-center m-auto ">
+        <div className="pt-6 pb-9 ">
+          <div className="ticket-card ">
             <div className="ticket-header">
               <img src={event.eventImg} alt={event.name} />
             </div>
@@ -197,7 +197,7 @@ function Ticket() {
               <div className="container flex mb-4  mt-9 justify-around">
                 <div className="flex items-center">
                   <Button
-                    className="bg-red-900 "
+                    className="bg-[#344646] "
                     onClick={decreaseCount}
                     disabled={soldOut}
                   >
@@ -205,7 +205,7 @@ function Ticket() {
                   </Button>
                   <span className="mx-4 text-xl font-bold">{count}</span>
                   <Button
-                    className="bg-red-900 "
+                    className="bg-[#344646] "
                     onClick={increaseCount}
                     disabled={soldOut}
                   >
@@ -216,7 +216,7 @@ function Ticket() {
               <div className="text-xl font-bold">
                 {soldOut ? (
                   <div
-                    className={`absolute top-4 -left-10 w-36 text-center transform -rotate-45 bg-red-700 text-white   py-1 font-bold`}
+                    className={`absolute top-4 -left-10 w-36 text-center transform -rotate-45 bg-[#344646]  text-white   py-1 font-bold`}
                   >
                     Sold out
                   </div>
@@ -237,9 +237,9 @@ function Ticket() {
       </section>
 
       {/* Modal */}
-      <Modal show={showModal} onClose={() => setShowModal(false)}>
+      <Modal show={showModal} size="3xl"  onClose={() => setShowModal(false)}>
         <Modal.Header>Payment</Modal.Header>
-        <Modal.Body>
+        <Modal.Body >
           <form onSubmit={handlePayment} className="p-9">
             <label className="block mb-2 text-sm font-medium">Email</label>
 
@@ -320,8 +320,26 @@ function Ticket() {
           >
             <PayPalButtons
               style={{ layout: "vertical" }}
-              amount={Number(total).toFixed(2)}
-              onApprove={handlePayPalSuccess}
+              createOrder={(data, actions) => {
+                return actions.order.create({
+                  purchase_units: [
+                    {
+                      amount: {
+                        value: Number(total).toFixed(2),
+                      },
+                    },
+                  ],
+                });
+              }}
+              // amount={Number(total).toFixed(2)}
+              onApprove={async (data, actions) => {
+                const details = await actions.order.capture();
+
+                const emailSubmitted = await handleEmailSubmission();
+                if (emailSubmitted) {
+                  navigate(`/TicketConfirmation/${event.id}`);
+                }
+              }}
             />
           </PayPalScriptProvider>
 
@@ -340,7 +358,7 @@ function Ticket() {
       </Modal>
 
       {/* Carousel */}
-      <h1 className="border-t-2  p-8 border-black border-dashed text-3xl text-red-900 pl-7 mt-12  font-semibold">
+      {/* <h1 className="border-t-2  p-8 border-black border-dashed text-3xl text-red-900 pl-7 mt-12  font-semibold">
         Other Events
       </h1>
 
@@ -380,7 +398,7 @@ function Ticket() {
             )}
           </Carousel>
         </div>
-      </section>
+      </section> */}
     </>
   );
 }

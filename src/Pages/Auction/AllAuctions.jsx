@@ -55,7 +55,7 @@ function AllAuctions() {
               await addDoc(collection(db, "Bag"), {
                 basePrice: auctionData.initPrice,
                 description: auctionData.description,
-                imgsrc: auctionData.img,
+                image: auctionData.img,
                 name: auctionData.title,
                 price: auctionData.initPrice,
                 quantity: 1,

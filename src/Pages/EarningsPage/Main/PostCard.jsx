@@ -72,7 +72,7 @@ function PostCard(props) {
           nav("/details", {
             state: {
               imgsrc: props.imgsrc,
-              productType: props.productType,
+              productType: props.Type,
               desc: props.title,
               price: props.price,
               bobId: props.productID,
@@ -90,7 +90,7 @@ function PostCard(props) {
             nav("/details", {
               state: {
                 imgsrc: props.imgsrc,
-                productType: props.productType,
+                productType: props.Type,
                 desc: props.title,
                 price: props.price,
                 bobId: props.productID,
@@ -109,7 +109,7 @@ function PostCard(props) {
           />
           <div className="absolute inset-0 flex flex-col p-10 bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
             <h5 className="text-white text-2xl font-semibold mb-2">
-              {props.productType}
+              {props.Type}
             </h5>
             <p className="text-white text-base line-clamp-2 overflow-hidden">
               {props.title}

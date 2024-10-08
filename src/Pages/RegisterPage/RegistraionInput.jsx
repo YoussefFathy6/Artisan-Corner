@@ -14,7 +14,7 @@ function RegistraionInput(props) {
         placeholder={props.placeholder}
         type={props.type}
         onChange={props.func}
-        className="w-full mt-1 p-2  rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full mt-1 p-2   rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
       ></TextInput>
       {props.error && <p className=" text-red-600">{props.error}</p>}
     </div>

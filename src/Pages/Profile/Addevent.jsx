@@ -6,7 +6,7 @@ import db from "../../Config/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../Config/firebase";
-import { daDK } from "rsuite/esm/locales";
+import { toast } from "react-toastify";
 function Addevent() {
   const [openModal, setOpenModal] = useState();
   let [data1, setdate1] = useState({
@@ -26,8 +26,8 @@ function Addevent() {
 
     setdate1((data1) => ({
       ...data1,
-      [name ? name : id]: value,
-      [id]: type === "number" ? Number(value) : value,
+      [name ? name : id]: type === "number" || id === "pricetacket" ? Number(value) : value,
+
     }));
     console.log(data1);
 
@@ -76,12 +76,12 @@ function Addevent() {
         ticketquantity: data1.ticketquantity,
         ownerID: localStorage.getItem("id"),
       });
+      toast.success("Added successfully", {
+        position: "top-right",
+      });
       setdate1("");
       setimgurl("");
       setimgurl2("");
-
-      alert("Event saved successfully!");
-
     } catch (error) {
       alert("Error: " + error.message);
     }
@@ -89,7 +89,7 @@ function Addevent() {
 
   return (
     <>
-      <div className=" h-full py-3 bg-orange-800 mr-14 text-orange-200 shadow rounded-full cursor-pointer ">
+      <div className=" h-full py-3 bg-[#204d43] mr-14 text-white shadow rounded-full cursor-pointer ">
                 <div className="relative ">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -112,7 +112,7 @@ function Addevent() {
         <Modal.Header />
         <Modal.Body
         style={{
-          backgroundImage: `url(${"https://i.pinimg.com/564x/29/c9/9f/29c99f2d3d1c2058959052d88e69c0ab.jpg"})`,
+          backgroundImage: `url(${"https://i.pinimg.com/736x/f1/5c/f6/f15cf6f020f82daefe5a86cb26a6ecaf.jpg"})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -271,10 +271,10 @@ function Addevent() {
               </div>
             </div>
             <div className="w-1/2 flex justify-around ml-52">
-              <Button className="bot2" onClick={save}>
+              <Button className="bg-[#354646cc]" onClick={save}>
                 Done
               </Button>
-              <Button className="bot2" onClick={onCloseModal}>
+              <Button className="bg-[#354646cc]" onClick={onCloseModal}>
                 Cancel
               </Button>
             </div>

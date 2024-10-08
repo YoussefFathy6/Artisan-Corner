@@ -24,6 +24,7 @@ function BodyNav() {
   const dispatch = useDispatch();
   const [userData, setUserData] = useState(null); // State to hold user data
   const [unreadNotification, setUnread] = useState([]); // State to hold unread notifications
+  const [unopenedOrder, setUnopenedOrder] = useState([]); // State to hold unread notifications
   const flag = useSelector((state) => state.homeReducer.flag); // Flag from Redux
   const isAdmin = useSelector((state) => state.adminReducer.isAdmin); // Admin status from Redux
   const nav = useNavigate(); // For navigation
@@ -43,15 +44,21 @@ function BodyNav() {
           // Call getUnread after userData is set
           const unreadNotifications = getUnread(user);
           setUnread(unreadNotifications); // Set the unread notifications
+          const unopenedOrders = getUnopened(user);
+          setUnopenedOrder(unopenedOrders); // Set the unread notifications
         }
       });
     };
+    console.log(unopenedOrder);
 
     fetchUserData();
 
     // Helper function to filter unread notifications
     function getUnread(userData) {
       return userData.notifications.filter((item) => item.read === false); // Return unread notifications
+    }
+    function getUnopened(userData) {
+      return userData.specialOrder.filter((item) => item.opened === false); // Return unread notifications
     }
   }, []);
 
@@ -82,6 +89,32 @@ function BodyNav() {
       console.error("Error updating notification:", error);
     }
   };
+  const handleOrderClick = async (order, index) => {
+    try {
+      // Reference to the current user in Firestore
+      const userRef = doc(db, "users", userData.docId);
+
+      // Find the correct notification in the original array
+      const updatedOrders = userData.specialOrder.map((ord) =>
+        ord.id === order.id // Check if the current notification matches the clicked one
+          ? { ...ord, opened: true } // Mark as read if it's the clicked notification
+          : ord
+      );
+
+      // Update Firestore document with modified notifications array
+      await updateDoc(userRef, {
+        specialOrder: updatedOrders,
+      });
+
+      // Update the local state by filtering out unread notifications
+      setUnopenedOrder(updatedOrders.filter((ord) => ord.read === false));
+
+      // Navigate to the auction page
+      nav("/special");
+    } catch (error) {
+      console.error("Error updating notification:", error);
+    }
+  };
 
   // newww
   const isActive = ({ isActive }) => {
@@ -102,14 +135,18 @@ function BodyNav() {
       transition: isActive && "all 0.2s ",
     };
   };
-
+  const combinedNotifications = [
+    ...unreadNotification.map((notification) => ({
+      ...notification,
+      type: "notification",
+    })),
+    ...unopenedOrder.map((order) => ({ ...order, type: "order" })),
+  ];
   return (
     // bg-[#72a398]
     //flowbit navbar
     <>
-      <Navbar className="bg-[#344646]   top-0 left-0 w-full z-50">
-
-
+      <Navbar className="bg-[#344646]">
         <Navbar.Brand href="/">
           {/* <span
             style={{ fontFamily: "cursive" }}
@@ -122,23 +159,22 @@ function BodyNav() {
 <span className="first text-2xl md:text-4xl text-white" style={{fontFamily:"Updock, cursive"}}>Artistain Corner</span>
         </Navbar.Brand>
 
-
-
         <div className="flex md:order-2 items-center">
-          <div className="">
+          <div>
             {/* <!-- User Greeting or Register/Login --> */}
             {localStorage.getItem("id") && userData ? (
               <div className="flex items-center">
                 {/* Notifications Dropdown */}
+
                 <Dropdown
                   color={"transparent"}
                   label={
                     <div className="relative ">
                       <FaBell color="white" size={24} />{" "}
                       {/* Notification bell icon */}
-                      {unreadNotification.length > 0 && (
+                      {combinedNotifications.length > 0 && (
                         <span className=" absolute top-0 right-0 left-2 bottom-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
-                          {unreadNotification.length}{" "}
+                          {combinedNotifications.length}{" "}
                           {/* Display the count of unread notifications */}
                         </span>
                       )}
@@ -150,16 +186,27 @@ function BodyNav() {
                   </DropdownHeader>
 
                   {/* Render unread notifications */}
-                  {unreadNotification.length > 0 ? (
-                    unreadNotification.map((notification, index) => (
+                  {unreadNotification.length > 0 || unopenedOrder.length > 0 ? (
+                    combinedNotifications.map((item, index) => (
                       <DropdownItem
-                        key={notification.id || index} // Use notification.id if available
-                        onClick={() =>
-                          handleNotificationClick(notification, index)
-                        }
+                        key={item.id || index} // Use id if available
+                        onClick={
+                          item.type === "onotification"
+                            ? () => handleNotificationClick(item, index)
+                            : () => handleOrderClick(item, index)
+                        } // Assuming you handle both notifications and orders similarly
                       >
-                        {notification.message}{" "}
-                        {/* Render notification message */}
+                        {item.type === "notification" ? (
+                          <>
+                            📩 Notification: {item.message}{" "}
+                            {/* Render notification message */}
+                          </>
+                        ) : (
+                          <>
+                            🛒 Order: {item.orderDetails}{" "}
+                            {/* Render order details */}
+                          </>
+                        )}
                       </DropdownItem>
                     ))
                   ) : (
@@ -192,20 +239,28 @@ function BodyNav() {
                   </Dropdown.Header>
                   <Dropdown.Item
                     onClick={() => {
-                      nav("/profile"); // Navigate to profile
+                      nav("/setting"); // Navigate to profile
                     }}
                     icon={HiViewGrid}
                   >
                     View Profile
                   </Dropdown.Item>
-                  <Dropdown.Item icon={HiCog}>Settings</Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => nav("/AddDeitalsprofile")}
+                    icon={HiCog}
+                  >
+                    Settings
+                  </Dropdown.Item>
                   <Dropdown.Item
                     icon={FaShoppingCart}
                     onClick={() => nav("/bag")} // Navigate to bag
                   >
                     My Bag
                   </Dropdown.Item>
-                  <Dropdown.Item icon={HiCurrencyDollar}>
+                  <Dropdown.Item
+                    icon={HiCurrencyDollar}
+                    onClick={() => nav("/accountbalance")}
+                  >
                     Earnings
                   </Dropdown.Item>
                   <Dropdown.Divider />
@@ -257,9 +312,6 @@ function BodyNav() {
           <div>
             <div className="flex justify-between flex-wrap ">
               <div className="borderYtoX flex flex-col gap-y-4 md:gap-y-0 justify-center p-4 md:p-0 mt-4 font-medium rounded-lg bg-transparent sm:space-x-2 md:space-x-4 xl:space-x-7 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-transparent">
-               
-               
-               
                 <NavLink
                   style={isActive}
                   to="/"
@@ -268,9 +320,16 @@ function BodyNav() {
                   Home
                 </NavLink>
 
-                <NavLink
+                {/* <NavLink
                   style={isActive}
                   to="earnings"
+                  className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
+                >
+                  Products
+                </NavLink> */}
+                <NavLink
+                  style={isActive}
+                  to="posts"
                   className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
                 >
                   Products
@@ -312,8 +371,22 @@ function BodyNav() {
                   to="/Users"
                   className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
                 >
-                  Users
+                  Artists
                 </NavLink>
+                <NavLink
+                  style={isActive}
+                  to="/Contactus"
+                  className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
+                >
+                  Contact US
+                </NavLink>
+                {/* <NavLink
+                  style={isActive}
+                  to="/Contactus"
+                  className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
+                >
+                  Contact US
+                </NavLink> */}
               </div>
               {/* <div className="flex">
                     <a href="#">

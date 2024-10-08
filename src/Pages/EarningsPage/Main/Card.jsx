@@ -74,7 +74,7 @@ function ProductCard(props) {
   useEffect(() => {
     const q = query(
       collection(db, "users"),
-      where("accountType", "==", "artist")
+      where("accountType", "==", "Artist")
     );
     const unsubscribe = onSnapshot(
       q,
@@ -102,8 +102,8 @@ function ProductCard(props) {
   return (
     <>
       <div
-        className="border rounded-lg shadow  flex flex-col hover:scale-105 hover:shadow-xl transition-all"
-        style={{ height: "550px" }} // Ensuring card height is consistent
+        className="border rounded-lg shadow  flex flex-col hover:scale-105 hover:shadow-xl transition-all "
+        style={{ height: "500px" }} // Ensuring card height is consistent
       >
         {/* Image and Title Section */}
 
@@ -125,13 +125,13 @@ function ProductCard(props) {
               behavior: "smooth", // Smooth scrolling
             });
           }}
-          className="w-full h-56 rounded-t-lg cursor-pointer"
+          className="w-full h-56 rounded-t-lg cursor-pointer rounded-3xl shadow"
           src={props.image}
           alt={props.productType}
         />
-        <div className="flex gap-4 items-center my-2 pe-2">
+        <div className="flex gap-4 items-center my-2 pe-2 mt-5">
           <img
-            className="rounded-full border-2 w-12 h-12 mx-4 cursor-pointer"
+            className="rounded-full border-2 w-12 h-12 mx-4 cursor-pointer "
             src={
               props.artistImage
                 ? props.artistImage // User's profile picture
@@ -154,19 +154,19 @@ function ProductCard(props) {
           <p>{`${props.firstname} ${props.lastname}`}</p>
         </div>
         <div className="m-3">
-          <h5 className=" text-base text-[#3E402D] font-Rosario font-bold tracking-tight dark:text-white">
+          <h5 className=" text-base text-[#3E402D] font-Rosario font-bold tracking-tight dark:text-white mt-2">
             {props.title}
           </h5>
-          <p
+          {/* <p
             className={`font-normal text-gray-500 dark:text-gray-400 text-[1rem] ${
               isExpanded ? "line-clamp-none" : "line-clamp-2"
             } overflow-hidden`}
           >
             {props.desc}
-          </p>
+          </p> */}
 
           {/* Show More/Show Less Button */}
-          <button
+          {/* <button
             onClick={(e) => {
               e.stopPropagation(); // Prevent event propagation to the parent div
               toggleDescription();
@@ -174,11 +174,11 @@ function ProductCard(props) {
             className="mt-2 text-blue-500 hover:text-blue-700 focus:outline-none"
           >
             {isExpanded ? "Show Less" : "Show More"}
-          </button>
+          </button> */}
 
           {/* Price Section */}
 
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center mt-5">
             <h5 className="text-[1rem] font-medium mt-2">{props.price} $</h5>
             <MdOutlineRateReview
               size={20}

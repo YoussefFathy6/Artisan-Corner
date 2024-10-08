@@ -13,7 +13,7 @@ function Gallery() {
   return (
     <section className=" w-[85%] m-auto ">
       <div className="  flex flex-col pb-10">
-        <Title />
+        {/* <Title /> */}
         <ArtistSlider />
       </div>
     </section>

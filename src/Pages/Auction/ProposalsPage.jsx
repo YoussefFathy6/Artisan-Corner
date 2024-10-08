@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { Button, TextInput } from "flowbite-react";
 import { useLocation } from "react-router-dom";
@@ -10,6 +9,8 @@ import {
   getDocs,
   collection,
   getDoc,
+  query,
+  where,
 } from "firebase/firestore";
 import db from "../../Config/firebase";
 
@@ -20,14 +21,32 @@ function ProposalsPage() {
   const [users, setUsers] = useState({});
   const [allUsers, setAllUsers] = useState([]);
   const [error, setError] = useState("");
-  const [timeRemaining, setTimeRemaining] = useState(""); // State for remaining time
+  const [timeRemaining, setTimeRemaining] = useState("");
+  const [streamProduct, setStreamProduct] = useState([]); // Changed to array
   const { product } = location.state;
 
-  // Calculate the time remaining
+  // Fetch the auction product based on ownerID
   useEffect(() => {
-    if (product?.endDate) {
+    const q = query(
+      collection(db, "auctionProduct"),
+      where("ownerID", "==", product.ownerID)
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const filteredProducts = snapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setStreamProduct(filteredProducts); // Store products from the query
+    });
+
+    return () => unsubscribe();
+  }, [product.ownerID]);
+
+  // Calculate time remaining for the auction
+  useEffect(() => {
+    if (streamProduct[0]?.endDate) {
       const calculateTimeLeft = () => {
-        const endDate = new Date(product.endDate);
+        const endDate = new Date(streamProduct[0].endDate);
         const now = new Date();
         const difference = endDate - now;
 
@@ -45,24 +64,25 @@ function ProposalsPage() {
       };
 
       const timer = setInterval(calculateTimeLeft, 1000);
-      return () => clearInterval(timer);
+      return () => clearInterval(timer); // Clear interval on unmount
     }
-  }, [product?.endDate]);
+  }, [streamProduct]);
 
-  // Fetch proposals and users logic
+  // Fetch proposals for the current auction product
   useEffect(() => {
-    if (product?.id) {
-      const docRef = doc(db, "auctionProduct", product.id);
+    if (streamProduct[0]?.id) {
+      const docRef = doc(db, "auctionProduct", streamProduct[0].id);
       const unsubscribe = onSnapshot(docRef, (doc) => {
         const data = doc.data();
         if (data?.proposals) {
-          setProposals(data.proposals);
+          setProposals(data.proposals); // Set proposals
         }
       });
       return () => unsubscribe();
     }
-  }, [product]);
+  }, [streamProduct]);
 
+  // Fetch all users from the database
   useEffect(() => {
     const fetchUsers = async () => {
       const usersCollection = collection(db, "users");
@@ -74,25 +94,30 @@ function ProposalsPage() {
         userData[user.id] = {
           firstName: user.firstname,
           lastName: user.lastname,
-          Profile: user.profilePic,
+          profile: user.profilePic,
         };
       });
 
-      setUsers(userData);
+      setUsers(userData); // Store users
     };
 
     fetchUsers();
   }, []);
+
+  // Fetch all users in real-time
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "users"), (snapshot) => {
-      const users = snapshot.docs.map((doc) => {
-        return { ...doc.data(), docID: doc.id };
-      }); // Filter out products that include the user ID in members
+      const users = snapshot.docs.map((doc) => ({
+        ...doc.data(),
+        docID: doc.id,
+      }));
       setAllUsers(users);
     });
 
-    return () => unsubscribe(); // Clean up the listener on component unmount
+    return () => unsubscribe();
   }, []);
+
+  // Add a new proposal to the auction
   async function addProposal(documentId, newItem) {
     const auctionRef = doc(db, "auctionProduct", documentId);
 
@@ -102,26 +127,24 @@ function ProposalsPage() {
     });
 
     // Update the auction price
-    updatePrice(documentId);
+    await updatePrice(documentId);
 
-    // Fetch the auction product document to get the members field
+    // Notify members
     const auctionDoc = await getDoc(auctionRef);
     if (auctionDoc.exists()) {
       const auctionData = auctionDoc.data();
       const members = auctionData.members || [];
 
-      // Iterate over allUsers and check if their ID is in the members array
       allUsers.forEach(async (user) => {
         const userId = user.id;
         const docId = user.docID;
-        // If userId is in the members array and not the proposer
+
         if (members.includes(userId) && userId !== newItem.member) {
           const notification = {
             message: `A new proposal has been added to auction ${product.title}`,
             read: false,
           };
 
-          // Update the notifications array for each matching member
           const userRef = doc(db, "users", docId);
           await updateDoc(userRef, {
             notifications: arrayUnion(notification),
@@ -131,6 +154,7 @@ function ProposalsPage() {
     }
   }
 
+  // Update the current price of the auction
   async function updatePrice(documentId) {
     const docRef = doc(db, "auctionProduct", documentId);
     await updateDoc(docRef, {
@@ -142,20 +166,27 @@ function ProposalsPage() {
     <main className="flex flex-col lg:flex-row gap-8 p-8 h-screen bg-gray-100">
       {/* Left section */}
       <div className="w-full lg:w-1/2 flex flex-col bg-white rounded-lg shadow-md p-6">
-        <img
-          src={product.img}
-          alt={product.productType}
-          className="w-full h-96 rounded-lg object-cover mb-4"
-        />
-        <h1 className="text-3xl font-semibold mb-4 px-2">{product.title}</h1>
-        <p className="text-xl text-gray-700 px-2">{product.description}</p>
-        <h2 className="mt-4 text-2xl font-bold px-2 ">
-          Current Price: ${product.initPrice}
-        </h2>
-
-        {/* Countdown Timer */}
+        {streamProduct[0] && (
+          <>
+            <img
+              src={streamProduct[0].img}
+              alt={streamProduct[0].productType}
+              className="w-full h-96 rounded-lg object-cover mb-4"
+            />
+            <h1 className="text-3xl font-semibold mb-4 px-2">
+              {streamProduct[0].title}
+            </h1>
+            <p className="text-xl text-gray-700 px-2">
+              {streamProduct[0].description}
+            </p>
+            <h2 className="mt-4 text-2xl font-bold px-2">
+              Current Price: ${streamProduct[0].initPrice}
+            </h2>
+            {/* Countdown Timer */}
+          </> // <-- Ensure the fragment is closed here
+        )}
         <div
-          className={`mt-6 p-4 text-center rounded-lg font-bold  ${
+          className={`mt-16 p-4 text-center rounded-lg ml-60 w-[50%] font-bold  ${
             timeRemaining.includes("ended")
               ? "bg-secondary text-white"
               : "bg-red-500 text-white"
@@ -171,7 +202,6 @@ function ProposalsPage() {
 
         {/* Proposals List */}
         <div className="w-full flex-1 overflow-y-auto space-y-4 h-3/4">
-          {/* Fixed height */}
           {proposals.length > 0 ? (
             <ul className="space-y-4 px-3">
               {proposals.map((proposal, index) => {
@@ -184,9 +214,8 @@ function ProposalsPage() {
                     <div className="flex items-center space-x-4">
                       <img
                         src={
-                          user.Profile
-                            ? user.Profile
-                            : "https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png"
+                          user.profile ||
+                          "https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png"
                         }
                         alt={user.firstName}
                         className="rounded-full w-16 h-16 object-cover"
@@ -210,32 +239,28 @@ function ProposalsPage() {
         </div>
 
         {/* Input and Button */}
-        <div className="mt-6 flex items-center space-x-4 px-3">
+        <div className="mt-6 flex items-center justify-between space-x-4 px-3">
           <TextInput
             type="number"
-            className="flex-1"
-            placeholder="Enter your offer"
+            className="w-3/4"
+            placeholder="Your proposal"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
+            required
           />
           <Button
-            onClick={() => {
-              if (product.initPrice <= inputValue) {
-                setError("");
-                addProposal(product.id, {
-                  member: localStorage.getItem("id"),
-                  offer: +inputValue,
-                });
-              } else
-                setError("Your offer must be higher than the current price.");
-            }}
-            className="bg-secondary hover:bg-blue-600 text-white"
+            className="bg-secondary"
+            onClick={() =>
+              addProposal(streamProduct[0]?.id, {
+                offer: inputValue,
+                member: localStorage.getItem("id"),
+              })
+            }
           >
-            Submit
+            Add Proposal
           </Button>
         </div>
-
-        {error && <p className="text-red-500 mt-2">{error}</p>}
+        {error && <p className="text-red-500 p-3">{error}</p>}
       </div>
     </main>
   );

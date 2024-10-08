@@ -5,13 +5,16 @@ import { Card, Button } from "flowbite-react";
 import db from "../../Config/firebase";
 import { doc, deleteDoc } from "firebase/firestore";
 import Editeevent from "./Editeevent";
-
+import { toast } from "react-toastify";
+import { FaTrash, FaEdit } from "react-icons/fa";
 function Cards({ data }) {
   const deleteItemFromFirebase = async (itemId) => {
     try {
       const itemRef = doc(db, "add event", itemId);
       await deleteDoc(itemRef);
-      console.log("Item deleted from Firebase");
+      toast.success("Deleted successfully", {
+        position: "top-right",
+      });
     } catch (error) {
       console.error("Error deleting item: ", error);
     }
@@ -26,14 +29,14 @@ function Cards({ data }) {
 
   return (
     <>
-    <div className="flex justify-center items-center min-h-screen">
-      <div className="max-w-[720px] mx-auto">
-        <div className="relative flex flex-col text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-96 h-[580px] group transition-all duration-300 hover:bg-orange-200">
+    <div className="flex justify-center items-center mt-24">
+      <div className="max-w-[700px] mx-auto">
+        <div className="relative flex flex-col text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-96 h-[580px] group transition-all duration-300 ">
           <div className="relative h-56 mx-4 -mt-6 overflow-hidden text-white shadow-lg bg-clip-border rounded-xl bg-blue-gray-500 shadow-blue-gray-500/40">
             <img
               src={data.eventImg}
               alt={data.title}
-              className="w-full h-full object-cover rounded-xl transition-all duration-300 group-hover:rounded-full"
+              className="w-full h-full object-cover rounded-xl transition-all duration-300"
             />
           </div>
   
@@ -76,10 +79,10 @@ function Cards({ data }) {
           </div>
   
           {/* أزرار التحكم */}
-          <div className="flex justify-end pb-5">
-            <Button className="bot2 mr-3" onClick={() => deleteItem(data.id)}>
-              Delete
-            </Button>
+          <div className=" bottom-0 gap-11 flex justify-end p-4 ">
+          <button onClick={() => deleteItem(data.id)}>
+                  <FaTrash className="text-red-600" size={30} />
+                </button>
             <Editeevent data={data} />
           </div>
         </div>
