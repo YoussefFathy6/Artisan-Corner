@@ -99,13 +99,14 @@ function Details() {
   return (
     <>
       <div className="details  flex justify-between Md:flex-col w-[80%] mx-auto mt-9">
-        <div className="detail-images w-[45%] Md:w-[100%]  rounded-lg shadow-xl">
+        <div className="detail-images  Md:w-[100%]  rounded-lg shadow-xl">
           <ReactImageZoom
             img={image}
-            zoomWidth={500}
-            height={500}
-            width={700}
-            offset={{ vertical: 0, horizontal: 0 }}
+            zoomWidth={800}
+            height={550}
+            width={550}
+            
+            offset={{ vertical: 0, horizontal: 10 }}
           />
           {/* <img
             src={image}
