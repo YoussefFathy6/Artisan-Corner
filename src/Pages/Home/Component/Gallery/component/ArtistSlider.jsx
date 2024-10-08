@@ -65,7 +65,19 @@ import 'swiper/css';
 import 'swiper/css/virtual'; // استيراد الـ virtual CSS
 import { useNavigate } from "react-router-dom";
 
+
+import pic1 from '../../../../../assets/imges/newww/artist1.jpeg'
+import pic2 from '../../../../../assets/imges/newww/artist2.jpeg'
+import pic3 from '../../../../../assets/imges/newww/artist3.jpeg'
+import pic4 from '../../../../../assets/imges/newww/artist4.jpeg'
+import pic5 from '../../../../../assets/imges/newww/artist5.jpeg'
+
 export default function ArtistSlider() {
+
+
+
+const picArr = [pic1, pic2, pic3, pic4, pic5]
+
   const [artists, setArtists] = useState([]);
 
   useEffect(() => {
@@ -117,7 +129,7 @@ export default function ArtistSlider() {
             <div className="bg-white shadow-lg rounded-lg p-6 text-center">
               {/* Assuming artist data has 'name' and 'bio' */}
               <img
-                src={artist.imageURL || "/default-artist-image.jpg"}
+               src={picArr[index] || "/default-artist-image.jpg"}
                 alt={artist.name}
                 className="w-full h-48 object-cover rounded-lg"
               />

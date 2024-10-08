@@ -35,7 +35,7 @@ function MainContent() {
       {/* <RoundedCard /> */}
     
       <ImgCard />
-        <ProductSlider/>
+        {/* <ProductSlider/> */}
         <Eventshome/>
         <Actions/>
       {/* <BigCard /> */}

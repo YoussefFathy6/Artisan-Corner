@@ -20,7 +20,7 @@ export default function ProductSlider() {
           id: doc.id,
         }));
         setProducts(productArr);
-        console.log(products); 
+        // console.log(products); 
       }
     );
 
