@@ -38,6 +38,20 @@ function Side({ activeItem, onItemClick }) {
           <FaRegCalendarAlt size={25} color="#26B893" className=" me-3"/>
           Events{" "}
         </div>
+        
+
+        <div
+          className={`text-[#204d43] flex   cursor-pointer rounded-xl ${
+            activeItem === "special" ? "bg-[#dff1ed] p-3 font-bold" : ""
+          }`}
+          onClick={() => onItemClick("special")}
+        >
+          <FaRegCalendarAlt size={25} color="#26B893" className=" me-3"/>
+          Special Order
+        </div>
+
+
+
         {/* Settings */}
         <div
           className={`text-[#204d43] flex   cursor-pointer rounded-xl ${

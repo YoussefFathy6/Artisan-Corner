@@ -163,7 +163,7 @@ function Cards({ data, onTicketClick }) {
   return (
     <div className="event-card justify-center lg:flex md:block sm:block mt-8 relative overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-transform duration-300 ease-in-out transform hover:scale-105 hover:bg-opacity-45" style={{ width: '900px', minHeight: '200px' }}>
       {/* Left */}
-      <div className="bg-red-900 p-4 flex flex-col justify-center items-center text-center">
+      <div className="bg-[#344646] p-4 flex flex-col justify-center items-center text-center">
         <div className="text-white text-4xl font-bold mb-1">{new Date(data.date).toLocaleDateString("en-US", { day: 'numeric' })}</div>
         <div className="text-white text-lg uppercase">{new Date(data.date).toLocaleDateString("en-US", { month: 'short', year: 'numeric' })}</div>
         <div className="text-white w-full mt-2">{new Date(data.date).toLocaleTimeString("en-US", { hour: 'numeric', minute: 'numeric' })}</div>
@@ -188,7 +188,7 @@ function Cards({ data, onTicketClick }) {
         <div className="flex mt-4">
           <button
             onClick={onTicketClick}
-            className="hover:bg-red-500 text-white py-2 px-6 rounded-md bg-red-900"
+            className="hover:bg-red-500 text-white py-2 px-6 rounded-md bg-[#344646]"
           >
             View Details
           </button>

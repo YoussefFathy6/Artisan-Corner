@@ -159,7 +159,7 @@ function Posts() {
         <Loader />
       ) : (
         <>
-          <main className="w-full col-span-8">
+          <main className="w-full col-span-8 ">
             <div className="flex justify-between items-center mb-6">
               <div className="col-span-1">
                 <Button
@@ -205,7 +205,7 @@ function Posts() {
                 </Dropdown>
               </div>
             </div>
-            <section className="grid gap-5">
+            <section className="grid gap-5 mt-20">
               <Masonry
                 breakpointCols={breakpointColumnsObj}
                 className="my-masonry-grid"
@@ -220,7 +220,7 @@ function Posts() {
                     <PostCard
                       key={product.id}
                       imgsrc={product.img}
-                      productType={product.title}
+                      Type={product.title}
                       title={product.description}
                       price={product.price}
                       productID={product.id}

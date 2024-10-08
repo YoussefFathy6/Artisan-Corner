@@ -33,7 +33,8 @@ function Details() {
   const [isLoading, setIsLoading] = useState(false);
   
   const location = useLocation();
-  const { image, desc, price,title ,bobId } = location.state;
+  const { imgsrc, desc, price,name ,bobId } = location.state;
+
 
   useEffect(() => {
     setProductType(productType);
@@ -108,7 +109,7 @@ function Details() {
             offset={{ vertical: 0, horizontal: 0 }}
           /> */}
           <img
-            src={image}
+            src={imgsrc}
             alt="detailsImage"
             className="rounded-lg shadow-xl w-[100%] h-[100%]"
           />
@@ -131,7 +132,7 @@ function Details() {
             /> */}
           </div>
           <div className="details-text">
-            <h2 className="text-3Xl">{title}</h2>
+            <h2 className="text-3Xl text-neutral-950 bg-black">{name}</h2>
             <p className="my-4  text-start">{desc}</p>
           </div>
 
