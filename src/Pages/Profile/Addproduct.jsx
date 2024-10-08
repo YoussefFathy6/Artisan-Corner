@@ -132,7 +132,7 @@ function Addproduct() {
   return (
     <>
       <div className="w-auto h-auto">
-        <div className="mr-36 mt-4">
+        <div className="">
           <Dropdown
             renderTrigger={() => (
               <div className=" h-full py-3 bg-[#204d43] text-white shadow rounded-full cursor-pointer ">
