@@ -11,10 +11,59 @@
 
 // import './small.css'
 
+// import { useEffect, useState } from "react";
+// import { collection, query, where, getDocs } from "firebase/firestore";
+// import db from "../../../../../Config/firebase";
+// import Cards from "../../../../../components/Art/Card";
+
+// export default function ArtistSlider() {
+//   const [artists, setArtists] = useState([]);
+
+//   useEffect(() => {
+//     const fetchArtists = async () => {
+//       const q = query(
+//         collection(db, "users"),
+//         where("accountType", "==", "Artist")
+//       );
+//       const querySnapshot = await getDocs(q);
+//       const artistsList = [];
+//       querySnapshot.forEach((doc) => {
+//         artistsList.push({ id: doc.id, ...doc.data() });
+//       });
+//       setArtists(artistsList);
+//     };
+
+//     fetchArtists();
+//   }, []);
+
+//   return (
+//     <>
+//       <div className=" mb-28 mt-10 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1  items-center justify-center p-9">
+//         {artists.map((artist) => (
+//         <div>
+//             key={artist.id}
+//             data={artist}
+//             onTicketClick={() => console.log(user.id)}
+//             </div>
+//         ))}
+//       </div>
+//     </>
+//   );
+// }
+
+
+
+
+///hanaa
 import { useEffect, useState } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import db from "../../../../../Config/firebase";
-import Cards from "../../../../../components/Art/Card";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Virtual, Autoplay } from 'swiper/modules';  // استيراد الـ Virtual و Autoplay
+
+import 'swiper/css';
+import 'swiper/css/virtual'; // استيراد الـ virtual CSS
+import { useNavigate } from "react-router-dom";
 
 export default function ArtistSlider() {
   const [artists, setArtists] = useState([]);
@@ -35,21 +84,61 @@ export default function ArtistSlider() {
 
     fetchArtists();
   }, []);
-
+  const nav = useNavigate();
+  function goToArt() {
+    nav("/Users");
+  }
   return (
-    <>
-      <div className=" mb-28 mt-10 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1  items-center justify-center p-9">
-        {artists.map((artist) => (
-          <Cards
-            key={artist.id}
-            data={artist}
-            onTicketClick={() => console.log(user.id)}
-          />
+    <div className="mb-28 mt-10">
+          <div className='flex justify-between items-center  '>
+      
+
+      <h2 className=" text-5xl text-[#025048] " style={{fontFamily:"Abril Fatface, serif"}}>
+        Our Artists
+      </h2>
+
+      <button onClick={goToArt} className=" bg-[#323a2cd7] p-3 m-8 rounded-lg text-white ">
+        <span >
+          See All
+        </span>
+      </button>
+    </div>
+      <Swiper
+        modules={[Virtual, Autoplay]}  
+        spaceBetween={30}
+        slidesPerView={3}
+        autoplay={{ delay: 3000, disableOnInteraction: false }}
+        virtual // تفعيل العرض الافتراضي
+        loop={true} // تفعيل تكرار السلايدر
+        className="mySwiper"
+      >
+        {artists.map((artist, index) => (
+          <SwiperSlide key={artist.id} virtualIndex={index}>
+            <div className="bg-white shadow-lg rounded-lg p-6 text-center">
+              {/* Assuming artist data has 'name' and 'bio' */}
+              <img
+                src={artist.imageURL || "/default-artist-image.jpg"}
+                alt={artist.name}
+                className="w-full h-48 object-cover rounded-lg"
+              />
+              <h2 className="mt-4 text-xl font-bold">{artist.name}</h2>
+              <p className="mt-2 text-sm text-gray-600">{artist.bio}</p>
+              <button
+                onClick={() => console.log(artist.id)}
+                className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+              >
+                View Profile
+              </button>
+            </div>
+          </SwiperSlide>
         ))}
-      </div>
-    </>
+      </Swiper>
+    </div>
   );
 }
+
+
+//hanaa
 
 // Amr code
 // <div className=" py-6 sm:py-8 lg:py-12 w-full">
