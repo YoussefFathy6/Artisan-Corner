@@ -242,7 +242,7 @@ function Main() {
               </div>
             </div>
 
-            <section className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
+            <section className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 ">
               {currentProducts.map((product) => {
                 // Find the corresponding artist for each product
                 const artist = artists.find(
@@ -250,7 +250,7 @@ function Main() {
                 );
 
                 return (
-                  <div className="m-5" key={product.id}>
+                  <div className="m-3" key={product.id}>
                     <Card
                       image={product.img}
                       title={product.title}
