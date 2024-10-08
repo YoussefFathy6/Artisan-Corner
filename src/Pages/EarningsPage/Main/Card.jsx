@@ -125,7 +125,7 @@ function ProductCard(props) {
               behavior: "smooth", // Smooth scrolling
             });
           }}
-          className="w-full h-56 rounded-t-lg cursor-pointer rounded-3xl shadow"
+          className="w-full h-[240px] rounded-t-lg cursor-pointer rounded-3xl shadow"
           src={props.image}
           alt={props.productType}
         />

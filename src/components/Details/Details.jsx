@@ -130,7 +130,7 @@ function Details() {
               activeColor="#ffd700"
             /> */}
           </div>
-          <div className="details-text">
+          <div className="">
             <h2 className="text-3Xl text-neutral-950">{title}</h2>
             <p className="my-4  text-start">{desc}</p>
           </div>
