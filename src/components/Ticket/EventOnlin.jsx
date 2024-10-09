@@ -298,43 +298,7 @@ function EventOnline() {
           </Modal.Body>
         </Modal>
 
-      {/* Carousel */}
-      {/* <h1 className="border-t-2  p-8 border-black border-dashed text-3xl text-red-900 pl-7 mt-12  font-semibold">Other Events</h1>
-      
-      <section className=" mt-10 mb-5  mx-32 justify-center items-center " id="slid">
-        <div className="flex overflow-x-auto  pb-4">
-          <Carousel autoPlay infiniteLoop interval={3000} showThumbs={false}>
-            {otherEvents.length > 0 ? (
-              otherEvents.map((ev) => (
-                <div
-  key={ev.id}
-  className="relative h-80 cursor-pointer overflow-hidden carousel-item"
-  onClick={() => {
-    if (ev.eventtype === "online") {
-      navigate("/EventOnline", { state: { event: ev } });
-    } else {
-      navigate("/Ticket", { state: { event: ev } });
-    }
-  }}
->
-                  <div className="relative w-full h-full group"> 
-                    <img
-                      className="w-full h-full object-cover carousel-item__img"
-                      src={ev.eventImg}
-                      alt={ev.name}
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <p className="text-white text-lg font-bold">{ev.name}</p>
-                    </div>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p>No events available</p>
-            )}
-          </Carousel>
-        </div>
-      </section> */}
+     
     </>
   );
 }

@@ -87,15 +87,11 @@ function Ticket() {
   //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   //   return emailRegex.test(email);
   // };
-
   const handleEmailSubmission = async () => {
-    // if (!validateEmail(email)) {
-    //   setEmailError("Please enter a valid email.");
-    //   return false;
-    // }
+
     try {
       await addDoc(collection(db, "sendTicket"), {
-        email: email,
+        email: email.trim(),
         eventId: event.id,
       });
       console.log("Email saved to Firestore successfully!");
@@ -105,6 +101,7 @@ function Ticket() {
       return false;
     }
   };
+  
 
   const handlePayment = async (event) => {
     event.preventDefault();
