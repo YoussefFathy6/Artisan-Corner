@@ -28,38 +28,43 @@ function Artists() {
   }, []); // Empty dependency array to run only on mount and unmount
 
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-semibold mb-4">Artists List</h2>
-      {aritsts.length > 0 ? (
-        <ul className="space-y-4">
-          {aritsts.map((artist) => (
-            <li key={artist.id} className="border p-4 rounded-lg shadow">
-              <div className="flex justify-between gap-7 items-center w-1/2 h-24">
-                <img
-                  className=" rounded-full w-24 h-24"
-                  src={
-                    artist.profilePic
-                      ? artist.profilePic
-                      : "https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png"
-                  }
-                  alt=""
-                />
-                <div>
-                  <h3>{`${artist.firstname}  ${artist.lastname}`}</h3>
-                  <h3 className=" text-gray-400">{artist.email}</h3>
-                </div>
-                <button>
-                  <IoClose />
-                </button>
+<div className="p-4">
+  <h2 className="text-2xl font-semibold mb-4">Artists List</h2>
+  {aritsts.length > 0 ? (
+    <ul className="flex flex-wrap gap-6 mt-14">
+      {aritsts.map((artist) => (
+        <li key={artist.id} className="border p-4 rounded-lg shadow w-[50%]">
+          <div className="flex justify-between items-center w-full">
+            <div className="flex items-center gap-4">
+              <img
+                className="rounded-full w-24 h-24"
+                src={
+                  artist.profilePic
+                    ? artist.profilePic
+                    : "https://www.alleganyco.gov/wp-content/uploads/unknown-person-icon-Image-from.png"
+                }
+                alt=""
+              />
+              <div>
+                <h3>{`${artist.firstname} ${artist.lastname}`}</h3>
+                <h3 className="text-gray-400">{artist.email}</h3>
               </div>
-              {/* Render more customer fields as needed */}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No customers found.</p>
-      )}
-    </div>
+            </div>
+
+            {/* الجزء الأيمن: زر المسح */}
+            <button className="text-red-500">
+              <IoClose size={24} />
+            </button>
+          </div>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p>No artists found.</p>
+  )}
+</div>
+
+  
   );
 }
 

@@ -1,17 +1,25 @@
+/* Masonry Layout */
 .my-masonry-grid {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    margin-left: -10px; 
-    width: auto;
-  }
-  
-  .my-masonry-grid_column {
-    padding-left: 30px; 
-    background-clip: padding-box;
-  }
-  
-  .my-masonry-grid_column > div {
-    margin-bottom: 20px; 
-  }
-  
+  display: flex;
+  margin-left: -30px; /* Adjust the margin for proper spacing */
+  width: auto;
+}
+.my-masonry-grid_column {
+  padding-left: 30px; /* Spacing between columns */
+  background-clip: padding-box;
+}
+/* Optional: Individual item styles */
+.my-masonry-grid_column > div {
+  margin-bottom: 30px;
+}
+/* Customizing the Dropdown */
+.flowbite-dropdown {
+  min-width: 150px; /* Set a minimum width for dropdowns */
+  background-color: #f8f9fa; /* Background color */
+}
+
+/* Customizing Pagination */
+.flowbite-pagination {
+  margin: 0 auto;
+  padding: 10px;
+}

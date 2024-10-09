@@ -3,10 +3,13 @@ import "./VideoComponent.css"
 import video from "../../../assets/imges/video.mp4"
 import { Button } from 'flowbite-react'
 import { Link } from 'react-router-dom'
+import "../Component/Slider/Hero.css"
+
 export default function Eventshome() {
   return (
-    <div>
-         <div className="video-container w-full mt-56">
+    <div className='animate-slide-up'>
+      <h1 className='text-[#356d58] text-5xl mt-28 mb-11 ml-[160px] '  style={{fontFamily:"Abril Fatface, serif"}}>Events</h1>
+         <div className="video-container w-full ">
       <video className="video-background" autoPlay muted loop playsInline>
         <source src={video} type="video/mp4" />
         Your browser does not support the video tag.

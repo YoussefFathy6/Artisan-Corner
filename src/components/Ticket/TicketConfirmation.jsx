@@ -51,11 +51,11 @@ function TicketConfirmation() {
         to_Email: userEmail,
         event_id: eventId,
         ticket_image_url: ticketImageUrl,
-        from_name: 'HandiCraft',
+        from_name: 'ALKHAN',
         from_email: 'hanaamohammed840@gmail.com',
         bcc: '',
         cc: '',
-      }, '1_CwPxJFoAvU6MWAd')
+      }, 'hUtqF8AIeJloZc1Rr')
       .then((response) => {
         console.log('Email successfully sent!', response.status, response.text);
         setEmailSent(true);

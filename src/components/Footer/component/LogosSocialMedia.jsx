@@ -9,8 +9,8 @@ import "./css/LogoSocialmedia.modules.css";
 
 function logosSocialMedia() {
   return (
-    <div className=" sm:ms-8 xl:ms-0 pb-9 xl:pb-0 pt-0 ">
-      <div>
+    <div className=" sm:ms-8 xl:ms-0 pb-9 xl:pb-0 pt-0  ">
+      {/* <div>
         <h6 className="text-white text-base font-lora font-semibold pb-5">
           Experience Mobile App
         </h6>
@@ -22,7 +22,7 @@ function logosSocialMedia() {
             <img src={imgAppSrotre} alt="" className="" />
           </a>
         </div>
-      </div>
+      </div> */}
 
       <div className="pt-6">
         <h6 className="text-white text-base font-lora font-semibold pb-5">

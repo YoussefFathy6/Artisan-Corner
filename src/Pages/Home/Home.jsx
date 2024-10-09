@@ -22,8 +22,9 @@ import Hero from "./Component/Slider/Hero";
 import Header from "./Header/Header";
 import Eventshome from "./Header/Eventshome";
 import Actions from "./Header/Actions";
-
+import Gallery from "./Component/Gallery/Gallery";
 import ProductSlider from "./Header/productSlider"
+import "../Home/Component/Slider/Hero.css"
 
 function MainContent() {
   return (
@@ -32,19 +33,23 @@ function MainContent() {
       <Slider />
       {/* <Header/> */}
       {/* <Hero /> */}
-      {/* <RoundedCard /> */}
-    
-      <ImgCard />
+      {/* <div
+          className=" animate-slide-up flex items-center justify-center  h-52 animate-slide-up"
+        >
+        </div> */}
+   {/* <img src="./src/assets/imges/En__1_-removebg-preview.png" alt="" /> */}
+      <RoundedCard />
         <ProductSlider/>
+        <ImgCard />
         <Eventshome/>
+        <Gallery />
         <Actions/>
-      {/* <BigCard /> */}
-      {/* <SmallCards /> */}
-      {/* <SupportIcon /> */}
-      {/* <CollectionCard /> */}
-      {/* <Gallery /> */}
-      {/* <Testimonials /> */}
-      <FloatingActionButton />
+      {/* <BigCard />
+      <SmallCards />
+      <SupportIcon />
+      <CollectionCard /> */}
+      {/* <Testimonials />
+      <FloatingActionButton /> */}
     </>
   );
 }

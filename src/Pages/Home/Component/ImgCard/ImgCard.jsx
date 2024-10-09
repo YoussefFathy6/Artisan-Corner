@@ -1,10 +1,6 @@
+import "./component/card.css";
 
-
-
-
-import './component/card.css';
-
-import "./imgCard.css"
+import "./imgCard.css";
 import React from "react";
 // import imgCard from "../../../../assets/imges/Card.png";
 // import imgCard2 from "../../../../assets/imges/Card2.png";
@@ -13,6 +9,7 @@ import category1 from "../../../../assets/imges/newww/category1.jpg";
 import category2 from "../../../../assets/imges/newww/category2.jpeg";
 import category3 from "../../../../assets/imges/newww/category3.jpeg";
 import category4 from "../../../../assets/imges/newww/category4.jpg";
+import "../../Component/Slider/Hero.css";
 
 import { useNavigate } from "react-router-dom";
 
@@ -57,43 +54,43 @@ function ImgCard() {
       </section> */}
 
       {/* NEWWW */}
-      <div className="  ">
-        <div
-          className=" mt-20  flex items-center justify-center top h-52 animate-slide-up"
-        >
-   <img src="./src/assets/imges/En__1_-removebg-preview.png" alt="" />
+      <div className="">
+
+
+        <div className="  animate-slide-up mb-[70px] ">
+            <h1 className="text-6xl  text-[#025048] ml-[160px] " style={{fontFamily:"Abril Fatface, serif"}}> About Us </h1>
+          <div className="flex justify relative">
+            <div className="p-4 mt-5 ml-36">
+              <img
+                src="./src/assets/imges/heroo.jpeg"
+                alt="Image"
+                className="rounded-lg shadow-lg h-[500px] w-[700px]"
+              />
+            </div>
+
+            <div className="absolute h-96 top-60 ml-[30%] transform -translate-x-1/2 -translate-y-1/2 bg-[#6A9C89] p-20 rounded-lg shadow-lg w-[1100px]  about">
+              <h2
+                className="text-3xl font-bold text-white mb-4"
+                style={{ fontFamily: "Abril Fatface, serif" }}
+              >
+                About Us !
+              </h2>
+              <p className="text-white mb-6 text-xl">
+                Our platform is the perfect destination for art and handmade
+                craft lovers, where artists can showcase their handmade
+                creations for sale or organize exclusive art auctions. The
+                platform also offers the opportunity to participate in special
+                events, both online and offline, with easy ticket booking. We
+                provide a comprehensive experience that blends creativity, art,
+                and community engagement, giving customers multiple options to
+                purchase art or attend events
+              </p>
+            </div>
+          </div>
         </div>
 
-
-        <div className=' bg-[#fffbe8] p-20 mt-16'>
-  <div className="flex justify relative">
-    <div className="p-4 ml-44">
-      <img 
-        src="./src/assets/imges/heroo.jpeg"
-        alt="Image" 
-        className="rounded-lg shadow-lg h-[400px] w-[500px]"
-      />
-    </div>
-
-    <div className="absolute h-96 top-20 ml-[30%] transform -translate-x-1/2 -translate-y-1/2 bg-[#344646d0] p-20 rounded-lg shadow-lg w-[900px]  about">
-      <h2 className="text-2xl font-bold text-white mb-4" style={{fontFamily:"Abril Fatface, serif"}}>About Us !</h2>
-      <p className="text-white mb-6">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Non rem amet 
-        reprehenderit quo aspernatur deleniti? Architecto, fugit quia recusandae 
-        sequi eligendi nihil odio animi molestias.
-      </p>
-      <button className="border-2 border-white rounded-full px-6 py-2 text-white hover:bg-white hover:text-[#3e3e3e] transition duration-300">
-        See More
-      </button>
-    </div>
-  </div>
-</div>
-
-
-       
-
-        <div className="flex gap-10 mt-9">
-          {/* <div onClick={handleClick} className=" flex flex-col w-[350px]">
+        {/* <div className=""> */}
+        {/* <div onClick={handleClick} className=" flex flex-col w-[350px]">
             <img
               className=" rounded-[50%] fancy hover:scale-105 transition  duration-300 ease-out hover:ease-linear"
               src={category2}
@@ -145,7 +142,7 @@ function ImgCard() {
          <button onClick={handleClick} className='mt-5 text-center font-bold text-2xl text-[#025048]'>POTTERY</button>
         </div> */}
 
-          {/* <div class="card">
+        {/* <div class="card">
             <img
               className="card__background"
               src={category1}
@@ -220,19 +217,13 @@ function ImgCard() {
               </button>
             </div>
           </div>  */}
-
-
-
-        </div>
+        {/* </div> */}
       </div>
     </>
   );
 }
 
 export default ImgCard;
-
-
-
 
 // import React from 'react';
 // import { Link } from 'react-router-dom';
@@ -279,7 +270,7 @@ export default ImgCard;
 //         <div className="">
 //           <h2 style={{ fontFamily: 'cursive' }} className=' text-[#025048] text-center font-bold text-3xl'>Enjoy with us</h2>
 //         <h2 className=' text-5xl text-[#025048] font-lora lg:mt-16'>Our product categories</h2>
-        
+
 //           <div  className=" flex flex-row w-[200px]">
 //             {categories.map(category => (
 

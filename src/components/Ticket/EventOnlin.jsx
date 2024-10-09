@@ -3,28 +3,36 @@ import { Button, Modal, TextInput } from "flowbite-react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { Carousel } from "flowbite-react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
-import "./TicketStyle.modules.css"
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
+
 function EventOnline() {
   const location = useLocation();
   const event = location.state?.event || {};
-  const ticketPrice = event.pricetacket || 1;
+  const ticketPrice = event.pricetTcket;
   const [count, setCount] = useState(1);
   const [total, setTotal] = useState(ticketPrice);
   const [showModal, setShowModal] = useState(false);
-  const [email, setEmail] = useState(""); 
+  const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [otherEvents, setOtherEvents] = useState([]);
+  const [soldOut, setSoldOut] = useState(false);
   const navigate = useNavigate();
-  const db = getFirestore(); 
+  const db = getFirestore();
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "add event"));
-        const events = querySnapshot.docs.map(doc => ({
-          id: doc.id, 
-          ...doc.data() 
+        const events = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
         }));
         setOtherEvents(events);
       } catch (error) {
@@ -34,29 +42,57 @@ function EventOnline() {
 
     fetchEvents();
   }, [db]);
-  
+
+  useEffect(() => {
+    const checkSoldOut = async () => {
+      if (event.id) {
+        try {
+          const eventDoc = doc(db, "add event", event.id);
+          const docSnapshot = await getDocs(eventDoc);
+          const eventData = docSnapshot.data();
+          if (eventData?.ticketquantity <= 0) {
+            setSoldOut(true);
+          }
+        } catch (error) {
+          console.error("Error checking event status:", error);
+        }
+      }
+    };
+
+    checkSoldOut();
+  }, [db, event.id]);
 
   const increaseCount = () => {
-    setCount(count + 1);
-    setTotal((count + 1) * ticketPrice);
+    setCount((prevCount) => {
+      const newCount = prevCount + 1;
+      if (newCount <= event.ticketquantity) {
+        setTotal(newCount * ticketPrice);
+        return newCount;
+      } else {
+        alert("Cannot select more tickets than available.");
+        return prevCount;
+      }
+    });
   };
 
   const decreaseCount = () => {
-    const newCount = count > 0 ? count - 1 : 0;
-    setCount(newCount);
-    setTotal(newCount * ticketPrice);
+    setCount((prevCount) => {
+      const newCount = Math.max(prevCount - 1, 1);
+      setTotal(newCount * ticketPrice);
+      return newCount;
+    });
   };
 
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+  // const validateEmail = (email) => {
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   return emailRegex.test(email);
+  // };
 
   const handleEmailSubmission = async () => {
-    if (!validateEmail(email)) {
-      setEmailError("Please enter a valid email.");
-      return false;
-    }
+    // if (!validateEmail(email)) {
+    //   setEmailError("Please enter a valid email.");
+    //   return false;
+    // }
     try {
       await addDoc(collection(db, "sendTicket"), {
         email: email,
@@ -72,7 +108,12 @@ function EventOnline() {
 
   const handlePayment = async (event) => {
     event.preventDefault();
-    
+
+    if (soldOut) {
+      alert("This event is sold out.");
+      return;
+    }
+
     const emailSubmitted = await handleEmailSubmission();
     if (!emailSubmitted) return;
 
@@ -84,19 +125,33 @@ function EventOnline() {
     try {
       await actions.order.capture();
       console.log("Payment approved and captured");
-      
-      const platformFee = total * 0.10;
+
+      const platformFee = total * 0.1;
       const userAmount = total - platformFee;
       console.log("User Amount after platform fee:", userAmount);
-      
+
       const emailSubmitted = await handleEmailSubmission();
       if (emailSubmitted) {
-        navigate(`/TicketOnline/${event.id}`);
+        if (event.eventtype === "online") {
+          navigate(`/TicketOnline/${event.id}`);
+        } else {
+          const eventDocRef = doc(db, "add event", event.id);
+          const newQuantity = event.ticketquantity - count;
+          await updateDoc(eventDocRef, {
+            ticketquantity: newQuantity,
+          });
 
+          if (newQuantity <= 0) {
+            setSoldOut(true);
+          }
+          navigate(`/TicketConfirmation/${event.id}`);
+        }
       }
     } catch (error) {
       console.error("Error capturing payment or calculating fees:", error);
-      alert("There was an issue processing your payment. Please try again later.");
+      alert(
+        "There was an issue processing your payment. Please try again later."
+      );
     }
   };
 
@@ -142,25 +197,32 @@ function EventOnline() {
       </section>
 
       {/* Modal */}
-      <Modal show={showModal} onClose={() => setShowModal(false)}>
+   {/* Modal */}
+   <Modal show={showModal} size="3xl" onClose={() => setShowModal(false)}>
         <Modal.Header>Payment</Modal.Header>
         <Modal.Body>
           <form onSubmit={handlePayment} className="p-9">
-          <label className="block mb-2 text-sm font-medium">Email</label>
+            <label className="block mb-2 text-sm font-medium">Email</label>
 
-             <TextInput
-                id="email"
-                type="email"
-                placeholder="Enter your email"
-                required={true}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                color={emailError ? "failure" : ""}
-                helperText={emailError && <span>{emailError}</span>}
-                style={{width:'100%' ,marginBottom:"1rem" ,backgroundColor:"#E0E3E1"}}
-              />
+            <TextInput
+              id="email"
+              type="email"
+              placeholder="Enter your email"
+              required={true}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              color={emailError ? "failure" : ""}
+              helperText={emailError && <span>{emailError}</span>}
+              style={{
+                width: "100%",
+                marginBottom: "1rem",
+                backgroundColor: "#E0E3E1",
+              }}
+            />
             <div className="mb-4 ">
-              <label className="block mb-2 text-sm font-medium">Name on Card</label>
+              <label className="block mb-2 text-sm font-medium">
+                Name on Card
+              </label>
               <TextInput
                 id="cardName"
                 type="text"
@@ -168,9 +230,11 @@ function EventOnline() {
                 required={true}
               />
             </div>
-            
+
             <div className="mb-4 ">
-              <label className="block mb-2 text-sm font-medium">Card Number</label>
+              <label className="block mb-2 text-sm font-medium">
+                Card Number
+              </label>
               <TextInput
                 id="cardNumber"
                 type="text"
@@ -181,7 +245,9 @@ function EventOnline() {
 
             <div className="grid grid-cols-2 gap-4 mb-4">
               <div>
-                <label className="block mb-2 text-sm font-medium">Expiration Date</label>
+                <label className="block mb-2 text-sm font-medium">
+                  Expiration Date
+                </label>
                 <TextInput
                   id="expDate"
                   type="text"
@@ -208,71 +274,31 @@ function EventOnline() {
           <hr className="my-4" />
           <PayPalScriptProvider
             options={{
-              "client-id": "YOUR_CLIENT_ID",
-              currency: "EGP",
-            }}
-          >
-            <PayPalButtons
-              style={{ layout: "vertical" }}
-              amount={Number(total).toFixed(2)}
-              onApprove={handlePayPalSuccess}
-            />
-          </PayPalScriptProvider>
+              "client-id":
+                "AcMz3qJ9DrjaDZH_asLE65SFuI7W2qIFLPVEkIqopOtb0YFEfAfW2Ht1cJR1bo0uoeP18SwV-urPXbz0", // Make sure to use the correct client ID
+                currency: "USD",
+              }}
+            >
+              <PayPalButtons
+                style={{ layout: "vertical" }}
+                createOrder={(data, actions) => {
+                  return actions.order.create({
+                    purchase_units: [
+                      {
+                        amount: {
+                          value: total.toString(), // Total amount in the correct currency
+                        },
+                      },
+                    ],
+                  });
+                }}
+                onApprove={handlePayPalSuccess}
+              />
+            </PayPalScriptProvider>
+          </Modal.Body>
+        </Modal>
 
-          <Button
-            className="capitalize  m-auto font-bold  text-white bg-blue-500 border-none    rounded-md"
-            onClick={async () => {
-              const emailSubmitted = await handleEmailSubmission();
-              if (emailSubmitted) {
-          
-                  navigate(`/TicketOnline/${event.id}`);
-             
-               
-              }
-            }}
-          >
-            Proceed without Payment
-          </Button>
-        </Modal.Body>
-      </Modal>
-
-      {/* Carousel */}
-      {/* <h1 className="border-t-2  p-8 border-black border-dashed text-3xl text-red-900 pl-7 mt-12  font-semibold">Other Events</h1>
-      
-      <section className=" mt-10 mb-5  mx-32 justify-center items-center " id="slid">
-        <div className="flex overflow-x-auto  pb-4">
-          <Carousel autoPlay infiniteLoop interval={3000} showThumbs={false}>
-            {otherEvents.length > 0 ? (
-              otherEvents.map((ev) => (
-                <div
-  key={ev.id}
-  className="relative h-80 cursor-pointer overflow-hidden carousel-item"
-  onClick={() => {
-    if (ev.eventtype === "online") {
-      navigate("/EventOnline", { state: { event: ev } });
-    } else {
-      navigate("/Ticket", { state: { event: ev } });
-    }
-  }}
->
-                  <div className="relative w-full h-full group"> 
-                    <img
-                      className="w-full h-full object-cover carousel-item__img"
-                      src={ev.eventImg}
-                      alt={ev.name}
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <p className="text-white text-lg font-bold">{ev.name}</p>
-                    </div>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p>No events available</p>
-            )}
-          </Carousel>
-        </div>
-      </section> */}
+     
     </>
   );
 }

@@ -48,36 +48,37 @@ function AuctionPage() {
 
   return (
     <div className="flex h-screen">
-      {/* Sidebar */}
-      <div className="w-1/4 bg-primary p-4 ">
-        <h2 className="text-xl font-bold mb-4">Auctions</h2>
-        <ul className="space-y-2">
-          <li>
-            <button
-              className={`w-full py-2 px-4 text-left ${
-                activeSection === "allauctions"
-                  ? "bg-secondary text-white"
-                  : "bg-white text-black"
-              }`}
-              onClick={() => setActiveSection("allauctions")}
-            >
-              All Auctions
-            </button>
-          </li>
-          <li>
-            <button
-              className={`w-full py-2 px-4 text-left ${
-                activeSection === "joinedauctions"
-                  ? "bg-secondary text-white"
-                  : "bg-white text-black"
-              }`}
-              onClick={() => setActiveSection("joinedauctions")}
-            >
-              Joined Auctions
-            </button>
-          </li>
-        </ul>
-      </div>
+    {/* Sidebar */}
+<div className="w-1/4 bg-primary p-4 border-2 m-5 border-white shadow-lg rounded-lg">
+  <h2 className="text-6xl  mb-4 text-[#025048]" style={{fontFamily:"Abril Fatface, serif"}}>Auctions</h2>
+  <ul className="space-y-2">
+    <li>
+      <button
+        className={`w-full py-2 px-4 text-left ${
+          activeSection === "allauctions"
+            ? "bg-secondary text-white"
+            : "bg-white text-black"
+        }`}
+        onClick={() => setActiveSection("allauctions")}
+      >
+        All Auctions
+      </button>
+    </li>
+    <li>
+      <button
+        className={`w-full py-2 px-4 text-left ${
+          activeSection === "joinedauctions"
+            ? "bg-secondary text-white"
+            : "bg-white text-black"
+        }`}
+        onClick={() => setActiveSection("joinedauctions")}
+      >
+        Joined Auctions
+      </button>
+    </li>
+  </ul>
+</div>
+
 
       {/* Main Content */}
       <div className="w-3/4 bg-white p-5 overflow-auto flex flex-col">
