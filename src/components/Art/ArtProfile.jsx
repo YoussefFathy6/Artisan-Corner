@@ -23,6 +23,7 @@ import ReactStars from "react-rating-stars-component";
 import Chat from "../Chat/Chat";
 import "./Users.modules.css";
 import { toast } from "react-toastify";
+import Loader from "../../components/Loader";
 
 function ArtProfile() {
   const breakpointColumnsObj = {
@@ -200,7 +201,7 @@ function ArtProfile() {
   };
 
   return (
-    <div className=" w-full  min-h-screen justify-center  m-auto  mb-10">
+    <div className=" w-full  min-h-screen justify-center  m-auto  mb-10 animate-slide-up">
       {user ? (
         <div>
           <div

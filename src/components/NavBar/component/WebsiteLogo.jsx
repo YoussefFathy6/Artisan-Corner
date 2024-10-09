@@ -9,12 +9,19 @@ import { toggleFlag } from "../../../Redux/Slices/homeSlice";
 import { loginAdmin, logoutAdmin } from "../../../Redux/Slices/adminSlice";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import db, { auth } from "../../../Config/firebase";
-import { collection, doc, updateDoc, onSnapshot } from "firebase/firestore"; // import updateDoc
+import {
+  collection,
+  doc,
+  updateDoc,
+  onSnapshot,
+  query,
+} from "firebase/firestore"; // import updateDoc
 import { useNavigate } from "react-router-dom";
 import { Dropdown, DropdownHeader, DropdownItem } from "flowbite-react";
 import { HiCog, HiCurrencyDollar, HiLogout, HiViewGrid } from "react-icons/hi";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaBell } from "react-icons/fa";
+import { IoMdMail } from "react-icons/io";
 
 import NavSections from "./NavSections";
 import { Link, NavLink } from "react-router-dom";
@@ -25,9 +32,67 @@ function BodyNav() {
   const [userData, setUserData] = useState(null); // State to hold user data
   const [unreadNotification, setUnread] = useState([]); // State to hold unread notifications
   const [unopenedOrder, setUnopenedOrder] = useState([]); // State to hold unread notifications
+  const [contacts, setContacts] = useState([]); // State to hold unread notifications
   const flag = useSelector((state) => state.homeReducer.flag); // Flag from Redux
   const isAdmin = useSelector((state) => state.adminReducer.isAdmin); // Admin status from Redux
   const nav = useNavigate(); // For navigation
+
+  const [unseenContactsCount, setUnseenContactsCount] = useState(0);
+
+  useEffect(() => {
+    const storedId = localStorage.getItem("id"); // Retrieve the ID from local storage
+    console.log("Stored ID:", storedId); // Debugging line
+
+    const q = query(collection(db, "chats"));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      let contacts = [];
+      let unseenCount = 0; // Initialize unseen contacts count
+
+      querySnapshot.forEach((doc) => {
+        const contactData = { id: doc.id, ...doc.data() };
+        console.log("Contact Data:", contactData); // Debugging line
+        console.log("IDlist:", contactData.IDlist);
+
+        // Ensure IDlist exists and is an array before trying to find
+        if (Array.isArray(contactData.IDlist)) {
+          console.log("isArray");
+
+          const found = contactData.IDlist.find(
+            (item) => String(item) === storedId
+          );
+
+          if (found) {
+            contacts.push(contactData);
+
+            // Only check the last message in the array
+            if (
+              Array.isArray(contactData.message) &&
+              contactData.message.length > 0
+            ) {
+              const lastMessage =
+                contactData.message[contactData.message.length - 1];
+
+              // Check if the sender of the last message is not the user and the message is unseen
+              if (
+                lastMessage.sender !== storedId &&
+                lastMessage.seen === false
+              ) {
+                unseenCount += 1;
+              }
+            }
+          }
+        } else {
+          console.log("IDlist is not an array or is missing for:", contactData);
+        }
+      });
+
+      setContacts(contacts);
+      setUnseenContactsCount(unseenCount); // Update unseen contacts count
+      console.log("Unseen contacts count:", unseenCount); // Debugging line
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -169,6 +234,23 @@ function BodyNav() {
             {localStorage.getItem("id") && userData ? (
               <div className="flex items-center">
                 {/* Notifications Dropdown */}
+                <div className="relative">
+                  <button className="flex items-center justify-center">
+                    <IoMdMail
+                      color="white"
+                      size={24}
+                      onClick={() => {
+                        nav("/chat");
+                      }}
+                    />
+                  </button>
+                  {unseenContactsCount > 0 && (
+                    <span className="absolute top-0 right-0 left-4 bottom-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+                      {unseenContactsCount}{" "}
+                      {/* Display the count of contacts with unseen messages */}
+                    </span>
+                  )}
+                </div>
 
                 <Dropdown
                   color={"transparent"}
@@ -279,7 +361,7 @@ function BodyNav() {
                     }}
                     icon={HiLogout}
                   >
-                    Sign out
+                    Log out
                   </Dropdown.Item>
                 </Dropdown>
 
@@ -377,13 +459,13 @@ function BodyNav() {
                 >
                   Artists
                 </NavLink>
-                {/* <NavLink
+                <NavLink
                   style={isActive}
                   to="/Contactus"
                   className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
                 >
                   Contact US
-                </NavLink> */}
+                </NavLink>
                 {/* <NavLink
                   style={isActive}
                   to="/Contactus"

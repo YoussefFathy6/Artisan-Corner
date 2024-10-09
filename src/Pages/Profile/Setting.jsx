@@ -318,8 +318,8 @@ function Setting() {
             {data.length > 0 && data[0].accountType !== "Customer" && (
               <>
               
-              <div className="flex justify-between mt-12">
-                  <h1 className="text-5xl font-semibold">Products</h1>
+              <div className="flex justify-between mt-12 animate-slide-up ">
+                  <h1 className="text-5xl text-[#344646]  "style={{fontFamily:"Abril Fatface, serif"}}  >Products</h1>
                   <Addproduct />
                 </div>
 
