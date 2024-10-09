@@ -23,6 +23,7 @@ function Cards({ data }) {
   };
 
 
+
   const descriptionMaxLength = 80;
   const aboutText = data.about ? data.about : 'No description available';
 
@@ -58,7 +59,7 @@ function Cards({ data }) {
             <div className="justify-center mt-4 mx-16">
             <button
       onClick={handleClick}
-      className="bg-red-900 hover:bg-red-800 text-white p-3 mb-6 ml-7 w-32 rounded-xl text-sm"
+      className="bg-[#025048] text-white p-3 mb-6 ml-7 w-32 rounded-xl text-sm"
     >
       View Profile
     </button>

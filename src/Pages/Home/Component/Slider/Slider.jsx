@@ -6,23 +6,19 @@ import "./Hero.css"
 function Slider() {
   return (
     <>
-      <section className="flex justify-between w-[90%] m-auto ">
+      <section className="flex justify-between w-[90%] m-auto mb-2">
         <div className=" animate-slide-up flex justify-between py-7 ">
           <div
-            className=" flex flex-col justify-between "
-     
+            className=" flex flex-col ml-32 mt-14 justify-between "
           >
-            <p className=" text-7xl xl:mt-28 text-[#344646] top">One of aKind</p>
-            <p className=" ms-16 leading-normal text-7xl text-[#344646] top"> Just Like You.</p>
-            <p className=" text-2xl mt-10  leading-normal xl:w-[600px] text-[#344646] top" >
+            <p className=" text-8xl xl:mt-36  text-[#344646] top">One of aKind</p>
+            <p className=" ms-16 leading-normal   text-8xl text-[#344646] top"> Just Like You.</p>
+            <p className=" text-2xl  mb-52 leading-normal xl:w-[700px] text-[#344646] top" >
               "AlKhan" offers unique handmade crafts and antiques, blending
               heritage and creativity. we connect you to the world through
               authentic artistry.
             </p>
             <div className="w-[400px] flex justify-center">
-              <button className="bg-[#344646] xl:h-[40px] xl:w-[130px] rounded-3xl text-white">
-                Register Now
-              </button>
             </div>
           </div>
         </div>

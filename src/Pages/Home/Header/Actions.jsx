@@ -3,9 +3,11 @@ import "./Actions.css"
 import left from "../../../assets/imges/Actions.jpeg"
 import { Link } from 'react-router-dom'
 import { Button } from 'flowbite-react'
+import "../Component/Slider/Hero.css"
+
 export default function Actions() {
   return (
-    <div className='mai'>
+    <div className='mai mt-[-1%] animate-slide-up'>
     <div className="conAction">
       <img
         className="side-image"

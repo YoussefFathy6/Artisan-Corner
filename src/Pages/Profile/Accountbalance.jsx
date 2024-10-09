@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { HiMail } from "react-icons/hi";
+import "../Home/Component/Slider/Hero.css"
 
 import { Label, TextInput } from "flowbite-react";
 function Accountbalance() {
@@ -7,8 +8,9 @@ function Accountbalance() {
 
     return (
         <>
+        <div className='animate-slide-up'>
             <div className="mt-12 ml-5 mb-14  flex justify-between items-center">
-                <h1 className="text-5xl font-semibold">Account Profits</h1>
+                <h1 className="text-5xl font-semibold text-[#344646]" style={{fontFamily:"Abril Fatface, serif"}}>Account Profits</h1>
             </div>
 
             <div className="flex justify-around bg-[#e7fff9] w-[90%] h-[30%] p-10 text-center ml-24 mb-14">
@@ -95,6 +97,7 @@ function Accountbalance() {
 
                         </div>
                 )}
+            </div>
             </div>
         </>
     );
