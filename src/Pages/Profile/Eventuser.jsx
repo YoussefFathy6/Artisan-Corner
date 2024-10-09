@@ -35,7 +35,7 @@ function Eventuser() {
       
         <div className="  w-[95%] mb-8">
           <div className="  flex justify-between">
-            <h1 className="text-5xl font-semibold ">Event</h1>
+            <h1 className="text-5xl  text-[#344646]" style={{fontFamily:"Abril Fatface, serif"}}>Event</h1>
             <Addevent />
           </div>
           <div>

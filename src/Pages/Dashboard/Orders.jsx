@@ -2,7 +2,7 @@
 import React from "react";
 
 function Orders() {
-  return <div>Orders</div>;
+  return <div className="text-xl mt-5">Orders</div>;
 }
 
 export default Orders;

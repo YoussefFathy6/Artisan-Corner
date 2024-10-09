@@ -5,6 +5,7 @@ import db from "../../Config/firebase";
 import { getDocs, collection, query, where, doc, updateDoc } from "firebase/firestore";
 import { storage } from "../../Config/firebase";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import "../Home/Component/Slider/Hero.css"
 
 function AddDeitalsprofile() {
   const [data, setData] = useState([]);
@@ -104,8 +105,8 @@ function AddDeitalsprofile() {
 
   return (
     <>
-      <div>
-        <h1 className="ml-9 mt-9 flex justify-between text-5xl font-semibold">Edit Profile</h1>
+      <div className="animate-slide-up">
+        <h1 className="ml-9 mt-9 flex justify-between text-5xl text-[#344646]  " style={{fontFamily:"Abril Fatface, serif"}}>Edit Profile</h1>
         {data.map((item, index) => {
           return (
             <div className="m-20" key={index}>

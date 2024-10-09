@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import "./Allevent.modules.css";
 import Loader from "../../components/Loader";
-
+import "../Home/Component/Slider/Hero.css"
 function AllEvent() {
   let [events, setevents] = useState([]);
   let [filteredEvents, setFilteredEvents] = useState([]);

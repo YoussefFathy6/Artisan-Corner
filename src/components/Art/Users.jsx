@@ -5,7 +5,7 @@ import Cards from "./Card";
 import Loader from "../../components/Loader";
 
 import pic from "../../assets/imges/newww/user7.jpeg";
-
+import "../../Pages/Home/Component/Slider/Hero.css"
 export default function Users() {
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -47,7 +47,7 @@ export default function Users() {
 
   return (
     <>
-      <div className="">
+      <div className="animate-slide-up">
         <header className=" h-[75vh]">
         <div className="relative h-[500px] w-[100%] rounded-b-[40px] shadow-2xl shadow-[#38636c] shadow-inner-[#38636c]">
   <img className="absolute w-[100%] h-[100%] rounded-b-[40px] object-cover" src={pic} />

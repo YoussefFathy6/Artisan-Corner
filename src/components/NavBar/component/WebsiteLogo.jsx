@@ -361,7 +361,7 @@ function BodyNav() {
                     }}
                     icon={HiLogout}
                   >
-                    Sign out
+                    Log out
                   </Dropdown.Item>
                 </Dropdown>
 
@@ -459,13 +459,13 @@ function BodyNav() {
                 >
                   Artists
                 </NavLink>
-                {/* <NavLink
+                <NavLink
                   style={isActive}
                   to="/Contactus"
                   className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
                 >
                   Contact US
-                </NavLink> */}
+                </NavLink>
                 {/* <NavLink
                   style={isActive}
                   to="/Contactus"

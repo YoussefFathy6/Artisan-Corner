@@ -11,7 +11,7 @@ import Products from "./Products";
 import Events from "./Events";
 import Orders from "./Orders";
 import Login from "../Home/Component/LoginModal/Login";
-
+import Massage from "./Massage";
 function DashBoard() {
   const [activeSection, setActiveSection] = useState("customers");
   const dispatch = useDispatch();
@@ -29,6 +29,8 @@ function DashBoard() {
         return <Events />;
       case "orders":
         return <Orders />;
+        case "Massage":
+        return <Massage />;
       default:
         return <Customers />;
     }
@@ -39,7 +41,7 @@ function DashBoard() {
       <WebsiteLogo></WebsiteLogo>
       <Login />
 
-      <div className="flex h-screen ">
+      <div className="flex  ">
         {/* Sidebar */}
         <div className="w-1/4 bg-white p-4">
         <div className="border-2  border-white shadow-2xl pt-5 pb-10 px-5 h-screen rounded-lg bg-white  ">
@@ -103,6 +105,18 @@ function DashBoard() {
                 onClick={() => setActiveSection("orders")}
               >
                 Orders
+              </button>
+            </li>
+            <li>
+              <button
+                className={`w-full py-2 px-4 text-left text-xl ${
+                  activeSection === "Massage"
+                    ? "bg-secondary text-white"
+                    : "bg-white text-black"
+                }`}
+                onClick={() => setActiveSection("Massage")}
+              >
+                Massage
               </button>
             </li>
           </ul>
