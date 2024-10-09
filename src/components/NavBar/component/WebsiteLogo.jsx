@@ -37,6 +37,8 @@ function BodyNav() {
   const isAdmin = useSelector((state) => state.adminReducer.isAdmin); // Admin status from Redux
   const nav = useNavigate(); // For navigation
 
+  const [unseenContactsCount, setUnseenContactsCount] = useState(0);
+
   useEffect(() => {
     const storedId = localStorage.getItem("id"); // Retrieve the ID from local storage
     console.log("Stored ID:", storedId); // Debugging line
@@ -44,7 +46,7 @@ function BodyNav() {
     const q = query(collection(db, "chats"));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       let contacts = [];
-      let unseenMessageCount = 0; // Initialize unseen messages count
+      let unseenCount = 0; // Initialize unseen contacts count
 
       querySnapshot.forEach((doc) => {
         const contactData = { id: doc.id, ...doc.data() };
@@ -62,19 +64,22 @@ function BodyNav() {
           if (found) {
             contacts.push(contactData);
 
-            // Check messages inside each contact
-            if (Array.isArray(contactData.message)) {
-              contactData.message.forEach((msg) => {
-                if (msg.seen === false) {
-                  unseenMessageCount += 1;
-                }
-              });
-            }
+            // Only check the last message in the array
+            if (
+              Array.isArray(contactData.message) &&
+              contactData.message.length > 0
+            ) {
+              const lastMessage =
+                contactData.message[contactData.message.length - 1];
 
-            console.log(
-              "Unseen messages count for this contact:",
-              unseenMessageCount
-            );
+              // Check if the sender of the last message is not the user and the message is unseen
+              if (
+                lastMessage.sender !== storedId &&
+                lastMessage.seen === false
+              ) {
+                unseenCount += 1;
+              }
+            }
           }
         } else {
           console.log("IDlist is not an array or is missing for:", contactData);
@@ -82,8 +87,8 @@ function BodyNav() {
       });
 
       setContacts(contacts);
-      console.log("Filtered Contacts:", contacts);
-      console.log("Total unseen messages count:", unseenMessageCount); // Total unseen messages count
+      setUnseenContactsCount(unseenCount); // Update unseen contacts count
+      console.log("Unseen contacts count:", unseenCount); // Debugging line
     });
 
     return () => unsubscribe();
@@ -229,8 +234,8 @@ function BodyNav() {
             {localStorage.getItem("id") && userData ? (
               <div className="flex items-center">
                 {/* Notifications Dropdown */}
-                <div className="relative ">
-                  <button>
+                <div className="relative">
+                  <button className="flex items-center justify-center">
                     <IoMdMail
                       color="white"
                       size={24}
@@ -239,13 +244,14 @@ function BodyNav() {
                       }}
                     />
                   </button>
-                  {combinedNotifications.length > 0 && (
-                    <span className=" absolute top-0 right-0 left-2 bottom-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
-                      {combinedNotifications.length}{" "}
-                      {/* Display the count of unread notifications */}
+                  {unseenContactsCount > 0 && (
+                    <span className="absolute top-0 right-0 left-4 bottom-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+                      {unseenContactsCount}{" "}
+                      {/* Display the count of contacts with unseen messages */}
                     </span>
                   )}
                 </div>
+
                 <Dropdown
                   color={"transparent"}
                   label={

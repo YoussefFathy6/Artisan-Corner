@@ -66,8 +66,8 @@ function AllEvent() {
     <>
       <div className="mb-20">
         <h1
-          className="text-5xl  ml-8 mt-9  text-[#344646]  "
-          style={{ fontFamily: "cursive" }}
+          className="text-6xl  ml-8 mt-9  text-[#344646]  "
+          style={{ fontFamily: "Abril Fatface, serif" }}
         >
           Events
         </h1>

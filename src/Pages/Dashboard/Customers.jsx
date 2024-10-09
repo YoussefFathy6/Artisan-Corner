@@ -12,7 +12,7 @@ const Customers = () => {
     const usersCollectionRef = collection(db, "users");
 
     // Create a query against the collection where accountType is "customer"
-    const q = query(usersCollectionRef, where("accountType", "==", "customer"));
+    const q = query(usersCollectionRef, where("accountType", "==", "Customer"));
 
     // Listen for real-time updates using onSnapshot
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -31,10 +31,10 @@ const Customers = () => {
     <div className="p-4">
       <h2 className="text-2xl font-semibold mb-4">Customers List</h2>
       {customers.length > 0 ? (
-        <ul className="space-y-4">
+        <ul className="space-y-4 mt-10">
           {customers.map((customer) => (
-            <li key={customer.id} className="border p-4 rounded-lg shadow">
-              <div className="flex justify-between gap-7 items-center w-1/2 h-24">
+            <li key={customer.id} className="border p-4 rounded-lg shadow w-[100%]">
+              <div className="flex justify-between gap-7 items-center w-[100%] h-24">
                 <img
                   className=" rounded-full w-24 h-24"
                   src={
@@ -57,7 +57,7 @@ const Customers = () => {
           ))}
         </ul>
       ) : (
-        <p>No customers found.</p>
+        <p className="mt-[200%]">No customers found.</p>
       )}
     </div>
   );

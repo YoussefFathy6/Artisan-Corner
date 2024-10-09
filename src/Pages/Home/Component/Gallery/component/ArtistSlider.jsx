@@ -1,55 +1,73 @@
-// // // eslint-disable-next-line no-unused-vars
-// // // import imgGallry1 from "../../../../../assets/imges/Gallery1.png";
-// // // import imgGallry2 from "../../../../../assets/imges/Gallery2.png";
-// // // import imgGallry3 from "../../../../../assets/imges/Gallery3.png";
+// eslint-disable-next-line no-unused-vars
+// import imgGallry1 from "../../../../../assets/imges/Gallery1.png";
+// import imgGallry2 from "../../../../../assets/imges/Gallery2.png";
+// import imgGallry3 from "../../../../../assets/imges/Gallery3.png";
 
-// // // import artist1 from "../../../../../assets/imges/newww/artist1.jpeg";
-// // // import artist2 from "../../../../../assets/imges/newww/artist2.jpeg";
-// // // import artist3 from "../../../../../assets/imges/newww/artist3.jpeg";
-// // // import artist4 from "../../../../../assets/imges/newww/artist4.jpeg";
-// // // import artist5 from "../../../../../assets/imges/newww/artist5.jpeg";
+// import artist1 from "../../../../../assets/imges/newww/artist1.jpeg";
+// import artist2 from "../../../../../assets/imges/newww/artist2.jpeg";
+// import artist3 from "../../../../../assets/imges/newww/artist3.jpeg";
+// import artist4 from "../../../../../assets/imges/newww/artist4.jpeg";
+// import artist5 from "../../../../../assets/imges/newww/artist5.jpeg";
 
-// // // import './small.css'
+import './small.css';
+import { useEffect, useState } from "react";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import db from "../../../../../Config/firebase";
+import Cards from "../../../../../components/Art/Card";
 
-// // // import { useEffect, useState } from "react";
-// // // import { collection, query, where, getDocs } from "firebase/firestore";
-// // // import db from "../../../../../Config/firebase";
-// // // import Cards from "../../../../../components/Art/Card";
+export default function ArtistSlider() {
+  const [artists, setArtists] = useState([]);
+  const [loading, setLoading] = useState(true); // حالة التحميل
+  const [error, setError] = useState(null); // حالة الخطأ
 
-// // // export default function ArtistSlider() {
-// // //   const [artists, setArtists] = useState([]);
+  useEffect(() => {
+    const fetchArtists = async () => {
+      try {
+        const q = query(
+          collection(db, "users"),
+          where("accountType", "==", "Artist")
+        );
+        const querySnapshot = await getDocs(q);
+        const artistsList = [];
+        querySnapshot.forEach((doc) => {
+          artistsList.push({ id: doc.id, ...doc.data() });
+        });
+        setArtists(artistsList);
+        setLoading(false); // إيقاف حالة التحميل
+      } catch (err) {
+        setError("Error fetching artists: " + err.message);
+        setLoading(false); // إيقاف حالة التحميل
+      }
+    };
 
-// // //   useEffect(() => {
-// // //     const fetchArtists = async () => {
-// // //       const q = query(
-// // //         collection(db, "users"),
-// // //         where("accountType", "==", "Artist")
-// // //       );
-// // //       const querySnapshot = await getDocs(q);
-// // //       const artistsList = [];
-// // //       querySnapshot.forEach((doc) => {
-// // //         artistsList.push({ id: doc.id, ...doc.data() });
-// // //       });
-// // //       setArtists(artistsList);
-// // //     };
+    fetchArtists();
+  }, []);
 
-// // //     fetchArtists();
-// // //   }, []);
+  if (loading) return <p>Loading artists...</p>; // عرض رسالة تحميل
+  if (error) return <p>{error}</p>; // عرض رسالة خطأ
 
-// // //   return (
-// // //     <>
-// // //       <div className=" mb-28 mt-10 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1  items-center justify-center p-9">
-// // //         {artists.map((artist) => (
-// // //         <div>
-// // //             key={artist.id}
-// // //             data={artist}
-// // //             onTicketClick={() => console.log(user.id)}
-// // //             </div>
-// // //         ))}
-// // //       </div>
-// // //     </>
-// // //   );
-// // // }
+  return (
+    <>
+      <div className="mb-28 mt-10 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 items-center justify-center p-9">
+        {artists.length > 0 ? (
+          artists.map((artist) => (
+            <div key={artist.id}>
+             <Cards
+      data={artist} // تأكد من تمرير `artist` كبيانات كاملة
+      onClick={() => console.log(artist.id)}
+    />
+            
+            </div>
+          ))
+        ) : (
+          <p>No artists found</p> // عرض رسالة في حالة عدم وجود فنانين
+        )}
+      </div>
+    </>
+  );
+}
+
+
 
 
 

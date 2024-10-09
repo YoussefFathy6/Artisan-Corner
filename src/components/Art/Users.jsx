@@ -49,9 +49,11 @@ export default function Users() {
     <>
       <div className="">
         <header className=" h-[75vh]">
-          <div className="  h-[500px] w-[100%] rounded-b-[40px] shadow-2xl shadow-[#38636c] shadow-inner-[#38636c]">
-            <img className=" w-[100%] h-[100%] rounded-b-[40px]" src={pic} />
-          </div>
+        <div className="relative h-[500px] w-[100%] rounded-b-[40px] shadow-2xl shadow-[#38636c] shadow-inner-[#38636c]">
+  <img className="absolute w-[100%] h-[100%] rounded-b-[40px] object-cover" src={pic} />
+  <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-[#000000] to-[#00000000] rounded-b-[40px]"></div>
+</div>
+
 
           <div className=" absolute top-16 h-[75vh] w-[100%] flex justify-center items-center ">
             <div className="text-center h-[400px]">

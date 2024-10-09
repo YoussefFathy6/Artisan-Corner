@@ -6,6 +6,8 @@ import db from "../../Config/firebase";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import Side from "./Side";
+import "../Home/Component/Slider/Hero.css"
+
 function Eventuser() {
   let [events, setevents] = useState([]);
   useEffect(() => {
@@ -29,7 +31,7 @@ function Eventuser() {
   }, []);
   return (
     <>
-      <div className="flex justify-between  mt-12">
+      <div className="flex justify-between  mt-12 animate-slide-up">
       
         <div className="  w-[95%] mb-8">
           <div className="  flex justify-between">
