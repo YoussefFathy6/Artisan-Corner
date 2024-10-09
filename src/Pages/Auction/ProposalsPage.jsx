@@ -14,6 +14,7 @@ import {
   where,
 } from "firebase/firestore";
 import db from "../../Config/firebase";
+import "../Home/Component/Slider/Hero.css"
 
 function ProposalsPage() {
   const location = useLocation();
@@ -166,7 +167,7 @@ function ProposalsPage() {
   }
 
   return (
-    <main className="flex flex-col lg:flex-row gap-8 p-8 h-screen bg-gray-100">
+    <main className="flex flex-col lg:flex-row gap-8 p-8 h-screen bg-gray-100 animate-slide-up">
       <div className="w-full lg:w-1/2 flex flex-col bg-white rounded-lg shadow-md p-6">
         {streamProduct[0] && (
           <div>

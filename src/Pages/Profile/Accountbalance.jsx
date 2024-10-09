@@ -10,10 +10,10 @@ function Accountbalance() {
         <>
         <div className='animate-slide-up'>
             <div className="mt-12 ml-5 mb-14  flex justify-between items-center">
-                <h1 className="text-5xl font-semibold text-[#344646]" style={{fontFamily:"Abril Fatface, serif"}}>Account Profits</h1>
+                <h1 className="text-5xl  text-[#344646]" style={{fontFamily:"Abril Fatface, serif"}}>Account Profits</h1>
             </div>
 
-            <div className="flex justify-around bg-[#e7fff9] w-[90%] h-[30%] p-10 text-center ml-24 mb-14">
+            <div className="flex justify-around bg-[#f2fffc] w-[90%] h-[30%] p-10 text-center ml-24 mb-14">
                 <div className="w-[25%] flex flex-col justify-center items-center">
                     <h1 className="text-3xl font-semibold pb-5">Total Balance</h1>
                     <h1 className="text-center pb-5 text-teal-600 font-semibold text-2xl">00.00 $</h1>
@@ -30,7 +30,7 @@ function Accountbalance() {
                     </h1>
                 </div>
 
-                <div className="w-[25%] flex flex-col justify-center items-center">
+                <div className="w-[25%] flex flex-col justify-center items-center ">
                     <h1 className="text-3xl font-semibold pb-5">Profits can be withdrawn</h1>
                     <h1 className="text-center pb-5 text-2xl text-teal-600 font-semibold">00.00 $</h1>
                     <h1 className="text-xl text-center">
@@ -39,7 +39,7 @@ function Accountbalance() {
                 </div>
             </div>
 
-            <div className="bg-[#e7fff9] w-[90%] p-10 ml-24 mb-72">
+            <div className="bg-[#f2fffc] w-[90%] p-10 ml-24 mb-72">
                 <h1 className="text-3xl font-semibold border-b-4 border-zinc-50 pb-5 w-full">
                     Request to Withdraw Profits
                 </h1>

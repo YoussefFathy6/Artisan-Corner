@@ -16,7 +16,7 @@ import Menu from "../EarningsPage/Menu/Menu";
 import AllAuctions from "./AllAuctions";
 import JoinedAuctions from "./JoinedAuctions";
 import Loader from "../../components/Loader"; // Import Loader component
-
+import "../Home/Component/Slider/Hero.css"
 function AuctionPage() {
   const [activeSection, setActiveSection] = useState("allauctions");
 
@@ -47,9 +47,9 @@ function AuctionPage() {
   }, []);
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen animate-slide-up">
     {/* Sidebar */}
-<div className="w-1/4 bg-primary p-4 border-2 m-5 border-white shadow-lg rounded-lg">
+<div className="w-1/4 bg-primary p-4 border-2 m-5 border-white shadow-lg rounded-lg ">
   <h2 className="text-6xl  mb-4 text-[#025048]" style={{fontFamily:"Abril Fatface, serif"}}>Auctions</h2>
   <ul className="space-y-2">
     <li>

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import './Allevent.modules.css'
 import Loader from "../../components/Loader";
-
+import "../Home/Component/Slider/Hero.css"
 function AllEvent() {
   let [events, setevents] = useState([]);
   let [filteredEvents, setFilteredEvents] = useState([]);
@@ -64,7 +64,7 @@ function AllEvent() {
 
   return (
     <>
-    <div className="mb-20">
+    <div className="mb-20 animate-slide-up">
         <h1 className="text-6xl  ml-8 mt-9  text-[#344646]  " style={{fontFamily:"Abril Fatface, serif"}}>Events</h1>
 
       <div className=" flex   ">

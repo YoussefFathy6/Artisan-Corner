@@ -19,6 +19,7 @@ import Loader from "../../../components/Loader";
 import { toast } from "react-toastify";
 import Paper from '@mui/material/Paper';
 import { useLocation } from "react-router-dom"; // QEDAiiiS
+import "../../Home/Component/Slider/Hero.css"
 
 // Start Function Component
 function Main() {
@@ -202,7 +203,7 @@ function Main() {
   //todo/       Start HTML
 
   return (
-    <div className="containerr grid grid-cols-1 sm:grid-cols-4 gap-4">
+    <div className="containerr grid grid-cols-1 sm:grid-cols-4 gap-4 animate-slide-up">
       {/* Button to show the filters dropdown on small screens */}
       <div className="sm:hidden ">
         <Button

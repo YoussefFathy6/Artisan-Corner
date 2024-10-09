@@ -41,7 +41,7 @@ import Posts from "./Pages/EarningsPage/Main/Posts";
 import SpecialOrderPage from "./Pages/SpecialOrder/SpecialOrderPage";
 import "react-toastify/dist/ReactToastify.css";
 import Side from "./Pages/Profile/Side";
-
+import Massage from "./Pages/Dashboard/Massage";
 // Importing themes from theme.js
 
 export const ThemeContext = createContext();
@@ -130,6 +130,7 @@ function App() {
                 <Route path="/Side" element={<Side />} />
                 <Route path="/setting" element={<Setting />} />
                 <Route path="/Contactus" element={<Contactus />} />
+                <Route path="/Massage" element={<Massage />} />
               </Routes>
               <ToastContainer />
               <Footer />
