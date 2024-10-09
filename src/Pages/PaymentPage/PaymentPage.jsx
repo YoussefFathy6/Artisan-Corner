@@ -7,7 +7,7 @@ import CheckoutPage from "./CheckoutPage";
 
 
 function PaymentPage() {
-  return <CheckoutPage></CheckoutPage>;
+  return <CheckoutPage />;
 }
 
 export default PaymentPage;

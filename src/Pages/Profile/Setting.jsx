@@ -156,7 +156,7 @@ function Setting() {
                   <div className="relative">
                     {/* الكارد الأحمر */}
                     <div
-                      className="  rounded-3xl p-9 shadow-2xl my-7 border-2"
+                      className="  rounded-3xl p-9 shadow-2xl my-7 border-2 "
                       style={{ animation: "fadeInUp 1s forwards" }}
                     >
                       <div className="flex flex-col ">
@@ -222,7 +222,8 @@ function Setting() {
                           </div>
 
                           {/* تعديل الكارد الأحمر */}
-                          {data.length > 0 && data[0].accountType !== "Artist" && (
+                          {data.length > 0 && data[0].accountType !== "" && //متلعبوش فيها 
+                          (
                             <div className="mt-2 me-2 transition-transform  ease-in-out translate-x-3 transform hover:scale-110 ">
                               <Link
                                 to="/adddeitalsprofile"
@@ -241,7 +242,7 @@ function Setting() {
                         </div>
 
                         <div className="w-[80%] mx-auto mt-10">
-                          <div className="about mb-10">
+                          <div className="about mb-10 mt-5">
                             <h2 className="text-2xl mr-6 text-[#37977f] font-medium">
                               About :
                             </h2>
