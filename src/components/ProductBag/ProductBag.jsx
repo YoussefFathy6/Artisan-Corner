@@ -25,7 +25,20 @@ function ProductBag() {
   const [openModal, setOpenModal] = useState(true);
   const [swalProps, setSwalProps] = useState({});
   const [UID, setUID] = useState(localStorage.getItem("id"));
+  const [users, setUsers] = useState([]);
 
+  useEffect(() => {
+    const fetchContacts = async () => {
+      const q = query(collection(db, "users")); // Assuming 'users' collection contains contacts
+      const querySnapshot = await getDocs(q);
+      const contactsList = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+      }));
+      setUsers(contactsList);
+    };
+
+    fetchContacts();
+  }, []);
   useEffect(() => {
     // let arr;
     // onSnapshot(collection(db, "Bag"), (snapshot) => {
@@ -120,51 +133,75 @@ function ProductBag() {
         </button>
       </div>
       <div className="grid grid-cols-2 mr-16 Md:grid-cols-1 mt-20 ">
-  {bags.map((item) => (
-    <div
-      key={item.id}
-      className="zeroToTo768:flex-col flex justify-center items-center p-5 m-6 shadow-xl rounded-xl border-2 border-white"  // تعديل الحدود والظل
-    >
-      <div className="zeroToTo768:w-[300px] w-[500px] flex justify-center items-center">
-        <img
-          src={item.image}
-          alt="images"
-          className="rounded-lg min-h-[300px] max-w-[300px] max-h-[300px] shadow-lg"  // تعديل الظل للصورة
-        />
+        {bags.map((item) => {
+          const artist = users.find((user) => user.id === item.aritstID); // Find the artist once outside JSX
+          console.log(artist);
+
+          return (
+            <div
+              key={item.id}
+              className="zeroToTo768:flex-col flex justify-center items-center p-5 m-6 shadow-xl rounded-xl border-2 border-white"
+            >
+              <div className="zeroToTo768:w-[300px] w-[500px] flex justify-center items-center">
+                {item.image ? (
+                  <img
+                    src={item.image}
+                    alt="images"
+                    className="rounded-lg min-h-[300px] max-w-[300px] max-h-[300px] shadow-lg"
+                  />
+                ) : (
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={artist.profilePic}
+                      className="rounded-full w-24 h-24"
+                      alt=""
+                    />
+                    {`Special Order from ${artist.firstname} ${artist.lastname}`}
+                  </div>
+                )}
+              </div>
+
+              <div className="w-[fit-content] p-5">
+                <div className="my-5 flex justify-between items-center w-[fit-content] text-nowrap">
+                  Quantity: {item.quantity}
+                  <input
+                    className="mx-9 rounded-lg w-[70px]"
+                    type="number"
+                    value={item.quantity}
+                    onChange={(e) =>
+                      handleQuantityChange(item.id, e.target.value)
+                    }
+                    min="1"
+                    max="99"
+                  />
+                  {item.quantity == 0 &&
+                    alert(
+                      "At least one product must be present to complete the purchase."
+                    )}
+                </div>
+                <h2>
+                  <strong>Total price:</strong>
+                  {parseFloat(item.price).toFixed(2)} $
+                </h2>
+                {artist && (
+                  <div>
+                    <strong>Artist:</strong>
+                    {`${artist.firstname} ${artist.lastname}`}
+                  </div>
+                )}
+                {!artist && (
+                  <button
+                    className="btn bg-red-600 mt-5 p-2 ml-3"
+                    onClick={() => handleDelete(item.id)}
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+            </div>
+          );
+        })}
       </div>
-
-      <div className="w-[fit-content] p-5">  {/* إضافة padding داخل النصوص */}
-        <div className="my-5 flex justify-between items-center w-[fit-content] text-nowrap">
-          Quantity: {item.quantity}
-          <input
-            className="mx-9 rounded-lg w-[70px]"
-            type="number"
-            value={item.quantity}
-            onChange={(e) => handleQuantityChange(item.id, e.target.value)}
-            min="1"
-            max="99"
-          />
-          {item.quantity == 0 &&
-            alert(
-              "At least one product must be present to complete the purchase."
-            )}
-        </div>
-        <h2>
-          <strong>Total price:</strong>{" "}
-          {parseFloat(item.price).toFixed(2)} $
-        </h2>
-
-        <button
-          className="btn bg-red-600 mt-5 p-2 ml-3"
-          onClick={() => handleDelete(item.id)}
-        >
-          Remove
-        </button>
-      </div>
-    </div>
-  ))}
-</div>
-
 
       {bags.length == 0 ? (
         <Modal show={openModal} size="Md" onClose={() => backToDetails()} popup>
