@@ -36,10 +36,28 @@ export default function ChatPage() {
   const [contacts, setContacts] = useState([]); // To hold all contacts
   const [selectedContact, setSelectedContact] = useState(null); // To hold the selected contact
   // const [artist, setArtist] = useState(location.state?.user || null);
-  const handleSelectContact = (contact) => {
+  const handleSelectContact = async (contact) => {
     setSelectedContact(contact);
     localStorage.setItem("selectedContactId", contact.id); // Save selected contact ID
+
+    // Check if there are any messages for this contact
+    if (contact.message && contact.message.length > 0) {
+      const updatedMessages = contact.message.map((msg) => {
+        // If the message is not seen, mark it as seen
+        if (!msg.seen && msg.sender !== localStorage.getItem("id")) {
+          return { ...msg, seen: true };
+        }
+        return msg;
+      });
+
+      // Update the messages array in Firestore
+      const contactRef = doc(db, "chats", contact.id);
+      await updateDoc(contactRef, {
+        message: updatedMessages,
+      });
+    }
   };
+
   useEffect(() => {
     const storedContactId = localStorage.getItem("selectedContactId");
     if (storedContactId) {
@@ -111,7 +129,6 @@ export default function ChatPage() {
 
     fetchContacts();
   }, []);
-  console.log(users);
 
   const uploadImage = async (file) => {
     const storage = getStorage();
@@ -161,6 +178,7 @@ export default function ChatPage() {
     await updateDoc(doc(db, "chats", docId), {
       message: arrayUnion({
         content: newMessage,
+        seen: false,
         sender: localStorage.getItem("id"),
         timestamp: new Date(),
         image: imageURL, // Add image URL if uploaded
@@ -239,7 +257,11 @@ export default function ChatPage() {
                   <div>
                     <p>{user ? user.firstname : "Unknown User"}</p>
                     <p
-                      className="text-gray-400 line-clamp-none overflow-hidden"
+                      className={`${
+                        lastMessage.seen
+                          ? "text-gray-400"
+                          : "text-black font-bold"
+                      } line-clamp-none overflow-hidden`}
                       title={
                         lastMessage ? lastMessage.content : "No messages yet"
                       }
@@ -268,13 +290,13 @@ export default function ChatPage() {
             selectedContact.message.map((msg, index) => (
               <div
                 key={index}
-                className={`message ${
+                className={`w-1/2 message ${
                   msg.sender === localStorage.getItem("id")
                     ? "sent"
                     : "received"
                 }`}
               >
-                <strong>{msg.content}: </strong>
+                <strong>{msg.content}</strong>
                 {msg.text}
                 {msg.replyTo && (
                   <div className="reply"> reply to: {msg.replyTo}</div>

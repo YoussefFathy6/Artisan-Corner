@@ -87,15 +87,10 @@ function Ticket() {
   //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   //   return emailRegex.test(email);
   // };
-
   const handleEmailSubmission = async () => {
-    // if (!validateEmail(email)) {
-    //   setEmailError("Please enter a valid email.");
-    //   return false;
-    // }
     try {
       await addDoc(collection(db, "sendTicket"), {
-        email: email,
+        email: email.trim(),
         eventId: event.id,
       });
       console.log("Email saved to Firestore successfully!");
@@ -315,29 +310,60 @@ function Ticket() {
             options={{
               "client-id":
                 "AcMz3qJ9DrjaDZH_asLE65SFuI7W2qIFLPVEkIqopOtb0YFEfAfW2Ht1cJR1bo0uoeP18SwV-urPXbz0", // Make sure to use the correct client ID
-                currency: "USD",
-              }}
-            >
-              <PayPalButtons
-                style={{ layout: "vertical" }}
-                createOrder={(data, actions) => {
-                  return actions.order.create({
-                    purchase_units: [
-                      {
-                        amount: {
-                          value: total.toString(), // Total amount in the correct currency
-                        },
+              currency: "CAD",
+            }}
+          >
+            <PayPalButtons
+              style={{ layout: "vertical" }}
+              createOrder={(data, actions) => {
+                return actions.order.create({
+                  purchase_units: [
+                    {
+                      amount: {
+                        value: Number(total).toFixed(2), // Ensure total is defined
                       },
-                    ],
-                  });
-                }}
-                onApprove={handlePayPalSuccess}
-              />
-            </PayPalScriptProvider>
-          </Modal.Body>
-        </Modal>
+                    },
+                  ],
+                });
+              }}
+              onApprove={async (data, actions) => {
+                try {
+                  const details = await actions.order.capture();
+                  console.log("Payment successful: ", details); // Debugging log
+
+                  // Handle email submission
+                  const emailSubmitted = await handleEmailSubmission();
+                  console.log(
+                    "Email submission result: ",
+                    emailSubmitted,
+                    email
+                  ); // Debugging log
+
+                  if (emailSubmitted) {
+                    navigate(`/TicketConfirmation/${event.id}`); // Ensure event.id is defined
+                  }
+                } catch (error) {
+                  console.error("Error capturing payment: ", error); // Error handling
+                }
+              }}
+            />
+          </PayPalScriptProvider>
+
+          <Button
+            className="capitalize  m-auto font-bold  text-white bg-blue-500 border-none    rounded-md"
+            onClick={async () => {
+              const emailSubmitted = await handleEmailSubmission();
+              if (emailSubmitted) {
+                navigate(`/TicketConfirmation/${event.id}`);
+              }
+            }}
+          >
+            Proceed without Payment
+          </Button>
+        </Modal.Body>
+      </Modal>
+
       {/* Carousel */}
-   
     </>
   );
 }
