@@ -12,11 +12,12 @@ import {
   collection,
   getDocs,
   addDoc,
+  getDoc,
 } from "firebase/firestore";
 import db from "../../../Config/firebase";
 
 function ProductCard(props) {
-  console.log(props)
+  console.log(props);
   const [isExpanded, setIsExpanded] = useState(false);
   const navigate = useNavigate();
 
@@ -68,13 +69,22 @@ function ProductCard(props) {
 
       if (!querySnapshot.empty) {
         const userDocRef = querySnapshot.docs[0].ref;
+        const userDoc = await getDoc(userDocRef);
 
-        // Find and update only the specific product in Firestore
+        const userData = userDoc.data();
+        const specialOrders = userData.specialOrder || [];
+
+        // Find the product in the specialOrder array
+        const updatedOrders = specialOrders.map(
+          (order) =>
+            order.id === props.productData.id // Assuming productData contains an id to identify the product
+              ? { ...order, pending: true } // Update the pending state to true
+              : order // Leave other orders unchanged
+        );
+
+        // Update the specialOrder array in Firestore
         await updateDoc(userDocRef, {
-          specialOrder: arrayUnion({
-            ...props.productData,
-            pending: true,
-          }),
+          specialOrder: updatedOrders,
         });
 
         console.log("Product pending state updated successfully");
@@ -112,6 +122,7 @@ function ProductCard(props) {
           quantity: 1,
           image: "",
           userID: props.customerData.id,
+          aritstID: localStorage.getItem("id"),
         });
         console.log("Product moved to cart successfully");
       } else {
