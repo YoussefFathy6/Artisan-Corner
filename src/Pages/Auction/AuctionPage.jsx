@@ -47,7 +47,7 @@ function AuctionPage() {
   }, []);
 
   return (
-    <div className="flex h-screen animate-slide-up">
+    <div className="flex h-screen page-fade-in">
     {/* Sidebar */}
 <div className="w-1/4 bg-primary p-4 border-2 m-5 border-white shadow-lg rounded-lg ">
   <h2 className="text-6xl  mb-4 text-[#025048]" style={{fontFamily:"Abril Fatface, serif"}}>Auctions</h2>

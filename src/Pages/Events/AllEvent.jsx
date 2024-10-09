@@ -64,7 +64,7 @@ function AllEvent() {
 
   return (
     <>
-      <div className="mb-20">
+      <div className="mb-20 ">
         <h1
           className="text-6xl  ml-8 mt-9  text-[#344646]  "
           style={{ fontFamily: "Abril Fatface, serif" }}
@@ -72,7 +72,7 @@ function AllEvent() {
           Events
         </h1>
 
-        <div className=" flex   ">
+        <div className=" flex ">
           <div className="relative w-96 border-2 mt-5 border-white shadow-2xl pb-10 px-5 ml-5 rounded-lg bg-white ">
             <div className="flex items-center  mt-12 rounded-lg ">
               <input
@@ -255,7 +255,7 @@ function AllEvent() {
               ))}
             </ul>
           </div>
-          <div className=" w-3/4 items-center ml-10">
+          <div className=" w-3/4 items-center ml-10 page-fade-in">
             <div className="mt-12 justify-center   items-center">
               {paginatedEvents.length ? (
                 // flexxxxxxxxxxxxxxxxxxxxxxx

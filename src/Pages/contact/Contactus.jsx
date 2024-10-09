@@ -51,10 +51,10 @@ function Contactus() {
         ></div>
         <div className="relative z-10 text-white mt-64 text-center h-full">
           <h1 className="text-7xl">Contact Information</h1>
-          <p className="w-[60%] ml-96 mt-5">
+          {/* <p className="w-[60%] ml-96 mt-5">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque sapiente,
             assumenda deserunt nesciunt neque incidunt.
-          </p>
+          </p> */}
         </div>
       </div>
       <div className="flex justify-around items-center py-32 bg-gray-100">

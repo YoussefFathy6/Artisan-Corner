@@ -203,7 +203,7 @@ function Main() {
   //todo/       Start HTML
 
   return (
-    <div className="containerr grid grid-cols-1 sm:grid-cols-4 gap-4 animate-slide-up">
+    <div className="containerr grid grid-cols-1 sm:grid-cols-4 gap-4 page-fade-in">
       {/* Button to show the filters dropdown on small screens */}
       <div className="sm:hidden ">
         <Button

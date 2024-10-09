@@ -201,7 +201,7 @@ function ArtProfile() {
   };
 
   return (
-    <div className=" w-full  min-h-screen justify-center  m-auto  mb-10 animate-slide-up">
+    <div className=" w-full  min-h-screen justify-center  m-auto  mb-10 page-fade-in">
       {user ? (
         <div>
           <div
