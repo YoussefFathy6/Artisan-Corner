@@ -241,9 +241,9 @@ function Addproduct() {
                   <option value="" disabled>
                     Select
                   </option>
-                  <option value="Macramé">Macramé</option>
+                  <option value="Macramé">Textile</option>
                   <option value="Painting">Painting</option>
-                  <option value="Wood carving">Wood carving</option>
+                  <option value="Wood carving">Antique</option>
                   <option value="Pottery">Pottery</option>
                 </select>
               </div>

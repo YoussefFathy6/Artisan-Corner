@@ -92,7 +92,7 @@ function AllAuctions() {
   }, [userId]);
 
   return (
-    <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-y-8 xl:gap-3 justify-center">
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3   mt-14 xl:grid-cols-3 gap-y-8 xl:gap-3 justify-center">
       {products.map((product) => (
         <div className="m-5" key={product.id}>
           <Card

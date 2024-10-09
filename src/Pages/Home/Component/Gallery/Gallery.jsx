@@ -5,15 +5,16 @@
 import React from "react";
 import Title from "./component/Title";
 import ArtistSlider from "./component/ArtistSlider";
+import "../../Component/Slider/Hero.css"
 
 
 
 
 function Gallery() {
   return (
-    <section className=" w-[85%] m-auto ">
+    <section className=" w-[85%] m-auto mt-40 animate-slide-up">
       <div className="  flex flex-col pb-10">
-        {/* <Title /> */}
+        <Title />
         <ArtistSlider />
       </div>
     </section>

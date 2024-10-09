@@ -13,6 +13,7 @@ import category1 from "../../../../assets/imges/newww/category1.jpg";
 import category2 from "../../../../assets/imges/newww/category2.jpeg";
 import category3 from "../../../../assets/imges/newww/category3.jpeg";
 import category4 from "../../../../assets/imges/newww/category4.jpg";
+import "../../Component/Slider/Hero.css"
 
 import { useNavigate } from "react-router-dom";
 
@@ -58,33 +59,25 @@ function ImgCard() {
 
       {/* NEWWW */}
       <div className="  ">
-        <div
-          className=" mt-20  flex items-center justify-center top h-52 animate-slide-up"
-        >
-   <img src="./src/assets/imges/En__1_-removebg-preview.png" alt="" />
-        </div>
+       
 
 
-        <div className=' bg-[#fffbe8] p-20 mt-16'>
+        <div className='  p-20 animate-slide-up '>
   <div className="flex justify relative">
-    <div className="p-4 ml-44">
+    <div className="p-4 mt-5 ml-36">
       <img 
         src="./src/assets/imges/heroo.jpeg"
         alt="Image" 
-        className="rounded-lg shadow-lg h-[400px] w-[500px]"
+        className="rounded-lg shadow-lg h-[400px] w-[700px]"
       />
     </div>
 
-    <div className="absolute h-96 top-20 ml-[30%] transform -translate-x-1/2 -translate-y-1/2 bg-[#344646d0] p-20 rounded-lg shadow-lg w-[900px]  about">
-      <h2 className="text-2xl font-bold text-white mb-4" style={{fontFamily:"Abril Fatface, serif"}}>About Us !</h2>
-      <p className="text-white mb-6">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Non rem amet 
-        reprehenderit quo aspernatur deleniti? Architecto, fugit quia recusandae 
-        sequi eligendi nihil odio animi molestias.
+    <div className="absolute h-96 top-20 ml-[30%] transform -translate-x-1/2 -translate-y-1/2 bg-[#6A9C89] p-20 rounded-lg shadow-lg w-[1100px]  about">
+      <h2 className="text-3xl font-bold text-white mb-4" style={{fontFamily:"Abril Fatface, serif"}}>About Us !</h2>
+      <p className="text-white mb-6 text-xl">
+      Our platform is the perfect destination for art and handmade craft lovers, where artists can showcase their handmade creations for sale or organize exclusive art auctions. The platform also offers the opportunity to participate in special events, both online and offline, with easy ticket booking. We provide a comprehensive experience that blends creativity, art, and community engagement, giving customers multiple options to purchase art or attend events
       </p>
-      <button className="border-2 border-white rounded-full px-6 py-2 text-white hover:bg-white hover:text-[#3e3e3e] transition duration-300">
-        See More
-      </button>
+    
     </div>
   </div>
 </div>

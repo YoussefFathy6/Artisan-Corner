@@ -14,6 +14,7 @@ import {
 import All from "./All";
 import Pending from "./Pending";
 import Loader from "../../components/Loader"; // Import Loader component
+import "../Home/Component/Slider/Hero.css"
 
 function SpecialOrderPage() {
   const [activeSection, setActiveSection] = useState("all");
@@ -45,7 +46,7 @@ function SpecialOrderPage() {
   }, []);
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen animate-slide-up">
       {/* Sidebar */}
       <div className="w-1/4 bg-primary p-4 ">
         <h2 className="text-xl font-bold mb-4">Special Orders</h2>
