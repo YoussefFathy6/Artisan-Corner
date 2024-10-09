@@ -2,6 +2,9 @@
 import React, { useState, useEffect } from "react";
 import { Dropdown, Button, Pagination } from "flowbite-react";
 import db from "../../../Config/firebase";
+import Masonry from "react-masonry-css";
+import "./style.css";
+
 import {
   onSnapshot,
   collection,
@@ -19,6 +22,12 @@ import { useLocation } from "react-router-dom"; // QEDAiiiS
 
 // Start Function Component
 function Main() {
+  const breakpointColumnsObj = {
+    default: 3,
+    1100: 2,
+    700: 1,
+    500: 1,
+  };
   const location = useLocation(); // QEDAiiiS
 
   // const { categoryType } = location.state; // QEDAiiiS
@@ -242,7 +251,7 @@ function Main() {
               </div>
             </div>
 
-            <section className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
+            {/* <section className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 ">
               {currentProducts.map((product) => {
                 // Find the corresponding artist for each product
                 const artist = artists.find(
@@ -250,7 +259,7 @@ function Main() {
                 );
 
                 return (
-                  <div className="m-5" key={product.id}>
+                  <div className="m-3" key={product.id}>
                     <Card
                       image={product.img}
                       title={product.title}
@@ -266,6 +275,37 @@ function Main() {
                   </div>
                 );
               })}
+            </section> */}
+
+<section className=" mt-20">
+              <Masonry
+                breakpointCols={breakpointColumnsObj}
+                className="my-masonry-grid"
+                columnClassName="my-masonry-grid_column"
+              >
+                {currentProducts.map((product) => {
+                  const artist = artists.find(
+                    (artist) => artist.id === product.ownerID
+                  );
+
+                  return (
+                    <div className="m-3" key={product.id}>
+                      <Card
+                        image={product.img}
+                        title={product.title}
+                        desc={product.description}
+                        price={product.price}
+                        productID={product.id}
+                        firstname={artist?.firstname}
+                        lastname={artist?.lastname}
+                        artistImage={artist?.profilePic}
+                        artistData={artist} // Assuming profilePic is the field name
+                        func={() => clickMe(product)}
+                      />
+                    </div>
+                  );
+                })}
+              </Masonry>
             </section>
 
             {/* Pagination Controls */}

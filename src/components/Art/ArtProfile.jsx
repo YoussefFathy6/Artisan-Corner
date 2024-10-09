@@ -185,7 +185,12 @@ function ArtProfile() {
     await addDoc(collection(db, "chats"), {
       IDlist: [user.id, localStorage.getItem("id")],
       message: [
-        { content: "", timestamp: "", sender: localStorage.getItem("id") },
+        {
+          // content: `Hi, I am ${user.firstname}, I will be glad to help you`,
+          content: "",
+          timestamp: "",
+          sender: localStorage.getItem("id"),
+        },
       ],
       firstID: user.id,
       secondID: localStorage.getItem("id"),
@@ -217,14 +222,14 @@ function ArtProfile() {
 
               <div className=" h-[50vh] absolute top-0 w-full bg-[#050605ad] flex items-center justify-center shadow-2xl rounded-b-[50px]">
                 {/* Profile Picture */}
-                <div className=" m-11 border-4 border-[#d5eded] h-[260px] rounded-full w-[150px]">
+                <div className=" m-11 border-4 border-[#d5eded] h-[200px] w-[200px] rounded-full ">
                   <img
                     src={
                       user.profilePic ||
                       "https://th.bing.com/th/id/OIP.PW1QzPVwoZHjpHacJ3WjjwAAAA?rs=1&pid=ImgDetMain"
                     }
                     alt="Profile"
-                    className=" h-[260px] rounded-full   shadow-lg p-1"
+                    className=" h-full w-full rounded-full "
                   />
                 </div>
 
@@ -282,8 +287,8 @@ function ArtProfile() {
                 <li
                   className={`cursor-pointer duration-200 ${
                     selectedTab === "events"
-                    ? "text-[#26847b] text-[27px] font-semibold border-b-[2px] border-[#26847b]"
-                    : "hover:text-[#26847b] text-xl font-semibold text-[#3ca99e]"
+                      ? "text-[#26847b] text-[27px] font-semibold border-b-[2px] border-[#26847b]"
+                      : "hover:text-[#26847b] text-xl font-semibold text-[#3ca99e]"
                   }`}
                   onClick={() => setSelectedTab("events")}
                 >
@@ -292,8 +297,8 @@ function ArtProfile() {
                 <li
                   className={`cursor-pointer duration-200 ${
                     selectedTab === "reviews"
-                    ? "text-[#26847b] text-[27px] font-semibold border-b-[2px] border-[#26847b]"
-                    : "hover:text-[#26847b] text-xl font-semibold text-[#3ca99e]"
+                      ? "text-[#26847b] text-[27px] font-semibold border-b-[2px] border-[#26847b]"
+                      : "hover:text-[#26847b] text-xl font-semibold text-[#3ca99e]"
                   }`}
                   onClick={() => setSelectedTab("reviews")}
                 >

@@ -76,7 +76,7 @@ function Editeevent({ data }) {
     onClick={() => OpenModal(true)}
     className=""
 >
-    <FaEdit className="" size={30} />
+    <FaEdit className="" size={20} />
 </button>
 
             <Modal show={openModal} size="7xl"className="bg-gray-300"onClose={onCloseModal} popup>

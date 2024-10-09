@@ -155,8 +155,12 @@ function BodyNav() {
             Mashrabiya
           </span> */}
 
-
-<span className="first text-2xl md:text-4xl text-white" style={{fontFamily:"Updock, cursive"}}>ALKhan</span>
+          <span
+            className="first text-2xl md:text-4xl text-white"
+            style={{ fontFamily: "Updock, cursive" }}
+          >
+            ALKhan
+          </span>
         </Navbar.Brand>
 
         <div className="flex md:order-2 items-center">
@@ -191,7 +195,7 @@ function BodyNav() {
                       <DropdownItem
                         key={item.id || index} // Use id if available
                         onClick={
-                          item.type === "onotification"
+                          item.type === "notification"
                             ? () => handleNotificationClick(item, index)
                             : () => handleOrderClick(item, index)
                         } // Assuming you handle both notifications and orders similarly
@@ -373,13 +377,13 @@ function BodyNav() {
                 >
                   Artists
                 </NavLink>
-                <NavLink
+                {/* <NavLink
                   style={isActive}
                   to="/Contactus"
                   className="text-base md:text-sm lg:text-base font-medium text-[#ffffffd8] hover:text-white"
                 >
                   Contact US
-                </NavLink>
+                </NavLink> */}
                 {/* <NavLink
                   style={isActive}
                   to="/Contactus"

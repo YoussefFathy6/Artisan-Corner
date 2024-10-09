@@ -83,16 +83,16 @@ function Ticket() {
     });
   };
 
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+  // const validateEmail = (email) => {
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   return emailRegex.test(email);
+  // };
 
   const handleEmailSubmission = async () => {
-    if (!validateEmail(email)) {
-      setEmailError("Please enter a valid email.");
-      return false;
-    }
+    // if (!validateEmail(email)) {
+    //   setEmailError("Please enter a valid email.");
+    //   return false;
+    // }
     try {
       await addDoc(collection(db, "sendTicket"), {
         email: email,
@@ -237,9 +237,9 @@ function Ticket() {
       </section>
 
       {/* Modal */}
-      <Modal show={showModal} size="3xl"  onClose={() => setShowModal(false)}>
+      <Modal show={showModal} size="3xl" onClose={() => setShowModal(false)}>
         <Modal.Header>Payment</Modal.Header>
-        <Modal.Body >
+        <Modal.Body>
           <form onSubmit={handlePayment} className="p-9">
             <label className="block mb-2 text-sm font-medium">Email</label>
 
@@ -314,91 +314,30 @@ function Ticket() {
           <PayPalScriptProvider
             options={{
               "client-id":
-                "AcMz3qJ9DrjaDZH_asLE65SFuI7W2qIFLPVEkIqopOtb0YFEfAfW2Ht1cJR1bo0uoeP18SwV-urPXbz0",
-              currency: "CAD",
-            }}
-          >
-            <PayPalButtons
-              style={{ layout: "vertical" }}
-              createOrder={(data, actions) => {
-                return actions.order.create({
-                  purchase_units: [
-                    {
-                      amount: {
-                        value: Number(total).toFixed(2),
+                "AcMz3qJ9DrjaDZH_asLE65SFuI7W2qIFLPVEkIqopOtb0YFEfAfW2Ht1cJR1bo0uoeP18SwV-urPXbz0", // Make sure to use the correct client ID
+                currency: "USD",
+              }}
+            >
+              <PayPalButtons
+                style={{ layout: "vertical" }}
+                createOrder={(data, actions) => {
+                  return actions.order.create({
+                    purchase_units: [
+                      {
+                        amount: {
+                          value: total.toString(), // Total amount in the correct currency
+                        },
                       },
-                    },
-                  ],
-                });
-              }}
-              // amount={Number(total).toFixed(2)}
-              onApprove={async (data, actions) => {
-                const details = await actions.order.capture();
-
-                const emailSubmitted = await handleEmailSubmission();
-                if (emailSubmitted) {
-                  navigate(`/TicketConfirmation/${event.id}`);
-                }
-              }}
-            />
-          </PayPalScriptProvider>
-
-          <Button
-            className="capitalize  m-auto font-bold  text-white bg-blue-500 border-none    rounded-md"
-            onClick={async () => {
-              const emailSubmitted = await handleEmailSubmission();
-              if (emailSubmitted) {
-                navigate(`/TicketConfirmation/${event.id}`);
-              }
-            }}
-          >
-            Proceed without Payment
-          </Button>
-        </Modal.Body>
-      </Modal>
-
+                    ],
+                  });
+                }}
+                onApprove={handlePayPalSuccess}
+              />
+            </PayPalScriptProvider>
+          </Modal.Body>
+        </Modal>
       {/* Carousel */}
-      {/* <h1 className="border-t-2  p-8 border-black border-dashed text-3xl text-red-900 pl-7 mt-12  font-semibold">
-        Other Events
-      </h1>
-
-      <section
-        className=" mt-10 mb-5  mx-32 justify-center items-center "
-        id="slid"
-      >
-        <div className="flex overflow-x-auto  pb-4">
-          <Carousel autoPlay infiniteLoop interval={3000} showThumbs={false}>
-            {otherEvents.length > 0 ? (
-              otherEvents.map((ev) => (
-                <div
-                  key={ev.id}
-                  className="relative h-80 cursor-pointer overflow-hidden carousel-item"
-                  onClick={() => {
-                    if (ev.eventtype === "online") {
-                      navigate("/EventOnline", { state: { event: ev } });
-                    } else {
-                      navigate("/Ticket", { state: { event: ev } });
-                    }
-                  }}
-                >
-                  <div className="relative w-full h-full group">
-                    <img
-                      className="w-full h-full object-cover carousel-item__img"
-                      src={ev.eventImg}
-                      alt={ev.name}
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <p className="text-white text-lg font-bold">{ev.name}</p>
-                    </div>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p>No events available</p>
-            )}
-          </Carousel>
-        </div>
-      </section> */}
+   
     </>
   );
 }

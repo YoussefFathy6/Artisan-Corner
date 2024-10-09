@@ -35,7 +35,7 @@ function Cards2({ data, onDelete }) {
             <img
               src={data.img} // Updated to match the prop
               alt={data.title}
-              className="object-cover rounded-xl transition-all duration-300 group-hover:scale-110 h-[400px]"
+              className="page-fade-in object-cover rounded-xl transition-all duration-300 group-hover:scale-110 h-[400px]"
             />
             <div className="absolute inset-0 flex flex-col  justify-between bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
 

@@ -43,7 +43,7 @@ function Cards({ data }) {
           {/* محتوى البطاقة الرئيسي */}
           <div className="p-4 flex-1 flex flex-col justify-between transition-colors duration-300">
             <div>
-              <h5 className="block mb-3 font-sans text-3xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+              <h5 className="block mb-3 font-sans text-[18px] antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
                 {data.name}
               </h5>
               <p className="block font-sans mb-3 antialiased font-light leading-relaxed text-inherit">
@@ -56,14 +56,14 @@ function Cards({ data }) {
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center">
                   <i className="fas fa-map-marker-alt text-xl mr-2"></i>
-                  <span className="font-sans font-bold text-2xl">
+                  <span className="font-sans font-bold">
                     {data.address}
                   </span>
                 </div>
   
                 <div className="flex items-center">
                   <i className="fas fa-clock text-xl mr-2"></i>
-                  <span className="font-sans font-bold text-2xl">
+                  <span className="font-sans font-bold">
                     {data.time}
                   </span>
                 </div>
@@ -71,7 +71,7 @@ function Cards({ data }) {
   
               <div className="flex items-center">
                 <i className="fas fa-calendar-alt text-xl mr-2"></i>
-                <span className="font-sans font-bold text-2xl">
+                <span className="font-sans font-bold">
                   {new Date(data.date).toLocaleDateString("en-GB")}
                 </span>
               </div>
@@ -81,7 +81,7 @@ function Cards({ data }) {
           {/* أزرار التحكم */}
           <div className=" bottom-0 gap-11 flex justify-end p-4 ">
           <button onClick={() => deleteItem(data.id)}>
-                  <FaTrash className="text-red-600" size={30} />
+                  <FaTrash className="text-red-600" size={20} />
                 </button>
             <Editeevent data={data} />
           </div>
