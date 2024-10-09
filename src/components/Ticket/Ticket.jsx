@@ -338,7 +338,11 @@ function Ticket() {
 
                   // Handle email submission
                   const emailSubmitted = await handleEmailSubmission();
-                  console.log("Email submission result: ", emailSubmitted); // Debugging log
+                  console.log(
+                    "Email submission result: ",
+                    emailSubmitted,
+                    email
+                  ); // Debugging log
 
                   if (emailSubmitted) {
                     navigate(`/TicketConfirmation/${event.id}`); // Ensure event.id is defined

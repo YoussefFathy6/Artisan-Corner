@@ -111,7 +111,6 @@ export default function ChatPage() {
 
     fetchContacts();
   }, []);
-  console.log(users);
 
   const uploadImage = async (file) => {
     const storage = getStorage();
@@ -161,6 +160,7 @@ export default function ChatPage() {
     await updateDoc(doc(db, "chats", docId), {
       message: arrayUnion({
         content: newMessage,
+        seen: false,
         sender: localStorage.getItem("id"),
         timestamp: new Date(),
         image: imageURL, // Add image URL if uploaded
