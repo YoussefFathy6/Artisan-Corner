@@ -83,16 +83,16 @@ function Ticket() {
     });
   };
 
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+  // const validateEmail = (email) => {
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   return emailRegex.test(email);
+  // };
 
   const handleEmailSubmission = async () => {
-    if (!validateEmail(email)) {
-      setEmailError("Please enter a valid email.");
-      return false;
-    }
+    // if (!validateEmail(email)) {
+    //   setEmailError("Please enter a valid email.");
+    //   return false;
+    // }
     try {
       await addDoc(collection(db, "sendTicket"), {
         email: email,
@@ -237,9 +237,9 @@ function Ticket() {
       </section>
 
       {/* Modal */}
-      <Modal show={showModal} size="3xl"  onClose={() => setShowModal(false)}>
+      <Modal show={showModal} size="3xl" onClose={() => setShowModal(false)}>
         <Modal.Header>Payment</Modal.Header>
-        <Modal.Body >
+        <Modal.Body>
           <form onSubmit={handlePayment} className="p-9">
             <label className="block mb-2 text-sm font-medium">Email</label>
 
@@ -314,49 +314,28 @@ function Ticket() {
           <PayPalScriptProvider
             options={{
               "client-id":
-                "AcMz3qJ9DrjaDZH_asLE65SFuI7W2qIFLPVEkIqopOtb0YFEfAfW2Ht1cJR1bo0uoeP18SwV-urPXbz0",
-              currency: "CAD",
-            }}
-          >
-            <PayPalButtons
-              style={{ layout: "vertical" }}
-              createOrder={(data, actions) => {
-                return actions.order.create({
-                  purchase_units: [
-                    {
-                      amount: {
-                        value: Number(total).toFixed(2),
+                "AcMz3qJ9DrjaDZH_asLE65SFuI7W2qIFLPVEkIqopOtb0YFEfAfW2Ht1cJR1bo0uoeP18SwV-urPXbz0", // Make sure to use the correct client ID
+                currency: "USD",
+              }}
+            >
+              <PayPalButtons
+                style={{ layout: "vertical" }}
+                createOrder={(data, actions) => {
+                  return actions.order.create({
+                    purchase_units: [
+                      {
+                        amount: {
+                          value: total.toString(), // Total amount in the correct currency
+                        },
                       },
-                    },
-                  ],
-                });
-              }}
-              // amount={Number(total).toFixed(2)}
-              onApprove={async (data, actions) => {
-                const details = await actions.order.capture();
-
-                const emailSubmitted = await handleEmailSubmission();
-                if (emailSubmitted) {
-                  navigate(`/TicketConfirmation/${event.id}`);
-                }
-              }}
-            />
-          </PayPalScriptProvider>
-
-          <Button
-            className="capitalize  m-auto font-bold  text-white bg-blue-500 border-none    rounded-md"
-            onClick={async () => {
-              const emailSubmitted = await handleEmailSubmission();
-              if (emailSubmitted) {
-                navigate(`/TicketConfirmation/${event.id}`);
-              }
-            }}
-          >
-            Proceed without Payment
-          </Button>
-        </Modal.Body>
-      </Modal>
-
+                    ],
+                  });
+                }}
+                onApprove={handlePayPalSuccess}
+              />
+            </PayPalScriptProvider>
+          </Modal.Body>
+        </Modal>
       {/* Carousel */}
    
     </>

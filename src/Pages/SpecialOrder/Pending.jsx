@@ -47,6 +47,7 @@ function Pending() {
   return (
     <div className="grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-y-8 xl:gap-2 justify-center">
       {filteredProducts.map((product) => {
+        console.log(product)
         // Find the customer in the users collection
         const customer = users.find((user) => user.id === product.customer);
 

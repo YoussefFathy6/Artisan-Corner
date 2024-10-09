@@ -131,7 +131,7 @@ function CartSection({ customerInfo }) {
                           />
                         </div>
 
-                        <h1>{product.name}</h1>
+                        <h1>{product.title}</h1>
                         <h1>{product.quantity}</h1>
                         <h1 className="text-gray-400">$ {product.basePrice}</h1>
                         <h1 className="text-gray-400">$ {product.price}</h1>
